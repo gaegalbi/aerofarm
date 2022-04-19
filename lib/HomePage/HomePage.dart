@@ -1,7 +1,4 @@
-import 'package:capstone/HomePage/HomePageButton.dart';
 import 'package:capstone/HomePage/HomePageLoginRegister.dart';
-import 'package:capstone/HomePage/HomePageTabBar.dart';
-import 'package:capstone/HomePage/HomePageTextField.dart';
 import 'package:capstone/HomePage/HomePageTop.dart';
 import 'package:flutter/material.dart';
 
@@ -44,9 +41,7 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
                 HomePageTop(),
-                //HomePageLoginRegister(),
-                HomePageTabBar(),
-                //HomePageButton()
+                HomePageLoginRegister(),
               ],
             ),
           ),
