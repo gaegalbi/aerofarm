@@ -1,16 +1,16 @@
-import 'package:capstone/HomePage/HomePageLoginRegister.dart';
-import 'package:capstone/HomePage/HomePageTop.dart';
+import 'package:capstone/LRPage/LRPageLoginRegister.dart';
+import 'package:capstone/LRPage/LRPageTop.dart';
 import 'package:flutter/material.dart';
 
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class LRPage extends StatefulWidget {
+  const LRPage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<LRPage> createState() => _LRPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _LRPageState extends State<LRPage> {
   late ScrollController _scrollController;
 
   @override
@@ -18,7 +18,6 @@ class _HomePageState extends State<HomePage> {
     _scrollController = ScrollController();
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -40,8 +39,8 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
-                HomePageTop(),
-                HomePageLoginRegister(),
+                LRPageTop(),
+                LRPageLoginRegister(),
               ],
             ),
           ),

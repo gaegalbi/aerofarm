@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class HomePageTop extends StatelessWidget {
-  const HomePageTop({Key? key}) : super(key: key);
+class LRPageTop extends StatelessWidget {
+  const LRPageTop({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
