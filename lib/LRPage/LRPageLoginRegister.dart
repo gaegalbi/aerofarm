@@ -174,8 +174,12 @@ class _LRPageLoginRegisterState extends State<LRPageLoginRegister>
                 if (_tabController.index == 0) {
                   if (_L_userNameController.text == "dd" &&
                       _L_passwordController.text == "12") {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (_) => const MainPage()));
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const MainPage()),
+                        (route) => false);
                   }
                 } else {
                   if (_R_userNameController.text == "dd") {

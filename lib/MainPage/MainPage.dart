@@ -1,4 +1,4 @@
-import 'package:capstone/MainPage/MainPageTop.dart';
+import 'package:capstone/MainPage/MainPageBottom.dart';
 import 'package:flutter/material.dart';
 /*
 class MainPage extends StatelessWidget {
@@ -21,38 +21,28 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  late ScrollController _scrollController;
-
-  @override
-  void initState(){
-    _scrollController = ScrollController();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
-        controller: _scrollController,
-        scrollDirection: Axis.vertical,
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height*0.75,
-          alignment: Alignment.center,
-          color: Colors.white,//const Color.fromRGBO(205, 170, 170, 1),
-          //padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: Padding(
-            padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                MainPageTop(),
-              ],
-            ),
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "도시농부",
+          style: Theme.of(context).textTheme.subtitle1,
+        ),
+      ),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        alignment: Alignment.center,
+        color: Colors.blue,//const Color.fromRGBO(205, 170, 170, 1),
+        //padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            //MainPageTop(),
+            MainPageBottom(),
+          ],
         ),
       ),
     );
