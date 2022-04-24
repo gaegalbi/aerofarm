@@ -1,3 +1,4 @@
+import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 
 class LRPageTop extends StatelessWidget {
@@ -9,9 +10,9 @@ class LRPageTop extends StatelessWidget {
       children: [
         Container(
           margin: const EdgeInsets.only(bottom: 15),
-          child: Text(
+          child: const Text(
             "도시농부",
-            style: Theme.of(context).textTheme.subtitle1,
+            style: LrTheme.title,
           ),
         ),
         Container(

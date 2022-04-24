@@ -1,4 +1,5 @@
 import 'package:capstone/MainPage/MainPage.dart';
+import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 
 class LRPageLoginRegister extends StatefulWidget {
@@ -11,10 +12,10 @@ class LRPageLoginRegister extends StatefulWidget {
 class _LRPageLoginRegisterState extends State<LRPageLoginRegister>
     with TickerProviderStateMixin {
   late TabController _tabController;
-  late TextEditingController _L_userNameController;
-  late TextEditingController _L_passwordController;
-  late TextEditingController _R_userNameController;
-  late TextEditingController _R_passwordController;
+  late TextEditingController _lUserNameController;
+  late TextEditingController _lPasswordController;
+  late TextEditingController _rUserNameController;
+  late TextEditingController _rPasswordController;
 
   @override
   void initState() {
@@ -22,10 +23,10 @@ class _LRPageLoginRegisterState extends State<LRPageLoginRegister>
       length: 2,
       vsync: this,
     );
-    _L_userNameController = TextEditingController();
-    _L_passwordController = TextEditingController();
-    _R_userNameController = TextEditingController();
-    _R_passwordController = TextEditingController();
+    _lUserNameController = TextEditingController();
+    _lPasswordController = TextEditingController();
+    _rUserNameController = TextEditingController();
+    _rPasswordController = TextEditingController();
     super.initState();
   }
 
@@ -68,7 +69,7 @@ class _LRPageLoginRegisterState extends State<LRPageLoginRegister>
                   //const Color.fromRGBO(196, 196, 196, 100),//const Color.fromRGBO(244, 230, 230, 100),
                   width: MediaQuery.of(context).size.width * 0.75,
                   child: TextField(
-                    controller: _L_userNameController,
+                    controller: _lUserNameController,
                     textInputAction: TextInputAction.next,
                     style: const TextStyle(fontSize: 30),
                     decoration: const InputDecoration(
@@ -92,7 +93,7 @@ class _LRPageLoginRegisterState extends State<LRPageLoginRegister>
                   //const Color.fromRGBO(196, 196, 196, 100),//const Color.fromRGBO(244, 230, 230, 100),
                   width: MediaQuery.of(context).size.width * 0.75,
                   child: TextField(
-                    controller: _L_passwordController,
+                    controller: _lPasswordController,
                     textInputAction: TextInputAction.next,
                     style: const TextStyle(fontSize: 30),
                     decoration: const InputDecoration(
@@ -120,7 +121,7 @@ class _LRPageLoginRegisterState extends State<LRPageLoginRegister>
                   //const Color.fromRGBO(196, 196, 196, 100),//const Color.fromRGBO(244, 230, 230, 100),
                   width: MediaQuery.of(context).size.width * 0.75,
                   child: TextField(
-                    controller: _R_userNameController,
+                    controller: _rUserNameController,
                     textInputAction: TextInputAction.next,
                     style: const TextStyle(fontSize: 30),
                     decoration: const InputDecoration(
@@ -144,7 +145,7 @@ class _LRPageLoginRegisterState extends State<LRPageLoginRegister>
                   //const Color.fromRGBO(196, 196, 196, 100),//const Color.fromRGBO(244, 230, 230, 100),
                   width: MediaQuery.of(context).size.width * 0.75,
                   child: TextField(
-                    controller: _R_passwordController,
+                    controller: _rPasswordController,
                     textInputAction: TextInputAction.next,
                     style: const TextStyle(fontSize: 30),
                     decoration: const InputDecoration(
@@ -170,57 +171,56 @@ class _LRPageLoginRegisterState extends State<LRPageLoginRegister>
           color: Colors.white,
           width: MediaQuery.of(context).size.width * 0.5,
           child: TextButton(
-              onPressed: () {
-                if (_tabController.index == 0) {
-                  if (_L_userNameController.text == "dd" &&
-                      _L_passwordController.text == "12") {
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                const MainPage()),
-                        (route) => false);
-                  }
-                } else {
-                  if (_R_userNameController.text == "dd") {
-                    showDialog(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0)),
-                            content: Container(
-                                alignment: Alignment.center,
-                                height:
-                                    MediaQuery.of(context).size.height * 0.03,
-                                child: const Text(
-                                  "이미 있는 계정입니다.",
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.normal),
-                                )),
-                            actions: <Widget>[
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text("확인",
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.normal,
-                                        color: Colors.black)),
-                              ),
-                            ],
-                          );
-                        });
-                  }
+            child: const Text(
+              "Continue",
+              style: LrTheme.button,
+            ),
+            onPressed: () {
+              if (_tabController.index == 0) {
+                if (_lUserNameController.text == "dd" &&
+                    _lPasswordController.text == "12") {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => const MainPage()),
+                      (route) => false);
                 }
-              },
-              child: Text(
-                "Continue",
-                style: Theme.of(context).textTheme.button,
-              )),
+              } else {
+                if (_rUserNameController.text == "dd") {
+                  showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)),
+                          content: Container(
+                              alignment: Alignment.center,
+                              height: MediaQuery.of(context).size.height * 0.03,
+                              child: const Text(
+                                "이미 있는 계정입니다.",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.normal),
+                              )),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text("확인",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.normal,
+                                      color: Colors.black)),
+                            ),
+                          ],
+                        );
+                      });
+                }
+              }
+            },
+          ),
         )
       ],
     );

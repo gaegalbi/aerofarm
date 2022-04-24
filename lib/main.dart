@@ -10,27 +10,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-          textTheme: const TextTheme(
-            subtitle1: TextStyle(
-                color: Colors.black,
-                decoration: TextDecoration.none,
-                fontFamily: 'Roboto',
-                fontWeight: FontWeight.w900,
-                fontSize: 50
-            ),//HomePageTop(도시농부)
-            button: TextStyle(
-                color: Colors.black,
-                decoration: TextDecoration.none,
-                fontFamily: 'Roboto',
-                fontWeight: FontWeight.w900,
-                fontSize: 25
-            ),
-          )
-      ),
-      home: const Scaffold(
+      home: Scaffold(
         resizeToAvoidBottomInset: false, //keyboard 올라와도 overflow 발생 x
         body: LRPage(),
       ),
