@@ -65,8 +65,7 @@ class _LRPageLoginRegisterState extends State<LRPageLoginRegister>
                 Container(
                   margin: const EdgeInsets.only(top: 40),
                   padding: const EdgeInsets.only(left: 15),
-                  color: const Color.fromRGBO(255, 255, 255, 100),
-                  //const Color.fromRGBO(196, 196, 196, 100),//const Color.fromRGBO(244, 230, 230, 100),
+                  color: MainColor.sixty,
                   width: MediaQuery.of(context).size.width * 0.75,
                   child: TextField(
                     controller: _lUserNameController,
@@ -89,8 +88,7 @@ class _LRPageLoginRegisterState extends State<LRPageLoginRegister>
                 Container(
                   margin: const EdgeInsets.only(top: 40),
                   padding: const EdgeInsets.only(left: 15),
-                  color: const Color.fromRGBO(255, 255, 255, 100),
-                  //const Color.fromRGBO(196, 196, 196, 100),//const Color.fromRGBO(244, 230, 230, 100),
+                  color: MainColor.sixty,
                   width: MediaQuery.of(context).size.width * 0.75,
                   child: TextField(
                     controller: _lPasswordController,
@@ -117,8 +115,7 @@ class _LRPageLoginRegisterState extends State<LRPageLoginRegister>
                 Container(
                   margin: const EdgeInsets.only(top: 40),
                   padding: const EdgeInsets.only(left: 15),
-                  color: const Color.fromRGBO(255, 255, 255, 100),
-                  //const Color.fromRGBO(196, 196, 196, 100),//const Color.fromRGBO(244, 230, 230, 100),
+                  color: MainColor.sixty,
                   width: MediaQuery.of(context).size.width * 0.75,
                   child: TextField(
                     controller: _rUserNameController,
@@ -141,8 +138,7 @@ class _LRPageLoginRegisterState extends State<LRPageLoginRegister>
                 Container(
                   margin: const EdgeInsets.only(top: 40),
                   padding: const EdgeInsets.only(left: 15),
-                  color: const Color.fromRGBO(255, 255, 255, 100),
-                  //const Color.fromRGBO(196, 196, 196, 100),//const Color.fromRGBO(244, 230, 230, 100),
+                  color: MainColor.sixty,
                   width: MediaQuery.of(context).size.width * 0.75,
                   child: TextField(
                     controller: _rPasswordController,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class MainPageDrawer extends StatelessWidget {
   const MainPageDrawer({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -10,7 +11,7 @@ class MainPageDrawer extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: MediaQuery.of(context).size.width * 0.3,
-          backgroundColor: const Color.fromRGBO(186, 244, 111, 100),
+          backgroundColor: MainColor.forty,
           child: Padding(
             padding: const EdgeInsets.all(10), // Border radius
             child: ClipOval(child: Image.asset("assets/images/logo.png")),

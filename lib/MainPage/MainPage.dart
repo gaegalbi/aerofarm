@@ -2,18 +2,6 @@ import 'package:capstone/MainPage/MainPageBottom.dart';
 import 'package:capstone/MainPage/MainPageDrawer.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
-/*
-class MainPage extends StatelessWidget {
-  const MainPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: MainPageTop(),
-    );
-  }
-}*/
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -28,7 +16,7 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: MediaQuery.of(context).size.height * 0.1,
-        backgroundColor: const Color.fromRGBO(93, 195, 121, 100) ,
+        backgroundColor: MainColor.ten,
         elevation: 0,
         title: const Text(
           "도시농부",
@@ -37,8 +25,11 @@ class _MainPageState extends State<MainPage> {
         actions: [
           Builder(
               builder: (context) => IconButton(
-                padding: const EdgeInsets.only(right: 40),
-                    icon: const Icon(Icons.menu, size: 50,),
+                    padding: const EdgeInsets.only(right: 40),
+                    icon: const Icon(
+                      Icons.menu,
+                      size: 50,
+                    ),
                     onPressed: () => Scaffold.of(context).openEndDrawer(),
                   ))
         ],

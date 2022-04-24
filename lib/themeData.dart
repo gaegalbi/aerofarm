@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-
+class MainColor{
+  static const ten = Color.fromRGBO(93, 195, 121, 100);
+  static const forty = Color.fromRGBO(186, 244, 111, 100);
+  static const sixty = Color.fromRGBO(255, 255, 255, 100);
+}
 class LrTheme {
   static const button = TextStyle(
       color: Colors.black,
