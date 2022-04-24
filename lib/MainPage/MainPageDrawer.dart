@@ -11,7 +11,7 @@ class MainPageDrawer extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: MediaQuery.of(context).size.width * 0.3,
-          backgroundColor: MainColor.forty,
+          backgroundColor: MainColor.thirty,
           child: Padding(
             padding: const EdgeInsets.all(10), // Border radius
             child: ClipOval(child: Image.asset("assets/images/logo.png")),

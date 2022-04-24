@@ -29,7 +29,9 @@ class _MainPageBottomState extends State<MainPageBottom> {
                 height: MediaQuery.of(context).size.height * 0.22,
                 color: Colors.grey,
                 alignment: Alignment.center,
-                child: const Text(
+                child: TextButton(
+                  onPressed: () { },
+                  child:const Text(
                   "기기관리",
                   style: TextStyle(
                     color: Colors.black,
@@ -38,6 +40,7 @@ class _MainPageBottomState extends State<MainPageBottom> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+              ),
               ),
               Container(
                 //여기에 이미지로 채울꺼임
