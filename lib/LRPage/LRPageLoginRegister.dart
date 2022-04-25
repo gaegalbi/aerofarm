@@ -1,3 +1,8 @@
+import 'dart:math';
+
+import 'package:capstone/CustomIcons.dart';
+import 'package:capstone/LRPage/LRPageFindId.dart';
+import 'package:capstone/LRPage/LRPageResetPassword.dart';
 import 'package:capstone/MainPage/MainPage.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
@@ -217,6 +222,39 @@ class _LRPageLoginRegisterState extends State<LRPageLoginRegister>
               }
             },
           ),
+        ),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded(
+              child: Container(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+                  child: const Text("도시농부 계정 찾기",style: LrTheme.sButton,),
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>const LRPageFindId()));
+                  },
+                ),
+              ),
+            ),
+            Transform.rotate(
+              angle: 90 * pi /180,
+              child: const Icon(CustomIcons.minus,
+                size: 13,
+              ),
+            ),
+            Expanded(
+              child: Container(
+                alignment: Alignment.centerLeft,
+                child: TextButton(
+                  child: const Text("비밀번호 재설정",style: LrTheme.sButton,),
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>const LRPageResetPassword()));
+                  },
+                ),
+              ),
+            ),
+          ],
         )
       ],
     );

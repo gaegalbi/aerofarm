@@ -11,6 +11,12 @@ class LrTheme {
       fontFamily: 'Roboto',
       fontWeight: FontWeight.w900,
       fontSize: 25);
+  static const sButton = TextStyle(
+      color: Colors.black,
+      decoration: TextDecoration.none,
+      fontFamily: 'Roboto',
+      fontWeight: FontWeight.w800,
+      fontSize: 15);
   //LRPageTop(도시농부)
   static const title = TextStyle(
       color: Colors.black,
@@ -18,6 +24,12 @@ class LrTheme {
       fontFamily: 'Roboto',
       fontWeight: FontWeight.w900,
       fontSize: 50);
+  static const content = TextStyle(
+      color: Colors.black,
+      decoration: TextDecoration.none,
+      fontFamily: 'Roboto',
+      fontWeight: FontWeight.w800,
+      fontSize: 20);
 }
 
 class MainTheme {

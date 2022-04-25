@@ -56,6 +56,9 @@ flutter:
     - family: Roboto
       fonts:
         - asset: assets/fonts/Roboto-Regular.ttf
+    - family: minus
+      fonts:
+        - asset: assets/fonts/minus.ttf
   assets:
     - assets/images/
 
