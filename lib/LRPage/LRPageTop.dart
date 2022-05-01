@@ -9,19 +9,18 @@ class LRPageTop extends StatelessWidget {
     return Column(
       children: [
         Container(
-          margin: const EdgeInsets.only(bottom: 15),
+          margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.018),
           child: const Text(
             "도시농부",
             style: LrTheme.title,
           ),
         ),
         Container(
-          margin: const EdgeInsets.only(bottom: 20),
-          color: Colors.grey,
-          width: MediaQuery.of(context).size.width * 0.4,
-          height: MediaQuery.of(context).size.height * 0.15,
+          margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.024),
+          width: MediaQuery.of(context).size.width * 0.3973,
+          height: MediaQuery.of(context).size.height * 0.1834,
           child: Image.asset(
-            "assets/images/logo.png",
+            "assets/images/logo_blue.png",
             fit: BoxFit.cover,
           ),
         )

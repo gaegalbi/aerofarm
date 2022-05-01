@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         resizeToAvoidBottomInset: false, //keyboard 올라와도 overflow 발생 x
         body: LRPage(),
+        backgroundColor: Colors.transparent,
       ),
     );
   }

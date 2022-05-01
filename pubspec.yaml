@@ -59,6 +59,12 @@ flutter:
     - family: minus
       fonts:
         - asset: assets/fonts/minus.ttf
+    - family: bmAir
+      fonts:
+        - asset: assets/fonts/BM/BMHANNAAir_ttf.ttf
+    - family: bmPro
+      fonts:
+        - asset: assets/fonts/BM/BMHANNAPro.ttf
   assets:
     - assets/images/
 
