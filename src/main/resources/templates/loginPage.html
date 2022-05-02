@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+    <link href="css/bootstrap.css" rel="stylesheet"/>
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+        .login-header {
+            padding: 1.5rem 0;
+            color: #FFFFFF;
+            text-align: center;
+            background-color: #171D2B;
+            /*border-top: .05rem solid #e5e5e5;*/
+        }
+
+        body {
+            background-color: #131825;
+        }
+
+
+        .login-card {
+            margin: 150px auto;
+            border-color: #ffc107;
+        }
+
+        .card-text {
+            margin-left: 30px;
+            margin-right: 30px;
+            color: #FFFFFF;
+            text-align: center;
+        }
+
+        .login-footer {
+            padding: 1.5rem 0;
+            color: #727272;
+            text-align: center;
+            background-color: #171D2B;
+        }
+
+        .blog-footer p:last-child {
+            margin-bottom: 0;
+        }
+
+        .header-link {
+            text-decoration: none;
+            color: #FFFFFF;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .border-secondary {
+            border-width: 2px;
+        }
+
+    </style>
+</head>
+<body>
+<header>
+    <div class="login-header">
+        <div class="container">
+            <a href="#" class="navbar-brand d-flex align-items-center header-link">
+                <strong>도시농부&nbsp;|&nbsp;&nbsp;&nbsp;</strong>
+                프로페셔널한 농부들의 공간
+            </a>
+        </div>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <div class="card login-card border-secondary" style="max-width: 720px;">
+            <div class="row g-0">
+                <div class="col-md-6">
+                    <img src="image/login_image.jpeg" alt="" style="width: 100%; height: 100%; top: 0; left: 0;">
+                </div>
+                <div class="col-md-6">
+                    <div class="card-body" style="background-color: #111620">
+                        <br/>
+                        <h2 class="card-title" style="text-align: center; color: #4B44CF;">도시농부</h2>
+                        <br/>
+                        <h5 class="card-text">도시농부는 프로페셔널한</h5>
+                        <h5 class="card-text">농부님들을 위한 커뮤니티 입니다.</h5>
+                        <!--                        <p class="card-text"><small class="text-muted">EMAIL ADDRESS</small></p>-->
+                        <br/>
+                        <form action="/login" method="post" th:object="${loginForm}">
+                            <div class="mb-3">
+                                <label for="emailAddressInput" th:for="email" class="form-label"><small class="text-muted">EMAIL
+                                    ADDRESS</small></label>
+                                <input type="email" class="form-control" id="emailAddressInput"
+                                       placeholder="name@example.com" th:field="*{email}">
+                            </div>
+                            <!--                        <p class="card-text"><small class="text-muted">PASSWORD</small></p>-->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="passwordInput" th:for="password" class="form-label"><small
+                                            class="text-muted">PASSWORD</small></label>
+                                </div>
+                                <div class="col-md-6" style="text-align: right">
+                                    <a href="#"><small class="text-muted">비밀번호 찾기</small></a>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <input type="password" class="form-control" id="passwordInput" th:field="*{password}">
+                            </div>
+                            <div class="checkbox mb-3" style="text-align: left">
+                                <label>
+                                    <input type="checkbox" value="remember-me"><small class="text-muted">&nbsp;로그인 상태
+                                    유지</small>
+                                </label>
+                            </div>
+                            <div class="d-grid gap-2 col-12 mx-auto">
+                                <button type="submit" class="btn btn-primary" >로그인</button>
+                                <a href="#" style="text-align: right"><small class="text-muted">회원이 아니신가요?</small></a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="login-footer">
+    <p style="margin: 0">
+        © 2022 도시농부 All rights reserved.
+    </p>
+</footer>
+
+<script src="js/bootstrap.bundle.js"></script>
+</body>
+</html>
