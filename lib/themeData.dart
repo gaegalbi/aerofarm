@@ -55,22 +55,30 @@ class MainTheme {
   //13 PRO MAX
   //leadingWidth 106 , 0.2231
   // 왼쪽 마진 21.375 , 0.045
-
-  static const double drawerPadding = 5.0;
-  static const drawerButton = TextStyle(
-      color: Colors.white,
-      decoration: TextDecoration.none,
-      fontFamily: 'bmPro',
-      fontSize: 30);
   static const button = TextStyle(
       color:Colors.white,
       decoration: TextDecoration.none,
       fontFamily: 'bmPro',
-      fontSize: 25);
+      fontSize: 20);
   //MainPage(도시농부)
   static const title = TextStyle(
       color: MainColor.sixty,
       decoration: TextDecoration.none,
       fontFamily: 'bmPro',
       fontSize: 55);
+  static const name = TextStyle(
+      color: MainColor.sixty,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 45);
+  static const modify = TextStyle(
+      color: MainColor.thirty,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 20);
+  static const drawerButton = TextStyle(
+      color: MainColor.sixty,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 30);
 }

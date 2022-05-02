@@ -6,74 +6,73 @@ class MainPageDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        CircleAvatar(
-          radius: MediaQuery.of(context).size.width * 0.3,
-          backgroundColor: MainColor.thirty,
-          child: Padding(
-            padding: const EdgeInsets.all(10), // Border radius
-            child: ClipOval(child: Image.asset("assets/images/logo.png")),
+
+  double drawerPadding = MediaQuery.of(context).size.height*0.015;
+
+  return Container(
+      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.075),
+      color: MainColor.ten,
+      child: Column(
+        children: [
+          CircleAvatar(
+            radius: MediaQuery.of(context).size.width*0.25,
+            backgroundImage: const AssetImage("assets/images/profile.png"),
           ),
-        ),
-        Container(
-          margin: const EdgeInsets.only(top: 10, bottom: 20),
-          alignment: Alignment.center,
-          child: Column(
-            children: [
-              const Text(
-                "유저이름",
-                style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-              ),
-              Container(
-                  padding: const EdgeInsets.only(top: 5),
-                  child: TextButton(
-                      child: const Text("내 정보 수정",
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black)),
-                      onPressed: () {})),
-            ],
+          Container(
+            margin: EdgeInsets.only(top: drawerPadding*2),
+            alignment: Alignment.center,
+            child: Column(
+              children: [
+                const Text(
+                  "도시농부1",
+                  style: MainTheme.name,
+                ),
+                Container(
+                    padding:  EdgeInsets.only(top: drawerPadding/2),
+                    child: TextButton(
+                        child: const Text("내 정보 수정",
+                            style: MainTheme.modify),
+                        onPressed: () {})),
+              ],
+            ),
           ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(MainTheme.drawerPadding),
-          child: TextButton(
-            child: const Text("소유한 기기 조회", style: MainTheme.drawerButton),
-            onPressed: () {},
+          Container(
+            padding: EdgeInsets.all(drawerPadding),
+            child: TextButton(
+              child: const Text("소유한 기기 조회", style: MainTheme.drawerButton),
+              onPressed: () {},
+            ),
           ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(MainTheme.drawerPadding),
-          child: TextButton(
-            child: const Text("작성 글 조회", style: MainTheme.drawerButton),
-            onPressed: () {},
+          Container(
+            padding: EdgeInsets.all(drawerPadding),
+            child: TextButton(
+              child: const Text("작성 글 조회", style: MainTheme.drawerButton),
+              onPressed: () {},
+            ),
           ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(MainTheme.drawerPadding),
-          child: TextButton(
-            child: const Text("작성 댓글 조회", style: MainTheme.drawerButton),
-            onPressed: () {},
+          Container(
+            padding: EdgeInsets.all(drawerPadding),
+            child: TextButton(
+              child: const Text("작성 댓글 조회", style: MainTheme.drawerButton),
+              onPressed: () {},
+            ),
           ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(MainTheme.drawerPadding),
-          child: TextButton(
-            child: const Text("기기 구매내역 조회", style: MainTheme.drawerButton),
-            onPressed: () {},
+          Container(
+            padding: EdgeInsets.all(drawerPadding),
+            child: TextButton(
+              child: const Text("기기 구매내역 조회", style: MainTheme.drawerButton),
+              onPressed: () {},
+            ),
           ),
-        ),
-        Container(
-          padding: const EdgeInsets.all(MainTheme.drawerPadding),
-          child: TextButton(
-            child: const Text("재배한 작물 조회", style: MainTheme.drawerButton),
-            onPressed: () {},
+          Container(
+            padding: EdgeInsets.all(drawerPadding),
+            child: TextButton(
+              child: const Text("재배한 작물 조회", style: MainTheme.drawerButton),
+              onPressed: () {},
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
