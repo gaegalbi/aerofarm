@@ -1,6 +1,6 @@
 import 'package:capstone/themeData.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slider_indicator/flutter_slider_indicator.dart';
 
 class MainPageBottom extends StatefulWidget {
   const MainPageBottom({Key? key}) : super(key: key);
@@ -23,52 +23,25 @@ class _MainPageBottomState extends State<MainPageBottom> {
 
     super.initState();
   }
+  final imageAssets = [
+    "assets/images/1.png","assets/images/2.png","assets/images/3.png"
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Stack(
-          alignment: Alignment.center,
-            children: [
-          Container(
-            alignment: Alignment.topCenter,
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.55,
-            child: PageView(
-              controller: _pageController,
-              children: <Widget>[
-                Image.asset(
-                  "assets/images/1.png",
-                  fit: BoxFit.cover,
-                ),
-                Image.asset(
-                  "assets/images/2.png",
-                  fit: BoxFit.cover,
-                ),
-                Image.asset(
-                  "assets/images/3.png",
-                  fit: BoxFit.cover,
-                ),
-              ],
+        Stack(alignment: Alignment.center, children: [
+            CarouselSlider.builder(
+              options: CarouselOptions(
+                  height: MediaQuery.of(context).size.height * 0.55),
+
+              itemCount: imageAssets.length,
+              itemBuilder: (BuildContext context, int index, int realIndex) {
+                final sImage = imageAssets[index];
+                return buildImage(sImage, index);
+              },
             ),
-          ),
-          Container(
-            alignment: Alignment.bottomCenter,
-            height: MediaQuery.of(context).size.height * 0.55,
-            child: SliderIndicator(
-              length: 3,
-              activeIndex: _currentIndex.round(),
-              indicator: const CircleAvatar(
-                radius: 10,
-                backgroundColor: MainColor.thirty,
-              ),
-              activeIndicator: CircleAvatar(
-                radius: 10,
-                backgroundColor: MainColor.sixty,
-              )
-            ),
-          ),
         ]),
         Container(
           margin: const EdgeInsets.only(top: 15),
@@ -107,4 +80,10 @@ class _MainPageBottomState extends State<MainPageBottom> {
       ],
     );
   }
+
+  Widget buildImage(String sImage, int index) => Container(
+    margin: EdgeInsets.symmetric(horizontal: 12),
+    color: Colors.grey,
+    child: Image.asset(sImage, fit: BoxFit.cover,width: 375,),
+  );
 }
