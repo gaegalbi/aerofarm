@@ -31,7 +31,7 @@ public class LoginController {
     @PostMapping("/login")
     public String loginSumit(@Valid LoginForm loginForm, BindingResult bindingResult) {
         if (!memberService.validateLogin(loginForm.getEmail(), loginForm.getPassword())) {
-            bindingResult.rejectValue("email","loginFail");
+            bindingResult.rejectValue("email","fail.login");
         }
 
         if (bindingResult.hasErrors()) {
@@ -50,7 +50,7 @@ public class LoginController {
     @PostMapping("/signup")
     public String signupSubmit(@Valid SaveMemberForm saveMemberForm, BindingResult bindingResult) {
         if (!saveMemberForm.getPassword().equals(saveMemberForm.getConfirmPassword())) {
-            bindingResult.rejectValue("password","passwordNotMatch");
+            bindingResult.rejectValue("password","notMatch");
         }
 
         if (memberService.duplicateEmailCheck(saveMemberForm.getEmail())) {
