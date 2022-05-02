@@ -1,4 +1,10 @@
-package yj.capstone.aerofarm.domain;
+package yj.capstone.aerofarm.domain.board;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import yj.capstone.aerofarm.domain.BaseEntity;
+import yj.capstone.aerofarm.domain.member.Member;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -9,6 +15,8 @@ import java.util.List;
  * 조회 수 증가 메소드 구현 시 modified 호출 되므로 추후 BaseEntity 상속 말고 직접 필드 따로 생성 후 비즈니스 로직 작성 고려
  */
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class Post extends BaseEntity {
 
     @Id

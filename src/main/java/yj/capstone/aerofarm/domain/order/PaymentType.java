@@ -1,4 +1,4 @@
-package yj.capstone.aerofarm.domain;
+package yj.capstone.aerofarm.domain.order;
 
 public enum PaymentType {
     MOOTONGJANG,

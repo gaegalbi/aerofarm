@@ -1,4 +1,10 @@
-package yj.capstone.aerofarm.domain;
+package yj.capstone.aerofarm.domain.board;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import yj.capstone.aerofarm.domain.BaseEntity;
+import yj.capstone.aerofarm.domain.chat.Extension;
 
 import javax.persistence.*;
 
@@ -8,6 +14,8 @@ import javax.persistence.*;
  * Comment, Post는 JoinTable 고려
  */
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class File extends BaseEntity {
 
     @Id

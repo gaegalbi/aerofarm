@@ -1,7 +1,11 @@
-package yj.capstone.aerofarm.domain;
+package yj.capstone.aerofarm.domain.order;
 
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
+import yj.capstone.aerofarm.domain.AddressInfo;
+import yj.capstone.aerofarm.domain.BaseEntity;
+import yj.capstone.aerofarm.domain.member.Member;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,6 +14,7 @@ import java.util.List;
 @Entity
 @Table(name = "orders")
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order extends BaseEntity {
 
     @Id

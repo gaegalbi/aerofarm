@@ -1,4 +1,4 @@
-package yj.capstone.aerofarm.domain;
+package yj.capstone.aerofarm.domain.board;
 
 public enum PostCategory {
     ANNOUNCEMENT,

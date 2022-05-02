@@ -1,7 +1,9 @@
-package yj.capstone.aerofarm.domain;
+package yj.capstone.aerofarm.domain.member;
 
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
+import yj.capstone.aerofarm.domain.BaseEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -9,6 +11,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseEntity {
 
     @Id
