@@ -5,9 +5,9 @@ class MainColor{
 /*  static const ten = Color.fromRGBO(93, 195, 121, 100);
   static const thirty = Color.fromRGBO(186, 244, 111, 100);
   static const sixty = Color.fromRGBO(255, 255, 255, 100);*/
-  static const ten = Color.fromRGBO(36, 42, 70, 100);//Color.fromRGBO(18, 24, 36, 100);
-  static const thirty = Color.fromRGBO(64, 78, 105, 100);
-  static const sixty = Color.fromRGBO(75, 91, 177, 100);//Color.fromRGBO(57, 87, 183, 100); //Color.fromRGBO(64, 91, 177, 100);
+  static const ten = Color.fromRGBO(30, 36, 55, 100);//Color.fromRGBO(18, 24, 36, 100);
+  static const thirty = Color.fromRGBO(95, 114, 151, 100);//Color.fromRGBO(64, 78, 105, 100);
+  static const sixty = Color.fromRGBO(80, 130, 255, 100);//Color.fromRGBO(57, 87, 183, 100); //Color.fromRGBO(64, 91, 177, 100);
 }  //39, 53, 108 //18, 34, 75
 class LrTheme {
   static const button = TextStyle(

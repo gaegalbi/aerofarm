@@ -30,7 +30,7 @@ class _LRPageState extends State<LRPage> {
           physics: const NeverScrollableScrollPhysics(),
           controller: _scrollController,
           scrollDirection: Axis.vertical,
-          child: Container(
+          child: SizedBox(
             width: MediaQuery.of(context).size.width,
             child: Padding(
               padding: EdgeInsets.only(

@@ -251,57 +251,24 @@ class _LRPageLoginRegisterState extends State<LRPageLoginRegister>
         ),
         Container(
           margin:
-              EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.0344),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Expanded(
-                child: Container(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    child: const Text(
-                      "도시농부 계정 찾기",
-                      style: LrTheme.sButton,
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  const LRPageFindId()));
-                    },
-                  ),
-                ),
+              EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.03),
+          child: Container(
+            alignment: Alignment.center,
+            child: TextButton(
+              child: const Text(
+                "비밀번호 재설정",
+                style: LrTheme.sButton,
               ),
-              Transform.rotate(
-                angle: 90 * pi / 180,
-                child: const Icon(
-                  CustomIcons.minus,
-                  size: 13,
-                  color: Colors.white,
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  alignment: Alignment.centerLeft,
-                  child: TextButton(
-                    child: const Text(
-                      "비밀번호 재설정",
-                      style: LrTheme.sButton,
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  const LRPageResetPassword()));
-                    },
-                  ),
-                ),
-              ),
-            ],
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            const LRPageResetPassword()));
+              },
+            ),
           ),
-        )
+        ),
       ],
     );
   }
