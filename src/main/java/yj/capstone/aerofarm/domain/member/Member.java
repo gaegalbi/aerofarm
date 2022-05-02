@@ -19,10 +19,13 @@ public class Member extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String email;
 
+    @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
     private String nickname;
 
     @Enumerated(EnumType.STRING)
@@ -47,6 +50,7 @@ public class Member extends BaseEntity {
                 .email(saveMemberForm.getEmail())
                 .password(saveMemberForm.getPassword())
                 .phoneNumber(saveMemberForm.getPhoneNumber())
+                .grade(saveMemberForm.getGrade())
                 .nickname(saveMemberForm.getNickname());
     }
 }

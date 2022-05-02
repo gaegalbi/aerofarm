@@ -1,15 +1,21 @@
 package yj.capstone.aerofarm.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import yj.capstone.aerofarm.controller.form.LoginForm;
+import yj.capstone.aerofarm.controller.form.SaveMemberForm;
 import yj.capstone.aerofarm.domain.member.Member;
 import yj.capstone.aerofarm.exception.LoginFailException;
 import yj.capstone.aerofarm.service.MemberService;
 
+import javax.validation.Valid;
+
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class LoginController {
@@ -23,10 +29,46 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String loginSumit(LoginForm loginForm) {
+    public String loginSumit(@Valid LoginForm loginForm, BindingResult bindingResult) {
         if (!memberService.validateLogin(loginForm.getEmail(), loginForm.getPassword())) {
-            throw new LoginFailException("해당 되는 계정이 없거나 비밀번호가 올바르지 않습니다.");
+            bindingResult.rejectValue("email","loginFail");
         }
+
+        if (bindingResult.hasErrors()) {
+            return "loginPage";
+        }
+
         return "redirect:/";
+    }
+
+    @GetMapping("/signup")
+    public String signup(Model model) {
+        model.addAttribute("saveMemberForm", new SaveMemberForm());
+        return "signupPage";
+    }
+
+    @PostMapping("/signup")
+    public String signupSubmit(@Valid SaveMemberForm saveMemberForm, BindingResult bindingResult) {
+        if (!saveMemberForm.getPassword().equals(saveMemberForm.getConfirmPassword())) {
+            bindingResult.rejectValue("password","passwordNotMatch");
+        }
+
+        if (memberService.duplicateEmailCheck(saveMemberForm.getEmail())) {
+            bindingResult.rejectValue("email", "duplicate");
+        }
+        if (memberService.duplicateNicknameCheck(saveMemberForm.getNickname())) {
+            bindingResult.rejectValue("nickname", "duplicate");
+        }
+        if (memberService.duplicatePhoneNumberCheck(saveMemberForm.getPhoneNumber())) {
+            bindingResult.rejectValue("phoneNumber", "duplicate");
+        }
+
+        if (bindingResult.hasErrors()) {
+            log.info("errors={} ", bindingResult);
+            return "signupPage";
+        }
+
+        memberService.signup(saveMemberForm);
+        return "redirect:/login";
     }
 }
