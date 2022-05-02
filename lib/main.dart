@@ -1,4 +1,5 @@
 import 'package:capstone/LRPage/LRPage.dart';
+import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         resizeToAvoidBottomInset: false, //keyboard 올라와도 overflow 발생 x
         body: LRPage(),
-        backgroundColor: Colors.transparent,
+        backgroundColor: MainColor.ten,
       ),
     );
   }

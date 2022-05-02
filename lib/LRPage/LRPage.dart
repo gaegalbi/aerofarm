@@ -32,7 +32,6 @@ class _LRPageState extends State<LRPage> {
           scrollDirection: Axis.vertical,
           child: Container(
             width: MediaQuery.of(context).size.width,
-            color: MainColor.ten,
             child: Padding(
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom),

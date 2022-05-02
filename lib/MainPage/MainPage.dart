@@ -14,41 +14,47 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
+        centerTitle: true,
+        //foregroundColor: Colors.transparent,
+        backgroundColor: Colors.transparent,
         toolbarHeight: MediaQuery.of(context).size.height * 0.1,
-        backgroundColor: MainColor.ten,
         elevation: 0,
+        leadingWidth: MediaQuery.of(context).size.width * 0.2106,
+        //MediaQuery.of(context).size.width * 0.2266,
+        leading: Container(
+          margin:EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
+          child: FittedBox(
+              child: Builder(
+            builder: (context) => IconButton(
+              padding: EdgeInsets.zero,
+              alignment: Alignment.center,
+              color: MainColor.sixty,
+              iconSize: 50,
+              // 패딩 설정
+              constraints: const BoxConstraints(),
+              icon: const Icon(
+                Icons.menu,
+              ),
+              onPressed: () => Scaffold.of(context).openDrawer(),
+            ),
+          )),
+        ),
         title: const Text(
           "도시농부",
           style: MainTheme.title,
         ),
-        actions: [
-          Builder(
-              builder: (context) => IconButton(
-                    padding: const EdgeInsets.only(right: 40),
-                    icon: const Icon(
-                      Icons.menu,
-                      size: 50,
-                    ),
-                    onPressed: () => Scaffold.of(context).openEndDrawer(),
-                  ))
-        ],
       ),
-      endDrawer: const Drawer(
+      drawer: const Drawer(
         child: MainPageDrawer(),
       ),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        alignment: Alignment.center,
-        color: Colors.white,
-        child: Column(
+      body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
             MainPageBottom(),
           ],
         ),
-      ),
     );
   }
 }
