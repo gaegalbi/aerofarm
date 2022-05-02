@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
  * File은 JoinTable 고려
+ * 조회 수 증가 메소드 구현 시 modified 호출 되므로 추후 BaseEntity 상속 말고 직접 필드 따로 생성 후 비즈니스 로직 작성 고려
  */
 @Entity
 public class Post extends BaseEntity {
