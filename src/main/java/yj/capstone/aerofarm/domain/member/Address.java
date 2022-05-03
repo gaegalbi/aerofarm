@@ -1,6 +1,5 @@
 package yj.capstone.aerofarm.domain.member;
 
-
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

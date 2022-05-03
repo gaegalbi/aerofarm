@@ -2,7 +2,6 @@ package yj.capstone.aerofarm.controller.form;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Range;
 import yj.capstone.aerofarm.domain.member.Grade;
 
 import javax.validation.constraints.*;

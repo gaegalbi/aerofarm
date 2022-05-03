@@ -4,7 +4,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import yj.capstone.aerofarm.domain.BaseEntity;
-import yj.capstone.aerofarm.domain.chat.Extension;
 
 import javax.persistence.*;
 
