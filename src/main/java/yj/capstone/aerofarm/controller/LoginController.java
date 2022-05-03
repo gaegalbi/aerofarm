@@ -49,10 +49,21 @@ public class LoginController {
 
     @PostMapping("/signup")
     public String signupSubmit(@Valid SaveMemberForm saveMemberForm, BindingResult bindingResult) {
+        signupValidate(saveMemberForm, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            log.info("errors={} ", bindingResult);
+            return "signupPage";
+        }
+
+        memberService.signup(saveMemberForm);
+        return "redirect:/login";
+    }
+
+    private void signupValidate(SaveMemberForm saveMemberForm, BindingResult bindingResult) {
         if (!saveMemberForm.getPassword().equals(saveMemberForm.getConfirmPassword())) {
             bindingResult.rejectValue("password","notMatch");
         }
-
         if (memberService.duplicateEmailCheck(saveMemberForm.getEmail())) {
             bindingResult.rejectValue("email", "duplicate");
         }
@@ -62,13 +73,5 @@ public class LoginController {
         if (memberService.duplicatePhoneNumberCheck(saveMemberForm.getPhoneNumber())) {
             bindingResult.rejectValue("phoneNumber", "duplicate");
         }
-
-        if (bindingResult.hasErrors()) {
-            log.info("errors={} ", bindingResult);
-            return "signupPage";
-        }
-
-        memberService.signup(saveMemberForm);
-        return "redirect:/login";
     }
 }
