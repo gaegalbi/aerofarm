@@ -1,8 +1,8 @@
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 
-class LRPageTop extends StatelessWidget {
-  const LRPageTop({Key? key}) : super(key: key);
+class LoginPageTop extends StatelessWidget {
+  const LoginPageTop({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,14 +1,14 @@
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 
-class LRPageResetPassword extends StatefulWidget {
-  const LRPageResetPassword({Key? key}) : super(key: key);
+class LoginPageResetPassword extends StatefulWidget {
+  const LoginPageResetPassword({Key? key}) : super(key: key);
 
   @override
-  State<LRPageResetPassword> createState() => _LRPageResetPasswordState();
+  State<LoginPageResetPassword> createState() => _LoginPageResetPasswordState();
 }
 
-class _LRPageResetPasswordState extends State<LRPageResetPassword> {
+class _LoginPageResetPasswordState extends State<LoginPageResetPassword> {
   late ScrollController _scrollController;
   @override
   void initState() {

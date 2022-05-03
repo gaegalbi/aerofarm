@@ -1,20 +1,17 @@
-import 'dart:math';
-
-import 'package:capstone/CustomIcons.dart';
-import 'package:capstone/LRPage/LRPageFindId.dart';
-import 'package:capstone/LRPage/LRPageResetPassword.dart';
+import 'package:capstone/LoginPage/LoginPageResetPassword.dart';
 import 'package:capstone/MainPage/MainPage.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class LRPageLoginRegister extends StatefulWidget {
-  const LRPageLoginRegister({Key? key}) : super(key: key);
+class LoginPageLoginRegister extends StatefulWidget {
+  const LoginPageLoginRegister({Key? key}) : super(key: key);
 
   @override
-  State<LRPageLoginRegister> createState() => _LRPageLoginRegisterState();
+  State<LoginPageLoginRegister> createState() => _LoginPageLoginRegisterState();
 }
 
-class _LRPageLoginRegisterState extends State<LRPageLoginRegister>
+class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister>
     with TickerProviderStateMixin {
   late TabController _tabController;
   late TextEditingController _lUserNameController;
@@ -203,14 +200,11 @@ class _LRPageLoginRegisterState extends State<LRPageLoginRegister>
               style: LrTheme.button,
             ),
             onPressed: () {
+              //MainPage로 이동
               if (_tabController.index == 0) {
                 if (_lUserNameController.text == "dd" &&
                     _lPasswordController.text == "12") {
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => const MainPage()),
-                      (route) => false);
+                  Get.offAll(const MainPage());
                 }
               } else {
                 if (_rUserNameController.text == "dd") {
@@ -260,11 +254,8 @@ class _LRPageLoginRegisterState extends State<LRPageLoginRegister>
                 style: LrTheme.sButton,
               ),
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            const LRPageResetPassword()));
+                //LRPageResetPassword로 이동
+                Get.offAll( LoginPageResetPassword());
               },
             ),
           ),

@@ -1,16 +1,15 @@
-import 'package:capstone/LRPage/LRPageLoginRegister.dart';
-import 'package:capstone/LRPage/LRPageTop.dart';
-import 'package:capstone/themeData.dart';
+import 'package:capstone/LoginPage/LoginPageLoginRegister.dart';
+import 'package:capstone/LoginPage/LoginPageTop.dart';
 import 'package:flutter/material.dart';
 
-class LRPage extends StatefulWidget {
-  const LRPage({Key? key}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
-  State<LRPage> createState() => _LRPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LRPageState extends State<LRPage> {
+class _LoginPageState extends State<LoginPage> {
   late ScrollController _scrollController;
 
   @override
@@ -38,8 +37,8 @@ class _LRPageState extends State<LRPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const [
-                  LRPageTop(),
-                  LRPageLoginRegister(),
+                  LoginPageTop(),
+                  LoginPageLoginRegister(),
                 ],
               ),
             ),

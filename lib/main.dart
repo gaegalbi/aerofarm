@@ -1,6 +1,7 @@
-import 'package:capstone/LRPage/LRPage.dart';
+import 'package:capstone/LoginPage/LoginPage.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,11 +12,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return const GetMaterialApp(
       title: 'Flutter Demo',
       home: Scaffold(
         resizeToAvoidBottomInset: false, //keyboard 올라와도 overflow 발생 x
-        body: LRPage(),
+        body: LoginPage(),
         backgroundColor: MainColor.ten,
       ),
     );
