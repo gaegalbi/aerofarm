@@ -1,6 +1,6 @@
 import 'package:capstone/themeData.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 
 class MainPageBottom extends StatefulWidget {
   const MainPageBottom({Key? key}) : super(key: key);
@@ -10,38 +10,21 @@ class MainPageBottom extends StatefulWidget {
 }
 
 class _MainPageBottomState extends State<MainPageBottom> {
-  final _pageController = PageController();
-  double _currentIndex = 0;
-
-  @override
-  void initState() {
-    _pageController.addListener(() {
-      setState(() {
-        _currentIndex = _pageController.page!;
-      });
-    });
-
-    super.initState();
-  }
-  final imageAssets = [
-    "assets/images/1.png","assets/images/2.png","assets/images/3.png"
-  ];
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Stack(alignment: Alignment.center, children: [
-            CarouselSlider.builder(
-              options: CarouselOptions(
-                  height: MediaQuery.of(context).size.height * 0.55),
-
-              itemCount: imageAssets.length,
-              itemBuilder: (BuildContext context, int index, int realIndex) {
-                final sImage = imageAssets[index];
-                return buildImage(sImage, index);
-              },
-            ),
+        ImageSlideshow(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height*0.55,
+            initialPage: 0,
+            autoPlayInterval: 3000,
+            isLoop: true,
+            children: [
+                Image.asset("assets/images/1.png",fit: BoxFit.cover,),
+                Image.asset("assets/images/2.png",fit: BoxFit.cover,),
+                Image.asset("assets/images/3.png",fit: BoxFit.cover,),
         ]),
         Container(
           margin: const EdgeInsets.only(top: 15),
@@ -54,7 +37,6 @@ class _MainPageBottomState extends State<MainPageBottom> {
                 width: MediaQuery.of(context).size.width * 0.45,
                 height: MediaQuery.of(context).size.height * 0.22,
                 color: MainColor.sixty,
-                alignment: Alignment.center,
                 child: TextButton(
                   onPressed: () {},
                   child: const Text(
@@ -68,10 +50,12 @@ class _MainPageBottomState extends State<MainPageBottom> {
                 width: MediaQuery.of(context).size.width * 0.45,
                 height: MediaQuery.of(context).size.height * 0.22,
                 color: MainColor.sixty,
-                alignment: Alignment.center,
-                child: const Text(
-                  "커뮤니티",
-                  style: MainTheme.button,
+                child: TextButton(
+                  onPressed: () {},
+                  child: const Text(
+                    "커뮤니티",
+                    style: MainTheme.button,
+                  ),
                 ),
               ),
             ],
