@@ -1,6 +1,9 @@
+import 'package:capstone/CommunityPage/ComunityPageAll.dart';
+import 'package:capstone/MachinePage/MachinePageList.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
+import 'package:get/get.dart';
 
 class MainPageBottom extends StatefulWidget {
   const MainPageBottom({Key? key}) : super(key: key);
@@ -27,10 +30,9 @@ class _MainPageBottomState extends State<MainPageBottom> {
                 Image.asset("assets/images/3.png",fit: BoxFit.cover,),
         ]),
         Container(
-          margin: const EdgeInsets.only(top: 15),
+          margin: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.018), //15
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
                 //여기에 이미지로 채울꺼임
@@ -38,7 +40,9 @@ class _MainPageBottomState extends State<MainPageBottom> {
                 height: MediaQuery.of(context).size.height * 0.22,
                 color: MainColor.sixty,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(() => const MachinePageList());
+                  },
                   child: const Text(
                     "기기 관리",
                     style: MainTheme.button,
@@ -51,7 +55,9 @@ class _MainPageBottomState extends State<MainPageBottom> {
                 height: MediaQuery.of(context).size.height * 0.22,
                 color: MainColor.sixty,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(const CommunityPageAll());
+                  },
                   child: const Text(
                     "커뮤니티",
                     style: MainTheme.button,
@@ -64,10 +70,4 @@ class _MainPageBottomState extends State<MainPageBottom> {
       ],
     );
   }
-
-  Widget buildImage(String sImage, int index) => Container(
-    margin: EdgeInsets.symmetric(horizontal: 12),
-    color: Colors.grey,
-    child: Image.asset(sImage, fit: BoxFit.cover,width: 375,),
-  );
 }

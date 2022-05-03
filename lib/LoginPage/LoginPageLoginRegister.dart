@@ -204,7 +204,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister>
               if (_tabController.index == 0) {
                 if (_lUserNameController.text == "dd" &&
                     _lPasswordController.text == "12") {
-                  Get.offAll(const MainPage());
+                  Get.offAll(() => const MainPage());
                 }
               } else {
                 if (_rUserNameController.text == "dd") {
@@ -255,7 +255,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister>
               ),
               onPressed: () {
                 //LRPageResetPassword로 이동
-                Get.offAll( const LoginPageResetPassword());
+                Get.to(() =>const LoginPageResetPassword());
               },
             ),
           ),

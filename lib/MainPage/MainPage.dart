@@ -23,7 +23,6 @@ class _MainPageState extends State<MainPage> {
         toolbarHeight: MediaQuery.of(context).size.height * 0.1,
         elevation: 0,
         leadingWidth: MediaQuery.of(context).size.width * 0.2106,
-        //MediaQuery.of(context).size.width * 0.2266,
         leading: Container(
           margin:
               EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),

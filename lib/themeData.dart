@@ -82,3 +82,16 @@ class MainTheme {
       fontFamily: 'bmPro',
       fontSize: 30);
 }
+
+class MachinePage{
+  static const mName = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 30);
+  static const mType = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 15);
+}
