@@ -14,12 +14,12 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MainColor.ten, //Colors.transparent,
+      //backgroundColor: Colors.transparent,
       appBar: AppBar(
         centerTitle: true,
         //foregroundColor: Colors.transparent,
-        backgroundColor: Colors.transparent,
-        //MainColor.ten,
+        backgroundColor:MainColor.ten,
+        //backgroundColor: Colors.transparent,
         toolbarHeight: MediaQuery.of(context).size.height * 0.1,
         elevation: 0,
         leadingWidth: MediaQuery.of(context).size.width * 0.2106,
@@ -54,10 +54,13 @@ class _MainPageState extends State<MainPage> {
           child: MainPageDrawer(),
         ),
       ),
-      body: Column(
-        children: const [
-          MainPageBottom(),
-        ],
+      body: Container(
+        color: MainColor.ten,
+        child: Column(
+          children: const [
+            MainPageBottom(),
+          ],
+        ),
       ),
     );
   }

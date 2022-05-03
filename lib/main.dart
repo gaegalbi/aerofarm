@@ -1,5 +1,4 @@
 import 'package:capstone/LoginPage/LoginPage.dart';
-import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,12 +11,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(
+    return  GetMaterialApp(
+      theme: ThemeData(
+        canvasColor: Colors.black
+      ),
       title: 'Flutter Demo',
-      home: Scaffold(
+      home: const Scaffold(
         resizeToAvoidBottomInset: false, //keyboard 올라와도 overflow 발생 x
         body: LoginPage(),
-        backgroundColor: MainColor.ten,
       ),
     );
   }

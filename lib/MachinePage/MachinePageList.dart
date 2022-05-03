@@ -15,12 +15,10 @@ class _MachinePageListState extends State<MachinePageList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MainColor.ten, //Colors.transparent,
+     // backgroundColor: Colors.transparent,
       appBar: AppBar(
         centerTitle: true,
-        //foregroundColor: Colors.transparent,
-        backgroundColor: Colors.transparent,
-        //MainColor.ten,
+        backgroundColor: MainColor.ten,
         toolbarHeight: MediaQuery.of(context).size.height * 0.1,
         elevation: 0,
         leadingWidth: MediaQuery.of(context).size.width * 0.2106,
@@ -72,6 +70,7 @@ class _MachinePageListState extends State<MachinePageList> {
         ],
       ),
       body: Container(
+        color: MainColor.ten,
         child: ListView.builder(
           scrollDirection: Axis.vertical,
           itemCount: 10,
@@ -108,7 +107,7 @@ class _MachinePageListState extends State<MachinePageList> {
                   ),
                   CircleAvatar(
                     radius: MediaQuery.of(context).size.width * 0.164,
-                    backgroundImage: const AssetImage("assets/images/1.png"),
+                    backgroundImage: const AssetImage("assets/images/3.png"),
                   )
                 ],
               ),
