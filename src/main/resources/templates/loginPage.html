@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Title</title>
-    <link href="css/bootstrap.css" rel="stylesheet"/>
-</head>
+<head th:replace="fragments/header :: header"/>
 <style>
     .bd-placeholder-img {
         font-size: 1.125rem;
@@ -45,13 +40,6 @@
         text-align: center;
     }
 
-    .login-footer {
-        padding: 1.5rem 0;
-        color: #727272;
-        text-align: center;
-        background-color: #171D2B;
-    }
-
     .blog-footer p:last-child {
         margin-bottom: 0;
     }
@@ -75,18 +63,15 @@
         color: #bd2130;
         margin-bottom: 5px;
     }
-
 </style>
 <body class="d-flex flex-column min-vh-100">
 <header>
-    <div class="login-header">
+    <nav class="navbar navbar-expand-lg navbar-dark header" aria-label="Eighth navbar example">
         <div class="container">
-            <a href="/" class="navbar-brand d-flex align-items-center header-link">
-                <strong>도시농부&nbsp;|&nbsp;&nbsp;&nbsp;</strong>
-                프로페셔널한 농부들의 공간
-            </a>
+            <a class="navbar-brand header-link" href="/"><strong>도시농부&nbsp;&nbsp;|&nbsp;&nbsp;</strong>
+                프로페셔널한 농부들의 공간</a>
         </div>
-    </div>
+    </nav>
 </header>
 
 <main>
@@ -125,7 +110,8 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <input type="password" class="form-control" id="password" th:field="*{password}" th:errorclass="fieldError">
+                                <input type="password" class="form-control" id="password" th:field="*{password}"
+                                       th:errorclass="fieldError">
                                 <p class="fieldError" th:errors="*{password}">비밀번호 오류</p>
                             </div>
                             <div class="checkbox mb-3" style="text-align: left">
@@ -148,11 +134,7 @@
     </div>
 </main>
 
-<footer class="login-footer mt-auto">
-    <p style="margin: 0">
-        © 2022 도시농부 All rights reserved.
-    </p>
-</footer>
+<div th:replace="fragments/footer :: footer"/>
 
 <script src="js/bootstrap.bundle.js"></script>
 </body>

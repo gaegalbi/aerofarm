@@ -1,133 +1,123 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Title</title>
-    <link href="css/bootstrap.css" rel="stylesheet"/>
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            user-select: none;
-        }
+<head th:replace="fragments/header :: header"/>
+<style>
+    .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
 
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
+    @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+            font-size: 3.5rem;
         }
+    }
 
-        .login-header {
-            padding: 1.5rem 0;
-            color: #FFFFFF;
-            text-align: center;
-            background-color: #171D2B;
-            /*border-top: .05rem solid #e5e5e5;*/
-        }
+    .login-header {
+        padding: 1.5rem 0;
+        color: #FFFFFF;
+        text-align: center;
+        background-color: #171D2B;
+        /*border-top: .05rem solid #e5e5e5;*/
+    }
 
-        body {
-            background-color: #131825;
-        }
+    body {
+        background-color: #131825;
+    }
 
-        .login-card {
-            margin: 100px auto;
-        }
+    .login-card {
+        margin: 100px auto;
+    }
 
-        .login-footer {
-            padding: 1.5rem 0;
-            color: #727272;
-            text-align: center;
-            background-color: #171D2B;
-        }
+    .blog-footer p:last-child {
+        margin-bottom: 0;
+    }
 
-        .blog-footer p:last-child {
-            margin-bottom: 0;
-        }
+    .header-link {
+        text-decoration: none;
+        color: #FFFFFF;
+    }
 
-        .header-link {
-            text-decoration: none;
-            color: #FFFFFF;
-        }
+    a {
+        text-decoration: none;
+    }
 
-        a {
-            text-decoration: none;
-        }
+    .border-secondary {
+        border-width: 2px;
+    }
 
-        .border-secondary {
-            border-width: 2px;
-        }
-
-        .fieldError {
-            border-color: #bd2130;
-            border-width: 2px;
-            color: #bd2130;
-            margin-bottom: 5px;
-        }
-
-    </style>
-</head>
+    .fieldError {
+        border-color: #bd2130;
+        border-width: 2px;
+        color: #bd2130;
+        margin-bottom: 5px;
+    }
+</style>
 <body class="d-flex flex-column min-vh-100">
 <header>
-    <div class="login-header">
+    <nav class="navbar navbar-expand-lg navbar-dark header" aria-label="Eighth navbar example">
         <div class="container">
-            <a href="#" class="navbar-brand d-flex align-items-center header-link">
-                <strong>도시농부&nbsp;|&nbsp;&nbsp;&nbsp;</strong>
-                프로페셔널한 농부들의 공간
-            </a>
+            <a class="navbar-brand header-link" href="/"><strong>도시농부&nbsp;&nbsp;|&nbsp;&nbsp;</strong>
+                프로페셔널한 농부들의 공간</a>
         </div>
-    </div>
+    </nav>
 </header>
 
 <main>
     <div class="container">
-        <div class="card login-card border-secondary w-50" style="width: 18rem; max-width: 720px" ;>
-            <div class="card-body" style="background-color: #111620; padding-right: 100px; padding-left: 100px;">
-                <form action="/signup" method="post" th:object="${saveMemberForm}">
-                    <h3 class="card-title" style="text-align: center; color: #4B44CF;">회원가입</h3>
-                    <br/>
-                    <div class="mb-3">
-                        <label for="email" th:for="email" class="form-label"><small class="text-muted">EMAIL
-                            ADDRESS</small></label>
-                        <input type="email" th:field="*{email}" class="form-control" id="email"
-                               placeholder="name@example.com" th:errorclass="fieldError">
-                        <p class="fieldError" th:errors="*{email}">이메일 오류</p>
+        <div class="card login-card border-secondary w-50" style=" min-width: 360px; max-width: 1080px" ;>
+            <div class="row g-0">
+                <div class="card-body" style="background-color: #111620;">
+                    <form action="/signup" method="post" th:object="${saveMemberForm}">
+                        <h3 class="card-title" style="text-align: center; color: #4B44CF;">회원가입</h3>
                         <br/>
-                        <label for="password" th:for="password" class="form-label"><small class="text-muted">PASSWORD</small></label>
-                        <input type="password" th:field="*{password}" class="form-control" id="password" th:errorclass="fieldError">
-                        <p class="fieldError" th:errors="*{password}">비밀번호 오류</p>
+                        <div class="mb-3">
+                            <label for="email" th:for="email" class="form-label"><small class="text-muted">EMAIL
+                                ADDRESS</small></label>
+                            <input type="email" th:field="*{email}" class="form-control" id="email"
+                                   placeholder="name@example.com" th:errorclass="fieldError">
+                            <p class="fieldError" th:errors="*{email}">이메일 오류</p>
+                            <br/>
+                            <label for="password" th:for="password" class="form-label"><small
+                                    class="text-muted">PASSWORD</small></label>
+                            <input type="password" th:field="*{password}" class="form-control" id="password"
+                                   th:errorclass="fieldError">
+                            <p class="fieldError" th:errors="*{password}">비밀번호 오류</p>
+                            <br/>
+                            <label for="passwordRepeat" th:for="confirmPassword" class="form-label"><small
+                                    class="text-muted">CONFIRM PASSWORD</small></label>
+                            <input type="password" th:field="*{confirmPassword}" class="form-control" id="passwordRepeat"
+                                   th:errorclass="fieldError">
+                            <p class="fieldError" th:errors="*{confirmPassword}">검증 비밀번호 오류</p>
+                            <br/>
+                            <label for="nickname" th:for="nickname" class="form-label"><small
+                                    class="text-muted">NICKNAME</small></label>
+                            <input type="text" th:field="*{nickname}" class="form-control" id="nickname"
+                                   th:errorclass="fieldError">
+                            <p class="fieldError" th:errors="*{nickname}">닉네임 오류</p>
+                            <br/>
+                            <label for="phoneNumber" th:for="phoneNumber" class="form-label"><small
+                                    class="text-muted">PHONE</small></label>
+                            <input type="tel" th:field="*{phoneNumber}" class="form-control" id="phoneNumber"
+                                   placeholder="010-0000-0000" th:errorclass="fieldError">
+                            <p class="fieldError" th:errors="*{phoneNumber}">전화번호 오류</p>
+                        </div>
                         <br/>
-                        <label for="passwordRepeat" th:for="confirmPassword" class="form-label"><small
-                                class="text-muted">CONFIRM PASSWORD</small></label>
-                        <input type="password" th:field="*{confirmPassword}" class="form-control" id="passwordRepeat" th:errorclass="fieldError">
-                        <p class="fieldError" th:errors="*{confirmPassword}">검증 비밀번호 오류</p>
+                        <div class="d-grid gap-2 col-12 mx-auto">
+                            <button type="submit" class="btn btn-primary">가입</button>
+                        </div>
                         <br/>
-                        <label for="nickname" th:for="nickname" class="form-label"><small class="text-muted">NICKNAME</small></label>
-                        <input type="text" th:field="*{nickname}" class="form-control" id="nickname" th:errorclass="fieldError">
-                        <p class="fieldError" th:errors="*{nickname}">닉네임 오류</p>
-                        <br/>
-                        <label for="phoneNumber" th:for="phoneNumber" class="form-label"><small class="text-muted">PHONE</small></label>
-                        <input type="tel" th:field="*{phoneNumber}"  class="form-control" id="phoneNumber" placeholder="010-0000-0000" th:errorclass="fieldError">
-                        <p class="fieldError" th:errors="*{phoneNumber}">전화번호 오류</p>
-                    </div>
-                    <br/>
-                    <div class="d-grid gap-2 col-12 mx-auto">
-                        <button type="submit" class="btn btn-primary">가입</button>
-                    </div>
-                    <br/>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </main>
 
-<footer class="login-footer mt-auto">
-    <p style="margin: 0">
-        © 2022 도시농부 All rights reserved.
-    </p>
-</footer>
+<div th:replace="fragments/footer :: footer"/>
 
 <script src="js/bootstrap.bundle.js"></script>
 </body>
