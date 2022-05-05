@@ -48,48 +48,64 @@
 </style>
 
 <body class="d-flex flex-column min-vh-100">
-<header>
-    <nav class="navbar navbar-expand-lg navbar-dark header" aria-label="Eighth navbar example">
-        <div class="container">
-            <a class="navbar-brand header-link" href="/"><strong>도시농부&nbsp;&nbsp;|&nbsp;&nbsp;</strong>
-                프로페셔널한 농부들의 공간</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample07"
-                    aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
 
-            <div class="collapse navbar-collapse" id="navbarsExample07">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <!--<li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled">Disabled</a>
-                    </li>-->
-                </ul>
-                <div class="d-flex">
-                    <ul class="navbar-nav me-auto d-flex">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/login">로그인</a>
-                        </li>
-                        <!--<li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link disabled">Disabled</a>
-                        </li>-->
-                    </ul>
+<div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+<div class="container">
+    <!-- 회원 정보 -->
+    <div class="d-flex flex-row bd-highlight mb-3">
+        <div class="p-2 bd-highlight">
+            <img src="image/test_icon.png" class="rounded-circle" alt="..." style="width: 75px; height: 75px">
+        </div>
+        <div class="p-2 bd-highlight" style="color: #FFFFFF">
+            <p style="margin-bottom: 5px">홍길동님 안녕하세요</p>
+            <p>도시농부에 오신것을 환영합니다.</p>
+        </div>
+    </div>
+    <!-- 페이지 이동 카드 -->
+    <div class="row">
+        <div class="col-sm-7" style="margin-bottom: 16px">
+            <div class="d-grid gap-0">
+                <button class="btn btn-primary" type="button" style="height: 216px">
+                    커뮤니티 이동하기
+                </button>
+            </div>
+        </div>
+        <div class="col-sm-5">
+            <div class="d-grid gap-3">
+                <button class="btn btn-primary" type="button" style="height: 100px">
+                    기기 상태 확인하기
+                </button>
+                <button class="btn btn-primary" type="button" style="height: 100px">
+                    새로운 기기 구매하기
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- 인기 게시글, 공지사항 -->
+    <div style="margin-top: 20px">
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
+                            additional content. This content is a little bit longer.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">This is a longer card with supporting text below as a natural lead-in to
+                            additional content. This content is a little bit longer.</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </nav>
-</header>
+    </div>
+</div>
 
 <div th:replace="fragments/footer :: footer"/>
 <script src="js/bootstrap.bundle.js"></script>
