@@ -2,6 +2,8 @@ package yj.capstone.aerofarm.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +16,7 @@ import yj.capstone.aerofarm.exception.LoginFailException;
 import yj.capstone.aerofarm.service.MemberService;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Slf4j
 @Controller
@@ -23,28 +26,34 @@ public class LoginController {
     private final MemberService memberService;
 
     @GetMapping("/login")
-    public String loginPage(Model model) {
+    public String loginPage(Model model, Principal principal) {
+        if (principal != null) {
+            return "redirect:/";
+        }
         model.addAttribute("loginForm", new LoginForm());
-        return "loginPage";
+        return "/loginPage";
     }
 
-    @PostMapping("/login")
+    /*@PostMapping(name = "/login")
     public String loginSumit(@Valid LoginForm loginForm, BindingResult bindingResult) {
-        if (!memberService.validateLogin(loginForm.getEmail(), loginForm.getPassword())) {
+        *//*if (!memberService.validateLogin(loginForm.getEmail(), loginForm.getPassword())) {
             bindingResult.rejectValue("email","fail.login");
-        }
+        }*//*
 
         if (bindingResult.hasErrors()) {
             return "loginPage";
         }
 
         return "redirect:/";
-    }
+    }*/
 
     @GetMapping("/signup")
-    public String signup(Model model) {
+    public String signup(Model model, Principal principal) {
+        if (principal != null) {
+            return "redirect:/";
+        }
         model.addAttribute("saveMemberForm", new SaveMemberForm());
-        return "signupPage";
+        return "/signupPage";
     }
 
     @PostMapping("/signup")
@@ -53,7 +62,7 @@ public class LoginController {
 
         if (bindingResult.hasErrors()) {
             log.info("errors={} ", bindingResult);
-            return "signupPage";
+            return "/signupPage";
         }
 
         memberService.signup(saveMemberForm);

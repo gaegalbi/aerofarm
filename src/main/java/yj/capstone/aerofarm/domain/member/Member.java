@@ -1,11 +1,15 @@
 package yj.capstone.aerofarm.domain.member;
 
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import yj.capstone.aerofarm.controller.form.SaveMemberForm;
 import yj.capstone.aerofarm.domain.BaseEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -13,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder(builderMethodName = "MemberBuilder")
-public class Member extends BaseEntity {
+public class Member extends BaseEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +27,7 @@ public class Member extends BaseEntity {
     private String email;
 
     @Column(nullable = false)
-    private String password;
+    private String pwd;
 
     @Column(nullable = false)
     private String nickname;
@@ -48,9 +52,47 @@ public class Member extends BaseEntity {
     public static MemberBuilder builder(SaveMemberForm saveMemberForm) {
         return MemberBuilder()
                 .email(saveMemberForm.getEmail())
-                .password(saveMemberForm.getPassword())
+                .pwd(saveMemberForm.getPassword())
                 .phoneNumber(saveMemberForm.getPhoneNumber())
                 .grade(saveMemberForm.getGrade())
                 .nickname(saveMemberForm.getNickname());
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(grade.toString());
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(authority);
+        return authorities;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.pwd;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

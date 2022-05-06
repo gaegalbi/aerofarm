@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <div th:fragment="bodyHeader">
     <nav class="navbar navbar-expand-lg navbar-dark header" aria-label="Eighth navbar example">
         <div class="container">
@@ -10,25 +11,35 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse">
+            <div class="collapse navbar-collapse" id="navbarsExample07">
                 <div class="me-auto"></div>
                 <div class="d-flex">
-                    <ul class="navbar-nav me-auto d-flex">
+                    <ul sec:authorize="isAnonymous()" class="navbar-nav me-auto d-flex">
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/login">로그인</a>
                         </li>
-                        <!--<li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </ul>
+                    <ul sec:authorize="isAuthenticated()" class="navbar-nav me-auto d-flex">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/">스토어</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
+                            <a class="nav-link active" aria-current="page" href="/">커뮤니티</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link disabled">Disabled</a>
-                        </li>-->
+                            <a class="nav-link active" aria-current="page" href="/">기기관리</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/memberInfo">내 정보</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/logout">로그아웃</a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </div>
     </nav>
 </div>
+
+</html>

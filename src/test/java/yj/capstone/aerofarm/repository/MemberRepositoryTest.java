@@ -33,7 +33,7 @@ class MemberRepositoryTest {
         });
 
         assertThat(member.getEmail()).isEqualTo(findMember.getEmail());
-        assertThat(member.getPassword()).isEqualTo(findMember.getPassword());
+        assertThat(member.getPwd()).isEqualTo(findMember.getPwd());
         assertThat(member.getNickname()).isEqualTo(findMember.getNickname());
         assertThat(member.getPhoneNumber()).isEqualTo(findMember.getPhoneNumber());
     }
@@ -49,9 +49,9 @@ class MemberRepositoryTest {
         Member member = Member.builder(saveMemberForm).build();
         memberRepository.save(member);
 
-        boolean resultTrue = memberRepository.existsByEmailAndPassword("abc123@naver.com", "1234");
+        boolean resultTrue = memberRepository.existsByEmailAndPwd("abc123@naver.com", "1234");
         assertThat(resultTrue).isTrue();
-        boolean resultFalse = memberRepository.existsByEmailAndPassword("abc123@naver.com", "1111");
+        boolean resultFalse = memberRepository.existsByEmailAndPwd("abc123@naver.com", "1111");
         assertThat(resultFalse).isFalse();
     }
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="fragments/header :: header"/>
 <style>
     .bd-placeholder-img {
@@ -66,6 +67,7 @@
 </style>
 <body class="d-flex flex-column min-vh-100">
 <header>
+<!--    <meta sec:authorize="isAuthenticated()" http-equiv="refresh" content="0;url=/">-->
     <nav class="navbar navbar-expand-lg navbar-dark header" aria-label="Eighth navbar example">
         <div class="container">
             <a class="navbar-brand header-link" href="/"><strong>도시농부&nbsp;&nbsp;|&nbsp;&nbsp;</strong>
@@ -91,11 +93,12 @@
                         <!--                        <p class="card-text"><small class="text-muted">EMAIL ADDRESS</small></p>-->
                         <br/>
                         <form action="/login" method="post" th:object="${loginForm}">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                             <div class="mb-3">
                                 <label for="email" th:for="email" class="form-label"><small
                                         class="text-muted">EMAIL
                                     ADDRESS</small></label>
-                                <input type="email" class="form-control" id="email"
+                                <input type="email" class="form-control" id="email" name="username"
                                        placeholder="name@example.com" th:field="*{email}" th:errorclass="fieldError">
                                 <p class="fieldError" th:errors="*{email}">이메일 오류</p>
                             </div>
@@ -111,7 +114,7 @@
                             </div>
                             <div class="mb-3">
                                 <input type="password" class="form-control" id="password" th:field="*{password}"
-                                       th:errorclass="fieldError">
+                                       name="password" th:errorclass="fieldError">
                                 <p class="fieldError" th:errors="*{password}">비밀번호 오류</p>
                             </div>
                             <div class="checkbox mb-3" style="text-align: left">
