@@ -2,8 +2,6 @@ package yj.capstone.aerofarm.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,8 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import yj.capstone.aerofarm.controller.form.LoginForm;
 import yj.capstone.aerofarm.controller.form.SaveMemberForm;
-import yj.capstone.aerofarm.domain.member.Member;
-import yj.capstone.aerofarm.exception.LoginFailException;
 import yj.capstone.aerofarm.service.MemberService;
 
 import javax.validation.Valid;
@@ -26,7 +22,7 @@ public class LoginController {
     private final MemberService memberService;
 
     @GetMapping("/login")
-    public String loginPage(Model model, Principal principal) {
+    public String loginPage(LoginForm loginForm, Model model, Principal principal) {
         if (principal != null) {
             return "redirect:/";
         }
@@ -34,18 +30,10 @@ public class LoginController {
         return "/loginPage";
     }
 
-    /*@PostMapping(name = "/login")
+    @PostMapping("/login")
     public String loginSumit(@Valid LoginForm loginForm, BindingResult bindingResult) {
-        *//*if (!memberService.validateLogin(loginForm.getEmail(), loginForm.getPassword())) {
-            bindingResult.rejectValue("email","fail.login");
-        }*//*
-
-        if (bindingResult.hasErrors()) {
-            return "loginPage";
-        }
-
-        return "redirect:/";
-    }*/
+        return "/loginPage";
+    }
 
     @GetMapping("/signup")
     public String signup(Model model, Principal principal) {

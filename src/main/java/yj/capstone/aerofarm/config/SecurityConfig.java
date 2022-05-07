@@ -13,6 +13,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import yj.capstone.aerofarm.service.MemberService;
+import yj.capstone.aerofarm.service.handler.AuthFailureHandler;
+import yj.capstone.aerofarm.service.handler.AuthSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -22,6 +24,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final MemberService memberService;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final AuthFailureHandler authFailureHandler;
+    private final AuthSuccessHandler authSuccessHandler;
 
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -38,21 +42,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
 //                .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/signup").permitAll()
+                .antMatchers("/", "/signup", "/login/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .usernameParameter("email")
                 .loginPage("/login")
-                .defaultSuccessUrl("/")
-                .failureUrl("/login")
+//                .successHandler(authSuccessHandler)
+                .failureHandler(authFailureHandler)
                 .permitAll()
                 .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .invalidateHttpSession(true)
                 .logoutSuccessUrl("/")
-                .permitAll();
+                .permitAll()
+                .and()
+                .rememberMe()
+                .alwaysRemember(false)
+                .tokenValiditySeconds(43200)
+                .rememberMeParameter("remember-me")
+                .userDetailsService(memberService);
     }
 
     @Bean

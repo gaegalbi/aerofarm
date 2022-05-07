@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="fragments/header :: header"/>
+<head th:replace="~{fragments/header :: header}"/>
 
 <style>
     .bd-placeholder-img {
@@ -50,7 +50,7 @@
 
 <body class="d-flex flex-column min-vh-100">
 
-<div th:replace="fragments/bodyHeader :: bodyHeader"/>
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
 
 <div class="container" style="color: #FFFFFF" th:object="${memberDto}">
     <h1>회원 이메일</h1>
@@ -59,7 +59,7 @@
     <h3 th:text="*{nickname}">email</h3>
 </div>
 
-<div th:replace="fragments/footer :: footer"/>
+<div th:replace="~{fragments/footer :: footer}"/>
 <script src="js/bootstrap.bundle.js"></script>
 </body>
 </html>

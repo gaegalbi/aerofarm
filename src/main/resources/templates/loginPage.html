@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="fragments/header :: header"/>
+<head th:replace="~{fragments/header :: header}"/>
 <style>
     .bd-placeholder-img {
         font-size: 1.125rem;
@@ -92,20 +92,21 @@
                         <h5 class="card-text">농부님들을 위한 커뮤니티 입니다.</h5>
                         <!--                        <p class="card-text"><small class="text-muted">EMAIL ADDRESS</small></p>-->
                         <br/>
+                        <div>
+                            <p class="fieldError" th:text="${#request.getAttribute('error')}"> 에러 </p>
+                        </div>
                         <form action="/login" method="post" th:object="${loginForm}">
                             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                             <div class="mb-3">
-                                <label for="email" th:for="email" class="form-label"><small
-                                        class="text-muted">EMAIL
-                                    ADDRESS</small></label>
-                                <input type="email" class="form-control" id="email" name="username"
-                                       placeholder="name@example.com" th:field="*{email}" th:errorclass="fieldError">
+                                <label for="email" class="form-label"><small
+                                        class="text-muted">EMAIL ADDRESS</small></label>
+                                <input type="email" th:errorclass="fieldError" th:field="*{email}" class="form-control" id="email" name="username" placeholder="name@example.com" required>
                                 <p class="fieldError" th:errors="*{email}">이메일 오류</p>
                             </div>
                             <!--                        <p class="card-text"><small class="text-muted">PASSWORD</small></p>-->
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label for="password" th:for="password" class="form-label"><small
+                                    <label for="password" class="form-label"><small
                                             class="text-muted">PASSWORD</small></label>
                                 </div>
                                 <div class="col-md-6" style="text-align: right">
@@ -113,14 +114,15 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <input type="password" class="form-control" id="password" th:field="*{password}"
-                                       name="password" th:errorclass="fieldError">
+                                <input type="password" th:errorclass="fieldError" th:field="*{password}" class="form-control" id="password" name="password" required>
                                 <p class="fieldError" th:errors="*{password}">비밀번호 오류</p>
                             </div>
                             <div class="checkbox mb-3" style="text-align: left">
-                                <label>
-                                    <input type="checkbox" value="remember-me"><small class="text-muted">&nbsp;로그인 상태
-                                    유지</small>
+                                    <input type="checkbox" id="remember-me" name="remember-me"/>
+                                <label for="remember-me">
+                                    <small class="text-muted">
+                                        &nbsp;로그인 상태 유지
+                                    </small>
                                 </label>
                             </div>
                             <div class="d-grid gap-2 col-12 mx-auto">
@@ -137,7 +139,7 @@
     </div>
 </main>
 
-<div th:replace="fragments/footer :: footer"/>
+<div th:replace="~{fragments/footer :: footer}"/>
 
 <script src="js/bootstrap.bundle.js"></script>
 </body>

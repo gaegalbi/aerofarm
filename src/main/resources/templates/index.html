@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head th:replace="fragments/header :: header"/>
+<head th:replace="~{fragments/header :: header}"/>
 
 <style>
     .bd-placeholder-img {
@@ -112,7 +112,7 @@
     </div>
 </div>
 
-<div th:replace="fragments/footer :: footer"/>
+<div th:replace="~{fragments/footer :: footer}"/>
 <script src="js/bootstrap.bundle.js"></script>
 </body>
 </html>
