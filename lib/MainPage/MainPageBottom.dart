@@ -38,7 +38,7 @@ class _MainPageBottomState extends State<MainPageBottom> {
                 //여기에 이미지로 채울꺼임
                 width: MediaQuery.of(context).size.width * 0.45,
                 height: MediaQuery.of(context).size.height * 0.22,
-                color: MainColor.sixty,
+                color: MainColor.three,
                 child: TextButton(
                   onPressed: () {
                     Get.to(() => const MachinePageList(),);
@@ -53,7 +53,7 @@ class _MainPageBottomState extends State<MainPageBottom> {
                 //여기에 이미지로 채울꺼임
                 width: MediaQuery.of(context).size.width * 0.45,
                 height: MediaQuery.of(context).size.height * 0.22,
-                color: MainColor.sixty,
+                color: MainColor.three,
                 child: TextButton(
                   onPressed: () {
                     Get.to(const CommunityPageAll());

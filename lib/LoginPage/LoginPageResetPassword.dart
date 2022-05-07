@@ -38,7 +38,7 @@ class _LoginPageResetPasswordState extends State<LoginPageResetPassword> {
         //color: MainColor.ten,
         appBar: AppBar(
           centerTitle: true,
-          backgroundColor: MainColor.ten,
+          backgroundColor: MainColor.six,
           elevation: 0,
           leadingWidth: MediaQuery.of(context).size.width * 0.2106,
           leading: Container(
@@ -49,7 +49,7 @@ class _LoginPageResetPasswordState extends State<LoginPageResetPassword> {
               builder: (context) => IconButton(
                 padding: EdgeInsets.zero,
                 alignment: Alignment.center,
-                color: MainColor.sixty,
+                color: MainColor.three,
                 iconSize: 50,
                 // 패딩 설정
                 constraints: const BoxConstraints(),
@@ -64,7 +64,7 @@ class _LoginPageResetPasswordState extends State<LoginPageResetPassword> {
           ),
         ),
         body: Container(
-          color: MainColor.ten,
+          color: MainColor.six,
           alignment: Alignment.center,
           child: SingleChildScrollView(
             physics: const NeverScrollableScrollPhysics(),
@@ -112,7 +112,7 @@ class _LoginPageResetPasswordState extends State<LoginPageResetPassword> {
                       textAlign: TextAlign.center,
                       decoration: const InputDecoration(
                           filled: true,
-                          fillColor: MainColor.thirty,
+                          fillColor: MainColor.one,
                           enabledBorder: InputBorder.none,
                           focusedBorder: InputBorder.none,
                           hintText: "EMAIL을 입력해주세요",
@@ -123,7 +123,7 @@ class _LoginPageResetPasswordState extends State<LoginPageResetPassword> {
                     margin: EdgeInsets.only(
                         top: MediaQuery.of(context).size.height * 0.018,
                         bottom: MediaQuery.of(context).size.height * 0.08),
-                    color: MainColor.sixty,
+                    color: MainColor.three,
                     child: TextButton(
                       onPressed: () {
                         //이메일 전송

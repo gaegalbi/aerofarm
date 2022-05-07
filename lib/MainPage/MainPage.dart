@@ -18,7 +18,7 @@ class _MainPageState extends State<MainPage> {
       appBar: AppBar(
         centerTitle: true,
         //foregroundColor: Colors.transparent,
-        backgroundColor:MainColor.ten,
+        backgroundColor:MainColor.six,
         //backgroundColor: Colors.transparent,
         toolbarHeight: MediaQuery.of(context).size.height * 0.1,
         elevation: 0,
@@ -31,7 +31,7 @@ class _MainPageState extends State<MainPage> {
             builder: (context) => IconButton(
               padding: EdgeInsets.zero,
               alignment: Alignment.center,
-              color: MainColor.sixty,
+              color: MainColor.three,
               iconSize: 50,
               // 패딩 설정
               constraints: const BoxConstraints(),
@@ -55,7 +55,7 @@ class _MainPageState extends State<MainPage> {
         ),
       ),
       body: Container(
-        color: MainColor.ten,
+        color: MainColor.six,
         child: Column(
           children: const [
             MainPageBottom(),

@@ -79,7 +79,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister>
             ),
           ],
           indicator: const BoxDecoration(
-            color: MainColor.sixty,
+            color: MainColor.three,
           ),
         ),
         SizedBox(
@@ -92,7 +92,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister>
                       top: MediaQuery.of(context).size.height * 0.049),
                   padding: EdgeInsets.only(
                       left: MediaQuery.of(context).size.width * 0.04),
-                  color: MainColor.thirty,
+                  color: MainColor.one,
                   width: MediaQuery.of(context).size.width * 0.696,
                   height: MediaQuery.of(context).size.height * 0.059,
                   child: TextField(
@@ -118,7 +118,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister>
                       top: MediaQuery.of(context).size.height * 0.049),
                   padding: EdgeInsets.only(
                       left: MediaQuery.of(context).size.width * 0.04),
-                  color: MainColor.thirty,
+                  color: MainColor.one,
                   width: MediaQuery.of(context).size.width * 0.696,
                   height: MediaQuery.of(context).size.height * 0.059,
                   child: TextField(
@@ -148,7 +148,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister>
                       top: MediaQuery.of(context).size.height * 0.049),
                   padding: EdgeInsets.only(
                       left: MediaQuery.of(context).size.width * 0.04),
-                  color: MainColor.thirty,
+                  color: MainColor.one,
                   width: MediaQuery.of(context).size.width * 0.696,
                   height: MediaQuery.of(context).size.height * 0.059,
                   child: TextField(
@@ -174,7 +174,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister>
                       top: MediaQuery.of(context).size.height * 0.049),
                   padding: EdgeInsets.only(
                       left: MediaQuery.of(context).size.width * 0.04),
-                  color: MainColor.thirty,
+                  color: MainColor.one,
                   width: MediaQuery.of(context).size.width * 0.696,
                   height: MediaQuery.of(context).size.height * 0.059,
                   child: TextField(
@@ -202,7 +202,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister>
         Container(
           margin:
               EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.0369),
-          color: MainColor.sixty,
+          color: MainColor.three,
           width: MediaQuery.of(context).size.width * 0.696,
           child: TextButton(
             child: const Text(

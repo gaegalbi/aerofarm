@@ -18,7 +18,7 @@ class _MachinePageListState extends State<MachinePageList> {
      // backgroundColor: Colors.transparent,
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: MainColor.ten,
+        backgroundColor: MainColor.six,
         toolbarHeight: MediaQuery.of(context).size.height * 0.1,
         elevation: 0,
         leadingWidth: MediaQuery.of(context).size.width * 0.2106,
@@ -30,7 +30,7 @@ class _MachinePageListState extends State<MachinePageList> {
             builder: (context) => IconButton(
               padding: EdgeInsets.zero,
               alignment: Alignment.center,
-              color: MainColor.sixty,
+              color: MainColor.three,
               iconSize: 50,
               // 패딩 설정
               constraints: const BoxConstraints(),
@@ -55,7 +55,7 @@ class _MachinePageListState extends State<MachinePageList> {
               builder: (context) => IconButton(
                 padding: EdgeInsets.zero,
                 alignment: Alignment.center,
-                color: MainColor.sixty,
+                color: MainColor.three,
                 iconSize: 50,
                 constraints: const BoxConstraints(),
                 icon: const Icon(
@@ -70,7 +70,7 @@ class _MachinePageListState extends State<MachinePageList> {
         ],
       ),
       body: Container(
-        color: MainColor.ten,
+        color: MainColor.six,
         child: ListView.builder(
           scrollDirection: Axis.vertical,
           itemCount: 10,
@@ -83,7 +83,7 @@ class _MachinePageListState extends State<MachinePageList> {
                   right: MediaQuery.of(context).size.width * 0.03),
               height: MediaQuery.of(context).size.height * 0.172,
               decoration: BoxDecoration(
-                  color: MainColor.sixty,
+                  color: MainColor.three,
                   borderRadius: BorderRadius.circular(45.0)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

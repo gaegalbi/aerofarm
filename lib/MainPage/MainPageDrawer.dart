@@ -1,5 +1,7 @@
+import 'package:capstone/MainPage/MainPageMyProfile.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MainPageDrawer extends StatelessWidget {
   const MainPageDrawer({Key? key}) : super(key: key);
@@ -11,7 +13,7 @@ class MainPageDrawer extends StatelessWidget {
 
   return Container(
       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.075),
-      color: MainColor.ten,
+      color: MainColor.six,
       child: Column(
         children: [
           CircleAvatar(
@@ -32,7 +34,9 @@ class MainPageDrawer extends StatelessWidget {
                     child: TextButton(
                         child: const Text("내 정보 수정",
                             style: MainTheme.modify),
-                        onPressed: () {})),
+                        onPressed: () {
+                          Get.to(() => const MainPageMyProfile(),);
+                        })),
               ],
             ),
           ),

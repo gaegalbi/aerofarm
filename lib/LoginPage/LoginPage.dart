@@ -34,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
       child: Scaffold(
         //resizeToAvoidBottomInset: false,
         body: Container(
-          color: MainColor.ten,
+          color: MainColor.six,
           child: Center(
             child: SingleChildScrollView(
               physics: const NeverScrollableScrollPhysics(),
