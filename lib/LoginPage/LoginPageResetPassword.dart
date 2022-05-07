@@ -1,5 +1,7 @@
+import 'package:capstone/LoginPage/LoginPage.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class LoginPageResetPassword extends StatefulWidget {
   const LoginPageResetPassword({Key? key}) : super(key: key);
@@ -28,19 +30,46 @@ class _LoginPageResetPasswordState extends State<LoginPageResetPassword> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      //color: MainColor.ten,
-      body: Center(
-        child: SingleChildScrollView(
-          physics: const NeverScrollableScrollPhysics(),
-          controller: _scrollController,
-          scrollDirection: Axis.vertical,
-          child: Container(
-            color: MainColor.ten,
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            alignment: Alignment.center,
-            //color: MainColor.thirty,
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
+        //color: MainColor.ten,
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: MainColor.ten,
+          elevation: 0,
+          leadingWidth: MediaQuery.of(context).size.width * 0.2106,
+          leading: Container(
+            margin:
+                EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
+            child: FittedBox(
+                child: Builder(
+              builder: (context) => IconButton(
+                padding: EdgeInsets.zero,
+                alignment: Alignment.center,
+                color: MainColor.sixty,
+                iconSize: 50,
+                // 패딩 설정
+                constraints: const BoxConstraints(),
+                icon: const Icon(
+                  Icons.chevron_left,
+                ),
+                onPressed: () {
+                  Get.to(() => const LoginPage());
+                },
+              ),
+            )),
+          ),
+        ),
+        body: Container(
+          color: MainColor.ten,
+          alignment: Alignment.center,
+          child: SingleChildScrollView(
+            physics: const NeverScrollableScrollPhysics(),
+            controller: _scrollController,
+            scrollDirection: Axis.vertical,
             child: Padding(
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -91,13 +120,18 @@ class _LoginPageResetPasswordState extends State<LoginPageResetPassword> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.018),
+                    margin: EdgeInsets.only(
+                        top: MediaQuery.of(context).size.height * 0.018,
+                        bottom: MediaQuery.of(context).size.height * 0.08),
                     color: MainColor.sixty,
                     child: TextButton(
                       onPressed: () {
-                          //이메일 전송
+                        //이메일 전송
                       },
-                      child: const Text("전송",style: LrTheme.button,),
+                      child: const Text(
+                        "전송",
+                        style: LrTheme.button,
+                      ),
                     ),
                   )
                 ],

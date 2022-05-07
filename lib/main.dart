@@ -16,10 +16,7 @@ class MyApp extends StatelessWidget {
         canvasColor: Colors.black
       ),
       title: 'Flutter Demo',
-      home: const Scaffold(
-        resizeToAvoidBottomInset: false, //keyboard 올라와도 overflow 발생 x
-        body: LoginPage(),
-      ),
+      home: const LoginPage(),
     );
   }
 }

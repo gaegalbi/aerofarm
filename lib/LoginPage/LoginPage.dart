@@ -31,22 +31,25 @@ class _LoginPageState extends State<LoginPage> {
       onTap: () {
         FocusScope.of(context).unfocus();
       },
-      child: Container(
-        color: MainColor.ten,
-        child: Center(
-          child: SingleChildScrollView(
-            physics: const NeverScrollableScrollPhysics(),
-            controller: _scrollController,
-            scrollDirection: Axis.vertical,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: Column(
-                children: const [
-                  LoginPageTop(),
-                  LoginPageLoginRegister(),
-                ],
+      child: Scaffold(
+        //resizeToAvoidBottomInset: false,
+        body: Container(
+          color: MainColor.ten,
+          child: Center(
+            child: SingleChildScrollView(
+              physics: const NeverScrollableScrollPhysics(),
+              controller: _scrollController,
+              scrollDirection: Axis.vertical,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: Column(
+                  children: const [
+                    LoginPageTop(),
+                    LoginPageLoginRegister(),
+                  ],
+                ),
               ),
             ),
           ),
