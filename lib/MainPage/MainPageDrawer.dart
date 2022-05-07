@@ -1,3 +1,4 @@
+import 'package:capstone/MachinePage/MachinePageList.dart';
 import 'package:capstone/MainPage/MainPageMyProfile.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +45,9 @@ class MainPageDrawer extends StatelessWidget {
             padding: EdgeInsets.all(drawerPadding),
             child: TextButton(
               child: const Text("소유한 기기 조회", style: MainTheme.drawerButton),
-              onPressed: () {},
+              onPressed: () {
+                Get.to(() => const MachinePageList());
+              },
             ),
           ),
           Container(
