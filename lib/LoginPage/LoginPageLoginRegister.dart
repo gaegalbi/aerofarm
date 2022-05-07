@@ -18,9 +18,6 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister>
   late TextEditingController _lPasswordController;
   late TextEditingController _rUserNameController;
   late TextEditingController _rPasswordController;
-  //MediaQuery.of(context).size.width 와 동일
-  double tabBarWidth = Get.width*0.5;
-  double tabBarHeight = Get.height*0.06;
 
   void _handleTabSelection() {
     setState(() {});
@@ -39,8 +36,17 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister>
     _lPasswordController = TextEditingController();
     _rUserNameController = TextEditingController();
     _rPasswordController = TextEditingController();
-
     super.initState();
+  }
+
+  @override
+  void dispose(){
+    _tabController.dispose();
+    _lUserNameController.dispose();
+    _lPasswordController.dispose();
+    _rUserNameController.dispose();
+    _rPasswordController.dispose();
+    super.dispose();
   }
 
   @override

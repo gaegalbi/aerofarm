@@ -17,8 +17,14 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     _scrollController = ScrollController();
     super.initState();
-
   }
+
+  @override
+  void dispose(){
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
