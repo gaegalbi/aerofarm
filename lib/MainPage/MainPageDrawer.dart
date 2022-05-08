@@ -1,3 +1,4 @@
+import 'package:capstone/LoginPage/LoginPage.dart';
 import 'package:capstone/MachinePage/MachinePageList.dart';
 import 'package:capstone/MainPage/MainPageMyProfile.dart';
 import 'package:capstone/themeData.dart';
@@ -10,7 +11,7 @@ class MainPageDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-  double drawerPadding = MediaQuery.of(context).size.height*0.015;
+  double drawerPadding = MediaQuery.of(context).size.height*0.012;
 
   return Container(
       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.075),
@@ -78,6 +79,15 @@ class MainPageDrawer extends StatelessWidget {
               onPressed: () {},
             ),
           ),
+          Container(
+            padding: EdgeInsets.all(drawerPadding),
+            child: TextButton(
+              child: const Text("로그아웃", style: MainTheme.drawerButton),
+              onPressed: () {
+                Get.offAll(()=>const LoginPage());
+              },
+            ),
+          )
         ],
       ),
     );
