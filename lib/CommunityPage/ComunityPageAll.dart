@@ -12,16 +12,13 @@ class CommunityPageAll extends StatefulWidget {
 }
 
 class _CommunityPageAllState extends State<CommunityPageAll> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        //foregroundColor: Colors.transparent,
         backgroundColor: MainColor.six,
-        //backgroundColor: Colors.transparent,
-        toolbarHeight: MediaQuery.of(context).size.height * 0.1,
+        toolbarHeight: MainSize.toobarHeight,
         elevation: 0,
         leadingWidth: MediaQuery.of(context).size.width * 0.2106,
         leading: Container(
@@ -78,25 +75,33 @@ class _CommunityPageAllState extends State<CommunityPageAll> {
         ),
       ),
       body: Container(
-        padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.04),
+        padding: EdgeInsets.fromLTRB(
+          MediaQuery.of(context).size.width * 0.04,
+          0,
+          MediaQuery.of(context).size.width * 0.04,
+          MediaQuery.of(context).size.width * 0.04,
+        ),
         color: MainColor.six,
         child: Column(
           children: [
             Container(
+                alignment: Alignment.topLeft,
                 width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.03,
                 margin: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).size.height * 0.016),
+                    bottom: MediaQuery.of(context).size.height * 0.02),
                 child: const Text(
                   "전체게시판",
                   style: Community.title,
-                  textAlign: TextAlign.left,
                 )),
             Container(
               padding: EdgeInsets.only(
+                  left: MediaQuery.of(context).size.width * 0.05,
+                  right: MediaQuery.of(context).size.width * 0.05,
                   bottom: MediaQuery.of(context).size.height * 0.012),
               decoration: const BoxDecoration(
                   border: Border(
-                bottom: BorderSide(width: 1, color: Colors.white),
+                bottom: BorderSide(width: 2, color: Colors.white),
               )),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
 
 class MainColor{
 /*  static const ten = Color.fromRGBO(93, 195, 121, 100);
@@ -8,7 +8,10 @@ class MainColor{
   static const six = Color.fromRGBO(30, 36, 55, 100);//Color.fromRGBO(18, 24, 36, 100);
   static const one = Color.fromRGBO(95, 114, 151, 100);//Color.fromRGBO(64, 78, 105, 100);
   static const three = Color.fromRGBO(80, 130, 255, 100);//Color.fromRGBO(57, 87, 183, 100); //Color.fromRGBO(64, 91, 177, 100);
-}  //39, 53, 108 //18, 34, 75
+}
+class MainSize{
+  static double toobarHeight = Get.height * 0.1;
+}
 class LrTheme {
   static const button = TextStyle(
       color: Colors.white,

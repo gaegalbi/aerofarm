@@ -21,7 +21,7 @@ class _CommunityPageHotState extends State<CommunityPageHot> {
         //foregroundColor: Colors.transparent,
         backgroundColor: MainColor.six,
         //backgroundColor: Colors.transparent,
-        toolbarHeight: MediaQuery.of(context).size.height * 0.1,
+        toolbarHeight: MainSize.toobarHeight,
         elevation: 0,
         leadingWidth: MediaQuery.of(context).size.width * 0.2106,
         leading: Container(
@@ -78,7 +78,12 @@ class _CommunityPageHotState extends State<CommunityPageHot> {
         ),
       ),
       body: Container(
-        padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.04),
+        padding: EdgeInsets.fromLTRB(
+          MediaQuery.of(context).size.width * 0.04,
+          0,
+          MediaQuery.of(context).size.width * 0.04,
+          MediaQuery.of(context).size.width * 0.04,
+        ),
         color: MainColor.six,
         child: Column(
           children: [
