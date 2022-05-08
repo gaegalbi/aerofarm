@@ -148,7 +148,7 @@ class _MachinePageInfoState extends State<MachinePageInfo> {
                       right: MediaQuery.of(context).size.width * 0.06),
                   child: InkWell(
                     onTap: () {
-                      Get.off(() => const MachinePageProfile());
+                      Get.to(() => const MachinePageProfile());
                     },
                     borderRadius: BorderRadius.circular(10.0),
                     child: Column(

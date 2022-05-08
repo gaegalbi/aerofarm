@@ -38,7 +38,7 @@ class _MachinePageProfileState extends State<MachinePageProfile> {
                 Icons.chevron_left,
               ),
               onPressed: () {
-                Get.off(() => const MachinePageInfo());
+                Get.offAll(() => const MachinePageInfo());
               },
             ),
           )),

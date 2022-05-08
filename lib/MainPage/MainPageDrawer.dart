@@ -46,7 +46,7 @@ class MainPageDrawer extends StatelessWidget {
             child: TextButton(
               child: const Text("소유한 기기 조회", style: MainTheme.drawerButton),
               onPressed: () {
-                Get.off(() => const MachinePageList());
+                Get.to(() => const MachinePageList());
               },
             ),
           ),

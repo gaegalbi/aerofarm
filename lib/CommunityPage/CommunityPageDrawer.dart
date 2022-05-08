@@ -77,23 +77,6 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                       children: [
                         Container(
                             margin: EdgeInsets.only(right: imageMargin),
-                            child: const Icon(Icons.home,
-                                size: 45, color: MainColor.three)),
-                        const Text("홈으로", style: MainTheme.drawerButton),
-                      ],
-                    ),
-                    onPressed: () {
-                      Get.off(() => const MainPage());
-                    },
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.all(drawerPadding),
-                  child: TextButton(
-                    child: Row(
-                      children: [
-                        Container(
-                            margin: EdgeInsets.only(right: imageMargin),
                             child: const ImageIcon(
                                 AssetImage("assets/images/megaphone.png"),
                                 size: 45,
@@ -173,6 +156,7 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                     onPressed: () {},
                   ),
                 ),
+
                 Container(
                   padding: EdgeInsets.all(drawerPadding),
                   child: TextButton(
@@ -186,6 +170,23 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                       ],
                     ),
                     onPressed: () {},
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(drawerPadding),
+                  child: TextButton(
+                    child: Row(
+                      children: [
+                        Container(
+                            margin: EdgeInsets.only(right: imageMargin),
+                            child: const Icon(Icons.home,
+                                size: 45, color: MainColor.three)),
+                        const Text("홈으로", style: MainTheme.drawerButton),
+                      ],
+                    ),
+                    onPressed: () {
+                      Get.off(() => const MainPage());
+                    },
                   ),
                 ),
                 Container(
