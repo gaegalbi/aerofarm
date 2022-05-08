@@ -104,6 +104,11 @@ class MachinePage{
       decoration: TextDecoration.none,
       fontFamily: 'bmPro',
       fontSize: 20);
+  static const profileText = TextStyle(
+      color: MainColor.three,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 55);
 }
 
 class ProfilePage{

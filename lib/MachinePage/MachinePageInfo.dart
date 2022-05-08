@@ -47,7 +47,7 @@ class _MachinePageInfoState extends State<MachinePageInfo> {
           )),
         ),
         title: const Text(
-          "도시농부",
+          "기기1",
           style: MainTheme.title,
         ),
         actions: [
@@ -82,7 +82,7 @@ class _MachinePageInfoState extends State<MachinePageInfo> {
                   top: MediaQuery.of(context).size.height * 0.01),
               child: CircleAvatar(
                 radius: MediaQuery.of(context).size.width * 0.35,
-                backgroundImage: const AssetImage("assets/images/profile.png"),
+                backgroundImage: const AssetImage("assets/images/3.png"),
               ),
             ),
             Container(
@@ -108,7 +108,6 @@ class _MachinePageInfoState extends State<MachinePageInfo> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                const Spacer(),
                 Container(
                   margin: EdgeInsets.only(
                     left: MediaQuery.of(context).size.width * 0.37,
@@ -156,7 +155,7 @@ class _MachinePageInfoState extends State<MachinePageInfo> {
                     child: Column(
                       children: [
                         const Icon(
-                          Icons.edit,
+                          Icons.drive_file_rename_outline_rounded,
                           color: MainColor.three,
                           size: 60,
                         ),

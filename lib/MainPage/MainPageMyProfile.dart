@@ -131,8 +131,8 @@ class _MainPageMyProfileState extends State<MainPageMyProfile> {
                         splashRadius: 20,
                         onPressed: () {},
                         icon: const Icon(
-                          Icons.edit,
-                          size: 30,
+                          Icons.drive_file_rename_outline_rounded,
+                          size: 35,
                           color: MainColor.three,
                         ))
                   ],
