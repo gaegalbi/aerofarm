@@ -1,3 +1,4 @@
+import 'package:capstone/MachinePage/MachinePageInfo.dart';
 import 'package:capstone/themeData.dart';
 import "package:flutter/material.dart";
 import 'package:get/get.dart';
@@ -15,7 +16,7 @@ class _MachinePageListState extends State<MachinePageList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     // backgroundColor: Colors.transparent,
+      // backgroundColor: Colors.transparent,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: MainColor.six,
@@ -38,7 +39,7 @@ class _MachinePageListState extends State<MachinePageList> {
                 Icons.chevron_left,
               ),
               onPressed: () {
-                Get.to(() =>const MainPage());
+                Get.to(() => const MainPage());
               },
             ),
           )),
@@ -62,7 +63,7 @@ class _MachinePageListState extends State<MachinePageList> {
                   Icons.home,
                 ),
                 onPressed: () {
-                  Get.to(() =>const MainPage());
+                  Get.to(() => const MainPage());
                 },
               ),
             ),
@@ -85,31 +86,37 @@ class _MachinePageListState extends State<MachinePageList> {
               decoration: BoxDecoration(
                   color: MainColor.three,
                   borderRadius: BorderRadius.circular(45.0)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                          margin: EdgeInsets.only(
-                              bottom:
-                                  MediaQuery.of(context).size.height * 0.022),
-                          child: const Text(
-                            "기기1",
-                            style: MachinePage.mName,
-                          )),
-                      const Text(
-                        "재배작물 : 해바라기",
-                        style: MachinePage.mType,
-                      ),
-                    ],
-                  ),
-                  CircleAvatar(
-                    radius: MediaQuery.of(context).size.width * 0.164,
-                    backgroundImage: const AssetImage("assets/images/3.png"),
-                  )
-                ],
+              child: InkWell(
+                borderRadius: BorderRadius.circular(45.0),
+                onTap: () {
+                  Get.to(()=>const MachinePageInfo());
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                            margin: EdgeInsets.only(
+                                bottom:
+                                    MediaQuery.of(context).size.height * 0.022),
+                            child: const Text(
+                              "기기1",
+                              style: MachinePage.mName,
+                            )),
+                        const Text(
+                          "재배작물 : 해바라기",
+                          style: MachinePage.mType,
+                        ),
+                      ],
+                    ),
+                    CircleAvatar(
+                      radius: MediaQuery.of(context).size.width * 0.164,
+                      backgroundImage: const AssetImage("assets/images/3.png"),
+                    )
+                  ],
+                ),
               ),
             );
           },
