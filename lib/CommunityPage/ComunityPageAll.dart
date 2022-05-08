@@ -136,8 +136,8 @@ class _CommunityPageAllState extends State<CommunityPageAll> {
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                     margin: EdgeInsets.only(
-                        left: MediaQuery.of(context).size.width * 0.02,
-                        right: MediaQuery.of(context).size.width * 0.02),
+                        left: MediaQuery.of(context).size.width * 0.01,
+                        right: MediaQuery.of(context).size.width * 0.01),
                     height: MediaQuery.of(context).size.height * 0.08,
                     decoration: const BoxDecoration(
                         border: Border(
@@ -148,56 +148,71 @@ class _CommunityPageAllState extends State<CommunityPageAll> {
                         //Get.off(()=>const MachinePageInfo());
                       },
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Container(
-                            padding: EdgeInsets.only(
-                                left: MediaQuery.of(context).size.width * 0.04,
-                                right:
-                                    MediaQuery.of(context).size.width * 0.04),
+                          SizedBox(
                             width: MediaQuery.of(context).size.width * 0.8,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            child: Row(
                               children: [
                                 Container(
-                                    margin: EdgeInsets.only(
-                                        bottom:
-                                            MediaQuery.of(context).size.height *
-                                                0.008),
-                                    child: Text(
-                                      "도시농부 서비스 좋네여 $index",
-                                      style: Community.main,
-                                    )),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text(
-                                      "city",
-                                      style: Community.sub,
-                                    ),
-                                    const Text(
-                                      "2022-05-08",
-                                      style: Community.sub,
-                                    ),
-                                    Text(
-                                      "조회 $index",
-                                      style: Community.sub,
-                                    ),
-                                    Row(
-                                      children: [
-                                        const Text(
-                                          "추천 ",
-                                          style: Community.sub,
-                                        ),
-                                        Text(
-                                          "$index",
-                                          style: Community.sub1,
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                  width: MediaQuery.of(context).size.width * 0.64,
+                                  margin:EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.06),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                          margin: EdgeInsets.only(
+                                              bottom:
+                                                  MediaQuery.of(context).size.height *
+                                                      0.008),
+                                          child: Text(
+                                            "도시농부 서비스 좋네여 $index",
+                                            style: Community.main,
+                                          )),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          const Text(
+                                            "city",
+                                            style: Community.sub,
+                                          ),
+                                          const Text(
+                                            "2022-05-08",
+                                            style: Community.sub,
+                                          ),
+                                          Text(
+                                            "조회 $index",
+                                            style: Community.sub,
+                                          ),
+                                          Row(
+                                            children: [
+                                              const Text(
+                                                "추천 ",
+                                                style: Community.sub,
+                                              ),
+                                              Text(
+                                                "$index",
+                                                style: Community.sub1,
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
+                                Container(
+                                  width: MediaQuery.of(context).size.width * 0.1,
+                                  height: MediaQuery.of(context).size.height * 0.048,
+                                  alignment: Alignment.center,
+                                  child: Text("$index",style: Community.main,textAlign: TextAlign.center,),
+                                  decoration: BoxDecoration(
+                                      color: MainColor.one,
+                                    borderRadius: BorderRadius.circular(10)
+                                  ),
+                                )
                               ],
                             ),
                           ),
