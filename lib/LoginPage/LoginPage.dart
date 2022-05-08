@@ -33,25 +33,19 @@ class _LoginPageState extends State<LoginPage> {
       },
       child: Scaffold(
         //resizeToAvoidBottomInset: false,
+        appBar: AppBar(backgroundColor: MainColor.six,elevation: 0,),
         body: Container(
           color: MainColor.six,
-          child: Center(
-            child: SingleChildScrollView(
-              physics: const NeverScrollableScrollPhysics(),
-              controller: _scrollController,
-              scrollDirection: Axis.vertical,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: Column(
-                  children: const [
-                    LoginPageTop(),
-                    LoginPageLoginRegister(),
-                  ],
-                ),
+            height: MediaQuery.of(context).size.height,
+          child: SingleChildScrollView(
+            controller: _scrollController,
+            scrollDirection: Axis.vertical,
+              child: Column(
+                children: const [
+                  LoginPageTop(),
+                  LoginPageLoginRegister(),
+                ],
               ),
-            ),
           ),
         ),
       ),
