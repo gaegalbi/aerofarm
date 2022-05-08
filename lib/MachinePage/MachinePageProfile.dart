@@ -66,7 +66,6 @@ class _MachinePageProfileState extends State<MachinePageProfile> {
         ],
       ),
       body: Container(
-        width: MediaQuery.of(context).size.width,
         color: MainColor.six,
         child: Container(
           margin:  EdgeInsets.only(top:MediaQuery.of(context).size.height*0.1),
@@ -91,22 +90,18 @@ class _MachinePageProfileState extends State<MachinePageProfile> {
                       ),
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(),
-                      //  right: MediaQuery.of(context).size.width * 0.06),
-                    child: Column(
-                      children: [
-                        InkWell(
-                          onTap: () {},
-                          child: const Icon(
-                            Icons.drive_file_rename_outline_rounded,
-                            color: MainColor.three,
-                            size: 40,
-                          ),
-                          borderRadius: BorderRadius.circular(20.0),
+                  Column(
+                    children: [
+                      InkWell(
+                        onTap: () {},
+                        child: const Icon(
+                          Icons.drive_file_rename_outline_rounded,
+                          color: MainColor.three,
+                          size: 40,
                         ),
-                      ],
-                    ),
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                    ],
                   ),
                 ],
               ),

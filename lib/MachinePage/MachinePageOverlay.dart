@@ -33,7 +33,6 @@ class _MachinePageOverlayState extends State<MachinePageOverlay> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.43,
       color: MainColor.six,
       child: Column(

@@ -73,7 +73,6 @@ class _MachinePageInfoState extends State<MachinePageInfo> {
         ],
       ),
       body: Container(
-        width: MediaQuery.of(context).size.width,
         color: MainColor.six,
         child: Column(
           children: [

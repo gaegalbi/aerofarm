@@ -85,7 +85,6 @@ class _MainPageMyProfileState extends State<MainPageMyProfile> {
       ),
       body: Container(
         color: MainColor.six,
-        width: MediaQuery.of(context).size.width,
         child: Column(
           children: [
             Row(

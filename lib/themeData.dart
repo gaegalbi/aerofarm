@@ -128,3 +128,36 @@ class ProfilePage{
       fontFamily: 'bmPro',
       fontSize: 25);
 }
+
+class Community{
+  static const title = TextStyle(
+      color: MainColor.three,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 25);
+  static const main = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmAir',
+      fontSize: 20);
+  static const sub = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmAir',
+      fontSize: 13);
+  static const sub1 = TextStyle(
+      color: Colors.red,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmAir',
+      fontSize: 13);
+  static const free = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPRO',
+      fontSize: 16);
+  static const all = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPRO',
+      fontSize: 18);
+}
