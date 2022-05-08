@@ -62,7 +62,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .alwaysRemember(false)
                 .tokenValiditySeconds(43200)
                 .rememberMeParameter("remember-me")
-                .userDetailsService(memberService);
+                .userDetailsService(memberService)
+                .and()
+                .sessionManagement()
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(true)
+                .expiredUrl("/login");
     }
 
     @Bean
