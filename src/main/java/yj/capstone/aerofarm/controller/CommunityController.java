@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class CommunityController {
-    // Test Commit
+    
     @GetMapping("/community")
     public String community() {
 
