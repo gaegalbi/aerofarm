@@ -22,7 +22,7 @@ public class LoginController {
     private final MemberService memberService;
 
     @GetMapping("/login")
-    public String loginPage(LoginForm loginForm, Model model, Principal principal) {
+    public String loginPage(Model model, Principal principal) {
         if (principal != null) {
             return "redirect:/";
         }
