@@ -58,6 +58,30 @@
         border-width: 2px;
     }
 
+    .input-div {
+        position: relative;
+    }
+
+    .input-div i {
+        position: absolute;
+        left: 10px;
+        top: 1px;
+        font-size: 24px;
+        color: #FFFFFF;
+    }
+
+    .input-box {
+        border-color: #131825;
+        background-color: #182030;
+        padding-left: 42px;
+        color: #FFFFFF;
+    }
+
+    .input-box:focus {
+        background-color: #182030;
+        color: #FFFFFF;
+    }
+
     .fieldError {
         border-color: #bd2130;
         border-width: 2px;
@@ -97,10 +121,11 @@
                         </div>
                         <form action="/login" method="post" th:object="${loginForm}">
                             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                            <div class="mb-3">
-                                <label for="email" class="form-label"><small
-                                        class="text-muted">EMAIL ADDRESS</small></label>
-                                <input type="email" th:errorclass="fieldError" th:field="*{email}" class="form-control" id="email" name="username" placeholder="name@example.com" required>
+                            <label for="email" class="form-label"><small
+                                    class="text-muted">EMAIL ADDRESS</small></label>
+                            <div class="mb-3 input-div">
+                                <input type="email" th:errorclass="fieldError" th:field="*{email}" class="form-control input-box" id="email" name="username" placeholder="name@example.com" required>
+                                <i class="bi bi-person-circle"></i>
                                 <p class="fieldError" th:errors="*{email}">이메일 오류</p>
                             </div>
                             <!--                        <p class="card-text"><small class="text-muted">PASSWORD</small></p>-->
@@ -113,8 +138,9 @@
                                     <a href="#"><small class="text-muted">비밀번호 찾기</small></a>
                                 </div>
                             </div>
-                            <div class="mb-3">
-                                <input type="password" th:errorclass="fieldError" th:field="*{password}" class="form-control" id="password" name="password" required>
+                            <div class="mb-3 input-div">
+                                <input type="password" th:errorclass="fieldError" th:field="*{password}" class="form-control input-box" id="password" name="password" required>
+                                <i class="bi bi-key"></i>
                                 <p class="fieldError" th:errors="*{password}">비밀번호 오류</p>
                             </div>
                             <div class="checkbox mb-3" style="text-align: left">

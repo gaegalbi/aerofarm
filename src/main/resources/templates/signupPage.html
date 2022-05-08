@@ -49,6 +49,17 @@
         border-width: 2px;
     }
 
+    .input-box {
+        border-color: #131825;
+        background-color: #182030;
+        color: #FFFFFF;
+    }
+
+    .input-box:focus {
+        background-color: #182030;
+        color: #FFFFFF;
+    }
+
     .fieldError {
         border-color: #bd2130;
         border-width: 2px;
@@ -78,31 +89,31 @@
                         <div class="mb-3">
                             <label for="email" th:for="email" class="form-label"><small class="text-muted">EMAIL
                                 ADDRESS</small></label>
-                            <input type="email" th:field="*{email}" class="form-control" id="email"
+                            <input type="email" th:field="*{email}" class="form-control input-box" id="email"
                                    placeholder="name@example.com" th:errorclass="fieldError" required>
                             <p class="fieldError" th:errors="*{email}">이메일 오류</p>
                             <br/>
                             <label for="password" th:for="password" class="form-label"><small
                                     class="text-muted">PASSWORD</small></label>
-                            <input type="password" th:field="*{password}" class="form-control" id="password"
+                            <input type="password" th:field="*{password}" class="form-control input-box" id="password"
                                    th:errorclass="fieldError" required>
                             <p class="fieldError" th:errors="*{password}">비밀번호 오류</p>
                             <br/>
                             <label for="passwordRepeat" th:for="confirmPassword" class="form-label"><small
                                     class="text-muted">CONFIRM PASSWORD</small></label>
-                            <input type="password" th:field="*{confirmPassword}" class="form-control"
+                            <input type="password" th:field="*{confirmPassword}" class="form-control input-box"
                                    id="passwordRepeat" th:errorclass="fieldError" required>
                             <p class="fieldError" th:errors="*{confirmPassword}">검증 비밀번호 오류</p>
                             <br/>
                             <label for="nickname" th:for="nickname" class="form-label"><small
                                     class="text-muted">NICKNAME</small></label>
-                            <input type="text" th:field="*{nickname}" class="form-control" id="nickname"
+                            <input type="text" th:field="*{nickname}" class="form-control input-box" id="nickname"
                                    th:errorclass="fieldError" required>
                             <p class="fieldError" th:errors="*{nickname}">닉네임 오류</p>
                             <br/>
                             <label for="phoneNumber" th:for="phoneNumber" class="form-label"><small
                                     class="text-muted">PHONE</small></label>
-                            <input type="tel" th:field="*{phoneNumber}" class="form-control" id="phoneNumber"
+                            <input type="tel" th:field="*{phoneNumber}" class="form-control input-box" id="phoneNumber"
                                    placeholder="010-0000-0000" th:errorclass="fieldError" required>
                             <p class="fieldError" th:errors="*{phoneNumber}">전화번호 오류</p>
                         </div>
