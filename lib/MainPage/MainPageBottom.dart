@@ -44,7 +44,7 @@ class _MainPageBottomState extends State<MainPageBottom> {
                     Get.to(() => const MachinePageList(),);
                   },
                   child: const Text(
-                    "기기 관리",
+                    "기기 목록",
                     style: MainTheme.button,
                   ),
                 ),

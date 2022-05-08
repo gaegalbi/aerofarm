@@ -58,7 +58,7 @@ class _MachinePageProfileState extends State<MachinePageProfile> {
                   Icons.home,
                 ),
                 onPressed: () {
-                  Get.off(() => const MainPage());
+                  Get.offAll(() => const MainPage());
                 },
               ),
             ),

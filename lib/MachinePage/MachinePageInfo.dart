@@ -85,11 +85,12 @@ class _MachinePageInfoState extends State<MachinePageInfo> {
               ),
             ),
             Container(
+              height: 41,
               margin: EdgeInsets.only(
                 top: MediaQuery.of(context).size.height * 0.19,
                 bottom: MediaQuery.of(context).size.height * 0.03,
               ),
-              child: Row(
+              /*child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: const [
                   Text(
@@ -102,7 +103,7 @@ class _MachinePageInfoState extends State<MachinePageInfo> {
                         color: Colors.green, fontFamily: 'bmPro', fontSize: 40),
                   )
                 ],
-              ),
+              ),*/
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
