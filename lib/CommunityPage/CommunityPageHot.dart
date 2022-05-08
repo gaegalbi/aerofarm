@@ -16,6 +16,15 @@ class _CommunityPageHotState extends State<CommunityPageHot> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.transparent,
+          onPressed: () {
+            Get.to(() => const MainPage());
+          },
+          child: Container(
+              padding: EdgeInsets.zero,
+              alignment: Alignment.bottomRight,
+              child: Image.asset("assets/images/chat.png"))),
       appBar: AppBar(
         centerTitle: true,
         //foregroundColor: Colors.transparent,

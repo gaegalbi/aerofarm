@@ -15,6 +15,15 @@ class _CommunityPageAllState extends State<CommunityPageAll> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.transparent,
+          onPressed: () {
+            Get.to(() => const MainPage());
+          },
+          child: Container(
+            padding: EdgeInsets.zero,
+              alignment: Alignment.bottomRight,
+              child: Image.asset("assets/images/chat.png"))),
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: MainColor.six,
@@ -155,17 +164,22 @@ class _CommunityPageAllState extends State<CommunityPageAll> {
                             child: Row(
                               children: [
                                 Container(
-                                  width: MediaQuery.of(context).size.width * 0.64,
-                                  margin:EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.06),
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.64,
+                                  margin: EdgeInsets.only(
+                                      right: MediaQuery.of(context).size.width *
+                                          0.06),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Container(
                                           margin: EdgeInsets.only(
-                                              bottom:
-                                                  MediaQuery.of(context).size.height *
-                                                      0.008),
+                                              bottom: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.008),
                                           child: Text(
                                             "도시농부 서비스 좋네여 $index",
                                             style: Community.main,
@@ -204,14 +218,19 @@ class _CommunityPageAllState extends State<CommunityPageAll> {
                                   ),
                                 ),
                                 Container(
-                                  width: MediaQuery.of(context).size.width * 0.1,
-                                  height: MediaQuery.of(context).size.height * 0.048,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.1,
+                                  height: MediaQuery.of(context).size.height *
+                                      0.048,
                                   alignment: Alignment.center,
-                                  child: Text("$index",style: Community.main,textAlign: TextAlign.center,),
+                                  child: Text(
+                                    "$index",
+                                    style: Community.main,
+                                    textAlign: TextAlign.center,
+                                  ),
                                   decoration: BoxDecoration(
                                       color: MainColor.one,
-                                    borderRadius: BorderRadius.circular(10)
-                                  ),
+                                      borderRadius: BorderRadius.circular(10)),
                                 )
                               ],
                             ),
