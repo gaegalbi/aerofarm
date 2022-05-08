@@ -12,7 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import yj.capstone.aerofarm.service.MemberService;
+import yj.capstone.aerofarm.domain.member.Role;
+import yj.capstone.aerofarm.service.CustomOAuth2UserService;
+import yj.capstone.aerofarm.service.UserDetailsServiceImpl;
 import yj.capstone.aerofarm.service.handler.AuthFailureHandler;
 import yj.capstone.aerofarm.service.handler.AuthSuccessHandler;
 
@@ -22,27 +24,37 @@ import yj.capstone.aerofarm.service.handler.AuthSuccessHandler;
 @EnableGlobalMethodSecurity(prePostEnabled = true,securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final MemberService memberService;
+    private final UserDetailsServiceImpl userDetailsService;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final AuthFailureHandler authFailureHandler;
+    private final CustomOAuth2UserService customOAuth2UserService;
     private final AuthSuccessHandler authSuccessHandler;
+    private final AuthFailureHandler authFailureHandler;
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/css/**", "/js/**", "/image/**");
+        web
+                .ignoring()
+                .antMatchers(
+                        "/css/**",
+                        "/js/**",
+                        "/image/**"
+                );
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(memberService).passwordEncoder(passwordEncoder);
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
 //                .csrf().disable()
+                .headers().frameOptions().disable()
+                .and()
                 .authorizeRequests()
-                .antMatchers("/", "/signup", "/login/**").permitAll()
+                .antMatchers( "/","/login/**","/signup/**").permitAll()
+                .antMatchers("/api/v1/**").hasRole(Role.NORMAL.name())
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -55,6 +67,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
                 .logoutSuccessUrl("/")
                 .permitAll()
                 .and()
@@ -62,12 +75,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .alwaysRemember(false)
                 .tokenValiditySeconds(43200)
                 .rememberMeParameter("remember-me")
-                .userDetailsService(memberService)
+                .userDetailsService(userDetailsService)
                 .and()
-                .sessionManagement()
-                .maximumSessions(1)
-                .maxSessionsPreventsLogin(true)
-                .expiredUrl("/login");
+//                .sessionManagement()
+//                .maximumSessions(1)
+//                .maxSessionsPreventsLogin(true)
+//                .expiredUrl("/login");
+                .oauth2Login()
+                .successHandler(authSuccessHandler)
+                .loginPage("/login")
+                .userInfoEndpoint()
+                .userService(customOAuth2UserService);
+
+//        super.configure(http);
     }
 
     @Bean

@@ -28,11 +28,9 @@
 
 <div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
 
-<div class="container" style="color: #FFFFFF" th:object="${memberDto}">
+<div class="container" style="color: #FFFFFF">
     <h1>회원 이메일</h1>
-    <h3 th:text="*{email}">email</h3>
     <h1>회원 별명</h1>
-    <h3 th:text="*{nickname}">email</h3>
 </div>
 
 <div th:replace="~{fragments/footer :: footer}"/>

@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{fragments/header :: header}"/>
+<script src="https://kit.fontawesome.com/de7504438a.js" crossorigin="anonymous"></script>
 <style>
     .bd-placeholder-img {
         font-size: 1.125rem;
@@ -16,6 +17,19 @@
             font-size: 3.5rem;
         }
     }
+
+    .login-header {
+        padding: 1.5rem 0;
+        color: #FFFFFF;
+        text-align: center;
+        background-color: #171D2B;
+        /*border-top: .05rem solid #e5e5e5;*/
+    }
+
+    body {
+        background-color: #131825;
+    }
+
 
     .login-card {
         margin: 100px auto;
@@ -37,6 +51,9 @@
         color: #FFFFFF;
     }
 
+    a {
+        text-decoration: none;
+    }
 
     .border-secondary {
         border-width: 2px;
@@ -65,11 +82,56 @@
         background-color: #182030;
         color: #FFFFFF;
     }
+
+    .oauth-div {
+        padding-bottom: 10px;
+    }
+
+    .google-btn {
+        background-color: #FFFFFF;
+        border-color: #000000;
+        color: #000000;
+    }
+    .google-btn:hover{
+        background-color: #000000;
+        border-color: #FFFFFF;
+        color: #FFFFFF;
+    }
+
+    .kakao-btn {
+        background-color: #FEE404;
+        border-color: #FEE404;
+        color: #000000;
+    }
+    .kakao-btn:hover{
+        background-color: #000000;
+        border-color: #FEE404;
+        color: #FEE404;
+    }
+
+    .naver-btn {
+        background-color: #03C73D;
+        border-color: #03C73D;
+        color: #FFFFFF;
+    }
+
+    .naver-btn:hover{
+        background-color: #FFFFFF;
+        border-color: #03C73D;
+        color: #03C73D;
+    }
+
+    .fieldError {
+        border-color: #bd2130;
+        border-width: 2px;
+        color: #bd2130;
+        margin-bottom: 5px;
+    }
 </style>
 <body class="d-flex flex-column min-vh-100">
 <header>
-<!--    <meta sec:authorize="isAuthenticated()" http-equiv="refresh" content="0;url=/">-->
-    <nav class="navbar navbar-expand-lg navbar-dark header nav-header" aria-label="Eighth navbar example">
+    <!--    <meta sec:authorize="isAuthenticated()" http-equiv="refresh" content="0;url=/">-->
+    <nav class="navbar navbar-expand-lg navbar-dark header" aria-label="Eighth navbar example">
         <div class="container">
             <a class="navbar-brand header-link" href="/"><strong>도시농부&nbsp;&nbsp;|&nbsp;&nbsp;</strong>
                 프로페셔널한 농부들의 공간</a>
@@ -121,7 +183,7 @@
                                 <p class="fieldError" th:errors="*{password}">비밀번호 오류</p>
                             </div>
                             <div class="checkbox mb-3" style="text-align: left">
-                                    <input type="checkbox" id="remember-me" name="remember-me"/>
+                                <input type="checkbox" id="remember-me" name="remember-me"/>
                                 <label for="remember-me">
                                     <small class="text-muted">
                                         &nbsp;로그인 상태 유지
@@ -135,6 +197,21 @@
                                 <a href="/signup"><small class="text-muted">회원이 아니신가요?</small></a>
                             </div>
                         </form>
+                        <div class="d-grid gap-2 col-12 mx-auto oauth-div" >
+                            <button class="btn btn-primary google-btn" type="button" onclick="location.href='/oauth2/authorization/google'">
+                                <i class="bi bi-google"></i> &nbsp; 구글 계정으로 로그인
+                            </button>
+                        </div>
+                        <div class="d-grid gap-2 col-12 mx-auto oauth-div">
+                            <button class="btn btn-primary kakao-btn" type="button" onclick="location.href='/oauth2/authorization/kakao'">
+                                <i class="bi bi-chat-fill"></i> &nbsp; 카카오 계정으로 로그인
+                            </button>
+                        </div>
+                        <div class="d-grid gap-2 col-12 mx-auto oauth-div">
+                            <button class="btn btn-primary naver-btn" type="button" onclick="location.href='/oauth2/authorization/naver'">
+                                <i class="fa-solid fa-n"></i> &nbsp; 네이버 계정으로 로그인
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,23 +1,21 @@
 package yj.capstone.aerofarm.controller;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import yj.capstone.aerofarm.controller.dto.MemberDto;
-import yj.capstone.aerofarm.domain.member.Member;
 
 @Controller
 public class MemberController {
 
     @GetMapping("/memberInfo")
-    public String memberInfo(Model model, @AuthenticationPrincipal Member member) {
-        MemberDto memberDto = new MemberDto();
-        memberDto.setEmail(member.getEmail());
-        memberDto.setNickname(member.getNickname());
+    @PreAuthorize("hasAnyRole('NORMAL')")
+    public String memberInfo() {
+        return "member/memberInfo";
+    }
 
-        model.addAttribute("memberDto", memberDto);
-
+    @GetMapping("/memberInfo2")
+    @PreAuthorize("hasAnyRole('GUEST')")
+    public String memberInfo2() {
         return "member/memberInfo";
     }
 }
