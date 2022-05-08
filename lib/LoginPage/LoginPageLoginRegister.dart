@@ -122,6 +122,8 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister>
                   width: MediaQuery.of(context).size.width * 0.696,
                   height: MediaQuery.of(context).size.height * 0.059,
                   child: TextField(
+                    obscureText: true,
+                    obscuringCharacter: "*",
                     controller: _lPasswordController,
                     textInputAction: TextInputAction.next,
                     style: LrTheme.hint,
@@ -178,6 +180,8 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister>
                   width: MediaQuery.of(context).size.width * 0.696,
                   height: MediaQuery.of(context).size.height * 0.059,
                   child: TextField(
+                    obscureText: true,
+                    obscuringCharacter: "*",
                     controller: _rPasswordController,
                     textInputAction: TextInputAction.next,
                     style: LrTheme.hint,
@@ -265,7 +269,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister>
               ),
               onPressed: () {
                 //LRPageResetPassword로 이동
-                Get.off(() =>const LoginPageResetPassword());
+                Get.to(() =>const LoginPageResetPassword());
               },
             ),
           ),
