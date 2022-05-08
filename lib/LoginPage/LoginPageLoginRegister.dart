@@ -265,7 +265,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister>
               ),
               onPressed: () {
                 //LRPageResetPassword로 이동
-                Get.to(() =>const LoginPageResetPassword());
+                Get.off(() =>const LoginPageResetPassword());
               },
             ),
           ),

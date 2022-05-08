@@ -52,7 +52,7 @@ class _MainPageMyProfileState extends State<MainPageMyProfile> {
                 Icons.chevron_left,
               ),
               onPressed: () {
-                Get.to(() => const MainPage());
+                Get.off(() => const MainPage());
               },
             ),
           )),
@@ -76,7 +76,7 @@ class _MainPageMyProfileState extends State<MainPageMyProfile> {
                   Icons.home,
                 ),
                 onPressed: () {
-                  Get.to(() => const MainPage());
+                  Get.off(() => const MainPage());
                 },
               ),
             ),

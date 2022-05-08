@@ -39,7 +39,7 @@ class _MachinePageListState extends State<MachinePageList> {
                 Icons.chevron_left,
               ),
               onPressed: () {
-                Get.to(() => const MainPage());
+                Get.off(() => const MainPage());
               },
             ),
           )),
@@ -63,7 +63,7 @@ class _MachinePageListState extends State<MachinePageList> {
                   Icons.home,
                 ),
                 onPressed: () {
-                  Get.to(() => const MainPage());
+                  Get.off(() => const MainPage());
                 },
               ),
             ),
@@ -89,7 +89,7 @@ class _MachinePageListState extends State<MachinePageList> {
               child: InkWell(
                 borderRadius: BorderRadius.circular(45.0),
                 onTap: () {
-                  Get.to(()=>const MachinePageInfo());
+                  Get.off(()=>const MachinePageInfo());
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

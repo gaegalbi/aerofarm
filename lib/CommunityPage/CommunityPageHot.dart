@@ -62,7 +62,7 @@ class _CommunityPageHotState extends State<CommunityPageHot> {
                   Icons.home,
                 ),
                 onPressed: () {
-                  Get.to(() => const MainPage());
+                  Get.off(() => const MainPage());
                 },
               ),
             ),
@@ -140,7 +140,7 @@ class _CommunityPageHotState extends State<CommunityPageHot> {
                         )),
                     child: InkWell(
                       onTap: () {
-                        //Get.to(()=>const MachinePageInfo());
+                        //Get.off(()=>const MachinePageInfo());
                       },
                       child: Row(
                         children: [

@@ -36,7 +36,7 @@ class MainPageDrawer extends StatelessWidget {
                         child: const Text("내 정보 수정",
                             style: MainTheme.modify),
                         onPressed: () {
-                          Get.to(() => const MainPageMyProfile(),);
+                          Get.off(() => const MainPageMyProfile(),);
                         })),
               ],
             ),
@@ -46,7 +46,7 @@ class MainPageDrawer extends StatelessWidget {
             child: TextButton(
               child: const Text("소유한 기기 조회", style: MainTheme.drawerButton),
               onPressed: () {
-                Get.to(() => const MachinePageList());
+                Get.off(() => const MachinePageList());
               },
             ),
           ),

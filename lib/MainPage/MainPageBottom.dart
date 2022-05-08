@@ -41,7 +41,7 @@ class _MainPageBottomState extends State<MainPageBottom> {
                 color: MainColor.three,
                 child: TextButton(
                   onPressed: () {
-                    Get.to(() => const MachinePageList(),);
+                    Get.off(() => const MachinePageList(),);
                   },
                   child: const Text(
                     "기기 관리",
@@ -56,7 +56,7 @@ class _MainPageBottomState extends State<MainPageBottom> {
                 color: MainColor.three,
                 child: TextButton(
                   onPressed: () {
-                    Get.to(const CommunityPageAll());
+                    Get.off(const CommunityPageAll());
                   },
                   child: const Text(
                     "커뮤니티",

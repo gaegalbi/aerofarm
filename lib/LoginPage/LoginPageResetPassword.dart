@@ -57,7 +57,7 @@ class _LoginPageResetPasswordState extends State<LoginPageResetPassword> {
                   Icons.chevron_left,
                 ),
                 onPressed: () {
-                  Get.to(() => const LoginPage());
+                  Get.off(() => const LoginPage());
                 },
               ),
             )),
