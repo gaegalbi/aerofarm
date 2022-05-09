@@ -1,7 +1,6 @@
 package yj.capstone.aerofarm.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -12,7 +11,6 @@ import yj.capstone.aerofarm.config.auth.dto.OAuthAttributes;
 import yj.capstone.aerofarm.config.auth.dto.SessionUser;
 import yj.capstone.aerofarm.controller.dto.UserDetailsImpl;
 import yj.capstone.aerofarm.domain.member.Member;
-import yj.capstone.aerofarm.repository.MemberRepository;
 
 import javax.servlet.http.HttpSession;
 

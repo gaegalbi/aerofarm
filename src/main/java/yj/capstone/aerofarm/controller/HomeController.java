@@ -8,9 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import yj.capstone.aerofarm.controller.dto.MemberDto;
 import yj.capstone.aerofarm.controller.dto.UserDetailsImpl;
 import yj.capstone.aerofarm.domain.member.Member;
-import yj.capstone.aerofarm.service.MemberService;
-
-import javax.servlet.http.HttpSession;
 
 @Controller
 @RequiredArgsConstructor

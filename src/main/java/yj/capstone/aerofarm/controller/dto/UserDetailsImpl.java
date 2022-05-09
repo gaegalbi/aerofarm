@@ -1,17 +1,17 @@
 package yj.capstone.aerofarm.controller.dto;
 
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import yj.capstone.aerofarm.domain.member.Member;
-import yj.capstone.aerofarm.domain.member.Role;
+import yj.capstone.aerofarm.domain.member.MemberRole;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 @Getter
@@ -20,14 +20,23 @@ public class UserDetailsImpl implements UserDetails, OAuth2User {
 
     private Member member;
     private Map<String, Object> attributes;
+    private Collection<GrantedAuthority> authorities = new ArrayList<>();
 
     public UserDetailsImpl(Member member) {
         this.member = member;
+        setAuthorities(member.getRoles());
     }
 
     public UserDetailsImpl(Member member, Map<String, Object> attributes) {
         this.member = member;
         this.attributes = attributes;
+        setAuthorities(member.getRoles());
+    }
+
+    public void setAuthorities(List<MemberRole> roles) {
+        for (MemberRole role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.getRole().name()));
+        }
     }
 
     @Override
@@ -37,10 +46,7 @@ public class UserDetailsImpl implements UserDetails, OAuth2User {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(member.getRole().getKey());
-        Collection<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(authority);
-        return authorities;
+        return this.authorities;
     }
 
     @Override

@@ -26,9 +26,6 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private String nickname;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
-
     private String phoneNumber;
 
     private float score;
@@ -46,6 +43,10 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member")
     private List<Address> addresses = new ArrayList<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<MemberRole> roles = new ArrayList<>();
+
     /*public static MemberBuilder builder() {
         return MemberBuilder();
     }*/
@@ -55,7 +56,7 @@ public class Member extends BaseEntity {
         this.email = saveMemberForm.getEmail();
         this.password = saveMemberForm.getPassword();
         this.nickname = saveMemberForm.getNickname();
-        this.role = saveMemberForm.getRole();
+        this.roles.add(new MemberRole(saveMemberForm.getRole(),this));
         this.phoneNumber = saveMemberForm.getPhoneNumber();
     }
 
@@ -65,19 +66,19 @@ public class Member extends BaseEntity {
         this.password = password;
         this.picture = picture;
         this.email = email;
-        this.role = role;
+        this.roles.add(new MemberRole(role, this));
     }
 
-    @Builder(builderMethodName = "oauth2Register", builderClassName = "Oauth2Register")
-    public Member(String nickname, String password, String email,String picture, Role role, String provider, String providerId) {
+    /*@Builder(builderMethodName = "oauth2Register", builderClassName = "Oauth2Register")
+    public Member(String nickname, String password, String email,String picture, String provider, String providerId, Role role) {
         this.nickname = nickname;
         this.password = password;
         this.email = email;
         this.picture = picture;
-        this.role = role;
         this.provider = provider;
         this.providerId = providerId;
-    }
+        this.roles.add(new MemberRole(role, this));
+    }*/
 
     protected Member() {
 
@@ -95,9 +96,5 @@ public class Member extends BaseEntity {
 
     public void changePassword(String password) {
         this.password = password;
-    }
-
-    public String getRoleKey() {
-        return this.role.getKey();
     }
 }

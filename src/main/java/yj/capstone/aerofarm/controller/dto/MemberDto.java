@@ -1,6 +1,5 @@
 package yj.capstone.aerofarm.controller.dto;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import yj.capstone.aerofarm.domain.member.Member;
