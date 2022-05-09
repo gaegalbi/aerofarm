@@ -81,7 +81,7 @@ class _MachinePageInfoState extends State<MachinePageInfo> {
                   top: MediaQuery.of(context).size.height * 0.01),
               child: CircleAvatar(
                 radius: MediaQuery.of(context).size.width * 0.35,
-                backgroundImage: const AssetImage("assets/images/3.png"),
+                backgroundImage: const AssetImage("assets/images/1.png"),
               ),
             ),
             Container(

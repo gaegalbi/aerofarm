@@ -109,7 +109,7 @@ class _MachinePageProfileState extends State<MachinePageProfile> {
                 margin: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.024 ),
                 child: CircleAvatar(
                   radius: MediaQuery.of(context).size.width * 0.35,
-                  backgroundImage: const AssetImage("assets/images/3.png"),
+                  backgroundImage: const AssetImage("assets/images/1.png"),
                   child: Container(
                     margin: EdgeInsets.only(
                         left: MediaQuery.of(context).size.width * 0.5,

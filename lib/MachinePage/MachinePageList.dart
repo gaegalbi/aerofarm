@@ -113,7 +113,7 @@ class _MachinePageListState extends State<MachinePageList> {
                     ),
                     CircleAvatar(
                       radius: MediaQuery.of(context).size.width * 0.164,
-                      backgroundImage: const AssetImage("assets/images/3.png"),
+                      backgroundImage: const AssetImage("assets/images/1.png"),
                     )
                   ],
                 ),

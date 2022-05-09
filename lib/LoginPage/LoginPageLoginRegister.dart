@@ -135,7 +135,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister>
                           enabledBorder: InputBorder.none,
                           focusedBorder: InputBorder.none,
                           icon: Icon(
-                            Icons.lock,
+                            Icons.key,
                             size: 40,
                             color: Colors.black,
                           ),
@@ -193,7 +193,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister>
                           enabledBorder: InputBorder.none,
                           focusedBorder: InputBorder.none,
                           icon: Icon(
-                            Icons.lock,
+                            Icons.key,
                             size: 40,
                             color: Colors.black,
                           ),
