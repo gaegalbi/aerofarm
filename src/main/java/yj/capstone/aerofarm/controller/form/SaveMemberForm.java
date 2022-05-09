@@ -2,7 +2,7 @@ package yj.capstone.aerofarm.controller.form;
 
 import lombok.Getter;
 import lombok.Setter;
-import yj.capstone.aerofarm.domain.member.Grade;
+import yj.capstone.aerofarm.domain.member.Role;
 
 import javax.validation.constraints.*;
 
@@ -22,7 +22,8 @@ public class SaveMemberForm {
 
     @NotBlank(message = "닉네임을 입력해주세요.")
     private String nickname;
-    private final Grade grade = Grade.GUEST;
+
+    private final Role role = Role.GUEST;
 
     @NotBlank(message = "전화번호를 입력해주세요.")
     @Pattern(regexp = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$", message = "올바른 전화번호를 입력해주세요.")

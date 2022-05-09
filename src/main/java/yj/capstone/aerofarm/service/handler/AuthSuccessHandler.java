@@ -16,17 +16,16 @@ import java.io.IOException;
 
 @Component
 public class AuthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         String redirectUrl = "/";
-
         RequestCache requestCache = new HttpSessionRequestCache();
         SavedRequest savedRequest = requestCache.getRequest(request, response);
         if (savedRequest != null) {
             redirectUrl = savedRequest.getRedirectUrl();
         }
         setDefaultTargetUrl(redirectUrl);
-
         clearSession(request);
 
         super.onAuthenticationSuccess(request, response, authentication);
