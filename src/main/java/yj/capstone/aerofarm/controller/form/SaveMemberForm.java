@@ -22,6 +22,7 @@ public class SaveMemberForm {
 
     @NotBlank(message = "닉네임을 입력해주세요.")
     private String nickname;
+
     private final Role role = Role.GUEST;
 
     @NotBlank(message = "전화번호를 입력해주세요.")
