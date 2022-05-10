@@ -36,6 +36,12 @@ class LrTheme {
       decoration: TextDecoration.none,
       fontFamily: 'bmPro',
       fontSize: 18);
+  //비밀번호 재설정
+  static const notMember = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 16);
   //LRPageTop(도시농부)
   static const title = TextStyle(
       color: MainColor.three,

@@ -16,9 +16,9 @@ class LoginPageTop extends StatelessWidget {
           ),
         ),
         Container(
-          margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.024),
-          width: MediaQuery.of(context).size.width * 0.3973,
-          height: MediaQuery.of(context).size.height * 0.1834,
+          margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.012),
+          width: MediaQuery.of(context).size.width * 0.36,//MediaQuery.of(context).size.width * 0.3973,
+          height: MediaQuery.of(context).size.height * 0.14, //MediaQuery.of(context).size.height * 0.1834,
           child: Image.asset(
             "assets/images/logo_blue.png",
             fit: BoxFit.cover,

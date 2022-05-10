@@ -33,8 +33,9 @@ class _LoginPageState extends State<LoginPage> {
       },
       child: Scaffold(
         //resizeToAvoidBottomInset: false,
-        appBar: AppBar(backgroundColor: MainColor.six,elevation: 0,),
+        appBar: AppBar(backgroundColor: MainColor.six,elevation: 0,toolbarHeight: 0,),
         body: Container(
+          alignment: Alignment.center,
           color: MainColor.six,
             height: MediaQuery.of(context).size.height,
           child: SingleChildScrollView(
