@@ -1,12 +1,15 @@
 package yj.capstone.aerofarm.domain.member;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import yj.capstone.aerofarm.domain.BaseEntity;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberRole extends BaseEntity {
 
     @Id
@@ -20,9 +23,6 @@ public class MemberRole extends BaseEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
-
-    public MemberRole() {
-    }
 
     public MemberRole(Role role, Member member) {
         this.role = role;
