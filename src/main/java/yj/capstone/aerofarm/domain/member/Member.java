@@ -32,7 +32,8 @@ public class Member extends BaseEntity {
 
     private String picture;
 
-    private String provider;
+    @Enumerated(EnumType.STRING)
+    private Provider provider;
 
     /**
      * 양방향 연관관계에서 굳이 필요 없는데
@@ -57,10 +58,11 @@ public class Member extends BaseEntity {
         this.nickname = saveMemberForm.getNickname();
         this.roles.add(new MemberRole(saveMemberForm.getRole(), this));
         this.phoneNumber = saveMemberForm.getPhoneNumber();
+        this.provider = Provider.LOCAL;
     }
 
     @Builder(builderClassName = "UserDetailRegister")
-    public Member(String nickname, String password, String provider, String picture, String email, Role role) {
+    public Member(String nickname, String password, Provider provider, String picture, String email, Role role) {
         this.nickname = nickname;
         this.password = password;
         this.picture = picture;

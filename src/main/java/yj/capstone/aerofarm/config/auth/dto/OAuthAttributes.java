@@ -3,6 +3,7 @@ package yj.capstone.aerofarm.config.auth.dto;
 import lombok.Builder;
 import lombok.Getter;
 import yj.capstone.aerofarm.domain.member.Member;
+import yj.capstone.aerofarm.domain.member.Provider;
 import yj.capstone.aerofarm.domain.member.Role;
 
 import java.util.Map;
@@ -12,16 +13,16 @@ public class OAuthAttributes {
 
     private Map<String, Object> attributes;
     private String nameAttributeKey;
-    private String registrationId;
+    private Provider provider;
     private String name;
     private String email;
     private String picture;
 
     @Builder
-    public OAuthAttributes(Map<String, Object> attributes, String nameAttributeKey,String registrationId, String name, String email, String picture) {
+    public OAuthAttributes(Map<String, Object> attributes, String nameAttributeKey,Provider provider, String name, String email, String picture) {
         this.attributes = attributes;
         this.nameAttributeKey = nameAttributeKey;
-        this.registrationId = registrationId;
+        this.provider = provider;
         this.name = name;
         this.email = email;
         this.picture = picture;
@@ -46,7 +47,7 @@ public class OAuthAttributes {
                 .picture((String) response.get("profile_image"))
                 .attributes(response)
                 .nameAttributeKey("id")
-                .registrationId("naver")
+                .provider(Provider.NAVER)
                 .build();
     }
 
@@ -62,7 +63,7 @@ public class OAuthAttributes {
                 .picture((String) kakaoProfile.get("profile_image_url"))
                 .attributes(attributes)
                 .nameAttributeKey("id")
-                .registrationId("kakao")
+                .provider(Provider.KAKAO)
                 .build();
     }
 
@@ -73,7 +74,7 @@ public class OAuthAttributes {
                 .picture((String) attributes.get("picture"))
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
-                .registrationId("google")
+                .provider(Provider.GOOGLE)
                 .build();
     }
 
@@ -83,7 +84,7 @@ public class OAuthAttributes {
                 .email(email)
                 .picture(picture)
                 .role(Role.GUEST)
-                .provider(registrationId)
+                .provider(provider)
                 .build();
     }
 }
