@@ -30,6 +30,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final AuthSuccessHandler authSuccessHandler;
     private final AuthFailureHandler authFailureHandler;
 
+    private static final String[] ALLOW_LIST = {
+            "/",
+            "/login/**",
+            "/signup/**",
+            "/community"
+    };
+
     @Override
     public void configure(WebSecurity web) throws Exception {
         web
@@ -53,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().disable()
                 .and()
                 .authorizeRequests()
-                .antMatchers( "/","/login/**","/signup/**").permitAll()
+                .antMatchers(ALLOW_LIST).permitAll()
                 .antMatchers("/api/v1/**").hasAnyAuthority(Role.MEMBER.name())
                 .anyRequest().authenticated()
                 .and()
