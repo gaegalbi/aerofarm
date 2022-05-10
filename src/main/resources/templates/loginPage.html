@@ -84,6 +84,17 @@
         color: #FFFFFF;
     }
 
+    input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 30px #182030 inset;
+        -webkit-text-fill-color: #FFFFFF !important;
+    }
+    /*input:-webkit-autofill:active{
+        -webkit-box-shadow: 0 0 0 30px #182030 inset;
+    }*/
+    /*input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active {
+        transition: background-color 5000s ease-in-out 0s;
+    }*/
+
     .oauth-div {
         padding-bottom: 10px;
     }
@@ -120,13 +131,6 @@
         background-color: #FFFFFF;
         border-color: #03C73D;
         color: #03C73D;
-    }
-
-    .fieldError {
-        border-color: #bd2130;
-        border-width: 2px;
-        color: #bd2130;
-        margin-bottom: 5px;
     }
 </style>
 <body class="d-flex flex-column min-vh-100">
