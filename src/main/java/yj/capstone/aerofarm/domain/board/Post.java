@@ -27,7 +27,9 @@ public class Post extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member writer;
 
-    private String content;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_detail_id")
+    private PostDetail content;
 
     @OneToMany(mappedBy = "post")
     private List<File> files = new ArrayList<>();
