@@ -1,4 +1,4 @@
-import 'package:capstone/LoginPage/LoginPageLoginRegister.dart';
+import 'package:capstone/LoginPage/LoginPageLogin.dart';
 import 'package:capstone/LoginPage/LoginPageTop.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';

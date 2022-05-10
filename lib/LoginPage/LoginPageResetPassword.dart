@@ -108,7 +108,7 @@ class _LoginPageResetPasswordState extends State<LoginPageResetPassword> {
                     child: TextField(
                       controller: _emailController,
                       textInputAction: TextInputAction.next,
-                      style: LrTheme.hint,
+                      style: LrTheme.text,
                       textAlign: TextAlign.center,
                       decoration: const InputDecoration(
                           filled: true,

@@ -1,3 +1,4 @@
+import 'package:capstone/LoginPage/LoginPageRegister.dart';
 import 'package:capstone/LoginPage/LoginPageResetPassword.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
@@ -10,41 +11,21 @@ class LoginPageLoginRegister extends StatefulWidget {
   State<LoginPageLoginRegister> createState() => _LoginPageLoginRegisterState();
 }
 
-class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister>
-    with TickerProviderStateMixin {
-  late TabController _tabController;
+class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
   late TextEditingController _lUserNameController;
   late TextEditingController _lPasswordController;
-  late TextEditingController _rUserNameController;
-  late TextEditingController _rPasswordController;
-
-  void _handleTabSelection() {
-    setState(() {});
-  }
 
   @override
   void initState() {
-    _tabController = TabController(
-      length: 2,
-      vsync: this,
-    );
-    _tabController.addListener(() {
-      _handleTabSelection();
-    });
     _lUserNameController = TextEditingController();
     _lPasswordController = TextEditingController();
-    _rUserNameController = TextEditingController();
-    _rPasswordController = TextEditingController();
     super.initState();
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
     _lUserNameController.dispose();
     _lPasswordController.dispose();
-    _rUserNameController.dispose();
-    _rPasswordController.dispose();
     super.dispose();
   }
 
@@ -82,7 +63,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister>
             child: TextField(
               controller: _lUserNameController,
               textInputAction: TextInputAction.next,
-              style: LrTheme.hint,
+              style: LrTheme.text,
               decoration: const InputDecoration(
                   filled: true,
                   fillColor: Colors.transparent,
@@ -109,7 +90,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister>
               obscuringCharacter: "*",
               controller: _lPasswordController,
               textInputAction: TextInputAction.next,
-              style: LrTheme.hint,
+              style: LrTheme.text,
               decoration: const InputDecoration(
                   filled: true,
                   fillColor: Colors.transparent,
@@ -139,7 +120,9 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister>
                   },
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(()=> const LoginPageRegister());
+                  },
                   child: const Text(
                     "회원이 아니신가요?",
                     style: LrTheme.sButton,

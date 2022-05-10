@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class MainColor{
+class MainColor {
 /*  static const ten = Color.fromRGBO(93, 195, 121, 100);
   static const thirty = Color.fromRGBO(186, 244, 111, 100);
   static const sixty = Color.fromRGBO(255, 255, 255, 100);*/
-  static const six = Color.fromRGBO(30, 36, 55, 100);//Color.fromRGBO(18, 24, 36, 100);
-  static const one = Color.fromRGBO(95, 114, 151, 100);//Color.fromRGBO(64, 78, 105, 100);
-  static const three = Color.fromRGBO(80, 130, 255, 100);//Color.fromRGBO(57, 87, 183, 100); //Color.fromRGBO(64, 91, 177, 100);
+  static const six =
+      Color.fromRGBO(30, 36, 55, 100); //Color.fromRGBO(18, 24, 36, 100);
+  static const one =
+      Color.fromRGBO(95, 114, 151, 100); //Color.fromRGBO(64, 78, 105, 100);
+  static const three = Color.fromRGBO(80, 130, 255,
+      100); //Color.fromRGBO(57, 87, 183, 100); //Color.fromRGBO(64, 91, 177, 100);
 }
-class MainSize{
+
+class MainSize {
   static double toobarHeight = Get.height * 0.1;
 }
+
 class LrTheme {
   static const button = TextStyle(
       color: Colors.white,
       decoration: TextDecoration.none,
       fontFamily: 'bmPro',
       fontSize: 25);
+
   //tabbar unfocus시 스타일
   static const button1 = TextStyle(
       color: MainColor.three,
@@ -25,23 +31,32 @@ class LrTheme {
       fontFamily: 'bmPro',
       fontSize: 25);
   static const hint = TextStyle(
-      color: Colors.white,
-      decoration: TextDecoration.none,
-      fontFamily: 'bmAir',
-      fontSize: 19,
+    color: Colors.grey,
+    decoration: TextDecoration.none,
+    fontFamily: 'bmAir',
+    fontSize: 19,
   );
+  static const text = TextStyle(
+    color: Colors.white,
+    decoration: TextDecoration.none,
+    fontFamily: 'bmAir',
+    fontSize: 19,
+  );
+
   //비밀번호 재설정
   static const sButton = TextStyle(
       color: Colors.white,
       decoration: TextDecoration.none,
       fontFamily: 'bmPro',
       fontSize: 18);
+
   //비밀번호 재설정
   static const notMember = TextStyle(
       color: Colors.white,
       decoration: TextDecoration.none,
       fontFamily: 'bmPro',
-      fontSize: 16);
+      fontSize: 18);
+
   //LRPageTop(도시농부)
   static const title = TextStyle(
       color: MainColor.three,
@@ -53,6 +68,11 @@ class LrTheme {
       decoration: TextDecoration.none,
       fontFamily: 'bmPro',
       fontSize: 20);
+  static const registerTitle = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmAir',
+      fontSize: 18);
 }
 
 class MainTheme {
@@ -65,10 +85,11 @@ class MainTheme {
   //leadingWidth 106 , 0.2231
   // 왼쪽 마진 21.375 , 0.045
   static const button = TextStyle(
-      color:Colors.white,
+      color: Colors.white,
       decoration: TextDecoration.none,
       fontFamily: 'bmPro',
       fontSize: 20);
+
   //MainPage(도시농부)
   static const title = TextStyle(
       color: MainColor.three,
@@ -92,7 +113,7 @@ class MainTheme {
       fontSize: 30);
 }
 
-class MachinePage{
+class MachinePage {
   static const mName = TextStyle(
       color: Colors.white,
       decoration: TextDecoration.none,
@@ -120,7 +141,7 @@ class MachinePage{
       fontSize: 55);
 }
 
-class ProfilePage{
+class ProfilePage {
   static const name = TextStyle(
       color: MainColor.three,
       decoration: TextDecoration.none,
@@ -138,7 +159,7 @@ class ProfilePage{
       fontSize: 25);
 }
 
-class Community{
+class Community {
   static const title = TextStyle(
       color: MainColor.three,
       decoration: TextDecoration.none,
