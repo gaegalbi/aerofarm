@@ -1,8 +1,11 @@
 import 'package:capstone/LoginPage/LoginPageRegister.dart';
 import 'package:capstone/LoginPage/LoginPageResetPassword.dart';
+import 'package:capstone/MainPage/MainPage.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 class LoginPageLoginRegister extends StatefulWidget {
   const LoginPageLoginRegister({Key? key}) : super(key: key);
@@ -14,6 +17,7 @@ class LoginPageLoginRegister extends StatefulWidget {
 class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
   late TextEditingController _lUserNameController;
   late TextEditingController _lPasswordController;
+  final String _kakaoNative = 'cf0a2321116751cad7b6b470377c39b3';
 
   @override
   void initState() {
@@ -40,7 +44,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
         children: [
           Container(
             margin: EdgeInsets.only(
-              top: topMargin/2,
+              top: topMargin / 2,
               left: topMargin,
               right: topMargin,
             ),
@@ -121,7 +125,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                 ),
                 TextButton(
                   onPressed: () {
-                    Get.to(()=> const LoginPageRegister());
+                    Get.to(() => const LoginPageRegister());
                   },
                   child: const Text(
                     "회원이 아니신가요?",
@@ -132,7 +136,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(bottom: topMargin, top: topMargin/4),
+            margin: EdgeInsets.only(bottom: topMargin, top: topMargin / 4),
             padding: EdgeInsets.only(top: topMargin),
             decoration: const BoxDecoration(
               border: Border(
@@ -153,7 +157,38 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                 margin: EdgeInsets.only(right: rightMargin),
                 child: IconButton(
                   padding: EdgeInsets.zero,
-                  onPressed: () {},
+                  onPressed: () async {
+                    KakaoSdk.init(nativeAppKey: _kakaoNative);
+                    if (await isKakaoTalkInstalled()) {
+                      try {
+                        await UserApi.instance.loginWithKakaoTalk();
+                        print('카카오톡으로 로그인 성공');
+                      } catch (error) {
+                        print('카카오톡으로 로그인 실패 $error');
+
+                        // 사용자가 카카오톡 설치 후 디바이스 권한 요청 화면에서 로그인을 취소한 경우,
+                        // 의도적인 로그인 취소로 보고 카카오계정으로 로그인 시도 없이 로그인 취소로 처리 (예: 뒤로 가기)
+                        if (error is PlatformException && error.code == 'CANCELED') {
+                          return;
+                        }
+                        // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인
+                        try {
+                          await UserApi.instance.loginWithKakaoAccount();
+                          print('카카오계정으로 로그인 성공');
+                        } catch (error) {
+                          print('카카오계정으로 로그인 실패 $error');
+                        }
+                      }
+                    } else {
+                      try {
+                        await UserApi.instance.loginWithKakaoAccount();
+                        print('카카오계정으로 로그인 성공');
+                        Get.to(()=>const MainPage());
+                      } catch (error) {
+                        print('카카오계정으로 로그인 실패 $error');
+                      }
+                    }
+                  },
                   icon: Image.asset("assets/kakao/kakao_circle.png"),
                 ),
               ),
