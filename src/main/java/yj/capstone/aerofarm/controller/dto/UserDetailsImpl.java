@@ -33,7 +33,7 @@ public class UserDetailsImpl implements UserDetails, OAuth2User {
         setAuthorities(member.getRoles());
     }
 
-    public void setAuthorities(List<MemberRole> roles) {
+    private void setAuthorities(List<MemberRole> roles) {
         for (MemberRole role : roles) {
             authorities.add(new SimpleGrantedAuthority(role.getRole().name()));
         }
