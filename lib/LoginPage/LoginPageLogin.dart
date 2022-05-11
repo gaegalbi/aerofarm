@@ -4,6 +4,7 @@ import 'package:capstone/MainPage/MainPage.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
@@ -31,6 +32,15 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
     _lUserNameController.dispose();
     _lPasswordController.dispose();
     super.dispose();
+  }
+var name;
+  var isLogin;
+  Future<void> _naverLogin() async {
+    NaverLoginResult res = await FlutterNaverLogin.logIn();
+    setState(() {
+       name = res.account.nickname;
+       isLogin = true;
+    });
   }
 
   @override
@@ -196,7 +206,9 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                 margin: EdgeInsets.only(right: rightMargin),
                 child: IconButton(
                   padding: EdgeInsets.zero,
-                  onPressed: () {},
+                  onPressed: () {
+                      _naverLogin();
+                  },
                   icon: Image.asset("assets/naver/btnG_아이콘원형.png"),
                 ),
               ),
