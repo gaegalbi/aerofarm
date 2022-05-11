@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 class LoginPageLoginRegister extends StatefulWidget {
@@ -216,7 +217,11 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
               ),
               IconButton(
                 padding: EdgeInsets.zero,
-                onPressed: () {},
+                onPressed: () async {
+                  GoogleSignIn _googleSignIn = GoogleSignIn();
+                  GoogleSignInAccount? _googleUser = await _googleSignIn.signIn();
+                  print(_googleUser?.email);
+                },
                 icon: Image.asset("assets/google/google_circle.png"),
               ),
             ],
