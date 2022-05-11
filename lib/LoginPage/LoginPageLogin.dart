@@ -33,7 +33,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
     _lPasswordController.dispose();
     super.dispose();
   }
-var name;
+  var name;
   var isLogin;
   Future<void> _naverLogin() async {
     NaverLoginResult res = await FlutterNaverLogin.logIn();
@@ -42,6 +42,8 @@ var name;
        isLogin = true;
     });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
