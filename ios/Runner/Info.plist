@@ -25,19 +25,10 @@
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>aerofarm</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>aerofarm</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>cf0a2321116751cad7b6b470377c39b3</string>
+				<string>naverlogin</string>
+				<string>com.googleusercontent.apps.620572308231-09d2eooomsk2bn71svt7oro1gn6o7r42</string>
 			</array>
 		</dict>
 	</array>
@@ -98,18 +89,6 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>CFBundleURLTypes</key>
-    <array>
-    	<dict>
-    		<key>CFBundleTypeRole</key>
-    		<string>Editor</string>
-    		<key>CFBundleURLSchemes</key>
-    		<array>
-    			<!-- Copied from GoogleService-Info.plist key REVERSED_CLIENT_ID -->
-    			<string>com.googleusercontent.apps.620572308231-09d2eooomsk2bn71svt7oro1gn6o7r42</string>
-    		</array>
-    	</dict>
-    </array>
 	<key>naverConsumerKey</key>
 	<string>pxWLImsCnBrEW28uLv1v</string>
 	<key>naverConsumerSecret</key>
@@ -117,6 +96,6 @@
 	<key>naverServiceAppName</key>
 	<string>aerofarm</string>
 	<key>naverServiceAppUrlScheme</key>
-	<string>aerofarm</string>
+	<string>naverlogin</string>
 </dict>
 </plist>

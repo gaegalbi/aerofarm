@@ -34,17 +34,23 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
     _lPasswordController.dispose();
     super.dispose();
   }
+
   var name;
   var isLogin;
+
   Future<void> _naverLogin() async {
-    NaverLoginResult res = await FlutterNaverLogin.logIn();
-    setState(() {
-       name = res.account.nickname;
-       isLogin = true;
-    });
+    try {
+      NaverLoginResult res = await FlutterNaverLogin.logIn();
+      setState(() {
+        name = res.account.nickname;
+        isLogin = true;
+        print(res.account.email);
+        Get.to(() => const MainPage());
+      });
+    } catch (error) {
+      print(error);
+    }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -181,7 +187,8 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
 
                         // 사용자가 카카오톡 설치 후 디바이스 권한 요청 화면에서 로그인을 취소한 경우,
                         // 의도적인 로그인 취소로 보고 카카오계정으로 로그인 시도 없이 로그인 취소로 처리 (예: 뒤로 가기)
-                        if (error is PlatformException && error.code == 'CANCELED') {
+                        if (error is PlatformException &&
+                            error.code == 'CANCELED') {
                           return;
                         }
                         // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인
@@ -196,7 +203,9 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                       try {
                         await UserApi.instance.loginWithKakaoAccount();
                         print('카카오계정으로 로그인 성공');
-                        Get.to(()=>const MainPage());
+                        User user = await UserApi.instance.me();
+                        print(user.kakaoAccount?.email);
+                        Get.to(() => const MainPage());
                       } catch (error) {
                         print('카카오계정으로 로그인 실패 $error');
                       }
@@ -210,7 +219,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                 child: IconButton(
                   padding: EdgeInsets.zero,
                   onPressed: () {
-                      _naverLogin();
+                    _naverLogin();
                   },
                   icon: Image.asset("assets/naver/btnG_아이콘원형.png"),
                 ),
@@ -218,9 +227,17 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
               IconButton(
                 padding: EdgeInsets.zero,
                 onPressed: () async {
-                  GoogleSignIn _googleSignIn = GoogleSignIn();
-                  GoogleSignInAccount? _googleUser = await _googleSignIn.signIn();
-                  print(_googleUser?.email);
+                  try {
+                    GoogleSignIn _googleSignIn = GoogleSignIn();
+                    GoogleSignInAccount? _googleUser =
+                        await _googleSignIn.signIn();
+                    print(_googleUser?.email);
+                    if (_googleUser != null) {
+                      Get.to(() => const MainPage());
+                    }
+                  } catch (error) {
+                    print(error);
+                  }
                 },
                 icon: Image.asset("assets/google/google_circle.png"),
               ),
