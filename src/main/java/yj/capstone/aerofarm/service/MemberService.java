@@ -5,7 +5,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 import yj.capstone.aerofarm.controller.form.SaveMemberForm;
+import yj.capstone.aerofarm.domain.member.ConfirmationToken;
 import yj.capstone.aerofarm.domain.member.Member;
 import yj.capstone.aerofarm.repository.MemberRepository;
 
@@ -18,6 +20,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final ConfirmationTokenService confirmationTokenService;
 
 //    public boolean validateLogin(String email, String password) {
 //        return memberRepository.existsByEmailAndPwd(email,password);
@@ -33,14 +36,12 @@ public class MemberService {
 
     public void signup(SaveMemberForm saveMemberForm) {
         saveMemberForm.setPhoneNumber(removeHyphenPhoneNumber(saveMemberForm.getPhoneNumber()));
-
-        String password = saveMemberForm.getPassword();
-        String newPassword = passwordEncoder.encode(password);
-        saveMemberForm.setPassword(newPassword);
+        saveMemberForm.setPassword(passwordEncoder.encode(saveMemberForm.getPassword()));
 
         Member member = Member.saveMemberFormBuilder()
                 .saveMemberForm(saveMemberForm)
                 .build();
+        confirmationTokenService.createEmailConfirmationToken(saveMemberForm.getEmail());
         memberRepository.save(member);
     }
 
@@ -70,5 +71,39 @@ public class MemberService {
             newMember.changeNickname(newNickname);
         }
         return memberRepository.save(newMember);
+    }
+
+    public void confirmEmail(String token) {
+        ConfirmationToken findToken = confirmationTokenService.findByIdAndExpirationDateAfter(token);
+        Member findMember = findByEmail(findToken.getEmail());
+        findMember.emailVerifiedSuccess();
+    }
+
+    public void signupValidate(SaveMemberForm saveMemberForm, BindingResult bindingResult) {
+        if (!saveMemberForm.getPassword().equals(saveMemberForm.getConfirmPassword())) {
+            bindingResult.rejectValue("password","notMatch");
+        }
+        if (duplicateEmailCheck(saveMemberForm.getEmail())) {
+            if (isNotVerified(saveMemberForm.getEmail())) {
+                confirmationTokenService.deleteByEmail(saveMemberForm.getEmail());
+                deleteByEmail(saveMemberForm.getEmail());
+                return;
+            }
+            bindingResult.rejectValue("email", "duplicate");
+        }
+        if (duplicateNicknameCheck(saveMemberForm.getNickname())) {
+            bindingResult.rejectValue("nickname", "duplicate");
+        }
+        if (duplicatePhoneNumberCheck(saveMemberForm.getPhoneNumber())) {
+            bindingResult.rejectValue("phoneNumber", "duplicate");
+        }
+    }
+
+    public boolean isNotVerified(String email) {
+        return memberRepository.existsByEmailAndVerifyFalse(email);
+    }
+
+    private void deleteByEmail(String email) {
+        memberRepository.deleteByEmail(email);
     }
 }
