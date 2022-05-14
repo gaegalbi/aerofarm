@@ -18,7 +18,6 @@ import yj.capstone.aerofarm.service.UserDetailsServiceImpl;
 import yj.capstone.aerofarm.service.handler.AuthFailureHandler;
 import yj.capstone.aerofarm.service.handler.AuthSuccessHandler;
 
-@Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true,securedEnabled = true)

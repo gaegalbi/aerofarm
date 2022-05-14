@@ -35,6 +35,9 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Provider provider;
 
+    // 이메일 인증 여부
+    private boolean verify;
+
     /**
      * 양방향 연관관계에서 굳이 필요 없는데
      * 연습, 테스트 목적으로 작성
@@ -59,6 +62,7 @@ public class Member extends BaseEntity {
         this.roles.add(new MemberRole(saveMemberForm.getRole(), this));
         this.phoneNumber = saveMemberForm.getPhoneNumber();
         this.provider = Provider.LOCAL;
+        this.verify = false; // 로컬 회원가입 시 검증 기본값 false
     }
 
     @Builder(builderClassName = "UserDetailRegister")
@@ -69,6 +73,7 @@ public class Member extends BaseEntity {
         this.email = email;
         this.provider = provider;
         this.roles.add(new MemberRole(role, this));
+        this.verify = true; // Oauth2 회원가입 시 검증 기본값 true
     }
 
     /*@Builder(builderMethodName = "oauth2Register", builderClassName = "Oauth2Register")
@@ -98,5 +103,9 @@ public class Member extends BaseEntity {
 
     public void changePassword(String password) {
         this.password = password;
+    }
+
+    public void emailVerifiedSuccess() {
+        this.verify = true;
     }
 }
