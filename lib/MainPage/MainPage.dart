@@ -14,12 +14,9 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: Colors.transparent,
       appBar: AppBar(
         centerTitle: true,
-        //foregroundColor: Colors.transparent,
         backgroundColor:MainColor.six,
-        //backgroundColor: Colors.transparent,
         toolbarHeight: MainSize.toobarHeight,
         elevation: 0,
         leadingWidth: MediaQuery.of(context).size.width * 0.2106,
@@ -33,7 +30,6 @@ class _MainPageState extends State<MainPage> {
               alignment: Alignment.center,
               color: MainColor.three,
               iconSize: 50,
-              // 패딩 설정
               constraints: const BoxConstraints(),
               icon: const Icon(
                 Icons.menu,
