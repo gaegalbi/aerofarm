@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import yj.capstone.aerofarm.domain.BaseEntity;
+import yj.capstone.aerofarm.domain.order.Money;
 
 import javax.persistence.*;
 
@@ -18,7 +19,8 @@ public class Product extends BaseEntity {
 
     private String name;
 
-    private int price;
+    @Embedded
+    private Money price;
 
     private int stock;
 
