@@ -24,7 +24,8 @@ public class Order extends BaseEntity {
     @OneToMany(mappedBy = "order")
     private List<OrderLine> orderLines = new ArrayList<>();
 
-    private int totalPrice;
+    @Embedded
+    private Money totalPrice;
 
     @Enumerated(EnumType.STRING)
     private DeliveryStatus deliveryStatus;

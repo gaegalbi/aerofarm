@@ -27,5 +27,6 @@ public class OrderLine extends BaseEntity {
 
     private int quantity;
 
-    private int price;
+    @Embedded
+    private Money price;
 }
