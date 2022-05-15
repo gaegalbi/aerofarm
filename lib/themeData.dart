@@ -190,4 +190,20 @@ class Community {
       decoration: TextDecoration.none,
       fontFamily: 'bmPRO',
       fontSize: 18);
+  static const bottomAppBarList = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPRO',
+      fontSize: 20);
+  static const bottomAppBarFavorite = TextStyle(
+      color: Colors.red,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPRO',
+      fontSize: 20);
+  static const bottomAppBarReply = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPRO',
+      fontSize: 20);
+
 }

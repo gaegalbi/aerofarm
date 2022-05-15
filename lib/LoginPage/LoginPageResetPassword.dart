@@ -42,26 +42,24 @@ class _LoginPageResetPasswordState extends State<LoginPageResetPassword> {
           elevation: 0,
           leadingWidth: MediaQuery.of(context).size.width * 0.2106,
           leading: Container(
-            margin:
-                EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
-            child: FittedBox(
-                child: Builder(
-              builder: (context) => IconButton(
-                padding: EdgeInsets.zero,
-                alignment: Alignment.center,
-                color: MainColor.three,
-                iconSize: 50,
-                // 패딩 설정
-                constraints: const BoxConstraints(),
-                icon: const Icon(
-                  Icons.chevron_left,
+              margin: EdgeInsets.only(
+                  left: MediaQuery.of(context).size.width * 0.05),
+              child: FittedBox(
+                child: IconButton(
+                  padding: EdgeInsets.zero,
+                  alignment: Alignment.center,
+                  color: MainColor.three,
+                  iconSize: 50,
+                  // 패딩 설정
+                  constraints: const BoxConstraints(),
+                  icon: const Icon(
+                    Icons.chevron_left,
+                  ),
+                  onPressed: () {
+                    Get.offAll(() => const LoginPage());
+                  },
                 ),
-                onPressed: () {
-                  Get.offAll(() => const LoginPage());
-                },
-              ),
-            )),
-          ),
+              )),
         ),
         body: Container(
           color: MainColor.six,

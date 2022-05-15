@@ -1,4 +1,5 @@
 import 'package:capstone/CommunityPage/CommunityPageDrawer.dart';
+import 'package:capstone/CommunityPage/CommunityPageFloating.dart';
 import 'package:capstone/MainPage/MainPage.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
@@ -16,15 +17,7 @@ class _CommunityPageHotState extends State<CommunityPageHot> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.transparent,
-          onPressed: () {
-            Get.to(() => const MainPage());
-          },
-          child: Container(
-              padding: EdgeInsets.zero,
-              alignment: Alignment.bottomRight,
-              child: Image.asset("assets/images/chat.png"))),
+      floatingActionButton: const CommunityPageFloating(),
       appBar: AppBar(
         centerTitle: true,
         //foregroundColor: Colors.transparent,

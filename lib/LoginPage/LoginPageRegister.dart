@@ -59,8 +59,7 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
             margin:
                 EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
             child: FittedBox(
-                child: Builder(
-              builder: (context) => IconButton(
+                child: IconButton(
                 padding: EdgeInsets.zero,
                 alignment: Alignment.center,
                 color: MainColor.three,
@@ -73,7 +72,6 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                 onPressed: () {
                   Get.offAll(() => const LoginPage());
                 },
-              ),
             )),
           ),
           title: const Text(

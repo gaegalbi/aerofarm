@@ -72,8 +72,7 @@ class _MainPageMyProfileState extends State<MainPageMyProfile> {
             margin:
                 EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
             child: FittedBox(
-                child: Builder(
-              builder: (context) => IconButton(
+                child: IconButton(
                 padding: EdgeInsets.zero,
                 alignment: Alignment.center,
                 color: MainColor.three,
@@ -87,7 +86,7 @@ class _MainPageMyProfileState extends State<MainPageMyProfile> {
                   Get.off(() => const MainPage());
                 },
               ),
-            )),
+            ),
           ),
           title: const Text(
             "도시농부",

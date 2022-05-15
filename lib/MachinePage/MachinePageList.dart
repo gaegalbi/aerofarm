@@ -27,8 +27,7 @@ class _MachinePageListState extends State<MachinePageList> {
           margin:
               EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
           child: FittedBox(
-              child: Builder(
-            builder: (context) => IconButton(
+            child: IconButton(
               padding: EdgeInsets.zero,
               alignment: Alignment.center,
               color: MainColor.three,
@@ -42,7 +41,7 @@ class _MachinePageListState extends State<MachinePageList> {
                 Get.off(() => const MainPage());
               },
             ),
-          )),
+          ),
         ),
         title: const Text(
           "도시농부",
@@ -89,7 +88,7 @@ class _MachinePageListState extends State<MachinePageList> {
               child: InkWell(
                 borderRadius: BorderRadius.circular(45.0),
                 onTap: () {
-                  Get.off(()=>const MachinePageInfo());
+                  Get.off(() => const MachinePageInfo());
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -29,21 +29,19 @@ class _MachinePageInfoState extends State<MachinePageInfo> {
           margin:
               EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
           child: FittedBox(
-              child: Builder(
-            builder: (context) => IconButton(
-              padding: EdgeInsets.zero,
-              alignment: Alignment.center,
-              color: MainColor.three,
-              iconSize: 50,
-              // 패딩 설정
-              constraints: const BoxConstraints(),
-              icon: const Icon(
-                Icons.chevron_left,
-              ),
-              onPressed: () {
-                Get.off(() => const MachinePageList());
-              },
+              child: IconButton(
+            padding: EdgeInsets.zero,
+            alignment: Alignment.center,
+            color: MainColor.three,
+            iconSize: 50,
+            // 패딩 설정
+            constraints: const BoxConstraints(),
+            icon: const Icon(
+              Icons.chevron_left,
             ),
+            onPressed: () {
+              Get.off(() => const MachinePageList());
+            },
           )),
         ),
         title: const Text(

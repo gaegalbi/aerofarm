@@ -26,8 +26,7 @@ class _MachinePageProfileState extends State<MachinePageProfile> {
           margin:
               EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
           child: FittedBox(
-              child: Builder(
-            builder: (context) => IconButton(
+            child: IconButton(
               padding: EdgeInsets.zero,
               alignment: Alignment.center,
               color: MainColor.three,
@@ -41,7 +40,7 @@ class _MachinePageProfileState extends State<MachinePageProfile> {
                 Get.offAll(() => const MachinePageInfo());
               },
             ),
-          )),
+          ),
         ),
         actions: [
           Container(
@@ -68,7 +67,8 @@ class _MachinePageProfileState extends State<MachinePageProfile> {
       body: Container(
         color: MainColor.six,
         child: Container(
-          margin:  EdgeInsets.only(top:MediaQuery.of(context).size.height*0.1),
+          margin:
+              EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.1),
           child: Column(
             //mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -106,7 +106,8 @@ class _MachinePageProfileState extends State<MachinePageProfile> {
                 ],
               ),
               Container(
-                margin: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.024 ),
+                margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.024),
                 child: CircleAvatar(
                   radius: MediaQuery.of(context).size.width * 0.35,
                   backgroundImage: const AssetImage("assets/images/1.png"),

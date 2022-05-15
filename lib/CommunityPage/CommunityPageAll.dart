@@ -4,6 +4,8 @@ import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'CommunityPageFloating.dart';
+
 class CommunityPageAll extends StatefulWidget {
   const CommunityPageAll({Key? key}) : super(key: key);
 
@@ -15,15 +17,7 @@ class _CommunityPageAllState extends State<CommunityPageAll> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.transparent,
-          onPressed: () {
-            Get.to(() => const MainPage());
-          },
-          child: Container(
-            padding: EdgeInsets.zero,
-              alignment: Alignment.bottomRight,
-              child: Image.asset("assets/images/chat.png"))),
+      floatingActionButton: const CommunityPageFloating(),
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: MainColor.six,
