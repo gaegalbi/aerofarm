@@ -23,7 +23,7 @@ public class Order extends BaseEntity {
 
     private String receiverName;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderLine> orderLines = new ArrayList<>();
 
     @Embedded
@@ -42,4 +42,11 @@ public class Order extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private PaymentType paymentType;
+
+    private void calculateTotalPrice() {
+        int sum = orderLines.stream()
+                .mapToInt(OrderLine::getOrderPrice)
+                .sum();
+        this.totalPrice = new Money(sum);
+    }
 }

@@ -29,4 +29,8 @@ public class OrderLine extends BaseEntity {
 
     @Embedded
     private Money price;
+
+    public int getOrderPrice() {
+        return price.getPrice() * quantity;
+    }
 }
