@@ -43,7 +43,7 @@ public class Member extends BaseEntity {
      * 연습, 테스트 목적으로 작성
      */
     @Builder.Default
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Address> addresses = new ArrayList<>();
 
     @Builder.Default
@@ -87,9 +87,7 @@ public class Member extends BaseEntity {
         this.roles.add(new MemberRole(role, this));
     }*/
 
-    protected Member() {
-
-    }
+    protected Member() {} // NoArgsConstructor
 
     public Member update(String name, String picture) {
         this.nickname = name;
