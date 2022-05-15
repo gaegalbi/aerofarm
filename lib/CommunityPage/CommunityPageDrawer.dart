@@ -1,5 +1,5 @@
 import 'package:capstone/CommunityPage/CommunityPageHot.dart';
-import 'package:capstone/CommunityPage/ComunityPageAll.dart';
+import 'package:capstone/CommunityPage/CommunityPageAll.dart';
 import 'package:capstone/MainPage/MainPage.dart';
 import 'package:capstone/MainPage/MainPageMyProfile.dart';
 import 'package:capstone/themeData.dart';

@@ -1,4 +1,4 @@
-import 'package:capstone/CommunityPage/ComunityPageAll.dart';
+import 'package:capstone/CommunityPage/CommunityPageAll.dart';
 import 'package:capstone/MachinePage/MachinePageList.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';

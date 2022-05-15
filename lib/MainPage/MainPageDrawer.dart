@@ -3,7 +3,10 @@ import 'package:capstone/MachinePage/MachinePageList.dart';
 import 'package:capstone/MainPage/MainPageMyProfile.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:get/get.dart';
+
+import '../LoginPage/LoginPageLogin.dart';
 
 class MainPageDrawer extends StatelessWidget {
   const MainPageDrawer({Key? key}) : super(key: key);
@@ -84,6 +87,9 @@ class MainPageDrawer extends StatelessWidget {
             child: TextButton(
               child: const Text("로그아웃", style: MainTheme.drawerButton),
               onPressed: () {
+                if(isLogin) {
+                  FlutterNaverLogin.logOutAndDeleteToken();
+                }
                 Get.offAll(()=>const LoginPage());
               },
             ),

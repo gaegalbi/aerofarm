@@ -9,6 +9,10 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
+
+var name;
+var isLogin;
+
 class LoginPageLoginRegister extends StatefulWidget {
   const LoginPageLoginRegister({Key? key}) : super(key: key);
 
@@ -34,9 +38,6 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
     _lPasswordController.dispose();
     super.dispose();
   }
-
-  var name;
-  var isLogin;
 
   Future<void> _naverLogin() async {
     try {
