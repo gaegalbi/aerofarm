@@ -4,11 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindingResult;
 import yj.capstone.aerofarm.controller.form.SaveMemberForm;
 import yj.capstone.aerofarm.domain.member.ConfirmationToken;
 import yj.capstone.aerofarm.domain.member.Member;
+import yj.capstone.aerofarm.exception.TokenExpiredException;
 import yj.capstone.aerofarm.repository.MemberRepository;
 
 import java.util.UUID;
@@ -75,35 +76,20 @@ public class MemberService {
 
     public void confirmEmail(String token) {
         ConfirmationToken findToken = confirmationTokenService.findByIdAndExpirationDateAfter(token);
-        Member findMember = findByEmail(findToken.getEmail());
+        Member findMember = findByEmailAndVerifyFalse(findToken.getEmail());
         findMember.emailVerifiedSuccess();
-    }
-
-    public void signupValidate(SaveMemberForm saveMemberForm, BindingResult bindingResult) {
-        if (!saveMemberForm.getPassword().equals(saveMemberForm.getConfirmPassword())) {
-            bindingResult.rejectValue("password","notMatch");
-        }
-        if (duplicateEmailCheck(saveMemberForm.getEmail())) {
-            if (isNotVerified(saveMemberForm.getEmail())) {
-                confirmationTokenService.deleteByEmail(saveMemberForm.getEmail());
-                deleteByEmail(saveMemberForm.getEmail());
-                return;
-            }
-            bindingResult.rejectValue("email", "duplicate");
-        }
-        if (duplicateNicknameCheck(saveMemberForm.getNickname())) {
-            bindingResult.rejectValue("nickname", "duplicate");
-        }
-        if (duplicatePhoneNumberCheck(saveMemberForm.getPhoneNumber())) {
-            bindingResult.rejectValue("phoneNumber", "duplicate");
-        }
     }
 
     public boolean isNotVerified(String email) {
         return memberRepository.existsByEmailAndVerifyFalse(email);
     }
 
-    private void deleteByEmail(String email) {
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void deleteByEmail(String email) {
         memberRepository.deleteByEmail(email);
+    }
+
+    public Member findByEmailAndVerifyFalse(String email) {
+        return memberRepository.findByEmailAndVerifyFalse(email).orElseThrow(() -> new TokenExpiredException("이미 인증된 회원 입니다!"));
     }
 }

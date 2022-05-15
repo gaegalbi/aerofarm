@@ -55,6 +55,10 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
      */
     private Member saveOrUpdate(OAuthAttributes attributes) {
         if (memberService.duplicateEmailCheck(attributes.getEmail())) { // 자체 회원가입된 계정이 있는지 검사
+            if (memberService.isNotVerified(attributes.getEmail())) {
+                memberService.deleteByEmail(attributes.getEmail());
+                return memberService.saveOAuth2Member(attributes.toEntity());
+            }
             Member member = memberService.findByEmail(attributes.getEmail());
 //            member.update(attributes.getName(), attributes.getPicture());
             return member;
