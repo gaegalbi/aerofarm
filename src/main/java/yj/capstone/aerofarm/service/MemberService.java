@@ -79,31 +79,11 @@ public class MemberService {
         findMember.emailVerifiedSuccess();
     }
 
-    public void signupValidate(SaveMemberForm saveMemberForm, BindingResult bindingResult) {
-        if (!saveMemberForm.getPassword().equals(saveMemberForm.getConfirmPassword())) {
-            bindingResult.rejectValue("password","notMatch");
-        }
-        if (duplicateEmailCheck(saveMemberForm.getEmail())) {
-            if (isNotVerified(saveMemberForm.getEmail())) {
-                confirmationTokenService.deleteByEmail(saveMemberForm.getEmail());
-                deleteByEmail(saveMemberForm.getEmail());
-                return;
-            }
-            bindingResult.rejectValue("email", "duplicate");
-        }
-        if (duplicateNicknameCheck(saveMemberForm.getNickname())) {
-            bindingResult.rejectValue("nickname", "duplicate");
-        }
-        if (duplicatePhoneNumberCheck(saveMemberForm.getPhoneNumber())) {
-            bindingResult.rejectValue("phoneNumber", "duplicate");
-        }
-    }
-
     public boolean isNotVerified(String email) {
         return memberRepository.existsByEmailAndVerifyFalse(email);
     }
 
-    private void deleteByEmail(String email) {
+    public void deleteByEmail(String email) {
         memberRepository.deleteByEmail(email);
     }
 }
