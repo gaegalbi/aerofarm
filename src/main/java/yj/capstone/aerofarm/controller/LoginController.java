@@ -82,6 +82,7 @@ public class LoginController {
             if (memberService.isNotVerified(saveMemberForm.getEmail())) {
                 confirmationTokenService.deleteByEmail(saveMemberForm.getEmail());
                 memberService.deleteByEmail(saveMemberForm.getEmail());
+                return;
             }
             bindingResult.rejectValue("email", "duplicate");
         }
