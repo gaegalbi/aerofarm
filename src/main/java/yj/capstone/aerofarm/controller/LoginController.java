@@ -2,6 +2,7 @@ package yj.capstone.aerofarm.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -81,7 +82,6 @@ public class LoginController {
             if (memberService.isNotVerified(saveMemberForm.getEmail())) {
                 confirmationTokenService.deleteByEmail(saveMemberForm.getEmail());
                 memberService.deleteByEmail(saveMemberForm.getEmail());
-                return;
             }
             bindingResult.rejectValue("email", "duplicate");
         }

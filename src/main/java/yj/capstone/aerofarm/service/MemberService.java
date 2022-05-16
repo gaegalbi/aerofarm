@@ -58,22 +58,6 @@ public class MemberService {
         return memberRepository.existsByPhoneNumber(removeHyphenPhoneNumber(phoneNumber));
     }
 
-    private String duplicateNicknameChange(String nickname) {
-        if (memberRepository.existsByNickname(nickname)) {
-            return duplicateNicknameChange(nickname + (int) (Math.random() * 9999));
-        }
-        return nickname;
-    }
-
-    public Member saveOAuth2Member(Member newMember) {
-        newMember.changePassword(passwordEncoder.encode(UUID.randomUUID().toString().substring(0, 6)));
-        if (duplicateNicknameCheck(newMember.getNickname())) {
-            String newNickname = duplicateNicknameChange(newMember.getNickname());
-            newMember.changeNickname(newNickname);
-        }
-        return memberRepository.save(newMember);
-    }
-
     public void confirmEmail(String token) {
         ConfirmationToken findToken = confirmationTokenService.findByIdAndExpirationDateAfter(token);
         Member findMember = findByEmailAndVerifyFalse(findToken.getEmail());
@@ -84,7 +68,6 @@ public class MemberService {
         return memberRepository.existsByEmailAndVerifyFalse(email);
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void deleteByEmail(String email) {
         memberRepository.deleteByEmail(email);
     }
