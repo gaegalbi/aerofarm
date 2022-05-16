@@ -2,7 +2,6 @@ package yj.capstone.aerofarm.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -13,7 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import yj.capstone.aerofarm.domain.member.Role;
-import yj.capstone.aerofarm.service.CustomOAuth2UserService;
+import yj.capstone.aerofarm.service.OAuth2UserServiceImpl;
 import yj.capstone.aerofarm.service.UserDetailsServiceImpl;
 import yj.capstone.aerofarm.service.handler.AuthFailureHandler;
 import yj.capstone.aerofarm.service.handler.AuthSuccessHandler;
@@ -25,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsServiceImpl userDetailsService;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final CustomOAuth2UserService customOAuth2UserService;
+    private final OAuth2UserServiceImpl OAuth2UserServiceImpl;
     private final AuthSuccessHandler authSuccessHandler;
     private final AuthFailureHandler authFailureHandler;
 
@@ -91,7 +90,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler(authSuccessHandler)
                 .loginPage("/login")
                 .userInfoEndpoint()
-                .userService(customOAuth2UserService);
+                .userService(OAuth2UserServiceImpl);
 
 //        super.configure(http);
     }

@@ -1,8 +1,10 @@
 package yj.capstone.aerofarm.domain.order;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import yj.capstone.aerofarm.controller.dto.OrderLineDto;
 import yj.capstone.aerofarm.domain.BaseEntity;
 import yj.capstone.aerofarm.domain.product.Product;
 
@@ -29,4 +31,14 @@ public class OrderLine extends BaseEntity {
 
     @Embedded
     private Money price;
+
+    public int getOrderPrice() {
+        return price.getPrice() * quantity;
+    }
+
+    @Builder
+    public OrderLine(OrderLineDto orderLineDto) {
+        this.quantity = orderLineDto.getQuantity();
+        this.price = new Money(orderLineDto.getPrice());
+    }
 }
