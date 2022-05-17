@@ -65,7 +65,7 @@ public class Member extends BaseEntity {
         this.verify = false; // 로컬 회원가입 시 검증 기본값 false
     }
 
-    @Builder(builderClassName = "UserDetailRegister")
+    @Builder(builderClassName = "UserDetailBuilder")
     public Member(String nickname, String password, Provider provider, String picture, String email, Role role) {
         this.nickname = nickname;
         this.password = password;
