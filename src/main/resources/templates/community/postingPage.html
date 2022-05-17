@@ -58,6 +58,13 @@
     .post-content {
         margin-top: 30px;
     }
+
+    .post-comment {
+        border-style: solid;
+        border-width: 2px 0px 0px 0px;
+        border-color: #FFFFFF;
+        padding-top: 20px;
+    }
 </style>
 <body class="d-flex flex-column min-vh-100">
 <div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
@@ -82,11 +89,54 @@
                     </tbody>
                 </table>
             </div>
-            <!--게시글 내용-->
+            <!--게시글 내용 영역-->
             <div class="post-content">
                 <p>이 곳은 내용이 들어갑니다. 이 곳은 내용이 들어갑니다. 이 곳은 내용이 들어갑니다. 이 곳은 내용이 들어갑니다. 이 곳은 내용이 들어갑니다. 이 곳은 내용이 들어갑니다. 이 곳은 내용이 들어갑니다. 이 곳은 내용이 들어갑니다.</p>
                 <p>이 곳은 내용이 들어갑니다.2</p>
             </div>
+            <div style="padding-top: 10px">
+                <a class="p-2 post-header" href="#">♡ 좋아요 1</a>
+            </div>
+            <!--댓글 영역-->
+            <div class="post-comment">
+                <div style="padding-bottom: 20px">
+                    댓글
+                </div>
+                <table>
+                    <tbody class="user-info">
+                    <tr>
+                        <td rowspan="3" width="50" height="40">사진</td>
+                        <td>닉네임</td>
+                    </tr>
+                    <tr>
+                        <td>이 곳은 댓글 내용이 들어갈 자리입니다.</td>
+                    </tr>
+                    <tr>
+                        <td>2022-05-17 10:36</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!--답글 영역-->
+                <table>
+                    <tbody class="user-info">
+                    <tr>
+                        <td rowspan="3" width="50" height="40" style="text-align: center">⤷</td>
+                        <td rowspan="3" width="50" height="40">사진</td>
+                        <td>닉네임</td>
+                    </tr>
+                    <tr>
+                        <td>이 곳은 답글 내용이 들어갈 자리입니다.</td>
+                    </tr>
+                    <tr>
+                        <td>2022-05-17 10:36</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div>
+            <button type="button" class="btn btn-secondary button-margin">목록</button>
+            <button type="button" class="btn btn-secondary button-margin">TOP</button>
         </div>
     </main>
 </div>
