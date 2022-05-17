@@ -4,6 +4,7 @@ import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../CurrentTime.dart';
 import 'CommunityPageFloating.dart';
 
 class CommunityPageAll extends StatefulWidget {
@@ -186,9 +187,8 @@ class _CommunityPageAllState extends State<CommunityPageAll> {
                                             "city",
                                             style: Community.sub,
                                           ),
-                                          const Text(
-                                            "2022-05-08",
-                                            style: Community.sub,
+                                          const CurrentTime(
+                                            type: true, style: 'sub',
                                           ),
                                           Text(
                                             "조회 $index",

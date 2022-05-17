@@ -205,5 +205,34 @@ class Community {
       decoration: TextDecoration.none,
       fontFamily: 'bmPRO',
       fontSize: 20);
-
+  static const postTitle = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmAir',
+      fontSize: 28);
+  static const postButton = TextStyle(
+      color: MainColor.three,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmAir',
+      fontSize: 18);
+  static const postFont = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmAir',
+      fontSize: 18);
+  static const postFalseFont = TextStyle(
+      color: Colors.grey,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmAir',
+      fontSize: 18);
+  static const contentInfo = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmAir',
+      fontSize: 13);
+  static const chatTitle = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmAir',
+      fontSize: 22);
 }

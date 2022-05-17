@@ -5,6 +5,8 @@ import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../CurrentTime.dart';
+
 class CommunityPageHot extends StatefulWidget {
   const CommunityPageHot({Key? key}) : super(key: key);
 
@@ -13,7 +15,6 @@ class CommunityPageHot extends StatefulWidget {
 }
 
 class _CommunityPageHotState extends State<CommunityPageHot> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,22 +29,22 @@ class _CommunityPageHotState extends State<CommunityPageHot> {
         leadingWidth: MediaQuery.of(context).size.width * 0.2106,
         leading: Container(
           margin:
-          EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
+              EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
           child: FittedBox(
               child: Builder(
-                builder: (context) => IconButton(
-                  padding: EdgeInsets.zero,
-                  alignment: Alignment.center,
-                  color: MainColor.three,
-                  iconSize: 50,
-                  // 패딩 설정
-                  constraints: const BoxConstraints(),
-                  icon: const Icon(
-                    Icons.menu,
-                  ),
-                  onPressed: () => Scaffold.of(context).openDrawer(),
-                ),
-              )),
+            builder: (context) => IconButton(
+              padding: EdgeInsets.zero,
+              alignment: Alignment.center,
+              color: MainColor.three,
+              iconSize: 50,
+              // 패딩 설정
+              constraints: const BoxConstraints(),
+              icon: const Icon(
+                Icons.menu,
+              ),
+              onPressed: () => Scaffold.of(context).openDrawer(),
+            ),
+          )),
         ),
         title: const Text(
           "도시농부",
@@ -103,8 +104,8 @@ class _CommunityPageHotState extends State<CommunityPageHot> {
                   bottom: MediaQuery.of(context).size.height * 0.012),
               decoration: const BoxDecoration(
                   border: Border(
-                    bottom: BorderSide(width: 1, color: Colors.white),
-                  )),
+                bottom: BorderSide(width: 1, color: Colors.white),
+              )),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -143,8 +144,8 @@ class _CommunityPageHotState extends State<CommunityPageHot> {
                     height: MediaQuery.of(context).size.height * 0.08,
                     decoration: const BoxDecoration(
                         border: Border(
-                          bottom: BorderSide(width: 1, color: Colors.white),
-                        )),
+                      bottom: BorderSide(width: 1, color: Colors.white),
+                    )),
                     child: InkWell(
                       onTap: () {
                         //Get.off(()=>const MachinePageInfo());
@@ -157,16 +158,21 @@ class _CommunityPageHotState extends State<CommunityPageHot> {
                             child: Row(
                               children: [
                                 Container(
-                                  width: MediaQuery.of(context).size.width * 0.64,
-                                  margin:EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.06),
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.64,
+                                  margin: EdgeInsets.only(
+                                      right: MediaQuery.of(context).size.width *
+                                          0.06),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Container(
                                           margin: EdgeInsets.only(
-                                              bottom:
-                                              MediaQuery.of(context).size.height *
+                                              bottom: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
                                                   0.008),
                                           child: Text(
                                             "도시농부 서비스 좋네여 $index",
@@ -174,15 +180,15 @@ class _CommunityPageHotState extends State<CommunityPageHot> {
                                           )),
                                       Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           const Text(
                                             "city",
                                             style: Community.sub,
                                           ),
-                                          const Text(
-                                            "2022-05-08",
-                                            style: Community.sub,
+                                          const CurrentTime(
+                                            type: true,
+                                            style: 'sub',
                                           ),
                                           Text(
                                             "조회 $index",
@@ -206,14 +212,19 @@ class _CommunityPageHotState extends State<CommunityPageHot> {
                                   ),
                                 ),
                                 Container(
-                                  width: MediaQuery.of(context).size.width * 0.1,
-                                  height: MediaQuery.of(context).size.height * 0.048,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.1,
+                                  height: MediaQuery.of(context).size.height *
+                                      0.048,
                                   alignment: Alignment.center,
-                                  child: Text("$index",style: Community.main,textAlign: TextAlign.center,),
+                                  child: Text(
+                                    "$index",
+                                    style: Community.main,
+                                    textAlign: TextAlign.center,
+                                  ),
                                   decoration: BoxDecoration(
                                       color: MainColor.one,
-                                      borderRadius: BorderRadius.circular(10)
-                                  ),
+                                      borderRadius: BorderRadius.circular(10)),
                                 )
                               ],
                             ),

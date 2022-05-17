@@ -1,8 +1,11 @@
 import 'package:capstone/CommunityPage/CommunityPageAll.dart';
+import 'package:capstone/CommunityPage/CommunityPageReply.dart';
 import 'package:capstone/MainPage/MainPage.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../CurrentTime.dart';
 
 class CommunityPageReadPost extends StatefulWidget {
   const CommunityPageReadPost({Key? key}) : super(key: key);
@@ -26,18 +29,18 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                 EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
             child: FittedBox(
                 child: IconButton(
-                padding: EdgeInsets.zero,
-                alignment: Alignment.center,
-                color: MainColor.three,
-                iconSize: 50,
-                // 패딩 설정
-                constraints: const BoxConstraints(),
-                icon: const Icon(
-                  Icons.chevron_left,
-                ),
-                onPressed: () {
-                  Get.offAll(() => const CommunityPageAll());
-                },
+              padding: EdgeInsets.zero,
+              alignment: Alignment.center,
+              color: MainColor.three,
+              iconSize: 50,
+              // 패딩 설정
+              constraints: const BoxConstraints(),
+              icon: const Icon(
+                Icons.chevron_left,
+              ),
+              onPressed: () {
+                Get.offAll(() => const CommunityPageAll());
+              },
             )),
           ),
           title: const Text("도시농부", style: MainTheme.title),
@@ -63,30 +66,31 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
             )
           ],
         ),
-        body: Container(
-          padding: EdgeInsets.fromLTRB(
-            MediaQuery.of(context).size.width * 0.04,
-            0,
-            MediaQuery.of(context).size.width * 0.04,
-            MediaQuery.of(context).size.width * 0.04,
-          ),
-          color: MainColor.six,
-          child: Column(
-            children: [
-              Container(
-                  alignment: Alignment.topLeft,
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.03,
-                  margin: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).size.height * 0.02),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "전체게시판",
-                        style: Community.title,
-                      ),
-                      IconButton(
+        body: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.fromLTRB(
+              MediaQuery.of(context).size.width * 0.04,
+              0,
+              MediaQuery.of(context).size.width * 0.04,
+              MediaQuery.of(context).size.width * 0.04,
+            ),
+            color: MainColor.six,
+            child: Column(
+              children: [
+                Container(
+                    alignment: Alignment.topLeft,
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 0.03,
+                    margin: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).size.height * 0.005),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "전체게시판",
+                          style: Community.title,
+                        ),
+                        IconButton(
                           splashRadius: 20,
                           padding: EdgeInsets.zero,
                           alignment: Alignment.center,
@@ -99,120 +103,215 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                             Get.offAll(() => const CommunityPageAll());
                           },
                         )
+                      ],
+                    )),
+                Container(
+                  padding: EdgeInsets.only(
+                      right: MediaQuery.of(context).size.width * 0.05,
+                      bottom: MediaQuery.of(context).size.height * 0.012),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: const [
+                      Text(
+                        "도시농부 서비스 좋네여",
+                        style: Community.postTitle,
+                      )
                     ],
-                  )),
-              Container(
-                margin: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.014,
+                  ),
                 ),
-                height: MediaQuery.of(context).size.height * 0.6146,
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount: 10,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      margin: EdgeInsets.only(
-                          left: MediaQuery.of(context).size.width * 0.01,
-                          right: MediaQuery.of(context).size.width * 0.01),
-                      height: MediaQuery.of(context).size.height * 0.08,
-                      decoration: const BoxDecoration(
-                          border: Border(
-                        bottom: BorderSide(width: 1, color: Colors.white),
-                      )),
-                      child: InkWell(
-                        onTap: () {
-                          //Get.off(()=>const MachinePageInfo());
-                        },
+                Container(
+                  margin: EdgeInsets.only(
+                      right: MediaQuery.of(context).size.width * 0.03,
+                      left: MediaQuery.of(context).size.width * 0.03),
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).size.height * 0.01),
+                        decoration: const BoxDecoration(
+                            border: Border(
+                          bottom: BorderSide(width: 2, color: Colors.white),
+                        )),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.8,
-                              child: Row(
+                            //프로필
+                            CircleAvatar(
+                              radius: MediaQuery.of(context).size.width * 0.08,
+                              backgroundImage:
+                                  const AssetImage("assets/images/profile.png"),
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(
+                                  right:
+                                      MediaQuery.of(context).size.width * 0.02,
+                                  left:
+                                      MediaQuery.of(context).size.width * 0.02),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Container(
-                                    width: MediaQuery.of(context).size.width *
-                                        0.64,
-                                    margin: EdgeInsets.only(
-                                        right:
-                                            MediaQuery.of(context).size.width *
-                                                0.06),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                            margin: EdgeInsets.only(
-                                                bottom: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.008),
-                                            child: Text(
-                                              "도시농부 서비스 좋네여 $index",
-                                              style: Community.main,
-                                            )),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            const Text(
-                                              "city",
-                                              style: Community.sub,
-                                            ),
-                                            const Text(
-                                              "2022-05-08",
-                                              style: Community.sub,
-                                            ),
-                                            Text(
-                                              "조회 $index",
-                                              style: Community.sub,
-                                            ),
-                                            Row(
-                                              children: [
-                                                const Text(
-                                                  "추천 ",
-                                                  style: Community.sub,
+                                  Row(
+                                    children: [
+                                      Container(
+                                          margin:
+                                              const EdgeInsets.only(right: 20),
+                                          child: const Text(
+                                            "city",
+                                            style: Community.postFont,
+                                          )),
+                                      SizedBox(
+                                        width: 54,
+                                        height: 30,
+                                        child: IconButton(
+                                            padding: EdgeInsets.zero,
+                                            onPressed: () {},
+                                            icon: Row(
+                                              children: const [
+                                                Icon(
+                                                  Icons.chat,
+                                                  color: MainColor.three,
                                                 ),
                                                 Text(
-                                                  "$index",
-                                                  style: Community.sub1,
+                                                  "채팅",
+                                                  style: Community.postButton,
                                                 ),
                                               ],
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                                            )),
+                                      ),
+                                    ],
                                   ),
-                                  Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.1,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.048,
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      "$index",
-                                      style: Community.main,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    decoration: BoxDecoration(
-                                        color: MainColor.one,
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
+                                  Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.only(right: 10),
+                                        child: const CurrentTime(
+                                          type: true,
+                                          style: 'normal',
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(right: 10),
+                                        child: const CurrentTime(
+                                          type: false,
+                                          style: 'normal',
+                                        ),
+                                      ),
+                                      Container(
+                                          margin: EdgeInsets.only(right: 10),
+                                          child: Text("조회 2222"))
+                                    ],
                                   )
                                 ],
                               ),
-                            ),
+                            )
                           ],
                         ),
                       ),
-                    );
-                  },
+                      Container(
+                        margin: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height * 0.01),
+                        child: Column(
+                          children: [
+                            //본문
+                            Container(
+                                alignment: Alignment.centerLeft,
+                                child: Text("하이")),
+                            Container(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "Contrary to popular belief, Lorem Ipsum is not "
+                                "simply random text. It has roots in a piece of clas"
+                                "sical Latin literature from 45 BC, making it over 2"
+                                "000 years old. Richard McClintock, a Latin professor at"
+                                " Hampden-Sydney College in Virginia, looked up one of "
+                                "the more obscure Latin words, consectetur, from a Lorem I"
+                                "psum passage, and going through the cites of the word in classic"
+                                "al literature, discovered the undoubtable source. Lor"
+                                "em Ipsum comes from sections 1.10.32 and 1.10.33 of \"de Fini"
+                                "bus Bonorum et Malorum\" (The Extremes of Good and Evil) by C"
+                                "icero, written in 45 BC. This book is a treatise on the theory"
+                                " of ethics, very popular during the Renaissance. The first line "
+                                "of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a "
+                                "line in section 1.10.32.The standard chunk of Lorem Ipsum used "
+                                "since the 1500s is reproduced below for those interested. Sectio"
+                                "ns 1.10.32 and 1.10.33 from \"de Finibus Bonorum et Malorum\" by"
+                                " Cicero are also reproduced in their exact original form, accompa"
+                                "nied by English versions from the 1914 translation by H.Rackham.",
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                            Image.asset("assets/images/dog.png")
+                          ],
+                        ),
+                      ),
+                      Container(
+                          margin: EdgeInsets.only(
+                              top: MediaQuery.of(context).size.height * 0.01),
+                          decoration: const BoxDecoration(
+                              border: Border(
+                            top: BorderSide(width: 2, color: Colors.white),
+                          )),
+                          padding: EdgeInsets.only(
+                              top: MediaQuery.of(context).size.height * 0.01),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              TextButton(
+                                style: ButtonStyle(
+                                    padding: MaterialStateProperty.all(
+                                        EdgeInsets.zero)),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.only(right: 5),
+                                      child: const Text(
+                                        "댓글",
+                                        style: Community.postFont,
+                                      ),
+                                    ),
+                                    const Text(
+                                      "0",
+                                      style: Community.postFont,
+                                    ),
+                                    const Icon(
+                                      Icons.chevron_right,
+                                      color: Colors.white,
+                                    ),
+                                  ],
+                                ),
+                                onPressed: () {
+                                  Get.to(() => const CommunityPageReply());
+                                },
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(top: 5),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.only(right: 15),
+                                      child: CircleAvatar(
+                                        radius:
+                                            MediaQuery.of(context).size.width *
+                                                0.08,
+                                        backgroundImage: const AssetImage(
+                                            "assets/images/profile.png"),
+                                      ),
+                                    ),
+                                    const Text(
+                                      "첫 댓글을 입력하세요",
+                                      style: Community.postFont,
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ))
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         bottomNavigationBar: BottomAppBar(
@@ -234,27 +333,37 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
               Row(
                 children: [
                   AppBarButton(
-                    icon: const Icon(
-                      Icons.favorite_outline,
-                      size: 35,
-                      color: Colors.red,
+                    icon: Container(
+                      margin: EdgeInsets.only(right: 5),
+                      child: const Icon(
+                        Icons.favorite_outline,
+                        size: 35,
+                        color: Colors.red,
+                      ),
                     ),
                     text: const Text(
-                      "7777",
+                      "0",
                       style: Community.bottomAppBarFavorite,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.to(() => const CommunityPageAll());
+                    },
                   ),
                   AppBarButton(
-                    icon: const Icon(
-                      Icons.chat,
-                      size: 35,
+                    icon: Container(
+                      margin: EdgeInsets.only(right: 5),
+                      child: const Icon(
+                        Icons.chat,
+                        size: 35,
+                      ),
                     ),
                     text: const Text(
                       "0",
                       style: Community.bottomAppBarReply,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.to(() => const CommunityPageReply());
+                    },
                   )
                 ],
               ),
