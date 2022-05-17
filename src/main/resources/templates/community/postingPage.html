@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"/>
+<style>
+    @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+        }
+    }
+
+    body {
+        background-color: #131825;
+    }
+
+    a {
+        text-decoration: none;
+        color: #FFFFFF
+    }
+
+    .blog-footer p:last-child {
+        margin-bottom: 0;
+    }
+
+    .body-color {
+        background-color: #131825;
+    }
+
+    .body-font-color {
+        color: #FFFFFF;
+    }
+
+    .body-line {
+        border-style: solid;
+        border-color: #FFFFFF;
+    }
+
+    .button-margin {
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    .post-title {
+        font-size: 1.5em;
+        margin-bottom: 10px;
+    }
+
+    .user-info {
+        font-size: 0.8em;
+    }
+
+    .user-info-border {
+        border-style: solid;
+        border-width: 0px 0px 2px 0px;
+        border-color: #FFFFFF;
+        padding-bottom: 20px;
+    }
+
+    .post-content {
+        margin-top: 30px;
+    }
+</style>
+<body class="d-flex flex-column min-vh-100">
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
+<div class="container">
+    <main>
+        <button type="button" class="btn btn-secondary button-margin">목록</button>
+        <!--사각 영역-->
+        <div class="card card-body body-color body-font-color body-line">
+            <!--제목-->
+            <div class="post-title">이 부분은 제목 부분</div>
+            <!--회원 정보-->
+            <div class="user-info-border">
+                <table>
+                    <tbody class="user-info">
+                        <tr>
+                            <td rowspan="2" width="50" height="40">사진</td>
+                            <td>닉네임</td>
+                        </tr>
+                        <tr>
+                            <td>2022-05-17 10:36</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--게시글 내용-->
+            <div class="post-content">
+                <p>이 곳은 내용이 들어갑니다. 이 곳은 내용이 들어갑니다. 이 곳은 내용이 들어갑니다. 이 곳은 내용이 들어갑니다. 이 곳은 내용이 들어갑니다. 이 곳은 내용이 들어갑니다. 이 곳은 내용이 들어갑니다. 이 곳은 내용이 들어갑니다.</p>
+                <p>이 곳은 내용이 들어갑니다.2</p>
+            </div>
+        </div>
+    </main>
+</div>
+<div th:replace="~{fragments/footer :: footer}"/>
+
+<script src="js/bootstrap.bundle.js"></script>
+</body>
+</html>
