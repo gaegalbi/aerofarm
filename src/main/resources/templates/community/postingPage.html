@@ -65,6 +65,25 @@
         border-color: #FFFFFF;
         padding-top: 20px;
     }
+
+    .f-color-w {
+        color: #FFFFFF;
+        text-align: center;
+    }
+
+    .f-filter-color-b {
+        color: deepskyblue;
+    }
+
+    .title-f-sort {
+        text-align: left;
+    }
+
+    .post-list {
+        color: #FFFFFF;
+        font-size: 1.5em;
+        margin-bottom: 10px;
+    }
 </style>
 <body class="d-flex flex-column min-vh-100">
 <div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
@@ -80,8 +99,8 @@
                 <table>
                     <tbody class="user-info">
                         <tr>
-                            <td rowspan="2" width="50" height="40">
-                                <img src="image/test_icon.png" class="rounded-circle" style="width: 40px; height: 40px">
+                            <td rowspan="2" width="50" height="40" style="text-align: center">
+                                <img src="image/test_icon.png" class="rounded-circle" style="width: 35px; height: 35px">
                             </td>
                             <td>닉네임</td>
                         </tr>
@@ -141,8 +160,55 @@
             </div>
         </div>
         <div>
-            <buttㅋon type="button" class="btn btn-secondary button-margin">목록</buttㅋon>
+            <button type="button" class="btn btn-secondary button-margin">목록</button>
             <button type="button" class="btn btn-secondary button-margin">TOP</button>
+        </div>
+        <!--이외 게시글 목록 영역-->
+        <div class="post-list">
+            자유게시판
+        </div>
+        <div class="container">
+            <table id="post-events" class="table f-color-w">
+                <thead>
+                <tr>
+                    <th th:width="20">분류</th>
+                    <th th:width="300">제목</th>
+                    <th th:width="30">작성자</th>
+                    <th th:width="50">작성일</th>
+                    <th th:width="20">추천</th>
+                    <th th:width="20">조회</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="f-filter-color-b">분류1</td>
+                    <td class="title-f-sort">이것은 제목 입니다</td>
+                    <td>관리자</td>
+                    <td>2022-05-09</td>
+                    <td>555</td>
+                    <td>999</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="container">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </main>
 </div>
