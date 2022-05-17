@@ -76,7 +76,7 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
           ),
           title: const Text(
             "회원가입",
-            style: LrTheme.title,
+            style: LoginRegisterPageTheme.title,
           ),
         ),
         body: Container(
@@ -97,7 +97,7 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                           top: topMargin),
                       child: const Text(
                         "EMAILL ADDRESS",
-                        style: LrTheme.registerTitle,
+                        style: LoginRegisterPageTheme.registerTitle,
                         textAlign: TextAlign.start,
                       ),
                     ),
@@ -109,7 +109,7 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                       child: TextField(
                         controller: _emailController,
                         textInputAction: TextInputAction.next,
-                        style: LrTheme.text,
+                        style: LoginRegisterPageTheme.text,
                         textAlign: TextAlign.center,
                         decoration: const InputDecoration(
                             filled: true,
@@ -117,7 +117,7 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                             enabledBorder: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             hintText: "name@example.com",
-                            hintStyle: LrTheme.hint),
+                            hintStyle: LoginRegisterPageTheme.hint),
                       ),
                     ),
                   ],
@@ -130,7 +130,7 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                           top: topMargin),
                       child: const Text(
                         "PASSWORD",
-                        style: LrTheme.registerTitle,
+                        style: LoginRegisterPageTheme.registerTitle,
                         textAlign: TextAlign.start,
                       ),
                     ),
@@ -144,14 +144,14 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                         //obscuringCharacter: "*",
                         controller: _passwordController,
                         textInputAction: TextInputAction.next,
-                        style: LrTheme.text,
+                        style: LoginRegisterPageTheme.text,
                         textAlign: TextAlign.center,
                         decoration: const InputDecoration(
                             filled: true,
                             fillColor: MainColor.one,
                             enabledBorder: InputBorder.none,
                             focusedBorder: InputBorder.none,
-                            hintStyle: LrTheme.hint),
+                            hintStyle: LoginRegisterPageTheme.hint),
                       ),
                     ),
                   ],
@@ -164,7 +164,7 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                           top: topMargin),
                       child: const Text(
                         "PASSWORD CONFIRM",
-                        style: LrTheme.registerTitle,
+                        style: LoginRegisterPageTheme.registerTitle,
                         textAlign: TextAlign.start,
                       ),
                     ),
@@ -178,14 +178,14 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                         //obscuringCharacter: "*",
                         controller: _passwordConfirmController,
                         textInputAction: TextInputAction.next,
-                        style: LrTheme.text,
+                        style: LoginRegisterPageTheme.text,
                         textAlign: TextAlign.center,
                         decoration: const InputDecoration(
                             filled: true,
                             fillColor: MainColor.one,
                             enabledBorder: InputBorder.none,
                             focusedBorder: InputBorder.none,
-                            hintStyle: LrTheme.hint),
+                            hintStyle: LoginRegisterPageTheme.hint),
                       ),
                     ),
                   ],
@@ -198,7 +198,7 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                           top: topMargin),
                       child: const Text(
                         "NICKNAME",
-                        style: LrTheme.registerTitle,
+                        style: LoginRegisterPageTheme.registerTitle,
                         textAlign: TextAlign.start,
                       ),
                     ),
@@ -210,7 +210,7 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                       child: TextField(
                         controller: _nickNameController,
                         textInputAction: TextInputAction.next,
-                        style: LrTheme.text,
+                        style: LoginRegisterPageTheme.text,
                         textAlign: TextAlign.center,
                         decoration: const InputDecoration(
                             filled: true,
@@ -218,7 +218,7 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                             enabledBorder: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             hintText: "NICKNAME을 입력해주세요",
-                            hintStyle: LrTheme.hint),
+                            hintStyle: LoginRegisterPageTheme.hint),
                       ),
                     ),
                   ],
@@ -231,7 +231,7 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                           top: topMargin),
                       child: const Text(
                         "PHONE NUMBER",
-                        style: LrTheme.registerTitle,
+                        style: LoginRegisterPageTheme.registerTitle,
                         textAlign: TextAlign.start,
                       ),
                     ),
@@ -243,7 +243,7 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                       child: TextField(
                         controller: _phoneNumberController,
                         textInputAction: TextInputAction.next,
-                        style: LrTheme.text,
+                        style: LoginRegisterPageTheme.text,
                         textAlign: TextAlign.center,
                         keyboardType: TextInputType.number,
                         decoration: const InputDecoration(
@@ -252,7 +252,7 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                             enabledBorder: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             hintText: "010-0000-0000",
-                            hintStyle: LrTheme.hint),
+                            hintStyle: LoginRegisterPageTheme.hint),
                       ),
                     ),
                   ],
@@ -270,7 +270,7 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                     },
                     child: const Text(
                       "가입",
-                      style: LrTheme.button,
+                      style: LoginRegisterPageTheme.button,
                     ),
                   ),
                 )

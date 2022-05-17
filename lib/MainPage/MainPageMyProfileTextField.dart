@@ -49,7 +49,7 @@ class _MainPageMyProfileTextFieldState
             child: TextField(
               controller: widget.controller,
               textInputAction: TextInputAction.next,
-              style: LrTheme.hint,
+              style: LoginRegisterPageTheme.hint,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.only(
                     bottom:
@@ -76,31 +76,31 @@ Text typeText(Type type){
     case Type.pass:
       return const Text(
         "비밀번호",
-        style: ProfilePage.info,
+        style: ProfilePageTheme.info,
         textAlign: TextAlign.left,
       );
     case Type.passCheck:
       return const Text(
         "비밀번호 확인",
-        style: ProfilePage.info,
+        style: ProfilePageTheme.info,
         textAlign: TextAlign.left,
       );
     case Type.phone1:
       return const Text(
         "전화번호",
-        style: ProfilePage.info,
+        style: ProfilePageTheme.info,
         textAlign: TextAlign.left,
       );
     case Type.email:
       return const Text(
         "이메일",
-        style: ProfilePage.info,
+        style: ProfilePageTheme.info,
         textAlign: TextAlign.left,
       );
     case Type.add1:
       return const Text(
         "주소",
-        style: ProfilePage.info,
+        style: ProfilePageTheme.info,
         textAlign: TextAlign.left,
       );
     default:

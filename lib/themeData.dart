@@ -17,7 +17,7 @@ class MainSize {
   static double toobarHeight = Get.height * 0.1;
 }
 
-class LrTheme {
+class LoginRegisterPageTheme {
   static const button = TextStyle(
       color: Colors.white,
       decoration: TextDecoration.none,
@@ -113,7 +113,7 @@ class MainTheme {
       fontSize: 30);
 }
 
-class MachinePage {
+class MachinePageTheme {
   static const mName = TextStyle(
       color: Colors.white,
       decoration: TextDecoration.none,
@@ -141,7 +141,7 @@ class MachinePage {
       fontSize: 55);
 }
 
-class ProfilePage {
+class ProfilePageTheme {
   static const name = TextStyle(
       color: MainColor.three,
       decoration: TextDecoration.none,
@@ -159,7 +159,7 @@ class ProfilePage {
       fontSize: 25);
 }
 
-class Community {
+class CommunityPageTheme {
   static const title = TextStyle(
       color: MainColor.three,
       decoration: TextDecoration.none,

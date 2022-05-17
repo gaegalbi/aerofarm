@@ -74,7 +74,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
             alignment: Alignment.center,
             child: const Text(
               "도시농부 아이디로 로그인하기",
-              style: LrTheme.content,
+              style: LoginRegisterPageTheme.content,
             ),
           ),
           Container(
@@ -87,7 +87,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
             child: TextField(
               controller: _lUserNameController,
               textInputAction: TextInputAction.next,
-              style: LrTheme.text,
+              style: LoginRegisterPageTheme.text,
               decoration: const InputDecoration(
                   filled: true,
                   fillColor: Colors.transparent,
@@ -99,7 +99,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                     color: Colors.black,
                   ),
                   hintText: "Username",
-                  hintStyle: LrTheme.hint),
+                  hintStyle: LoginRegisterPageTheme.hint),
             ),
           ),
           Container(
@@ -114,7 +114,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
               obscuringCharacter: "*",
               controller: _lPasswordController,
               textInputAction: TextInputAction.next,
-              style: LrTheme.text,
+              style: LoginRegisterPageTheme.text,
               decoration: const InputDecoration(
                   filled: true,
                   fillColor: Colors.transparent,
@@ -126,7 +126,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                     color: Colors.black,
                   ),
                   hintText: "Password",
-                  hintStyle: LrTheme.hint),
+                  hintStyle: LoginRegisterPageTheme.hint),
             ),
           ),
           Container(
@@ -137,7 +137,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                 TextButton(
                   child: const Text(
                     "비밀번호 재설정",
-                    style: LrTheme.sButton,
+                    style: LoginRegisterPageTheme.sButton,
                   ),
                   onPressed: () {
                     Get.to(() => const LoginPageResetPassword());
@@ -149,7 +149,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                   },
                   child: const Text(
                     "회원이 아니신가요?",
-                    style: LrTheme.sButton,
+                    style: LoginRegisterPageTheme.sButton,
                   ),
                 ),
               ],
@@ -166,7 +166,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
             width: MediaQuery.of(context).size.width,
             child: const Text(
               "SNS계정으로 로그인",
-              style: LrTheme.sButton,
+              style: LoginRegisterPageTheme.sButton,
               textAlign: TextAlign.center,
             ),
           ),

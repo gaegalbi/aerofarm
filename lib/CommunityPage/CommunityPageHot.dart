@@ -96,7 +96,7 @@ class _CommunityPageHotState extends State<CommunityPageHot> {
                     bottom: MediaQuery.of(context).size.height * 0.016),
                 child: const Text(
                   "인기게시판",
-                  style: Community.title,
+                  style: CommunityPageTheme.title,
                   textAlign: TextAlign.left,
                 )),
             Container(
@@ -118,12 +118,12 @@ class _CommunityPageHotState extends State<CommunityPageHot> {
                     ),
                     child: const Text(
                       "필독",
-                      style: Community.main,
+                      style: CommunityPageTheme.main,
                     ),
                   ),
                   const Text(
                     "도시농부 서비스 안내",
-                    style: Community.main,
+                    style: CommunityPageTheme.main,
                   ),
                 ],
               ),
@@ -176,7 +176,7 @@ class _CommunityPageHotState extends State<CommunityPageHot> {
                                                   0.008),
                                           child: Text(
                                             "도시농부 서비스 좋네여 $index",
-                                            style: Community.main,
+                                            style: CommunityPageTheme.main,
                                           )),
                                       Row(
                                         mainAxisAlignment:
@@ -184,7 +184,7 @@ class _CommunityPageHotState extends State<CommunityPageHot> {
                                         children: [
                                           const Text(
                                             "city",
-                                            style: Community.sub,
+                                            style: CommunityPageTheme.sub,
                                           ),
                                           const CurrentTime(
                                             type: true,
@@ -192,17 +192,17 @@ class _CommunityPageHotState extends State<CommunityPageHot> {
                                           ),
                                           Text(
                                             "조회 $index",
-                                            style: Community.sub,
+                                            style: CommunityPageTheme.sub,
                                           ),
                                           Row(
                                             children: [
                                               const Text(
                                                 "추천 ",
-                                                style: Community.sub,
+                                                style: CommunityPageTheme.sub,
                                               ),
                                               Text(
                                                 "$index",
-                                                style: Community.sub1,
+                                                style: CommunityPageTheme.sub1,
                                               ),
                                             ],
                                           ),
@@ -219,7 +219,7 @@ class _CommunityPageHotState extends State<CommunityPageHot> {
                                   alignment: Alignment.center,
                                   child: Text(
                                     "$index",
-                                    style: Community.main,
+                                    style: CommunityPageTheme.main,
                                     textAlign: TextAlign.center,
                                   ),
                                   decoration: BoxDecoration(

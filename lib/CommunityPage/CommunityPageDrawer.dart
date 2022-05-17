@@ -118,7 +118,7 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                             alignment: Alignment.center,
                             child: const Text(
                               "ALL",
-                              style: Community.all,
+                              style: CommunityPageTheme.all,
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -145,7 +145,7 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                             alignment: Alignment.center,
                             child: const Text(
                               "FREE",
-                              style: Community.free,
+                              style: CommunityPageTheme.free,
                               textAlign: TextAlign.center,
                             ),
                           ),

@@ -134,7 +134,7 @@ class _MachinePageInfoState extends State<MachinePageInfo> {
                                       0.006),
                               child: const Text(
                                 "설정값 편집",
-                                style: MachinePage.infoText,
+                                style: MachinePageTheme.infoText,
                               ))
                         ],
                       ),
@@ -163,7 +163,7 @@ class _MachinePageInfoState extends State<MachinePageInfo> {
                                     MediaQuery.of(context).size.height * 0.006),
                             child: const Text(
                               "프로필 편집",
-                              style: MachinePage.infoText,
+                              style: MachinePageTheme.infoText,
                             ))
                       ],
                     ),

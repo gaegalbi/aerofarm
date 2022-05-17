@@ -96,7 +96,7 @@ class _CommunityPageAllState extends State<CommunityPageAll> {
                     bottom: MediaQuery.of(context).size.height * 0.02),
                 child: const Text(
                   "전체게시판",
-                  style: Community.title,
+                  style: CommunityPageTheme.title,
                 )),
             Container(
               padding: EdgeInsets.only(
@@ -119,12 +119,12 @@ class _CommunityPageAllState extends State<CommunityPageAll> {
                     ),
                     child: const Text(
                       "필독",
-                      style: Community.main,
+                      style: CommunityPageTheme.main,
                     ),
                   ),
                   const Text(
                     "도시농부 서비스 안내",
-                    style: Community.main,
+                    style: CommunityPageTheme.main,
                   ),
                 ],
               ),
@@ -177,7 +177,7 @@ class _CommunityPageAllState extends State<CommunityPageAll> {
                                                   0.008),
                                           child: Text(
                                             "도시농부 서비스 좋네여 $index",
-                                            style: Community.main,
+                                            style: CommunityPageTheme.main,
                                           )),
                                       Row(
                                         mainAxisAlignment:
@@ -185,24 +185,24 @@ class _CommunityPageAllState extends State<CommunityPageAll> {
                                         children: [
                                           const Text(
                                             "city",
-                                            style: Community.sub,
+                                            style: CommunityPageTheme.sub,
                                           ),
                                           const CurrentTime(
                                             type: true, style: 'sub',
                                           ),
                                           Text(
                                             "조회 $index",
-                                            style: Community.sub,
+                                            style: CommunityPageTheme.sub,
                                           ),
                                           Row(
                                             children: [
                                               const Text(
                                                 "추천 ",
-                                                style: Community.sub,
+                                                style: CommunityPageTheme.sub,
                                               ),
                                               Text(
                                                 "$index",
-                                                style: Community.sub1,
+                                                style: CommunityPageTheme.sub1,
                                               ),
                                             ],
                                           ),
@@ -219,7 +219,7 @@ class _CommunityPageAllState extends State<CommunityPageAll> {
                                   alignment: Alignment.center,
                                   child: Text(
                                     "$index",
-                                    style: Community.main,
+                                    style: CommunityPageTheme.main,
                                     textAlign: TextAlign.center,
                                   ),
                                   decoration: BoxDecoration(

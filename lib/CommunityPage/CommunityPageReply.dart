@@ -83,9 +83,9 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                                   padding: MaterialStateProperty.all(
                                       EdgeInsets.zero)),
                               child: post
-                                  ? const Text("등록순", style: Community.postFont)
+                                  ? const Text("등록순", style: CommunityPageTheme.postFont)
                                   : const Text("등록순",
-                                      style: Community.postFalseFont),
+                                      style: CommunityPageTheme.postFalseFont),
                             ),
                             TextButton(
                               onPressed: () {
@@ -98,9 +98,9 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                                       EdgeInsets.zero)),
                               child: post
                                   ? const Text("최신순",
-                                      style: Community.postFalseFont)
+                                      style: CommunityPageTheme.postFalseFont)
                                   : const Text("최신순",
-                                      style: Community.postFont),
+                                      style: CommunityPageTheme.postFont),
                             ),
                           ],
                         ),
@@ -152,7 +152,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                                                       bottom: 10),
                                                   child: const Text(
                                                     "city",
-                                                    style: Community.postFont,
+                                                    style: CommunityPageTheme.postFont,
                                                   )),
                                             ],
                                           ),
@@ -160,7 +160,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                                             margin: const EdgeInsets.only(
                                                 bottom: 10),
                                             child: Text("도시농부 서비스 너무 좋네요",
-                                                style: Community.postFont),
+                                                style: CommunityPageTheme.postFont),
                                           ),
                                           Row(
                                             mainAxisSize: MainAxisSize.max,
@@ -187,7 +187,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                                                     child: Text(
                                                       "답글 쓰기",
                                                       style:
-                                                          Community.contentInfo,
+                                                          CommunityPageTheme.contentInfo,
                                                     ),
                                                   ))
                                             ],
@@ -224,12 +224,12 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                       child: const TextField(
 //controller: _lUserNameController,
                         textInputAction: TextInputAction.next,
-                        style: LrTheme.text,
+                        style: LoginRegisterPageTheme.text,
                         decoration: InputDecoration(
                             enabledBorder: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             hintText: "댓글을 남겨보세요",
-                            hintStyle: LrTheme.hint),
+                            hintStyle: LoginRegisterPageTheme.hint),
                       ),
                     ),
                     Row(
@@ -251,7 +251,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                                   MaterialStateProperty.all(MainColor.one)),
                           child: Text(
                             "등록",
-                            style: Community.bottomAppBarList,
+                            style: CommunityPageTheme.bottomAppBarList,
                           ),
                           onPressed: () {
                             Get.to(() => const CommunityPageReply());

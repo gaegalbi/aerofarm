@@ -24,7 +24,7 @@ class _MainPageMyProfilePhoneState extends State<MainPageMyProfilePhone> {
         children: [
           const Text(
             "전화번호",
-            style: ProfilePage.info,
+            style: ProfilePageTheme.info,
             textAlign: TextAlign.left,
           ),
           Container(
@@ -41,7 +41,7 @@ class _MainPageMyProfilePhoneState extends State<MainPageMyProfilePhone> {
                   child: TextField(
                     controller: widget.controller1,
                     textInputAction: TextInputAction.next,
-                    style: LrTheme.hint,
+                    style: LoginRegisterPageTheme.hint,
                     maxLength: 3,
                     decoration: InputDecoration(
                       counterText: '',
@@ -86,7 +86,7 @@ class _MainPageMyProfilePhoneState extends State<MainPageMyProfilePhone> {
                   child: TextField(
                     controller: widget.controller2,
                     textInputAction: TextInputAction.next,
-                    style: LrTheme.hint,
+                    style: LoginRegisterPageTheme.hint,
                     maxLength: 4,
                     decoration: InputDecoration(
                       counterText: '',
@@ -128,7 +128,7 @@ class _MainPageMyProfilePhoneState extends State<MainPageMyProfilePhone> {
                     maxLength: 4,
                     controller: widget.controller3,
                     textInputAction: TextInputAction.next,
-                    style: LrTheme.hint,
+                    style: LoginRegisterPageTheme.hint,
                     decoration: InputDecoration(
                       counterText: '',
                       contentPadding: EdgeInsets.only(

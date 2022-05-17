@@ -88,7 +88,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                       children: [
                         const Text(
                           "전체게시판",
-                          style: Community.title,
+                          style: CommunityPageTheme.title,
                         ),
                         IconButton(
                           splashRadius: 20,
@@ -114,7 +114,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                     children: const [
                       Text(
                         "도시농부 서비스 좋네여",
-                        style: Community.postTitle,
+                        style: CommunityPageTheme.postTitle,
                       )
                     ],
                   ),
@@ -156,7 +156,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                               const EdgeInsets.only(right: 20),
                                           child: const Text(
                                             "city",
-                                            style: Community.postFont,
+                                            style: CommunityPageTheme.postFont,
                                           )),
                                       SizedBox(
                                         width: 54,
@@ -172,7 +172,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                                 ),
                                                 Text(
                                                   "채팅",
-                                                  style: Community.postButton,
+                                                  style: CommunityPageTheme.postButton,
                                                 ),
                                               ],
                                             )),
@@ -267,12 +267,12 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                       margin: EdgeInsets.only(right: 5),
                                       child: const Text(
                                         "댓글",
-                                        style: Community.postFont,
+                                        style: CommunityPageTheme.postFont,
                                       ),
                                     ),
                                     const Text(
                                       "0",
-                                      style: Community.postFont,
+                                      style: CommunityPageTheme.postFont,
                                     ),
                                     const Icon(
                                       Icons.chevron_right,
@@ -300,7 +300,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                     ),
                                     const Text(
                                       "첫 댓글을 입력하세요",
-                                      style: Community.postFont,
+                                      style: CommunityPageTheme.postFont,
                                     ),
                                   ],
                                 ),
@@ -326,7 +326,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                 ),
                 text: const Text(
                   "목록으로",
-                  style: Community.bottomAppBarList,
+                  style: CommunityPageTheme.bottomAppBarList,
                 ),
                 onPressed: () {},
               ),
@@ -343,7 +343,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                     ),
                     text: const Text(
                       "0",
-                      style: Community.bottomAppBarFavorite,
+                      style: CommunityPageTheme.bottomAppBarFavorite,
                     ),
                     onPressed: () {
                       Get.to(() => const CommunityPageAll());
@@ -359,7 +359,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                     ),
                     text: const Text(
                       "0",
-                      style: Community.bottomAppBarReply,
+                      style: CommunityPageTheme.bottomAppBarReply,
                     ),
                     onPressed: () {
                       Get.to(() => const CommunityPageReply());

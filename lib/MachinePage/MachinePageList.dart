@@ -102,11 +102,11 @@ class _MachinePageListState extends State<MachinePageList> {
                                     MediaQuery.of(context).size.height * 0.022),
                             child: const Text(
                               "기기1",
-                              style: MachinePage.mName,
+                              style: MachinePageTheme.mName,
                             )),
                         const Text(
                           "재배작물 : 해바라기",
-                          style: MachinePage.mType,
+                          style: MachinePageTheme.mType,
                         ),
                       ],
                     ),

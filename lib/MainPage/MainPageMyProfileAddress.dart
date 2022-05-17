@@ -25,7 +25,7 @@ class _MainPageMyProfileAddressState extends State<MainPageMyProfileAddress> {
             height: MediaQuery.of(context).size.height * 0.08,
             child: const Text(
               "주소",
-              style: ProfilePage.info,
+              style: ProfilePageTheme.info,
             ),
           ),
           Column(
@@ -44,7 +44,7 @@ class _MainPageMyProfileAddressState extends State<MainPageMyProfileAddress> {
                 child: TextField(
                   controller: widget.controller1,
                   textInputAction: TextInputAction.next,
-                  style: LrTheme.hint,
+                  style: LoginRegisterPageTheme.hint,
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.only(
                         bottom: MediaQuery.of(context)
@@ -82,7 +82,7 @@ class _MainPageMyProfileAddressState extends State<MainPageMyProfileAddress> {
                     child: TextField(
                       controller: widget.controller2,
                       textInputAction: TextInputAction.next,
-                      style: LrTheme.hint,
+                      style: LoginRegisterPageTheme.hint,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.only(
                             bottom: MediaQuery.of(context)
@@ -118,7 +118,7 @@ class _MainPageMyProfileAddressState extends State<MainPageMyProfileAddress> {
                     child: TextField(
                       controller: widget.controller3,
                       textInputAction: TextInputAction.next,
-                      style: LrTheme.hint,
+                      style: LoginRegisterPageTheme.hint,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.only(
                             bottom: MediaQuery.of(context)
@@ -160,7 +160,7 @@ class _MainPageMyProfileAddressState extends State<MainPageMyProfileAddress> {
                 onPressed: () {},
                 child: const Text(
                   "검색",
-                  style: ProfilePage.button,
+                  style: ProfilePageTheme.button,
                 )),
           )
         ],

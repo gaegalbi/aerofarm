@@ -84,7 +84,7 @@ class _MachinePageProfileState extends State<MachinePageProfile> {
                         children: const [
                           Text(
                             "기기1",
-                            style: MachinePage.profileText,
+                            style: MachinePageTheme.profileText,
                           ),
                         ],
                       ),

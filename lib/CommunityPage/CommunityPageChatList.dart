@@ -81,7 +81,7 @@ class _CommunityPageChatListState extends State<CommunityPageChatList> {
                     decoration: InputDecoration(
                       fillColor: MainColor.one,
                       filled: true,
-                      hintStyle: LrTheme.hint,
+                      hintStyle: LoginRegisterPageTheme.hint,
                       hintText: "채팅방, 대화내용 검색",
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20.0),
@@ -101,7 +101,7 @@ class _CommunityPageChatListState extends State<CommunityPageChatList> {
                 Container(
                   margin: EdgeInsets.only(bottom: 15,top: 15),
                   alignment: Alignment.centerLeft,
-                  child:Text("내채팅",style: Community.chatTitle,)
+                  child:Text("내채팅",style: CommunityPageTheme.chatTitle,)
                 ),
                 Container(
                   padding: EdgeInsets.only(
@@ -132,7 +132,7 @@ class _CommunityPageChatListState extends State<CommunityPageChatList> {
                                     padding: const EdgeInsets.only(right: 190,bottom: 10),
                                     child: const Text(
                                       "city",
-                                      style: Community.postFont,
+                                      style: CommunityPageTheme.postFont,
                                     ),
                                 ),
                                 const CurrentTime(
@@ -141,7 +141,7 @@ class _CommunityPageChatListState extends State<CommunityPageChatList> {
                                 ),
                               ],
                             ),
-                            Text("도시농부 서비스 너무 좋네요",style: LrTheme.hint,)
+                            Text("도시농부 서비스 너무 좋네요",style: LoginRegisterPageTheme.hint,)
                           ],
                         ),
                       )
@@ -164,7 +164,7 @@ class _CommunityPageChatListState extends State<CommunityPageChatList> {
                 ),
                 text: const Text(
                   "목록으로",
-                  style: Community.bottomAppBarList,
+                  style: CommunityPageTheme.bottomAppBarList,
                 ),
                 onPressed: () {},
               ),
@@ -181,7 +181,7 @@ class _CommunityPageChatListState extends State<CommunityPageChatList> {
                     ),
                     text: const Text(
                       "0",
-                      style: Community.bottomAppBarFavorite,
+                      style: CommunityPageTheme.bottomAppBarFavorite,
                     ),
                     onPressed: () {
                       Get.to(() => const CommunityPageAll());
@@ -197,7 +197,7 @@ class _CommunityPageChatListState extends State<CommunityPageChatList> {
                     ),
                     text: const Text(
                       "0",
-                      style: Community.bottomAppBarReply,
+                      style: CommunityPageTheme.bottomAppBarReply,
                     ),
                     onPressed: () {},
                   )

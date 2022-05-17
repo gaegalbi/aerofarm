@@ -158,7 +158,7 @@ class _MainPageMyProfileState extends State<MainPageMyProfile> {
                       children: [
                         const Text(
                           "도시농부1",
-                          style: ProfilePage.name,
+                          style: ProfilePageTheme.name,
                         ),
                         IconButton(
                             splashRadius: 20,
@@ -213,7 +213,7 @@ class _MainPageMyProfileState extends State<MainPageMyProfile> {
                             onPressed: () {},
                             child: const Text(
                               "수정",
-                              style: ProfilePage.button,
+                              style: ProfilePageTheme.button,
                             )),
                       )
                     ],

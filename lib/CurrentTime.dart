@@ -52,22 +52,22 @@ class _CurrentTimeState extends State<CurrentTime> {
   Widget build(BuildContext context) {
    if(widget.style=="contentInfo") {
      if(widget.type) {
-       return Text(nowDate,style: Community.contentInfo);
+       return Text(nowDate,style: CommunityPageTheme.contentInfo);
      } else {
-       return Text(nowTime,style: Community.contentInfo);
+       return Text(nowTime,style: CommunityPageTheme.contentInfo);
      }
    } else if (widget.style=="sub"){
      if(widget.type) {
-       return Text(nowDate,style: Community.sub);
+       return Text(nowDate,style: CommunityPageTheme.sub);
      } else {
-       return Text(nowTime,style:Community.sub);
+       return Text(nowTime,style:CommunityPageTheme.sub);
      }
    }
    else if (widget.style=="korean") {
      if (widget.type) {
-       return Text(koreanTime, style: Community.sub);
+       return Text(koreanTime, style: CommunityPageTheme.sub);
      } else {
-       return Text(koreanTime, style: Community.sub);
+       return Text(koreanTime, style: CommunityPageTheme.sub);
      }
    }else{
      if(widget.type) {
