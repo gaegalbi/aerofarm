@@ -59,20 +59,20 @@ public class Member extends BaseEntity {
         this.email = saveMemberForm.getEmail();
         this.password = saveMemberForm.getPassword();
         this.nickname = saveMemberForm.getNickname();
-        this.roles.add(new MemberRole(saveMemberForm.getRole(), this));
+        this.roles.add(new MemberRole(Role.GUEST, this));
         this.phoneNumber = saveMemberForm.getPhoneNumber();
         this.provider = Provider.LOCAL;
         this.verify = false; // 로컬 회원가입 시 검증 기본값 false
     }
 
     @Builder(builderClassName = "UserDetailBuilder")
-    public Member(String nickname, String password, Provider provider, String picture, String email, Role role) {
+    public Member(String nickname, String password, Provider provider, String picture, String email) {
         this.nickname = nickname;
         this.password = password;
         this.picture = picture;
         this.email = email;
         this.provider = provider;
-        this.roles.add(new MemberRole(role, this));
+        this.roles.add(new MemberRole(Role.GUEST, this));
         this.verify = true; // Oauth2 회원가입 시 검증 기본값 true
     }
 
