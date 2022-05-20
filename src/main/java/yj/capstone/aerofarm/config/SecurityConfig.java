@@ -32,7 +32,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/",
             "/login/**",
             "/signup/**",
-            "/community"
+            "/community",
+            "/community/**" // 테스트 중
     };
 
     @Override

@@ -125,7 +125,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr onclick="location.href='/community/free'">
+        <tr th:each="postDto : ${postDtos}" onclick="location.href='/community/free'">
             <td class="f-filter-color-b">분류1</td>
             <td class="title-f-sort" th:text="${postDto.title}">글제목</td>
             <td th:text="${postDto.writer}">작성자</td>
@@ -133,86 +133,6 @@
             <td th:text="${postDto.likes}">추천수</td>
             <td th:text="${postDto.views}">조회수</td>
         </tr>
-        <!--<tr>
-            <td class="f-filter-color-b">분류1</td>
-            <td class="title-f-sort">이것은 제목 입니다</td>
-            <td>관리자</td>
-            <td>2022-05-09</td>
-            <td>555</td>
-            <td>999</td>
-        </tr>
-        <tr>
-            <td class="f-filter-color-b">분류1</td>
-            <td class="title-f-sort">이것은 제목 입니다</td>
-            <td>관리자</td>
-            <td>2022-05-09</td>
-            <td>555</td>
-            <td>999</td>
-        </tr>
-        <tr>
-            <td class="f-filter-color-b">분류1</td>
-            <td class="title-f-sort">이것은 제목 입니다</td>
-            <td>관리자</td>
-            <td>2022-05-09</td>
-            <td>555</td>
-            <td>999</td>
-        </tr>
-        <tr>
-            <td class="f-filter-color-b">분류1</td>
-            <td class="title-f-sort">이것은 제목 입니다</td>
-            <td>관리자</td>
-            <td>2022-05-09</td>
-            <td>555</td>
-            <td>999</td>
-        </tr>
-        <tr>
-            <td class="f-filter-color-b">분류1</td>
-            <td class="title-f-sort">이것은 제목 입니다</td>
-            <td>관리자</td>
-            <td>2022-05-09</td>
-            <td>555</td>
-            <td>999</td>
-        </tr>
-        <tr>
-            <td class="f-filter-color-b">분류1</td>
-            <td class="title-f-sort">이것은 제목 입니다</td>
-            <td>관리자</td>
-            <td>2022-05-09</td>
-            <td>555</td>
-            <td>999</td>
-        </tr>
-        <tr>
-            <td class="f-filter-color-b">분류1</td>
-            <td class="title-f-sort">이것은 제목 입니다</td>
-            <td>관리자</td>
-            <td>2022-05-09</td>
-            <td>555</td>
-            <td>999</td>
-        </tr>
-        <tr>
-            <td class="f-filter-color-b">분류1</td>
-            <td class="title-f-sort">이것은 제목 입니다</td>
-            <td>관리자</td>
-            <td>2022-05-09</td>
-            <td>555</td>
-            <td>999</td>
-        </tr>
-        <tr>
-            <td class="f-filter-color-b">분류1</td>
-            <td class="title-f-sort">이것은 제목 입니다</td>
-            <td>관리자</td>
-            <td>2022-05-09</td>
-            <td>555</td>
-            <td>999</td>
-        </tr>
-        <tr>
-            <td class="f-filter-color-b">분류1</td>
-            <td class="title-f-sort">이것은 제목 입니다</td>
-            <td>관리자</td>
-            <td>2022-05-09</td>
-            <td>555</td>
-            <td>999</td>
-        </tr>-->
         </tbody>
     </table>
 </div>
