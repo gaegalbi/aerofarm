@@ -1,6 +1,8 @@
 package yj.capstone.aerofarm.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -12,24 +14,27 @@ import yj.capstone.aerofarm.config.auth.dto.OAuthAttributes;
 import yj.capstone.aerofarm.config.auth.dto.SessionUser;
 import yj.capstone.aerofarm.controller.dto.UserDetailsImpl;
 import yj.capstone.aerofarm.domain.member.Member;
+import yj.capstone.aerofarm.repository.MemberRepository;
 
 import javax.servlet.http.HttpSession;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
+public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
-    private final MemberService memberService;
+    private final BCryptPasswordEncoder passwordEncoder;
+    private final MemberRepository memberRepository;
     private final HttpSession httpSession;
 
     /**
-     * Update시 모든 정보를 수정하기 때문에 readOnly로 해두었음
-     * 그리고 회원가입 시 기존 회원이 있으면 기존 회원의 정보를 그대로 받아오게 했음 (로그인만 되게)
+     * 기존 회원이 있으면 기존 회원의 정보를 그대로 받아오게 했음 (로그인만 되게)
      * 추후 변경사항 생길 시 해당 옵션 제거 및 saveOrUpdate 메소드 주석 해제
+     * 가입 되있으나 인증이 안된 회원이 있을 시 해당 회원 삭제 후 등록
      */
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 
         OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
@@ -52,13 +57,34 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     /**
      * 회원가입 시 기존 회원이 있으면 기존 회원의 정보를 그대로 받아오게 했음 (로그인만 되게)
      * 추후 필요 시 update 주석 해제
+     * 가입 되있으나 인증이 안된 회원이 있을 시 해당 회원 삭제 후 등록
      */
     private Member saveOrUpdate(OAuthAttributes attributes) {
-        if (memberService.duplicateEmailCheck(attributes.getEmail())) { // 자체 회원가입된 계정이 있는지 검사
-            Member member = memberService.findByEmail(attributes.getEmail());
+        if (memberRepository.existsByEmail(attributes.getEmail())) { // 자체 회원가입된 계정이 있는지 검사
+            if (memberRepository.existsByEmailAndVerifyFalse(attributes.getEmail())) {
+                memberRepository.deleteByEmail(attributes.getEmail());
+                return saveOAuth2Member(attributes.toEntity());
+            }
+            Member member = memberRepository.findByEmail(attributes.getEmail()).orElseThrow(() -> new UsernameNotFoundException("해당되는 회원이 없습니다."));
 //            member.update(attributes.getName(), attributes.getPicture());
             return member;
         }
-        return memberService.saveOAuth2Member(attributes.toEntity());
+        return saveOAuth2Member(attributes.toEntity());
+    }
+
+    public Member saveOAuth2Member(Member newMember) {
+        newMember.changePassword(passwordEncoder.encode(UUID.randomUUID().toString().substring(0, 6)));
+        if (memberRepository.existsByNickname(newMember.getNickname())) {
+            String newNickname = duplicateNicknameChange(newMember.getNickname());
+            newMember.changeNickname(newNickname);
+        }
+        return memberRepository.save(newMember);
+    }
+
+    private String duplicateNicknameChange(String nickname) {
+        if (memberRepository.existsByNickname(nickname)) {
+            return duplicateNicknameChange(nickname + (int) (Math.random() * 9999));
+        }
+        return nickname;
     }
 }

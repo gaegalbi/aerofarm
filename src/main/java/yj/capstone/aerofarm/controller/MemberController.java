@@ -8,14 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MemberController {
 
     @GetMapping("/memberInfo")
-    @PreAuthorize("hasAnyAuthority('MEMBER')")
-    public String memberInfo() {
-        return "member/memberInfo";
-    }
-
-    @GetMapping("/memberInfo2")
     @PreAuthorize("hasAnyAuthority('GUEST')")
-    public String memberInfo2() {
+    public String memberInfo() {
         return "member/memberInfo";
     }
 }

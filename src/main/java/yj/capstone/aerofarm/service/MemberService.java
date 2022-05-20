@@ -4,9 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import yj.capstone.aerofarm.controller.form.SaveMemberForm;
+import yj.capstone.aerofarm.domain.member.ConfirmationToken;
 import yj.capstone.aerofarm.domain.member.Member;
+import yj.capstone.aerofarm.exception.TokenExpiredException;
 import yj.capstone.aerofarm.repository.MemberRepository;
 
 import java.util.UUID;
@@ -18,6 +21,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final ConfirmationTokenService confirmationTokenService;
 
 //    public boolean validateLogin(String email, String password) {
 //        return memberRepository.existsByEmailAndPwd(email,password);
@@ -33,14 +37,12 @@ public class MemberService {
 
     public void signup(SaveMemberForm saveMemberForm) {
         saveMemberForm.setPhoneNumber(removeHyphenPhoneNumber(saveMemberForm.getPhoneNumber()));
-
-        String password = saveMemberForm.getPassword();
-        String newPassword = passwordEncoder.encode(password);
-        saveMemberForm.setPassword(newPassword);
+        saveMemberForm.setPassword(passwordEncoder.encode(saveMemberForm.getPassword()));
 
         Member member = Member.saveMemberFormBuilder()
                 .saveMemberForm(saveMemberForm)
                 .build();
+        confirmationTokenService.createEmailConfirmationToken(saveMemberForm.getEmail());
         memberRepository.save(member);
     }
 
@@ -56,19 +58,21 @@ public class MemberService {
         return memberRepository.existsByPhoneNumber(removeHyphenPhoneNumber(phoneNumber));
     }
 
-    private String duplicateNicknameChange(String nickname) {
-        if (memberRepository.existsByNickname(nickname)) {
-            return duplicateNicknameChange(nickname + (int) (Math.random() * 9999));
-        }
-        return nickname;
+    public void confirmEmail(String token) {
+        ConfirmationToken findToken = confirmationTokenService.findByIdAndExpirationDateAfter(token);
+        Member findMember = findByEmailAndVerifyFalse(findToken.getEmail());
+        findMember.emailVerifiedSuccess();
     }
 
-    public Member saveOAuth2Member(Member newMember) {
-        newMember.changePassword(passwordEncoder.encode(UUID.randomUUID().toString().substring(0, 6)));
-        if (duplicateNicknameCheck(newMember.getNickname())) {
-            String newNickname = duplicateNicknameChange(newMember.getNickname());
-            newMember.changeNickname(newNickname);
-        }
-        return memberRepository.save(newMember);
+    public boolean isNotVerified(String email) {
+        return memberRepository.existsByEmailAndVerifyFalse(email);
+    }
+
+    public void deleteByEmail(String email) {
+        memberRepository.deleteByEmail(email);
+    }
+
+    public Member findByEmailAndVerifyFalse(String email) {
+        return memberRepository.findByEmailAndVerifyFalse(email).orElseThrow(() -> new TokenExpiredException("이미 인증된 회원 입니다!"));
     }
 }

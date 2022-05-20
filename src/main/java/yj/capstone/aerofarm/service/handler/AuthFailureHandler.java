@@ -1,6 +1,7 @@
 package yj.capstone.aerofarm.service.handler;
 
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -19,6 +20,8 @@ public class AuthFailureHandler implements AuthenticationFailureHandler {
 
         if (exception instanceof UsernameNotFoundException || exception instanceof BadCredentialsException) {
             request.setAttribute("error", "해당되는 계정이 없거나 비밀번호가 틀립니다.");
+        } else if (exception instanceof DisabledException) {
+            request.setAttribute("error", "아직 이메일이 인증되지 않았습니다!");
         }
 
         request.getRequestDispatcher("/login").forward(request, response);

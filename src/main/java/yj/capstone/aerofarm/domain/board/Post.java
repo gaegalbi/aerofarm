@@ -53,7 +53,7 @@ public class Post extends BaseEntity {
 //    private List<Comment> comments = new ArrayList<>();
 
     // 조회수
-    private int hits;
+    private int views;
 
     // 추천수
     private int likes;

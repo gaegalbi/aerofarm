@@ -1,6 +1,7 @@
 package yj.capstone.aerofarm.domain.order;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import yj.capstone.aerofarm.domain.AddressInfo;
@@ -21,10 +22,13 @@ public class Order extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "order")
+    private String receiver;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderLine> orderLines = new ArrayList<>();
 
-    private int totalPrice;
+    @Embedded
+    private Money totalPrice;
 
     @Enumerated(EnumType.STRING)
     private DeliveryStatus deliveryStatus;
@@ -39,4 +43,38 @@ public class Order extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private PaymentType paymentType;
+
+    // TODO 대충 만든 임시 빌더 추후 검토 필요
+    @Builder
+    public Order(String receiver, String paymentType, AddressInfo addressInfo, Member orderer, List<OrderLine> orderLines) {
+        this.receiver = receiver;
+        this.paymentType = PaymentType.valueOf(paymentType);
+        this.addressInfo = addressInfo;
+        this.orderer = orderer;
+        this.orderLines = orderLines;
+        if (this.paymentType == PaymentType.MOOTONGJANG) {
+            this.deliveryStatus = DeliveryStatus.PAYMENT_WAITING;
+        } else {
+            this.deliveryStatus = DeliveryStatus.PAYMENT_OK;
+        }
+        calculateTotalPrice();
+    }
+
+    private void calculateTotalPrice() {
+        int sum = orderLines.stream()
+                .mapToInt(OrderLine::getOrderPrice)
+                .sum();
+        this.totalPrice = new Money(sum);
+    }
+
+    public DeliveryStatus cancel() {
+        DeliveryStatus deliveryStatus = this.deliveryStatus;
+
+        if (this.deliveryStatus == DeliveryStatus.PAYMENT_WAITING || this.deliveryStatus == DeliveryStatus.PAYMENT_OK) {
+            this.deliveryStatus = DeliveryStatus.CANCELED;
+            return deliveryStatus;
+        } else {
+            throw new IllegalArgumentException("배송 시작 후에는 취소가 불가능 합니다."); // TODO 예외 이름 변경
+        }
+    }
 }
