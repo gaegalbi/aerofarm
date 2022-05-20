@@ -69,11 +69,12 @@ class _CurrentTimeState extends State<CurrentTime> {
      } else {
        return Text(koreanTime, style: CommunityPageTheme.sub);
      }
-   }else{
+   }
+  else{
      if(widget.type) {
-       return Text(nowDate,style: null);
+       return Text(nowDate,style: CommunityPageTheme.timeDefault);
      } else {
-       return Text(nowTime,style:null);
+       return Text(nowTime,style:  CommunityPageTheme.timeDefault);
      }
    }
   }

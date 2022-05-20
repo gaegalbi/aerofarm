@@ -235,4 +235,14 @@ class CommunityPageTheme {
       decoration: TextDecoration.none,
       fontFamily: 'bmAir',
       fontSize: 22);
+  static const chatContent = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmAir',
+      fontSize: 22);
+  static const timeDefault = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmAir',
+      fontSize: 13);
 }

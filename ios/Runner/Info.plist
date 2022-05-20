@@ -97,5 +97,7 @@
 	<string>aerofarm</string>
 	<key>naverServiceAppUrlScheme</key>
 	<string>naverlogin</string>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
 </dict>
 </plist>

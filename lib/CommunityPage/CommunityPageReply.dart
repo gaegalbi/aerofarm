@@ -13,7 +13,13 @@ class CommunityPageReply extends StatefulWidget {
 }
 
 class _CommunityPageReplyState extends State<CommunityPageReply> {
-  bool post = true;
+  late bool post;
+
+  @override
+  void initState() {
+    post = true;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +89,8 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                                   padding: MaterialStateProperty.all(
                                       EdgeInsets.zero)),
                               child: post
-                                  ? const Text("등록순", style: CommunityPageTheme.postFont)
+                                  ? const Text("등록순",
+                                      style: CommunityPageTheme.postFont)
                                   : const Text("등록순",
                                       style: CommunityPageTheme.postFalseFont),
                             ),
@@ -152,7 +159,8 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                                                       bottom: 10),
                                                   child: const Text(
                                                     "city",
-                                                    style: CommunityPageTheme.postFont,
+                                                    style: CommunityPageTheme
+                                                        .postFont,
                                                   )),
                                             ],
                                           ),
@@ -160,34 +168,41 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                                             margin: const EdgeInsets.only(
                                                 bottom: 10),
                                             child: Text("도시농부 서비스 너무 좋네요",
-                                                style: CommunityPageTheme.postFont),
+                                                style: CommunityPageTheme
+                                                    .postFont),
                                           ),
                                           Row(
                                             mainAxisSize: MainAxisSize.max,
                                             children: [
                                               Container(
-                                                  margin: EdgeInsets.only(
-                                                      right: 10),
-                                                  child:   const CurrentTime(
-                                                    type: true, style: 'contentInfo',
-                                                  ),),
+                                                margin:
+                                                    EdgeInsets.only(right: 10),
+                                                child: const CurrentTime(
+                                                  type: true,
+                                                  style: 'contentInfo',
+                                                ),
+                                              ),
                                               Container(
-                                                  margin: EdgeInsets.only(
-                                                      right: 10),
-                                                  child:   const CurrentTime(
-                                                    type: false, style: 'contentInfo',
-                                                  ),),
+                                                margin:
+                                                    EdgeInsets.only(right: 10),
+                                                child: const CurrentTime(
+                                                  type: false,
+                                                  style: 'contentInfo',
+                                                ),
+                                              ),
                                               SizedBox(
-                                                height: 20,
+                                                  height: 20,
                                                   child: TextButton(
                                                     style: ButtonStyle(
-                                                      padding: MaterialStateProperty.all(EdgeInsets.zero)
-                                                    ),
-                                                    onPressed: () {  },
+                                                        padding:
+                                                            MaterialStateProperty
+                                                                .all(EdgeInsets
+                                                                    .zero)),
+                                                    onPressed: () {},
                                                     child: Text(
                                                       "답글 쓰기",
-                                                      style:
-                                                          CommunityPageTheme.contentInfo,
+                                                      style: CommunityPageTheme
+                                                          .contentInfo,
                                                     ),
                                                   ))
                                             ],
@@ -241,9 +256,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                             Icons.camera_alt_outlined,
                             size: 35,
                           ),
-                          onPressed: () {
-                            Get.to(() => const CommunityPageReply());
-                          },
+                          onPressed: () {},
                         ),
                         TextButton(
                           style: ButtonStyle(
@@ -253,9 +266,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                             "등록",
                             style: CommunityPageTheme.bottomAppBarList,
                           ),
-                          onPressed: () {
-                            Get.to(() => const CommunityPageReply());
-                          },
+                          onPressed: () {},
                         )
                       ],
                     ),

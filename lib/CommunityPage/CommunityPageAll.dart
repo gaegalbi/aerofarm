@@ -1,4 +1,5 @@
 import 'package:capstone/CommunityPage/CommunityPageDrawer.dart';
+import 'package:capstone/CommunityPage/CommunityPageReadPost.dart';
 import 'package:capstone/MainPage/MainPage.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
@@ -149,7 +150,7 @@ class _CommunityPageAllState extends State<CommunityPageAll> {
                     )),
                     child: InkWell(
                       onTap: () {
-                        //Get.off(()=>const MachinePageInfo());
+                        Get.to(()=>const CommunityPageReadPost());
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

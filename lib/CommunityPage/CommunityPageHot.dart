@@ -15,6 +15,20 @@ class CommunityPageHot extends StatefulWidget {
 }
 
 class _CommunityPageHotState extends State<CommunityPageHot> {
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,15 +104,41 @@ class _CommunityPageHotState extends State<CommunityPageHot> {
         color: MainColor.six,
         child: Column(
           children: [
-            Container(
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).size.height * 0.016),
-                child: const Text(
-                  "인기게시판",
-                  style: CommunityPageTheme.title,
-                  textAlign: TextAlign.left,
-                )),
+            Row(
+              children: [
+                Container(
+                    margin: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).size.height * 0.016),
+                    child: const Text(
+                      "인기게시판",
+                      style: CommunityPageTheme.title,
+                      textAlign: TextAlign.left,
+                    )),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  height: 30,
+                  child: ListView(
+                    controller: _scrollController,
+                    scrollDirection: Axis.horizontal,
+                    children: <Widget>[
+                      Text("정보"),
+                      Text("정보"),
+                      Text("정보"),
+                      Text("정보"),
+                      Text("정보"),
+                      Text("정보"),
+                      Text("정보"),
+                      Text("정보"),
+                      Text("정보"),
+                      Text("정보"),
+                      Text("정보"),
+                      Text("정보"),
+                      Text("정보"),
+                    ],
+                  ),
+                ),
+              ],
+            ),
             Container(
               padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).size.height * 0.012),
