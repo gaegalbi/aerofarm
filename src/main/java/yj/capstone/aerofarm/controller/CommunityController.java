@@ -15,7 +15,8 @@ public class CommunityController {
 
     @GetMapping("/community/free")
     public String community_free() {
-        return "/community/free";
+
+        return "/community/postingPage";
     }
     // /community/free 자유게시판 글 목록
     // /community/free/{boardId} 자유게시판 글 상세보기
