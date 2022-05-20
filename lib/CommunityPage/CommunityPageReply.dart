@@ -13,12 +13,29 @@ class CommunityPageReply extends StatefulWidget {
 }
 
 class _CommunityPageReplyState extends State<CommunityPageReply> {
-  late bool post;
+  late bool sort;
+  late TextEditingController _textEditingController;
+  late final List<Widget> _replyList = [];
 
   @override
   void initState() {
-    post = true;
+    _replyList.clear();
+    sort = true;
+    _textEditingController = TextEditingController();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _replyList.clear();
+    _textEditingController.dispose();
+    super.dispose();
+  }
+
+  void addReply(String content, AssetImage image, String user) {
+    _replyList.add(
+      AddReply(content: content, image: image, user: user)
+    );
   }
 
   @override
@@ -73,22 +90,22 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                         margin: EdgeInsets.only(
                             right: MediaQuery.of(context).size.width * 0.02,
                             left: MediaQuery.of(context).size.width * 0.02),
-                        /* decoration: const BoxDecoration(
+                        decoration: const BoxDecoration(
                             border: Border(
                           bottom: BorderSide(width: 2, color: Colors.white),
-                        )),*/
+                        )),
                         child: Row(
                           children: [
                             TextButton(
                               onPressed: () {
                                 setState(() {
-                                  if (!post) post = !post;
+                                  if (!sort) sort = !sort;
                                 });
                               },
                               style: ButtonStyle(
                                   padding: MaterialStateProperty.all(
                                       EdgeInsets.zero)),
-                              child: post
+                              child: sort
                                   ? const Text("등록순",
                                       style: CommunityPageTheme.postFont)
                                   : const Text("등록순",
@@ -97,13 +114,13 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                             TextButton(
                               onPressed: () {
                                 setState(() {
-                                  if (post) post = !post;
+                                  if (sort) sort = !sort;
                                 });
                               },
                               style: ButtonStyle(
                                   padding: MaterialStateProperty.all(
                                       EdgeInsets.zero)),
-                              child: post
+                              child: sort
                                   ? const Text("최신순",
                                       style: CommunityPageTheme.postFalseFont)
                                   : const Text("최신순",
@@ -112,109 +129,9 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                           ],
                         ),
                       ),
-                      Container(
-                          margin: EdgeInsets.only(
-                              top: MediaQuery.of(context).size.height * 0.01),
-                          padding: EdgeInsets.only(
-                              top: MediaQuery.of(context).size.height * 0.01),
-                          decoration: const BoxDecoration(
-                              border: Border(
-                            top: BorderSide(width: 2, color: Colors.white),
-                          )),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(top: 5),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      margin: EdgeInsets.only(right: 15),
-                                      child: CircleAvatar(
-                                        radius:
-                                            MediaQuery.of(context).size.width *
-                                                0.08,
-                                        backgroundImage: const AssetImage(
-                                            "assets/images/profile.png"),
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.only(
-                                          right: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.02,
-                                          left: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.02),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Container(
-                                                  margin: const EdgeInsets.only(
-                                                      bottom: 10),
-                                                  child: const Text(
-                                                    "city",
-                                                    style: CommunityPageTheme
-                                                        .postFont,
-                                                  )),
-                                            ],
-                                          ),
-                                          Container(
-                                            margin: const EdgeInsets.only(
-                                                bottom: 10),
-                                            child: Text("도시농부 서비스 너무 좋네요",
-                                                style: CommunityPageTheme
-                                                    .postFont),
-                                          ),
-                                          Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: [
-                                              Container(
-                                                margin:
-                                                    EdgeInsets.only(right: 10),
-                                                child: const CurrentTime(
-                                                  type: true,
-                                                  style: 'contentInfo',
-                                                ),
-                                              ),
-                                              Container(
-                                                margin:
-                                                    EdgeInsets.only(right: 10),
-                                                child: const CurrentTime(
-                                                  type: false,
-                                                  style: 'contentInfo',
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                  height: 20,
-                                                  child: TextButton(
-                                                    style: ButtonStyle(
-                                                        padding:
-                                                            MaterialStateProperty
-                                                                .all(EdgeInsets
-                                                                    .zero)),
-                                                    onPressed: () {},
-                                                    child: Text(
-                                                      "답글 쓰기",
-                                                      style: CommunityPageTheme
-                                                          .contentInfo,
-                                                    ),
-                                                  ))
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
-                          ))
+                      Column(
+                        children: _replyList,
+                      ),
                     ],
                   ),
                 ],
@@ -236,11 +153,11 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                   children: [
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.5,
-                      child: const TextField(
-//controller: _lUserNameController,
+                      child: TextField(
+                        controller: _textEditingController,
                         textInputAction: TextInputAction.next,
                         style: LoginRegisterPageTheme.text,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             enabledBorder: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             hintText: "댓글을 남겨보세요",
@@ -262,11 +179,16 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                           style: ButtonStyle(
                               backgroundColor:
                                   MaterialStateProperty.all(MainColor.one)),
-                          child: Text(
+                          child: const Text(
                             "등록",
                             style: CommunityPageTheme.bottomAppBarList,
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            setState((){
+                              addReply(_textEditingController.text, AssetImage("assets/images/profile.png"), "city");
+                              _textEditingController.text = "";
+                            });
+                          }
                         )
                       ],
                     ),
@@ -276,5 +198,105 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
             ),
           )),
     );
+  }
+}
+
+class AddReply extends StatelessWidget {
+  final String user;
+  final String content;
+  final AssetImage image;
+
+  const AddReply(
+      {Key? key,
+      required this.content,
+      required this.image,
+      required this.user})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01),
+        padding: EdgeInsets.only(
+            top: MediaQuery.of(context).size.height * 0.01,
+            bottom: MediaQuery.of(context).size.height * 0.01),
+        decoration: const BoxDecoration(
+            border: Border(
+          bottom: BorderSide(width: 1, color: Colors.white),
+        )),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              child: Row(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(right: 15),
+                    child: CircleAvatar(
+                      radius: MediaQuery.of(context).size.width * 0.08,
+                      backgroundImage: image,
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(
+                        right: MediaQuery.of(context).size.width * 0.02,
+                        left: MediaQuery.of(context).size.width * 0.02),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                                margin: const EdgeInsets.only(bottom: 10),
+                                child: Text(
+                                  user,
+                                  style: CommunityPageTheme.postFont,
+                                )),
+                          ],
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 10),
+                          child:
+                              Text(content, style: CommunityPageTheme.postFont),
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(right: 10),
+                              child: const CurrentTime(
+                                type: true,
+                                style: 'contentInfo',
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(right: 10),
+                              child: const CurrentTime(
+                                type: false,
+                                style: 'contentInfo',
+                              ),
+                            ),
+                            SizedBox(
+                                height: 20,
+                                child: TextButton(
+                                  style: ButtonStyle(
+                                      padding: MaterialStateProperty.all(
+                                          EdgeInsets.zero)),
+                                  onPressed: () {},
+                                  child: const Text(
+                                    "답글 쓰기",
+                                    style: CommunityPageTheme.contentInfo,
+                                  ),
+                                ))
+                          ],
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            )
+          ],
+        ));
   }
 }

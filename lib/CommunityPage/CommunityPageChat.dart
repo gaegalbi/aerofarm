@@ -1,6 +1,8 @@
 import 'package:bubble/bubble.dart';
+import 'package:capstone/CommunityPage/CommunityPageChatList.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../CurrentTime.dart';
 
 class CommunityPageChat extends StatefulWidget {
@@ -57,7 +59,9 @@ class _CommunityPageChatState extends State<CommunityPageChat> {
               icon: const Icon(
                 Icons.chevron_left,
               ),
-              onPressed: () {},
+              onPressed: () {
+                Get.offAll(()=> const CommunityPageChatList());
+              },
             )),
           ),
           title: const Text("city", style: MainTheme.title),
@@ -75,7 +79,9 @@ class _CommunityPageChatState extends State<CommunityPageChat> {
                   icon: const Icon(
                     Icons.home,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.offAll(()=> const CommunityPageChatList());
+                  },
                 ),
               ),
             )
