@@ -97,7 +97,7 @@
 <div class="container">
     <main>
         <div class="community-category">
-            <a>자유게시판</a>
+            <a>전체게시판</a>
         </div>
         <!--필터링 헤더-->
         <div class="filtering">
@@ -127,11 +127,10 @@
         </thead>
         <tbody>
         <tr th:each="postDto : ${postDtos}" onclick="location.href='/community/free'">
-            <td class="f-filter-color-b">일반</td>
+            <td class="f-filter-color-b">분류1</td>
             <td class="title-f-sort" th:text="${postDto.title}">글제목</td>
             <td th:text="${postDto.writer}">작성자</td>
-<!--            <td th:text="${#temporals.format(postDto.localDateTime, 'yyyy.MM.dd HH:mm:ss')}">2022-05-09</td>-->
-            <td>2022-05-09</td>
+            <td th:text="${#temporals.format(postDto.localDateTime, 'yyyy.MM.dd HH:mm:ss')}">2022-05-09</td>
             <td th:text="${postDto.likes}">추천수</td>
             <td th:text="${postDto.views}">조회수</td>
         </tr>
