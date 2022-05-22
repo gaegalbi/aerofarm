@@ -245,4 +245,20 @@ class CommunityPageTheme {
       decoration: TextDecoration.none,
       fontFamily: 'bmAir',
       fontSize: 13);
+  static const boardDrawer = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 20);
+  static const checkBoxFont = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 26);
+  static const checkBoxDisable = TextStyle(
+      color: MainColor.one,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 26);
+
 }

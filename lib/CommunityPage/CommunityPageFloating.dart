@@ -1,9 +1,8 @@
 import 'package:capstone/CommunityPage/CommunityPageChatList.dart';
-import 'package:capstone/CommunityPage/CommunityPageReadPost.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
-
 import 'package:get/get.dart';
+import 'CommunityPageCreatePost.dart';
 
 @immutable
 class CommunityPageFloating extends StatelessWidget {
@@ -21,7 +20,7 @@ class CommunityPageFloating extends StatelessWidget {
           color: Colors.indigo,
           child: IconButton(
             padding: EdgeInsets.zero,
-              onPressed: () => Get.to(()=>const CommunityPageReadPost()),
+              onPressed: () => Get.to(()=>const CommunityPageCreatePost()),
               icon: Image.asset("assets/images/create.png"))
         ),
         Material(
