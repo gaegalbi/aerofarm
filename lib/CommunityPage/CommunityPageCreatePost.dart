@@ -89,13 +89,21 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost> {
                             child: SingleChildScrollView(
                               child: Column(
                                 children: <Widget>[
+                                  Icon(
+                                    Icons.remove,
+                                    color: Colors.white,
+                                    size: 60,
+                                  ),
                                   Container(
                                     alignment: Alignment.centerLeft,
-                                    margin: EdgeInsets.only(top: 20, bottom: 15, left: 30),
+                                    margin:
+                                        EdgeInsets.only(bottom: 15, left: 30),
                                     child: const Text(
                                       "게시판 선택",
                                       style: TextStyle(
-                                          fontFamily: "bmPro", fontSize: 30, color: MainColor.three),
+                                          fontFamily: "bmPro",
+                                          fontSize: 30,
+                                          color: MainColor.three),
                                     ),
                                   ),
                                   RadioButton(
@@ -158,42 +166,48 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost> {
                                     value: "===0",
                                     groupValue: groupValue,
                                     activeColor: MainColor.three,
-                                    textStyle: CommunityPageTheme.checkBoxDisable,
+                                    textStyle:
+                                        CommunityPageTheme.checkBoxDisable,
                                   ),
                                   RadioButton(
                                     description: "===",
                                     value: "===1",
                                     groupValue: groupValue,
                                     activeColor: MainColor.three,
-                                    textStyle: CommunityPageTheme.checkBoxDisable,
+                                    textStyle:
+                                        CommunityPageTheme.checkBoxDisable,
                                   ),
                                   RadioButton(
                                     description: "===",
                                     value: "===2",
                                     groupValue: groupValue,
                                     activeColor: MainColor.three,
-                                    textStyle: CommunityPageTheme.checkBoxDisable,
+                                    textStyle:
+                                        CommunityPageTheme.checkBoxDisable,
                                   ),
                                   RadioButton(
                                     description: "===",
                                     value: "===3",
                                     groupValue: groupValue,
                                     activeColor: MainColor.three,
-                                    textStyle: CommunityPageTheme.checkBoxDisable,
+                                    textStyle:
+                                        CommunityPageTheme.checkBoxDisable,
                                   ),
                                   RadioButton(
                                     description: "===",
                                     value: "===4",
                                     groupValue: groupValue,
                                     activeColor: MainColor.three,
-                                    textStyle: CommunityPageTheme.checkBoxDisable,
+                                    textStyle:
+                                        CommunityPageTheme.checkBoxDisable,
                                   ),
                                   RadioButton(
                                     description: "===",
                                     value: "===5",
                                     groupValue: groupValue,
                                     activeColor: MainColor.three,
-                                    textStyle: CommunityPageTheme.checkBoxDisable,
+                                    textStyle:
+                                        CommunityPageTheme.checkBoxDisable,
                                   ),
                                 ],
                               ),
@@ -202,7 +216,48 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost> {
                         },
                       );
                     },
-                  ))
+                  )),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.8,
+            decoration: const BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(width: 2, color: Colors.white),
+                )),
+            child: const TextField(
+                textInputAction: TextInputAction.next,
+                style: TextStyle(
+                    fontFamily: "bmPro", fontSize: 25, color: Colors.white,),
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.zero,
+                  filled: true,
+                  fillColor: Colors.transparent,
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  hintText: "제목",
+                  hintStyle: TextStyle(
+                      fontFamily: "bmPro", fontSize: 25, color: Colors.grey),
+                )),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.8,
+            decoration: const BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(width: 2, color: Colors.white),
+                )),
+            child: const TextField(
+                style: TextStyle(
+                  fontFamily: "bmPro", fontSize: 20, color: Colors.white,),
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.zero,
+                  filled: true,
+                  fillColor: Colors.transparent,
+                  enabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  hintText: "내용을 입력하세요",
+                  hintStyle: TextStyle(
+                      fontFamily: "bmPro", fontSize: 20, color: Colors.grey),
+                )),
+          ),
         ]),
       ),
     );
@@ -219,12 +274,12 @@ class RadioButton<T> extends StatelessWidget {
 
   const RadioButton(
       {Key? key,
-        required this.description,
-        required this.value,
-        required this.groupValue,
-        this.onChanged,
-        this.activeColor,
-        this.textStyle})
+      required this.description,
+      required this.value,
+      required this.groupValue,
+      this.onChanged,
+      this.activeColor,
+      this.textStyle})
       : super(key: key);
 
   @override
