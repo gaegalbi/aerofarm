@@ -62,7 +62,8 @@ public class Member extends BaseEntity {
         this.roles.add(new MemberRole(saveMemberForm.getRole(), this));
         this.phoneNumber = saveMemberForm.getPhoneNumber();
         this.provider = Provider.LOCAL;
-        this.verify = false; // 로컬 회원가입 시 검증 기본값 false
+//        this.verify = false; // 로컬 회원가입 시 검증 기본값 false
+        this.verify = true;
     }
 
     @Builder(builderClassName = "UserDetailBuilder")

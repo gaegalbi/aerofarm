@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"/>
+<style>
+    body {
+        background-color: #1C273A;
+    }
+
+    .form-margin {
+        margin-top: 10px;
+    }
+
+</style>
+<body>
+<br><h2 style="text-align: center; color: #FFFFFF">게시글 작성</h2><br><br>
+    <div class="container">
+        <div class="input-group mb-3" style="width: 80%; margin: auto">
+            <span class="input-group-text" id="basic-addon1">제목</span>
+            <input type="text" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="basic-addon1">
+        </div>
+        <div class="input-group mb-3" style="width: 80%; margin: auto">
+            <label class="input-group-text" for="inputGroupSelect01">CATEGORY</label>
+            <select class="form-select" id="inputGroupSelect01">
+                <option selected>카테고리를 선택해주세요.</option>
+                <option value="1">자유게시판</option>
+                <option value="2">정보게시판</option>
+                <option value="3">질문게시판</option>
+                <option value="3">사진게시판</option>
+                <option value="3">거래게시판</option>
+            </select>
+        </div>
+        <div style="width: 80%; margin: auto; background-color: #FFFFFF">
+            <form method="post">
+                <textarea id="summernote" name="content"></textarea>
+            </form>
+        </div>
+        <div style="width: 80%; margin: auto">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end form-margin">
+                <button type="button" class="btn btn-secondary">글 작성</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
