@@ -6,11 +6,13 @@ class MainColor {
   static const thirty = Color.fromRGBO(186, 244, 111, 100);
   static const sixty = Color.fromRGBO(255, 255, 255, 100);*/
   static const six =
-      Color.fromRGBO(30, 36, 55, 100); //Color.fromRGBO(18, 24, 36, 100);
+  Color.fromRGBO(18, 24, 36, 1);
+      //Color.fromRGBO(30, 36, 55, 1); //Color.fromRGBO(18, 24, 36, 100);
   static const one =
-      Color.fromRGBO(95, 114, 151, 100); //Color.fromRGBO(64, 78, 105, 100);
-  static const three = Color.fromRGBO(80, 130, 255,
-      100); //Color.fromRGBO(57, 87, 183, 100); //Color.fromRGBO(64, 91, 177, 100);
+  Color.fromRGBO(64, 78, 105, 1);
+      //Color.fromRGBO(95, 114, 151, 1); //Color.fromRGBO(64, 78, 105, 100);
+  static const three =  Color.fromRGBO(57, 87, 183, 1); //Color.fromRGBO(80, 130, 255, 1);
+// Color.fromRGBO(57, 87, 183, 100); //Color.fromRGBO(64, 91, 177, 100);
 }
 
 class MainSize {
@@ -256,7 +258,7 @@ class CommunityPageTheme {
       fontFamily: 'bmPro',
       fontSize: 26);
   static const checkBoxDisable = TextStyle(
-      color: MainColor.one,
+      color: Colors.grey,
       decoration: TextDecoration.none,
       fontFamily: 'bmPro',
       fontSize: 26);
