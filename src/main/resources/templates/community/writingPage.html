@@ -12,22 +12,35 @@
 
 </style>
 <body>
-<br><h2 style="text-align: center; color: #FFFFFF">게시글 작성</h2><br><br>
+<br><h2 style="text-align: center; color: #FFFFFF">게시글 작성</h2><br>
     <div class="container">
         <div class="input-group mb-3" style="width: 80%; margin: auto">
-            <span class="input-group-text" id="basic-addon1">제목</span>
-            <input type="text" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="basic-addon1">
+            <div class="input-group mb-3" style="width: 35%; margin-right: 20px">
+                <label class="input-group-text" for="inputGroupSelect01">CATEGORY</label>
+                <select class="form-select" id="inputGroupSelect01">
+                    <option selected>카테고리를 선택해주세요.</option>
+                    <option value="1">자유게시판</option>
+                    <option value="2">정보게시판</option>
+                    <option value="3">질문게시판</option>
+                    <option value="4">사진게시판</option>
+                    <option value="5">거래게시판</option>
+                </select>
+            </div>
+            <div class="input-group mb-3" style="width: 35%; margin-right: 20px">
+                <label class="input-group-text" for="inputGroupSelect02">CLASSIFICATION</label>
+                <select class="form-select" id="inputGroupSelect02">
+                    <option selected>분류를 선택해주세요.</option>
+                    <option value="1">일반</option>
+                    <option value="2">취미</option>
+                    <option value="3">게임</option>
+                    <option value="4">일상</option>
+                    <option value="5">여행</option>
+                </select>
+            </div>
         </div>
-        <div class="input-group mb-3" style="width: 80%; margin: auto">
-            <label class="input-group-text" for="inputGroupSelect01">CATEGORY</label>
-            <select class="form-select" id="inputGroupSelect01">
-                <option selected>카테고리를 선택해주세요.</option>
-                <option value="1">자유게시판</option>
-                <option value="2">정보게시판</option>
-                <option value="3">질문게시판</option>
-                <option value="3">사진게시판</option>
-                <option value="3">거래게시판</option>
-            </select>
+        <div class="input-group mb-3" style="width: 80%; margin: auto; padding-bottom: 10px">
+            <span class="input-group-text" id="basic-addon1">Title</span>
+            <input type="text" class="form-control" placeholder="제목" aria-label="Title" aria-describedby="basic-addon1">
         </div>
         <div style="width: 80%; margin: auto; background-color: #FFFFFF">
             <form method="post">
