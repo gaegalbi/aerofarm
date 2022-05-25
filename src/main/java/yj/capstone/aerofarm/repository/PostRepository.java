@@ -1,8 +1,7 @@
 package yj.capstone.aerofarm.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import yj.capstone.aerofarm.domain.board.Post;
+import yj.capstone.aerofarm.controller.dto.PostDto;
 
-public interface CommunityRepository extends JpaRepository<Post, Long> {
-
+public interface PostRepository extends JpaRepository<PostDto, Long> {
 }
