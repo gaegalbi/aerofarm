@@ -46,6 +46,7 @@ public class LoginController {
             memberService.confirmEmail(token);
         } catch (TokenExpiredException e) {
 //            confirmationTokenService.deleteById(token);
+            log.debug("{}",e.getMessage(),e);
             rttr.addFlashAttribute("error", e.getMessage());
         }
         return "redirect:/login";
@@ -64,21 +65,22 @@ public class LoginController {
     public String signupSubmit(@Valid SaveMemberForm saveMemberForm, BindingResult bindingResult) {
         signupValidate(saveMemberForm, bindingResult);
         if (bindingResult.hasErrors()) {
-            log.info("errors={} ", bindingResult);
+            log.debug("errors={} ", bindingResult);
             return "/signupPage";
         }
-
         memberService.signup(saveMemberForm);
-
+        log.info("New member created. Email: {}",saveMemberForm.getEmail());
         return "redirect:/login";
     }
 
     private void signupValidate(SaveMemberForm saveMemberForm, BindingResult bindingResult) {
+        log.debug("Duplicate member check. Email: {}", saveMemberForm.getEmail());
         if (!saveMemberForm.getPassword().equals(saveMemberForm.getConfirmPassword())) {
             bindingResult.rejectValue("password","notMatch");
         }
         if (memberService.duplicateEmailCheck(saveMemberForm.getEmail())) {
             if (memberService.isNotVerified(saveMemberForm.getEmail())) {
+                log.debug("Member is already exist but not verified. Email: {}", saveMemberForm.getEmail());
                 confirmationTokenService.deleteByEmail(saveMemberForm.getEmail());
                 memberService.deleteByEmail(saveMemberForm.getEmail());
                 return;

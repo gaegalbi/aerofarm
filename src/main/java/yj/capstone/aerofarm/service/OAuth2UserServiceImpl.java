@@ -1,6 +1,7 @@
 package yj.capstone.aerofarm.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -21,6 +22,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 @Transactional
 public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
@@ -50,7 +52,7 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 
         Member member = saveOrUpdate(attributes);
         httpSession.setAttribute("user", new SessionUser(member)); // SessionUser (직렬화된 dto 클래스 사용)
-
+        log.info("{} has login.",member.getEmail());
         return new UserDetailsImpl(member, oAuth2User.getAttributes());
     }
 
@@ -60,30 +62,33 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
      * 가입 되있으나 인증이 안된 회원이 있을 시 해당 회원 삭제 후 등록
      */
     private Member saveOrUpdate(OAuthAttributes attributes) {
-        if (memberRepository.existsByEmail(attributes.getEmail())) { // 자체 회원가입된 계정이 있는지 검사
-            if (memberRepository.existsByEmailAndVerifyFalse(attributes.getEmail())) {
-                memberRepository.deleteByEmail(attributes.getEmail());
-                return saveOAuth2Member(attributes.toEntity());
-            }
+        if (memberRepository.existsByEmailAndVerifyTrue(attributes.getEmail())) {
             Member member = memberRepository.findByEmail(attributes.getEmail()).orElseThrow(() -> new UsernameNotFoundException("해당되는 회원이 없습니다."));
 //            member.update(attributes.getName(), attributes.getPicture());
             return member;
+        }
+        if (memberRepository.existsByEmailAndVerifyFalse(attributes.getEmail())) {
+            log.debug("Member is already exist but not verified. Email: {}", attributes.getEmail());
+            memberRepository.deleteByEmail(attributes.getEmail());
+            log.debug("Member is delete by email. Email: {}", attributes.getEmail());
+            return saveOAuth2Member(attributes.toEntity());
         }
         return saveOAuth2Member(attributes.toEntity());
     }
 
     public Member saveOAuth2Member(Member newMember) {
         newMember.changePassword(passwordEncoder.encode(UUID.randomUUID().toString().substring(0, 6)));
-        if (memberRepository.existsByNickname(newMember.getNickname())) {
-            String newNickname = duplicateNicknameChange(newMember.getNickname());
-            newMember.changeNickname(newNickname);
-        }
+        String newNickname = duplicateNicknameChange(newMember.getNickname());
+        newMember.changeNickname(newNickname);
+        log.info("New member created. Email: {}", newMember.getEmail());
         return memberRepository.save(newMember);
     }
 
     private String duplicateNicknameChange(String nickname) {
         if (memberRepository.existsByNickname(nickname)) {
-            return duplicateNicknameChange(nickname + (int) (Math.random() * 9999));
+            String newNickname = nickname + (int) (Math.random() * 10);
+            log.info("Nickname {} is duplicated. New nickname is {} ", nickname, newNickname);
+            return duplicateNicknameChange(newNickname);
         }
         return nickname;
     }
