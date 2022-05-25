@@ -1,10 +1,10 @@
 package yj.capstone.aerofarm.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import yj.capstone.aerofarm.controller.form.SaveMemberForm;
 import yj.capstone.aerofarm.domain.member.ConfirmationToken;
@@ -12,10 +12,9 @@ import yj.capstone.aerofarm.domain.member.Member;
 import yj.capstone.aerofarm.exception.TokenExpiredException;
 import yj.capstone.aerofarm.repository.MemberRepository;
 
-import java.util.UUID;
-
 @Service
 @RequiredArgsConstructor
+@Slf4j
 @Transactional
 public class MemberService {
 
@@ -69,6 +68,7 @@ public class MemberService {
     }
 
     public void deleteByEmail(String email) {
+        log.debug("Member is delete by email. Email: {}", email);
         memberRepository.deleteByEmail(email);
     }
 
