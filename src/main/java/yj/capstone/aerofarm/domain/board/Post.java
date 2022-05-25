@@ -27,7 +27,7 @@ public class Post extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member writer;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "post_detail_id")
     private PostDetail content;
 

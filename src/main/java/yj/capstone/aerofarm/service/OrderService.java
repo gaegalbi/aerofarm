@@ -2,21 +2,46 @@ package yj.capstone.aerofarm.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import yj.capstone.aerofarm.controller.dto.OrderLineDto;
 import yj.capstone.aerofarm.controller.form.OrderForm;
 import yj.capstone.aerofarm.domain.member.Member;
 import yj.capstone.aerofarm.domain.order.DeliveryStatus;
 import yj.capstone.aerofarm.domain.order.Order;
+import yj.capstone.aerofarm.domain.order.OrderLine;
+import yj.capstone.aerofarm.domain.product.Product;
 import yj.capstone.aerofarm.repository.OrderRepository;
+import yj.capstone.aerofarm.repository.ProductRepository;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class OrderService {
 
     private final OrderRepository orderRepository;
+    private final ProductRepository productRepository;
 
     // TODO
     public Order createOrder(Member orderer, OrderForm orderForm) {
-        return null;
+        Order order = Order.orderBuilder()
+                .orderer(orderer)
+                .orderForm(orderForm)
+                .build();
+
+        List<OrderLine> orderLines = orderForm.getOrderLineDtos().stream()
+                .map(this::createOrderLine)
+                .collect(Collectors.toList());
+        order.getOrderLines().addAll(orderLines);
+
+        orderRepository.save(order);
+        return order;
+    }
+
+    // TODO
+    public OrderLine createOrderLine(OrderLineDto orderLineDto) {
+        Product product = productRepository.findById(orderLineDto.getProductDto().getId()).orElseThrow(() -> new IllegalArgumentException("해당 상품이 없습니다."));
+        return OrderLine.createOrderLine(orderLineDto, product);
     }
 
     // TODO

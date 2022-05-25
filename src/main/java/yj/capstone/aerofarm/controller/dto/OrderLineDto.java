@@ -6,15 +6,15 @@ import lombok.Setter;
 @Getter
 @Setter
 public class OrderLineDto {
-    private Long productId;
+    private ProductDto productDto;
     private int quantity;
     private int price;
 
     public OrderLineDto() {
     }
 
-    public OrderLineDto(Long productId, int quantity, int price) {
-        this.productId = productId;
+    public OrderLineDto(ProductDto productDto, int quantity, int price) {
+        this.productDto = productDto;
         this.quantity = quantity;
         this.price = price;
     }

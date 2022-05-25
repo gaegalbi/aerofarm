@@ -13,7 +13,15 @@ import java.util.List;
 public class OrderForm {
 
     private AddressInfo addressInfo;
+
+    /**
+     * MOOTONGJANG,
+     * CREDIT_CARD,
+     * KAKAOPAY,
+     * TOSS
+     */
     private String paymentType;
+
     private String receiver;
     private List<OrderLineDto> orderLineDtos = new ArrayList<>();
 }

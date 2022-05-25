@@ -1,9 +1,7 @@
 package yj.capstone.aerofarm.domain.order;
 
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import yj.capstone.aerofarm.controller.form.OrderForm;
 import yj.capstone.aerofarm.domain.AddressInfo;
 import yj.capstone.aerofarm.domain.BaseEntity;
 import yj.capstone.aerofarm.domain.member.Member;
@@ -15,7 +13,6 @@ import java.util.List;
 @Entity
 @Table(name = "orders")
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order extends BaseEntity {
 
     @Id
@@ -44,20 +41,20 @@ public class Order extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private PaymentType paymentType;
 
+    protected Order(){} // NoArgsConstructor
+
     // TODO 대충 만든 임시 빌더 추후 검토 필요
-    @Builder
-    public Order(String receiver, String paymentType, AddressInfo addressInfo, Member orderer, List<OrderLine> orderLines) {
-        this.receiver = receiver;
-        this.paymentType = PaymentType.valueOf(paymentType);
-        this.addressInfo = addressInfo;
+    @Builder(builderClassName = "OrderBuilder", builderMethodName = "orderBuilder")
+    public Order(OrderForm orderForm, Member orderer) {
+        this.receiver = orderForm.getReceiver();
+        this.paymentType = PaymentType.valueOf(orderForm.getPaymentType());
+        this.addressInfo = orderForm.getAddressInfo();
         this.orderer = orderer;
-        this.orderLines = orderLines;
         if (this.paymentType == PaymentType.MOOTONGJANG) {
             this.deliveryStatus = DeliveryStatus.PAYMENT_WAITING;
         } else {
             this.deliveryStatus = DeliveryStatus.PAYMENT_OK;
         }
-        calculateTotalPrice();
     }
 
     private void calculateTotalPrice() {
