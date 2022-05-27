@@ -262,5 +262,9 @@ class CommunityPageTheme {
       decoration: TextDecoration.none,
       fontFamily: 'bmPro',
       fontSize: 26);
-
+  static const floatingButton = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 17);
 }

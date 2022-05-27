@@ -14,7 +14,7 @@
 		5C4FCA3C282B5726000D5E50 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 5C4FCA25282B1620000D5E50 /* KakaoSDK */; };
 		5C4FCA3D282B5726000D5E50 /* RxKakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 5C4FCA28282B163F000D5E50 /* RxKakaoSDK */; };
 		5C594BB6282C71DE00B83754 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5C594BB5282C71DE00B83754 /* GoogleService-Info.plist */; };
-		5CC70F472828BD36007AC7AB /* BuildFile in Embed Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5CC70F472828BD36007AC7AB /* (null) in Embed Frameworks */ = {isa = PBXBuildFile; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
@@ -28,7 +28,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				5CC70F472828BD36007AC7AB /* BuildFile in Embed Frameworks */,
+				5CC70F472828BD36007AC7AB /* (null) in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -527,7 +527,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -539,6 +541,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.example.capstone;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
