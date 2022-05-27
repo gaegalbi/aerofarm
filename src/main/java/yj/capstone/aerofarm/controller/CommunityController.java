@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import yj.capstone.aerofarm.controller.dto.PostViewDto;
+import yj.capstone.aerofarm.controller.dto.PostDto;
 import yj.capstone.aerofarm.domain.board.Post;
 import yj.capstone.aerofarm.service.CommunityService;
 
@@ -21,8 +21,8 @@ public class CommunityController {
     public String community(Model model) {
 
         List<Post> posts = communityService.findPosts();
-        List<PostViewDto> result = posts.stream()
-                .map(o -> new PostViewDto(o))
+        List<PostDto> result = posts.stream()
+                .map(o -> new PostDto(o))
                 .collect(Collectors.toList());
 
         model.addAttribute("postDtos", result);

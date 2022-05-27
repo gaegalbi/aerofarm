@@ -4,12 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import yj.capstone.aerofarm.controller.dto.PostDto;
-import yj.capstone.aerofarm.controller.dto.PostViewDto;
 import yj.capstone.aerofarm.domain.board.Post;
 import yj.capstone.aerofarm.domain.board.PostDetail;
 import yj.capstone.aerofarm.repository.CommunityRepository;
-import yj.capstone.aerofarm.repository.PostDetailRepository;
-import yj.capstone.aerofarm.repository.PostRepository;
 
 import java.util.List;
 
@@ -19,19 +16,17 @@ import java.util.List;
 public class CommunityService {
 
     private final CommunityRepository communityRepository;
-    private final PostDetailRepository postDetailRepository;
-    private final PostRepository postRepository;
 
     // 게시글 상세 내용 등록
-    public PostDetail postDetailJoin(PostDetail postDetail) {
-        postDetailRepository.save(postDetail);
-        return postDetail;
-    }
+//    public PostDetail postDetailJoin(PostDetail postDetail) {
+//        postDetailRepository.save(postDetail);
+//        return postDetail;
+//    }
 
     // 게시글 등록
-    public Long postJoin(PostDto postDto) {
-        postRepository.save(postDto);
-        return postDto.getId();
+    public Long postJoin(Post post) {
+        communityRepository.save(post);
+        return post.getId();
     }
 
     // 게시글 목록 조회

@@ -4,14 +4,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import yj.capstone.aerofarm.domain.board.File;
 import yj.capstone.aerofarm.domain.board.Post;
-import yj.capstone.aerofarm.domain.board.PostCategory;
-import yj.capstone.aerofarm.domain.board.PostDetail;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -23,20 +18,14 @@ public class PostDto {
     private int views;
     private int likes;
     private LocalDateTime localDateTime;
-    private PostDetail content;
-    private List<File> files = new ArrayList<>();
-    private PostCategory category;
-    private Post parent;
-    private List<Post> child = new ArrayList<>();
 
     @Builder
-    public PostDto(PostDto postDto, PostDetail postDetail) {
-        this.id = postDto.getId();
-        this.title = postDto.getTitle();
-        this.writer = postDto.getWriter();
-        this.views = postDto.getViews();
-        this.likes = postDto.getLikes();
-        this.content = postDetail;
+    public PostDto(Post post) {
+        this.id = post.getId();
+        this.title = post.getTitle();
+        this.writer = post.getWriter().getNickname();
+        this.views = post.getViews();
+        this.likes = post.getLikes();
 
     }
 }
