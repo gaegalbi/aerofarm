@@ -47,7 +47,7 @@ public class Order extends BaseEntity {
     @Builder(builderClassName = "OrderBuilder", builderMethodName = "orderBuilder")
     public Order(OrderForm orderForm, Member orderer) {
         this.receiver = orderForm.getReceiver();
-        this.paymentType = PaymentType.valueOf(orderForm.getPaymentType());
+        this.paymentType = orderForm.getPaymentType();
         this.addressInfo = orderForm.getAddressInfo();
         this.orderer = orderer;
         if (this.paymentType == PaymentType.MOOTONGJANG) {
@@ -55,6 +55,14 @@ public class Order extends BaseEntity {
         } else {
             this.deliveryStatus = DeliveryStatus.PAYMENT_OK;
         }
+    }
+
+    public void setOrderLines(List<OrderLine> orderLines) {
+        for (OrderLine orderLine : orderLines) {
+            orderLine.setOrder(this);
+        }
+        this.orderLines.addAll(orderLines);
+        calculateTotalPrice();
     }
 
     private void calculateTotalPrice() {

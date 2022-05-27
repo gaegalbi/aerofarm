@@ -32,10 +32,9 @@ public class OrderService {
         List<OrderLine> orderLines = orderForm.getOrderLineDtos().stream()
                 .map(this::createOrderLine)
                 .collect(Collectors.toList());
-        order.getOrderLines().addAll(orderLines);
+        order.setOrderLines(orderLines);
 
-        orderRepository.save(order);
-        return order;
+        return orderRepository.save(order);
     }
 
     // TODO

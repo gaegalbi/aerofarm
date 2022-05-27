@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import yj.capstone.aerofarm.controller.dto.OrderLineDto;
 import yj.capstone.aerofarm.domain.AddressInfo;
+import yj.capstone.aerofarm.domain.order.PaymentType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ public class OrderForm {
      * KAKAOPAY,
      * TOSS
      */
-    private String paymentType;
+    private PaymentType paymentType;
 
     private String receiver;
     private List<OrderLineDto> orderLineDtos = new ArrayList<>();

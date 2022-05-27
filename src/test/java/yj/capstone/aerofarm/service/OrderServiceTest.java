@@ -52,7 +52,7 @@ class OrderServiceTest {
 
         OrderForm orderForm = new OrderForm();
         orderForm.setAddressInfo(new AddressInfo("seoul", "seoul", "12345"));
-        orderForm.setPaymentType("MOOTONGJANG");
+        orderForm.setPaymentType(PaymentType.MOOTONGJANG);
         orderForm.setReceiver("홍길동");
 
         // when
@@ -78,7 +78,7 @@ class OrderServiceTest {
 
         OrderForm orderForm = new OrderForm();
         orderForm.setAddressInfo(new AddressInfo("seoul", "seoul", "12345"));
-        orderForm.setPaymentType("CREDIT_CARD");
+        orderForm.setPaymentType(PaymentType.CREDIT_CARD);
         orderForm.setReceiver("홍길동");
 
         // when
