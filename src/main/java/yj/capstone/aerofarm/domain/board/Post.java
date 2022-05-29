@@ -1,8 +1,11 @@
 package yj.capstone.aerofarm.domain.board;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import yj.capstone.aerofarm.controller.form.PostForm;
+import yj.capstone.aerofarm.controller.form.SaveMemberForm;
 import yj.capstone.aerofarm.domain.BaseEntity;
 import yj.capstone.aerofarm.domain.member.Member;
 
@@ -27,7 +30,7 @@ public class Post extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member writer;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "post_detail_id")
     private PostDetail content;
 
@@ -57,5 +60,15 @@ public class Post extends BaseEntity {
 
     // 추천수
     private int likes;
+
+    @Builder(builderClassName = "PostBuilder", builderMethodName = "postBuilder")
+    public Post(PostForm postForm, Member writer) {
+        this.writer = writer;
+        this.title = postForm.getTitle();
+        this.content = PostDetail.createPostDetail(postForm.getPostDetail());
+        this.likes = postForm.getLikes();
+        this.views = postForm.getViews();
+        this.category = PostCategory.valueOf(postForm.getCategory());
+    }
 
 }

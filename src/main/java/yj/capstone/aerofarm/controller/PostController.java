@@ -1,26 +1,33 @@
 package yj.capstone.aerofarm.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import yj.capstone.aerofarm.controller.dto.PostDto;
+import yj.capstone.aerofarm.controller.dto.UserDetailsImpl;
+import yj.capstone.aerofarm.controller.form.PostForm;
 import yj.capstone.aerofarm.domain.board.Post;
-import yj.capstone.aerofarm.service.CommunityService;
+import yj.capstone.aerofarm.service.PostService;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
-public class CommunityController {
-    private final CommunityService communityService;
+public class PostController {
+    private final PostService postService;
 
     // 전체 게시판 글 목록
     @GetMapping("/community")
     public String community(Model model) {
 
-        List<Post> posts = communityService.findPosts();
+        List<Post> posts = postService.findPosts();
         List<PostDto> result = posts.stream()
                 .map(o -> new PostDto(o))
                 .collect(Collectors.toList());
@@ -44,5 +51,13 @@ public class CommunityController {
     public String community_writing() {
 
         return "/community/writingPage";
+    }
+    
+    // 글쓰기 로직
+    @ResponseBody
+    @PostMapping("/community/createPost")
+    @PreAuthorize("hasAnyAuthority('GUEST')")
+    public Long createPost(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody PostForm postForm) {
+        return postService.createPost(userDetails.getMember(), postForm).getId();
     }
 }

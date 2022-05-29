@@ -20,8 +20,8 @@
     <div class="container">
         <div class="input-group" style="width: 80%; margin: auto">
             <div class="input-group mb-3" style="width: 35%; margin-right: 20px">
-                <label class="input-group-text" for="inputGroupSelect01">CATEGORY</label>
-                <select class="form-select" id="inputGroupSelect01">
+                <label class="input-group-text" for="category">CATEGORY</label>
+                <select class="form-select" id="category">
                     <option selected>카테고리를 선택해주세요.</option>
                     <option value="1">자유게시판</option>
                     <option value="2">정보게시판</option>
@@ -43,7 +43,7 @@
             </div>
         </div>
         <div class="input-group mb-3" style="width: 80%; margin: auto">
-            <span class="input-group-text" id="basic-addon1">Title</span>
+            <span class="input-group-text" id="title">Title</span>
             <input type="text" class="form-control" placeholder="제목" aria-label="Title" aria-describedby="basic-addon1">
         </div>
         <div style="width: 80%; margin: auto; background-color: #FFFFFF">
@@ -54,9 +54,10 @@
         <div style="width: 80%; margin: auto">
             <div class="d-grid gap-2 d-md-flex justify-content-md-end form-margin">
                 <button type="button" class="btn btn-secondary" onclick="location.href='/community'">취소</button>
-                <button type="button" class="btn btn-secondary">글 작성</button>
+                <button type="button" class="btn btn-secondary" id="btn-createPost">글 작성</button>
             </div>
         </div>
     </div>
+<script src="/js/community/createPost.js"></script>
 </body>
 </html>
