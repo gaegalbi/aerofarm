@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="../static/css/myinfo.css">
+        <link rel="stylesheet" type="text/css" href="../static/css/myinfo_userinfo.css">
     
         <style>
             .footer {
@@ -166,14 +166,15 @@
 
 <div class="mcontainer">
     <header class="myinfo">
-        <h1>내 정보</h1>
+        <h1>내 정보</h1>    
     </header>
     <div class="wrapper">
         <div class="sidebar">  
             <div class="sidebar_profile">
                 <div class="profile">
-                    <img src="https://1.bp.blogspot.com/-vhmWFWO2r8U/YLjr2A57toI/AAAAAAAACO4/0GBonlEZPmAiQW4uvkCTm5LvlJVd_-l_wCNcBGAsYHQ/s16000/team-1-2.jpg" alt="profile_picture">
-                    <p>닉네임</p>
+                    <img src="https://1.bp.blogspot.com/-vhmWFWO2r8U/YLjr2A57toI/AAAAAAAACO4/0GBonlEZPmAiQW4uvkCTm5LvlJVd_-l_wCNcBGAsYHQ/s16000/team-1-2.jpg" class="profile_img" alt="profile_picture">
+                    <button class="camera_icon"><img src="../static/image/camera_icon.svg" alt="camera_icon"></button>                    
+                    <p>닉네임<img src="../static/image/edit_icon.svg" class="edit_icon" alt="edit_icon"></p>
                 </div>
             </div>
             <div class="sidebar_list">
@@ -199,26 +200,25 @@
         <div class="content_body">
             <div class="content_name">
                 <h2>기본 회원 정보</h2>
-            </div>        
-            <div class="mb-3 row content_list">
-                <p class="col-sm-2 col-form-label">이메일</p>
-                <p class="col-sm-2 col-form-label">Email@example.com</p>
+                <hr>
             </div>
-            <div class="mb-3 row content_list">
-                <p class="col-sm-2 col-form-label">닉네임</p>
-                <p class="col-sm-2 col-form-label">이름</p>
-            </div>
-            <div class="mb-3 row font-white">
-                <p class="col-sm-2 col-form-label">비밀번호</p>
-                <p class="col-sm-2 col-form-label">********</p>
-            </div>
-            <div class="mb-3 row font-white">
-                <p class="col-sm-2 col-form-label">전화번호</p>
-                <p class="col-sm-2 col-form-label">010-0000-0000</p>
-            </div>
-            <div class="mb-3 row font-white">
-                <p class="col-sm-2 col-form-label">주소</p>
-                <p class="col-sm-2 col-form-label">Email@example.com</p>
+            <div class="info_container">
+                <ul class="list">
+                    <li class="info">이메일</li>
+                    <li class="info">닉네임</li>
+                    <li class="info">비밀번호</li>
+                    <li class="info">전화번호</li>
+                    <li class="info">주소</li>
+                </ul>
+                <ul class="list">
+                    <li class="value">example.email.com</li>
+                    <li class="value">닉네임</li>
+                    <li class="value">******** <button class="change_pw">변경</button></li>            
+                    <li class="value">010-0000-0000 <button class="change_pw">인증</button></li>
+                    <li class="value"><input type="text" class="post_number" placeholder="우편번호 검색" disabled><button class="post_button">주소 검색</button></li>
+                    <li class="value"><input type="text" class="address" placeholder="기본 주소 입력 " disabled></li>
+                    <li class="value"><input type="text" class="address" placeholder="상세 주소 입력"></li>
+                </ul>
             </div>
         </div>
     </div>    

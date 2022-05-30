@@ -26,13 +26,15 @@ body{
 }
 
 .myinfo{
-    margin-left: 450px;
-    margin-top: 40px;
-    padding-bottom: 20px;
+    display: flex;
+    justify-content: center;
 }
 
 .myinfo h1{
-    color: #fff;
+    margin-right: 940px;
+    margin-top: 40px;
+    padding-bottom: 20px;
+    color: #fff;    
 }
 
 /*사이드바*/
@@ -42,17 +44,33 @@ body{
 }
 
 .sidebar_profile{
+    position: relative;
     background: #0e131e;
     width: 300px;
     height: 240px;
     border-radius: 15px;
 }
 
-.sidebar_profile .profile img{
+.profile_img{
     width: 240px;
     height: 160px;
     border-radius: 20px;
     margin: 20px 30px 15px 30px;
+}
+.camera_icon{
+    position: absolute;
+    background: #fff;
+    border-radius: 100%;
+    border: white;
+    width: 35px;
+    height: 30px;
+    left: 225px;
+    top: 140px;
+    text-align: center;
+}
+
+.edit_icon{
+    margin-top: -5px;
 }
 
 .sidebar_profile .profile p{
@@ -112,21 +130,27 @@ body{
 
 /*컨텐츠*/
 .content_body{
+    display: flex;
+    flex-direction: column;
     background: #0e131e;
-    margin-left: 60px;
     width: 900px;
     height: 605px;
     border-radius: 20px;
-    padding-left: 70px;
-    padding-top: 15px;
+    margin-left: 50px;
+}
+.content_name hr{
+    width: 100;
+    color: #c4c4c4;
+    border: 1px solid #c4c4c4;
+    margin-top: 20px;
+    margin-bottom: 30px;
 }
 
 .content_name h2{
     color: #fff;
-    font-weight: bolder;
-    border-bottom: 1px solid #c4c4c4;
-    padding: 15px;
-    margin-bottom: 30px;
+    font-weight: bolder;    
+    margin-top: 30px;
+    margin-left: 50px;
 }
 
 .content_body p{
