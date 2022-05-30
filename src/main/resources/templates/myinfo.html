@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      <head th:fragment="header">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Title</title>
+        <link href="../static/css/bootstrap.css" rel="stylesheet"/ >
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="../static/css/myinfo.css">
+    
+        <style>
+            .footer {
+                padding: 1.5rem 0;
+                color: #727272;
+                text-align: center;
+                background-color: #171D2B;
+            }
+    
+            .nav-header {
+                background-color: #171D2B;
+            }
+    
+            body {
+                background-color: #131825;
+            }
+    
+            a {
+                text-decoration: none;
+            }
+    
+            .fieldError {
+                border-color: #bd2130;
+                border-width: 2px;
+                color: #bd2130;
+                margin-bottom: 5px;
+            }
+    
+    
+            @media screen and (max-width: 768px) {
+                .header-link {
+                    font-size: 1rem;
+                }
+            }
+        </style>
+    </head>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
+
+    .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+
+    @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+        }
+    }
+
+    .blog-footer p:last-child {
+        margin-bottom: 0;
+    }
+
+    .link-button {
+        border-color: #131825;
+        border-radius: 10px;
+        font-size: 1.8rem;
+        text-align: left;
+        font-family: 'Do Hyeon', sans-serif;
+    }
+
+    .link-button-big {
+        height: 216px;
+        background-color: #DD514C;
+        font-size: 2.5rem;
+        text-align: center;
+    }
+
+    .link-button-big:hover {
+        background-color: #f26863;
+        border-color: #f26863;
+    }
+
+    .link-button-left {
+        background-color: #499CDB;
+    }
+
+    .link-button-left:hover {
+        background-color: #6bb7f1;
+        border-color: #6bb7f1;
+    }
+
+    .link-button-right {
+        background-color: #5A65EA;
+    }
+
+    .link-button-right:hover {
+        background-color: #737df8;
+        border-color: #737df8;
+    }
+
+    @media screen and (max-width: 570px) {
+        .link-button-big {
+            height: 100px;
+            font-size: 2rem;
+        }
+        .link-button-left{
+            font-size: 1.8rem;
+        }
+        .link-button-right{
+            font-size: 1.8rem;
+        }
+    }
+</style>
+
+<body class="d-flex flex-column min-vh-100">
+
+    <div th:fragment="bodyHeader">
+        <nav class="navbar navbar-expand-lg navbar-dark header nav-header" aria-label="Eighth navbar example">
+            <div class="container">
+                <a class="navbar-brand header-link" href="/"><strong>도시농부&nbsp;&nbsp;|&nbsp;&nbsp;</strong>
+                    프로페셔널한 농부들의 공간</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample07"
+                        aria-controls="navbarsExample07" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+    
+                <div class="collapse navbar-collapse" id="navbarsExample07">
+                    <div class="me-auto"></div>
+                    <div class="d-flex">
+                        <ul sec:authorize="isAuthenticated()" class="navbar-nav me-auto d-flex">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="/">스토어</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="/community">커뮤니티</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="/">기기관리</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="/memberInfo">내 정보</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="/logout">로그아웃</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+<div class="mcontainer">
+    <header class="myinfo">
+        <h1>내 정보</h1>
+    </header>
+    <div class="wrapper">
+        <div class="sidebar">  
+            <div class="sidebar_profile">
+                <div class="profile">
+                    <img src="https://1.bp.blogspot.com/-vhmWFWO2r8U/YLjr2A57toI/AAAAAAAACO4/0GBonlEZPmAiQW4uvkCTm5LvlJVd_-l_wCNcBGAsYHQ/s16000/team-1-2.jpg" alt="profile_picture">
+                    <p>닉네임</p>
+                </div>
+            </div>
+            <div class="sidebar_list">
+                <ul>
+                    <li>
+                        <a href="#" class="sb_li_top active"><span class="item">기본 회원 정보</span></a>
+                    </li>
+                    <li>
+                        <a href="#"><span class="item">작성 글 조회</span></a>
+                    </li>
+                    <li>
+                        <a href="#"><span class="item">작성 댓글 조회</span></a>
+                    </li>
+                    <li>
+                        <a href="#"><span class="item">구매 내역 조회</span></a>
+                    </li>
+                    <li>
+                        <a href="#" class="sb_li_bottom"><span class="item">나의 작물 조회</span></a>
+                    </li>
+                </ul>
+            </div>
+        </div>        
+        <div class="content_body">
+            <div class="content_name">
+                <h2>기본 회원 정보</h2>
+            </div>        
+            <div class="content_list">
+                <!--<span><p>이메일</p></span>
+                <span><p>이메일입력란@gmail.com</p></span>
+                <span><p>닉네임</p></span>
+                <span><p>닉네임입력란</p></span>
+                <span><span></span><p>비밀번호</p></span>
+                <span><p>********</p></span>
+                <span><button>변경</button></span>
+                <span><p>전화번호</p></span>
+                <span><p>000-0000-0000</p></span>
+                <span><button>인증</button></span>
+                <span><p>주소</p>
+                <span><p>00000</p>
+                <span><p>주소란</p>
+                <span><p>상세주소란</p>-->
+            </div>
+        </div>
+    </div>    
+</div>
+
+<div class="footer mt-auto" th:fragment="footer">
+    <p style="margin: 0">
+        © 2022 도시농부 All rights reserved.
+    </p>
+</div>
+<script src="js/bootstrap.bundle.js"></script>
+</body>
+</html>
