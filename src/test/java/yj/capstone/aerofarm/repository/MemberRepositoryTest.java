@@ -1,6 +1,7 @@
 package yj.capstone.aerofarm.repository;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -16,6 +17,7 @@ class MemberRepositoryTest {
     MemberRepository memberRepository;
 
     @Test
+    @DisplayName("회원 저장")
     void saveMemberTest() {
         SaveMemberForm saveMemberForm = new SaveMemberForm();
         saveMemberForm.setEmail("abc123@naver.com");
