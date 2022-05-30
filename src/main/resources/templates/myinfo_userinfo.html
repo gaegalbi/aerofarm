@@ -30,7 +30,20 @@
     
             a {
                 text-decoration: none;
-            }    
+            }
+    
+            .fieldError {
+                border-color: #bd2130;
+                border-width: 2px;
+                color: #bd2130;
+                margin-bottom: 5px;
+            }
+
+            .content_list {
+                color: #fff;
+                margin-bottom: 70px;
+                margin-left: 10px;
+            }
     
             @media screen and (max-width: 768px) {
                 .header-link {
@@ -111,23 +124,6 @@
             font-size: 1.8rem;
         }
     }
-
-    .card{
-        background-color: #0e131e;
-        border-radius: 20px;
-    }
-    .card li{
-        margin: 14px;
-    }
-    .card a{
-        color: #c4c4c4;
-    }
-    .card li:hover,
-    .card li.active{
-        color: #fff;
-        font-weight: bolder;
-        background: #262e49;
-    }
 </style>
 
 <body class="d-flex flex-column min-vh-100">
@@ -204,8 +200,25 @@
             <div class="content_name">
                 <h2>기본 회원 정보</h2>
             </div>        
-            <div class="content_list">
-
+            <div class="mb-3 row content_list">
+                <p class="col-sm-2 col-form-label">이메일</p>
+                <p class="col-sm-2 col-form-label">Email@example.com</p>
+            </div>
+            <div class="mb-3 row content_list">
+                <p class="col-sm-2 col-form-label">닉네임</p>
+                <p class="col-sm-2 col-form-label">이름</p>
+            </div>
+            <div class="mb-3 row font-white">
+                <p class="col-sm-2 col-form-label">비밀번호</p>
+                <p class="col-sm-2 col-form-label">********</p>
+            </div>
+            <div class="mb-3 row font-white">
+                <p class="col-sm-2 col-form-label">전화번호</p>
+                <p class="col-sm-2 col-form-label">010-0000-0000</p>
+            </div>
+            <div class="mb-3 row font-white">
+                <p class="col-sm-2 col-form-label">주소</p>
+                <p class="col-sm-2 col-form-label">Email@example.com</p>
             </div>
         </div>
     </div>    
