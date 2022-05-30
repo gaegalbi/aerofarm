@@ -1,6 +1,7 @@
 package yj.capstone.aerofarm.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import yj.capstone.aerofarm.service.OrderService;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class OrderController {
 
     private final OrderService orderService;
@@ -20,7 +22,17 @@ public class OrderController {
     @PostMapping("/order/createOrder")
     @PreAuthorize("hasAnyAuthority('GUEST')")
     public Long createOrder(@RequestBody OrderForm orderForm, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return orderService.createOrder(userDetails.getMember(), orderForm).getId();
+        Long orderId = orderService.createOrder(userDetails.getMember(), orderForm).getId();
+        log.info("order number {} create by email: {}", orderId, userDetails.getUsername());
+        return orderId;
+    }
+
+    @GetMapping("/order/cancelOrder/{uuid}")
+    @PreAuthorize("hasAnyAuthority('GUEST')")
+    public String cancelOrder(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable String uuid) {
+        Long orderId = orderService.cancelOrder(uuid);
+        log.info("order number {} cancel by email: {}", orderId, userDetails.getUsername());
+        return "/order/orderPage";
     }
 
     @GetMapping("/order/create")
@@ -28,6 +40,7 @@ public class OrderController {
     public String createOrder() {
         return "/order/orderPage";
     }
+
     /*@ResponseBody
     @GetMapping("/order/create")
     @PreAuthorize("hasAnyAuthority('GUEST')")

@@ -32,7 +32,7 @@ public class OrderLine extends BaseEntity {
     private Money price;
 
     public int getOrderPrice() {
-        return price.getPrice() * quantity;
+        return price.getMoney() * quantity;
     }
 
     public void setOrder(Order order) {
