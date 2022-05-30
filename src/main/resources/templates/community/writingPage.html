@@ -23,7 +23,7 @@
                 <label class="input-group-text" for="category">CATEGORY</label>
                 <select class="form-select" id="category">
                     <option selected>카테고리를 선택해주세요.</option>
-                    <option value="1">자유게시판</option>
+                    <option value="FREE">자유게시판</option>
                     <option value="2">정보게시판</option>
                     <option value="3">질문게시판</option>
                     <option value="4">사진게시판</option>
@@ -43,12 +43,14 @@
             </div>
         </div>
         <div class="input-group mb-3" style="width: 80%; margin: auto">
-            <span class="input-group-text" id="title">Title</span>
-            <input type="text" class="form-control" placeholder="제목" aria-label="Title" aria-describedby="basic-addon1">
+            <span class="input-group-text">Title</span>
+            <input id="title" type="text" class="form-control" placeholder="제목" aria-label="Title" aria-describedby="basic-addon1">
         </div>
         <div style="width: 80%; margin: auto; background-color: #FFFFFF">
             <form method="post">
                 <textarea id="summernote" name="content"></textarea>
+<!--                <span class="input-group-text">Content</span>-->
+<!--                <input id="content" type="text" class="form-control" placeholder="내용" aria-label="Content" aria-describedby="basic-addon1">-->
             </form>
         </div>
         <div style="width: 80%; margin: auto">
@@ -58,6 +60,8 @@
             </div>
         </div>
     </div>
+<div th:replace="~{fragments/footer :: footer}"/>
 <script src="/js/community/createPost.js"></script>
+<script src="/js/bootstrap.bundle.js"></script>
 </body>
 </html>

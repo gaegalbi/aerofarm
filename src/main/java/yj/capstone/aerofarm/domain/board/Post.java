@@ -65,9 +65,7 @@ public class Post extends BaseEntity {
     public Post(PostForm postForm, Member writer) {
         this.writer = writer;
         this.title = postForm.getTitle();
-        this.content = PostDetail.createPostDetail(postForm.getPostDetail());
-        this.likes = postForm.getLikes();
-        this.views = postForm.getViews();
+        this.content = PostDetail.createPostDetail(postForm.getContents());
         this.category = PostCategory.valueOf(postForm.getCategory());
     }
 

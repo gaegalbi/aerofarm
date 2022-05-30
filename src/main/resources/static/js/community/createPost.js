@@ -12,11 +12,7 @@ let createPost = {
         let data = {
             category: $('#category').val(),
             title: $('#title').val(),
-            postDetail: [
-                {
-                    contents: $('#content').val()
-                }
-            ],
+            contents: $('#content').val()
         };
         $.ajax({
             type: 'POST',
