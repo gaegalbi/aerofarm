@@ -28,13 +28,6 @@ public class PostService {
         postRepository.save(post);
         return post;
     }
-    
-//    // 게시글 상세 등록
-//    public PostDetail createPostDetail(PostDetail postDetail) {
-//
-//        PostDetail resultPostDetail = postDetailRepository.save(postDetail);
-//        return resultPostDetail;
-//    }
 
     // 게시글 목록 조회
     public List<Post> findPosts() {
