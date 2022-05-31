@@ -142,7 +142,7 @@ body{
     color: #c4c4c4;
     border: 1px solid #c4c4c4;
     margin-top: 20px;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
 
 .content_name h2{
@@ -223,3 +223,72 @@ body{
     height: 30px;
     font-size: 13pt;
 }
+
+.content_list{  
+    display: flex;
+    flex-direction: column;
+}
+
+.order_category{
+    display: flex;
+    justify-content: center;
+}
+
+.order_category label{
+    text-align: center;
+    color: #fff;
+    font-size: 15px;
+    margin: 0px 30px 35px 30px;
+}
+
+.order_info{
+    display: flex;
+    justify-content: center;
+    color: #fff;
+}
+
+.order_info label{
+    text-align: center;
+    font-size: 15px;
+    margin: 0px 30px 25px 30px;
+}
+
+.order_date{
+    width: 105px;
+    height: 20px;
+}
+.order_product{
+    width: 300px;
+    height: 20px;
+}
+.order_price{
+    width: 55px;
+    height: 20px;
+}
+.order_state{
+    width: 75px;
+    height: 20px;
+}
+.order_fontcolor{
+    font-size: 30px;
+    color: #4A7CD7;
+}
+
+.page_link {
+    position: relative;
+    display: block;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    color: #fff;
+    text-decoration: none;
+    background-color: #444444;
+    border: 1px solid black;
+    margin-left: 10px;
+    border-radius: 8px;
+    margin-bottom: 0%;
+  }
+
+  .content_list nav{
+      vertical-align: bottom;
+  }
