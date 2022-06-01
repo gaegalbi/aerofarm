@@ -69,6 +69,10 @@ body{
     text-align: center;
 }
 
+.camera_icon:hover{
+    background: #c4c4c4;
+}
+
 .edit_icon{
     margin-top: -5px;
 }

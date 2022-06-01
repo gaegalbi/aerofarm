@@ -67,6 +67,9 @@ body{
     top: 140px;
     text-align: center;
 }
+.camera_icon:hover{
+    background: #c4c4c4;
+}
 
 .edit_icon{
     margin-top: -5px;
@@ -250,7 +253,7 @@ body{
 .order_info label{
     text-align: center;
     font-size: 15px;
-    margin: 0px 30px 25px 30px;
+    margin: 0px 30px 35px 30px;
 }
 
 .order_date{
@@ -274,6 +277,11 @@ body{
     color: #4A7CD7;
 }
 
+.page_position{
+    position: absolute;
+    margin: 440px 0 0 270px;
+}
+
 .page_link {
     position: relative;
     display: block;
@@ -287,8 +295,50 @@ body{
     margin-left: 10px;
     border-radius: 8px;
     margin-bottom: 0%;
-  }
+    font-size: 15px;
+}
 
-  .content_list nav{
-      vertical-align: bottom;
-  }
+.content_list nav{
+    vertical-align: bottom;
+}
+
+.plant_category{
+    display: flex;
+    justify-content: center;
+}
+.plant_category label{
+    text-align: center;
+    color: #fff;
+    font-size: 15px;
+    margin: 0px 30px 0px 30px;
+}
+
+.plant_info{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+
+.plant_info label{
+    text-align: center;
+    font-size: 15px;
+    margin: 0px 30px 25px 30px;
+}
+.plantlist_img{
+    width: 80px;
+    height: 50px;
+}
+.plantlist_img img{
+    width: 100%;
+    height: 100%;
+}
+.plantlist_name{
+    width: 180px;
+    height: 25px;
+
+}
+.plantlist_term{
+    width: 260px;
+    height: 25px;
+}
