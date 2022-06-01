@@ -126,13 +126,14 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="postDto : ${postDtos}" onclick="location.href='/community/free'">
-            <td class="f-filter-color-b">일반</td>
-            <td class="title-f-sort" th:text="${postDto.title}">글제목</td>
-            <td th:text="${postDto.writer}">작성자</td>
-            <td th:text="${#temporals.format(postDto.localDateTime, 'yyyy.MM.dd HH:mm:ss')}">2022-05-09</td>
-            <td th:text="${postDto.likes}">추천수</td>
-            <td th:text="${postDto.views}">조회수</td>
+        <tr th:each="postDto : ${postDtos}"> <!--게시판 아이디를 url로 넘겨줘야함-->
+            <a th:href="@{asdf}"></a>
+            <td class="f-filter-color-b">일반</td> <!--추후 변수로 받아오기로 변경 필요-->
+            <td class="title-f-sort" th:text="${postDto.title}"/>
+            <td th:text="${postDto.writer}"/>
+            <td th:text="${#temporals.format(postDto.localDateTime, 'yyyy.MM.dd HH:mm')}"/>
+            <td th:text="${postDto.likes}"/>
+            <td th:text="${postDto.views}"/>
         </tr>
         </tbody>
     </table>

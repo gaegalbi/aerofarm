@@ -26,6 +26,6 @@ public class PostDto {
         this.writer = post.getWriter().getNickname();
         this.views = post.getViews();
         this.likes = post.getLikes();
-
+        this.localDateTime = post.getCreatedDate();
     }
 }

@@ -5,10 +5,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import yj.capstone.aerofarm.controller.dto.PostDto;
 import yj.capstone.aerofarm.controller.dto.UserDetailsImpl;
 import yj.capstone.aerofarm.controller.form.PostForm;
@@ -37,11 +34,12 @@ public class PostController {
         return "/community/communityPage";
     }
 
-    @GetMapping("/community/free")
-    public String community_free() {
+    @GetMapping("/community/free/{boardId}")
+    public String community_free(@RequestParam Long boardId) {
 
         return "/community/postingPage";
     }
+
     // /community/free 자유게시판 글 목록
     // /community/free/{boardId} 자유게시판 글 상세보기
 
