@@ -60,7 +60,7 @@ class _CommunityPageChatState extends State<CommunityPageChat> {
                 Icons.chevron_left,
               ),
               onPressed: () {
-                Get.offAll(()=> const CommunityPageChatList());
+                Get.offAll(const CommunityPageChatList());
               },
             )),
           ),
@@ -80,7 +80,7 @@ class _CommunityPageChatState extends State<CommunityPageChat> {
                     Icons.home,
                   ),
                   onPressed: () {
-                    Get.offAll(()=> const CommunityPageChatList());
+                    Get.offAll(const CommunityPageChatList());
                   },
                 ),
               ),

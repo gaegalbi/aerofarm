@@ -58,7 +58,7 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                     child: TextButton(
                         child: const Text("내 정보 수정", style: MainTheme.modify),
                         onPressed: () {
-                          Get.off(() => const MainPageMyProfile());
+                          Get.off(const MainPageMyProfile());
                         })),
               ],
             ),
@@ -100,7 +100,7 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                       ],
                     ),
                     onPressed: () {
-                      Get.off(()=> const CommunityPageHot());
+                      Get.off(const CommunityPageHot());
                     },
                   ),
                 ),
@@ -127,7 +127,7 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                       ],
                     ),
                     onPressed: () {
-                      Get.off(()=> const CommunityPageAll());
+                      Get.off( const CommunityPageAll());
                     },
                   ),
                 ),
@@ -185,7 +185,7 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                       ],
                     ),
                     onPressed: () {
-                      Get.off(() => const MainPage());
+                      Get.off( const MainPage());
                     },
                   ),
                 ),

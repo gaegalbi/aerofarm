@@ -64,7 +64,7 @@ class _CommunityPageAllState extends State<CommunityPageAll> {
                   Icons.home,
                 ),
                 onPressed: () {
-                  Get.off(() => const MainPage());
+                  Get.off(const MainPage());
                 },
               ),
             ),
@@ -150,7 +150,7 @@ class _CommunityPageAllState extends State<CommunityPageAll> {
                     )),
                     child: InkWell(
                       onTap: () {
-                        Get.to(()=>const CommunityPageReadPost());
+                        Get.to(const CommunityPageReadPost());
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

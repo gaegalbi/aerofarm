@@ -79,7 +79,7 @@ class _CommunityPageHotState extends State<CommunityPageHot> {
                   Icons.home,
                 ),
                 onPressed: () {
-                  Get.off(() => const MainPage());
+                  Get.off(const MainPage());
                 },
               ),
             ),

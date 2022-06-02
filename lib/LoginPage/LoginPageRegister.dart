@@ -70,7 +70,7 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                   Icons.chevron_left,
                 ),
                 onPressed: () {
-                  Get.offAll(() => const LoginPage());
+                  Get.offAll(const LoginPage());
                 },
             )),
           ),
@@ -266,7 +266,7 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                   child: TextButton(
                     onPressed: () {
                       //회원 가입
-                      Get.offAll(()=>const LoginPage());
+                      Get.offAll(const LoginPage());
                     },
                     child: const Text(
                       "가입",

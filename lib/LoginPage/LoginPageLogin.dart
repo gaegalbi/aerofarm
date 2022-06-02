@@ -46,7 +46,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
         name = res.account.nickname;
         isLogin = true;
         print(res.account.email);
-        Get.to(() => const MainPage());
+        Get.to(const MainPage());
       });
     } catch (error) {
       print(error);
@@ -140,12 +140,12 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                     style: LoginRegisterPageTheme.sButton,
                   ),
                   onPressed: () {
-                    Get.to(() => const LoginPageResetPassword());
+                    Get.to(const LoginPageResetPassword());
                   },
                 ),
                 TextButton(
                   onPressed: () {
-                    Get.to(() => const LoginPageRegister());
+                    Get.to(const LoginPageRegister());
                   },
                   child: const Text(
                     "회원이 아니신가요?",
@@ -206,7 +206,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                         print('카카오계정으로 로그인 성공');
                         User user = await UserApi.instance.me();
                         print(user.kakaoAccount?.email);
-                        Get.to(() => const MainPage());
+                        Get.to(const MainPage());
                       } catch (error) {
                         print('카카오계정으로 로그인 실패 $error');
                       }
@@ -234,7 +234,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                         await _googleSignIn.signIn();
                     print(_googleUser?.email);
                     if (_googleUser != null) {
-                      Get.to(() => const MainPage());
+                      Get.to(const MainPage());
                     }
                   } catch (error) {
                     print(error);

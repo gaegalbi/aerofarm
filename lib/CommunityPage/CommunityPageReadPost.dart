@@ -39,7 +39,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                 Icons.chevron_left,
               ),
               onPressed: () {
-                Get.offAll(() => const CommunityPageAll());
+                Get.offAll( const CommunityPageAll());
               },
             )),
           ),
@@ -59,7 +59,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                     Icons.home,
                   ),
                   onPressed: () {
-                    Get.offAll(() => const MainPage());
+                    Get.offAll( const MainPage());
                   },
                 ),
               ),
@@ -100,7 +100,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                             Icons.chevron_right,
                           ),
                           onPressed: () {
-                            Get.offAll(() => const CommunityPageAll());
+                            Get.offAll( const CommunityPageAll());
                           },
                         )
                       ],
@@ -281,7 +281,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                   ],
                                 ),
                                 onPressed: () {
-                                  Get.to(() => const CommunityPageReply());
+                                  Get.to( const CommunityPageReply());
                                 },
                               ),
                               Container(
@@ -346,7 +346,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                       style: CommunityPageTheme.bottomAppBarFavorite,
                     ),
                     onPressed: () {
-                      Get.to(() => const CommunityPageAll());
+                      Get.to( const CommunityPageAll());
                     },
                   ),
                   AppBarButton(
@@ -362,7 +362,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                       style: CommunityPageTheme.bottomAppBarReply,
                     ),
                     onPressed: () {
-                      Get.to(() => const CommunityPageReply());
+                      Get.to(const CommunityPageReply());
                     },
                   )
                 ],

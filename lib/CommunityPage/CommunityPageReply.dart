@@ -67,7 +67,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                   Icons.chevron_left,
                 ),
                 onPressed: () {
-                  Get.offAll(() => const CommunityPageReadPost());
+                  Get.offAll(const CommunityPageReadPost());
                 },
               )),
             ),

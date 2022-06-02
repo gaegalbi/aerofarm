@@ -55,7 +55,7 @@ class _CommunityPageChatListState extends State<CommunityPageChatList> {
               Icons.chevron_left,
             ),
             onPressed: () {
-              Get.offAll(() => const CommunityPageAll());
+              Get.offAll(const CommunityPageAll());
             },
           )),
         ),
@@ -148,7 +148,7 @@ class _CommunityPageChatListState extends State<CommunityPageChatList> {
                     )),
                 MaterialButton(
                   onPressed: () {
-                    Get.to(() => const CommunityPageChat());
+                    Get.to(const CommunityPageChat());
                   },
                   padding: EdgeInsets.zero,
                   child: Container(
