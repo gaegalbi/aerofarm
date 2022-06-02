@@ -9,6 +9,8 @@ import yj.capstone.aerofarm.domain.BaseEntity;
 import yj.capstone.aerofarm.domain.order.Money;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -28,8 +30,13 @@ public class Product extends BaseEntity {
     @Embedded
     private Stock stock;
 
+    private String imageUrl;
+
     @Enumerated(EnumType.STRING)
     private ProductCategory category;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<ProductReview> productReviews = new ArrayList<>();
 
     @Builder
     public Product(SaveProductForm saveProductForm) {
