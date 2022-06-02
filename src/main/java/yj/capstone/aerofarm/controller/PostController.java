@@ -11,11 +11,10 @@ import yj.capstone.aerofarm.controller.dto.PostDto;
 import yj.capstone.aerofarm.controller.dto.UserDetailsImpl;
 import yj.capstone.aerofarm.controller.form.PostForm;
 import yj.capstone.aerofarm.domain.board.Post;
-import yj.capstone.aerofarm.domain.board.PostDetail;
+import yj.capstone.aerofarm.domain.board.PostCategory;
 import yj.capstone.aerofarm.service.PostService;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -24,10 +23,10 @@ public class PostController {
     private final PostService postService;
 
     // 게시판 글 목록
-    @GetMapping("/community")
-    public String community(Model model) {
+    @GetMapping("/community/{category}")
+    public String community(@PathVariable String category, Model model) {
 
-        List<Post> posts = postService.findPosts();
+        List<Post> posts = postService.findPosts(PostCategory.valueOf(category.toUpperCase()).name());
         List<PostDto> result = posts.stream()
                 .map(o -> new PostDto(o))
                 .collect(Collectors.toList());
@@ -48,7 +47,6 @@ public class PostController {
         return "/community/postingPage";
     }
 
-    // /community/free 자유게시판 글 목록
     // /community/free/{boardId} 자유게시판 글 상세보기
 
 

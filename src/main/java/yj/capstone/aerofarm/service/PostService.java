@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import yj.capstone.aerofarm.controller.form.PostForm;
 import yj.capstone.aerofarm.domain.board.Post;
+import yj.capstone.aerofarm.domain.board.PostCategory;
 import yj.capstone.aerofarm.domain.member.Member;
 import yj.capstone.aerofarm.repository.PostRepository;
 
@@ -31,8 +32,9 @@ public class PostService {
     }
 
     // 게시글 목록 조회
-    public List<Post> findPosts() {
-        return postRepository.findAll();
+    public List<Post> findPosts(String category) {
+
+        return postRepository.findByCategory(category);
     }
 
     // 선택한 게시물 보기
