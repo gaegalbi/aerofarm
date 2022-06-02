@@ -57,6 +57,7 @@
 
     .post-content {
         margin-top: 30px;
+        margin-bottom: 30px;
     }
 
     .post-comment {
@@ -89,11 +90,19 @@
 <div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
 <div class="container">
     <main>
-        <button type="button" class="btn btn-secondary button-margin">목록</button>
+        <div class="row">
+            <div class="col-lg-6 col-sm-12 text-lg-start">
+                <button type="button" class="btn btn-secondary button-margin" onclick="location.href='/community'">목록</button>
+            </div>
+            <div class="col-lg-6 col-sm-12 text-lg-end">
+                <input type="checkbox" class="btn-check" id="likeButton" autocomplete="off">
+                <label class="btn btn-outline-danger button-margin" for="likeButton" th:text="'♡ 좋아요 ' + ${selectPost.likes}"></label><br>
+            </div>
+        </div>
         <!--사각 영역-->
         <div class="card card-body body-color body-font-color body-line">
             <!--제목-->
-            <div class="post-title">이 부분은 제목 부분</div>
+            <div class="post-title" th:text="${selectPost.title}"/>
             <!--회원 정보-->
             <div class="user-info-border">
                 <table>
@@ -102,21 +111,17 @@
                             <td rowspan="2" width="50" height="40" style="text-align: center">
                                 <img src="/image/test_icon.png" class="rounded-circle" style="width: 35px; height: 35px">
                             </td>
-                            <td>닉네임</td>
+                            <td th:text="${selectPost.writer}"/>
                         </tr>
                         <tr>
-                            <td>2022-05-17 10:36</td>
+                            <td th:text="${#temporals.format(selectPost.localDateTime, 'yyyy-MM-dd HH:mm:ss')}"/>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <!--게시글 내용 영역-->
             <div class="post-content">
-                <p>이 곳은 내용이 들어갑니다. 이 곳은 내용이 들어갑니다. 이 곳은 내용이 들어갑니다. 이 곳은 내용이 들어갑니다. 이 곳은 내용이 들어갑니다. 이 곳은 내용이 들어갑니다. 이 곳은 내용이 들어갑니다. 이 곳은 내용이 들어갑니다.</p>
-                <p>이 곳은 내용이 들어갑니다.2</p>
-            </div>
-            <div style="padding-top: 10px">
-                <a class="p-2 post-header" href="#">♡ 좋아요 1</a>
+                <span th:utext="${selectPost.contents}"></span>
             </div>
             <!--댓글 영역-->
             <div class="post-comment">
@@ -160,7 +165,7 @@
             </div>
         </div>
         <div>
-            <button type="button" class="btn btn-secondary button-margin">목록</button>
+            <button type="button" class="btn btn-secondary button-margin" onclick="location.href='/community'">목록</button>
             <button type="button" class="btn btn-secondary button-margin">TOP</button>
         </div>
     </main>

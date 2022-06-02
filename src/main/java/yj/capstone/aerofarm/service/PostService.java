@@ -9,6 +9,7 @@ import yj.capstone.aerofarm.domain.member.Member;
 import yj.capstone.aerofarm.repository.PostRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +33,11 @@ public class PostService {
     // 게시글 목록 조회
     public List<Post> findPosts() {
         return postRepository.findAll();
+    }
+
+    // 선택한 게시물 보기
+    public Post selectPost(Long boardId) {
+        return postRepository.findById(boardId).orElseThrow(() -> null);
     }
 
     //게시글 필터링

@@ -6,13 +6,16 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import yj.capstone.aerofarm.controller.dto.PostDetailDto;
 import yj.capstone.aerofarm.controller.dto.PostDto;
 import yj.capstone.aerofarm.controller.dto.UserDetailsImpl;
 import yj.capstone.aerofarm.controller.form.PostForm;
 import yj.capstone.aerofarm.domain.board.Post;
+import yj.capstone.aerofarm.domain.board.PostDetail;
 import yj.capstone.aerofarm.service.PostService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -20,7 +23,7 @@ import java.util.stream.Collectors;
 public class PostController {
     private final PostService postService;
 
-    // 전체 게시판 글 목록
+    // 게시판 글 목록
     @GetMapping("/community")
     public String community(Model model) {
 
@@ -34,8 +37,13 @@ public class PostController {
         return "/community/communityPage";
     }
 
+    // 게시물 보기 페이지
     @GetMapping("/community/free/{boardId}")
-    public String community_free(@RequestParam Long boardId) {
+    public String community_free(@PathVariable Long boardId, Model model) {
+        Post post = postService.selectPost(boardId);
+        PostDetailDto result = new PostDetailDto(post);
+
+        model.addAttribute("selectPost", result);
 
         return "/community/postingPage";
     }
