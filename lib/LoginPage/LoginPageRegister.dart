@@ -1,7 +1,6 @@
 import 'package:capstone/LoginPage/LoginPage.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class LoginPageRegister extends StatefulWidget {

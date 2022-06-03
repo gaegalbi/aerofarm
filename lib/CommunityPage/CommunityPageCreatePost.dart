@@ -38,17 +38,24 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
   double contentBottomPadding = 30;
 
   String groupValue = "게시판 선택";
-  bool control = false;
+  bool popupFont = false;
+  bool popupImage = false;
   bool popup = false;
-  int floatingAlignButtonIndex = 0;
-  int fontSizeIndex = 0;
-  String fontBold = 'bmAir';
-  bool isBold = false;
+
+  bool linkButton = false;
+  bool tagButton = false;
 
   late quill.QuillController _controller;
   late ScrollController _scrollController;
   late ScrollController _scrollController1;
   late final FocusNode focusNode;
+
+  quill.OnImagePickCallback? onImagePickCallback;
+  quill.OnVideoPickCallback? onVideoPickCallback;
+  quill.MediaPickSettingSelector? mediaPickSettingSelector;
+  quill.FilePickImpl? filePickImpl;
+  quill.WebImagePickImpl? webImagePickImpl;
+  quill.WebVideoPickImpl? webVideoPickImpl;
 
   @override
   void initState() {
@@ -56,7 +63,9 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
       document: quill.Document(),
       selection: const TextSelection.collapsed(offset: 0)
       //not working
-      ,keepStyleOnNewLine: true,);
+      ,
+      keepStyleOnNewLine: true,
+    );
 
     _scrollController = ScrollController();
     _scrollController1 = ScrollController();
@@ -93,16 +102,17 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
   double contentCheckKeyBoard() {
     if (MediaQuery.of(context).viewInsets.bottom > 0 && focusNode.hasFocus) {
       if (popup) {
-          return floatingBarSize + MediaQuery.of(context).viewInsets.bottom;
+        return floatingBarSize + MediaQuery.of(context).viewInsets.bottom;
       } else {
-        return MediaQuery.of(context).viewInsets.bottom;//MediaQuery.of(context).viewInsets.bottom;
+        return MediaQuery.of(context)
+            .viewInsets
+            .bottom; //MediaQuery.of(context).viewInsets.bottom;
       }
     } else {
-      //print(_scrollController.position.maxScrollExtent );
       if (popup) {
-        if(_scrollController1.position.maxScrollExtent >0){
-          return floatingBarSize*1.5;
-        }else {
+        if (_scrollController1.position.maxScrollExtent > 0) {
+          return floatingBarSize * 1.5;
+        } else {
           return floatingBarSize; //floatingBarSize;
         }
       } else {
@@ -149,201 +159,204 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
       body: Container(
         color: MainColor.six,
         child: CustomScrollView(
+          controller: _scrollController1,
           slivers: [
             SliverToBoxAdapter(
               child: Column(
                 children: [
                   Builder(
                       builder: (context) => TextButton(
-                        style: const ButtonStyle(
-                          splashFactory: NoSplash.splashFactory,
-                          overlayColor: null,
-                        ),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.8,
-                          padding: EdgeInsets.only(
-                              bottom:
-                              MediaQuery.of(context).size.height * 0.006),
-                          decoration: const BoxDecoration(
-                              border: Border(
-                                bottom: BorderSide(width: 1, color: Colors.white),
+                            style: const ButtonStyle(
+                              splashFactory: NoSplash.splashFactory,
+                              overlayColor: null,
+                            ),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              padding: EdgeInsets.only(
+                                  bottom: MediaQuery.of(context).size.height *
+                                      0.006),
+                              decoration: const BoxDecoration(
+                                  border: Border(
+                                bottom:
+                                    BorderSide(width: 1, color: Colors.white),
                               )),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                groupValue,
-                                style: CommunityPageTheme.boardDrawer,
-                              ),
-                              const Icon(
-                                Icons.arrow_drop_down,
-                                color: Colors.white,
-                              )
-                            ],
-                          ),
-                        ),
-                        onPressed: () {
-                          showModalBottomSheet(
-                            isScrollControlled: true,
-                            context: context,
-                            builder: (_) {
-                              return Container(
-                                color: MainColor.six,
-                                height:
-                                MediaQuery.of(context).size.height * 0.9,
-                                child: SingleChildScrollView(
-                                  child: Column(
-                                    children: <Widget>[
-                                      const Icon(
-                                        Icons.remove,
-                                        color: Colors.white,
-                                        size: 60,
-                                      ),
-                                      Container(
-                                        alignment: Alignment.centerLeft,
-                                        margin: EdgeInsets.only(
-                                            bottom: 15, left: 30),
-                                        child: const Text(
-                                          "게시판 선택",
-                                          style: TextStyle(
-                                              fontFamily: "bmPro",
-                                              fontSize: 30,
-                                              color: MainColor.three),
-                                        ),
-                                      ),
-                                      RadioButton(
-                                        contentPadding: contentPadding,
-                                        description: value[0],
-                                        value: value[0],
-                                        groupValue: groupValue,
-                                        onChanged: (value) => setState(() {
-                                          groupValue = value as String;
-                                          Get.back();
-                                        }),
-                                        activeColor: MainColor.three,
-                                        textStyle:
-                                        CommunityPageTheme.checkBoxFont,
-                                      ),
-                                      RadioButton(
-                                        contentPadding: contentPadding,
-                                        description: value[1],
-                                        value: value[1],
-                                        groupValue: groupValue,
-                                        onChanged: (value) => setState(() {
-                                          groupValue = value as String;
-                                          Get.back();
-                                        }),
-                                        activeColor: MainColor.three,
-                                        textStyle:
-                                        CommunityPageTheme.checkBoxFont,
-                                      ),
-                                      RadioButton(
-                                        contentPadding: contentPadding,
-                                        description: value[2],
-                                        value: value[2],
-                                        groupValue: groupValue,
-                                        onChanged: (value) => setState(() {
-                                          groupValue = value as String;
-                                          Get.back();
-                                        }),
-                                        activeColor: MainColor.three,
-                                        textStyle:
-                                        CommunityPageTheme.checkBoxFont,
-                                      ),
-                                      RadioButton(
-                                        contentPadding: contentPadding,
-                                        description: value[3],
-                                        value: value[3],
-                                        groupValue: groupValue,
-                                        onChanged: (value) => setState(() {
-                                          groupValue = value as String;
-                                          Get.back();
-                                        }),
-                                        activeColor: MainColor.three,
-                                        textStyle:
-                                        CommunityPageTheme.checkBoxFont,
-                                      ),
-                                      RadioButton(
-                                        contentPadding: contentPadding,
-                                        description: value[4],
-                                        value: value[4],
-                                        groupValue: groupValue,
-                                        onChanged: (value) => setState(() {
-                                          groupValue = value as String;
-                                          Get.back();
-                                        }),
-                                        activeColor: MainColor.three,
-                                        textStyle:
-                                        CommunityPageTheme.checkBoxFont,
-                                      ),
-                                      RadioButton(
-                                        contentPadding: contentPadding,
-                                        description: "===",
-                                        value: "===0",
-                                        groupValue: groupValue,
-                                        activeColor: MainColor.three,
-                                        textStyle: CommunityPageTheme
-                                            .checkBoxDisable,
-                                      ),
-                                      RadioButton(
-                                        contentPadding: contentPadding,
-                                        description: "===",
-                                        value: "===1",
-                                        groupValue: groupValue,
-                                        activeColor: MainColor.three,
-                                        textStyle: CommunityPageTheme
-                                            .checkBoxDisable,
-                                      ),
-                                      RadioButton(
-                                        contentPadding: contentPadding,
-                                        description: "===",
-                                        value: "===2",
-                                        groupValue: groupValue,
-                                        activeColor: MainColor.three,
-                                        textStyle: CommunityPageTheme
-                                            .checkBoxDisable,
-                                      ),
-                                      RadioButton(
-                                        contentPadding: contentPadding,
-                                        description: "===",
-                                        value: "===3",
-                                        groupValue: groupValue,
-                                        activeColor: MainColor.three,
-                                        textStyle: CommunityPageTheme
-                                            .checkBoxDisable,
-                                      ),
-                                      RadioButton(
-                                        contentPadding: contentPadding,
-                                        description: "===",
-                                        value: "===4",
-                                        groupValue: groupValue,
-                                        activeColor: MainColor.three,
-                                        textStyle: CommunityPageTheme
-                                            .checkBoxDisable,
-                                      ),
-                                      RadioButton(
-                                        contentPadding: contentPadding,
-                                        description: "===",
-                                        value: "===5",
-                                        groupValue: groupValue,
-                                        activeColor: MainColor.three,
-                                        textStyle: CommunityPageTheme
-                                            .checkBoxDisable,
-                                      ),
-                                    ],
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    groupValue,
+                                    style: CommunityPageTheme.boardDrawer,
                                   ),
-                                ),
+                                  const Icon(
+                                    Icons.arrow_drop_down,
+                                    color: Colors.white,
+                                  )
+                                ],
+                              ),
+                            ),
+                            onPressed: () {
+                              showModalBottomSheet(
+                                isScrollControlled: true,
+                                context: context,
+                                builder: (_) {
+                                  return Container(
+                                    color: MainColor.six,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.9,
+                                    child: SingleChildScrollView(
+                                      child: Column(
+                                        children: <Widget>[
+                                          const Icon(
+                                            Icons.remove,
+                                            color: Colors.white,
+                                            size: 60,
+                                          ),
+                                          Container(
+                                            alignment: Alignment.centerLeft,
+                                            margin: EdgeInsets.only(
+                                                bottom: 15, left: 30),
+                                            child: const Text(
+                                              "게시판 선택",
+                                              style: TextStyle(
+                                                  fontFamily: "bmPro",
+                                                  fontSize: 30,
+                                                  color: MainColor.three),
+                                            ),
+                                          ),
+                                          RadioButton(
+                                            contentPadding: contentPadding,
+                                            description: value[0],
+                                            value: value[0],
+                                            groupValue: groupValue,
+                                            onChanged: (value) => setState(() {
+                                              groupValue = value as String;
+                                              Get.back();
+                                            }),
+                                            activeColor: MainColor.three,
+                                            textStyle:
+                                                CommunityPageTheme.checkBoxFont,
+                                          ),
+                                          RadioButton(
+                                            contentPadding: contentPadding,
+                                            description: value[1],
+                                            value: value[1],
+                                            groupValue: groupValue,
+                                            onChanged: (value) => setState(() {
+                                              groupValue = value as String;
+                                              Get.back();
+                                            }),
+                                            activeColor: MainColor.three,
+                                            textStyle:
+                                                CommunityPageTheme.checkBoxFont,
+                                          ),
+                                          RadioButton(
+                                            contentPadding: contentPadding,
+                                            description: value[2],
+                                            value: value[2],
+                                            groupValue: groupValue,
+                                            onChanged: (value) => setState(() {
+                                              groupValue = value as String;
+                                              Get.back();
+                                            }),
+                                            activeColor: MainColor.three,
+                                            textStyle:
+                                                CommunityPageTheme.checkBoxFont,
+                                          ),
+                                          RadioButton(
+                                            contentPadding: contentPadding,
+                                            description: value[3],
+                                            value: value[3],
+                                            groupValue: groupValue,
+                                            onChanged: (value) => setState(() {
+                                              groupValue = value as String;
+                                              Get.back();
+                                            }),
+                                            activeColor: MainColor.three,
+                                            textStyle:
+                                                CommunityPageTheme.checkBoxFont,
+                                          ),
+                                          RadioButton(
+                                            contentPadding: contentPadding,
+                                            description: value[4],
+                                            value: value[4],
+                                            groupValue: groupValue,
+                                            onChanged: (value) => setState(() {
+                                              groupValue = value as String;
+                                              Get.back();
+                                            }),
+                                            activeColor: MainColor.three,
+                                            textStyle:
+                                                CommunityPageTheme.checkBoxFont,
+                                          ),
+                                          RadioButton(
+                                            contentPadding: contentPadding,
+                                            description: "===",
+                                            value: "===0",
+                                            groupValue: groupValue,
+                                            activeColor: MainColor.three,
+                                            textStyle: CommunityPageTheme
+                                                .checkBoxDisable,
+                                          ),
+                                          RadioButton(
+                                            contentPadding: contentPadding,
+                                            description: "===",
+                                            value: "===1",
+                                            groupValue: groupValue,
+                                            activeColor: MainColor.three,
+                                            textStyle: CommunityPageTheme
+                                                .checkBoxDisable,
+                                          ),
+                                          RadioButton(
+                                            contentPadding: contentPadding,
+                                            description: "===",
+                                            value: "===2",
+                                            groupValue: groupValue,
+                                            activeColor: MainColor.three,
+                                            textStyle: CommunityPageTheme
+                                                .checkBoxDisable,
+                                          ),
+                                          RadioButton(
+                                            contentPadding: contentPadding,
+                                            description: "===",
+                                            value: "===3",
+                                            groupValue: groupValue,
+                                            activeColor: MainColor.three,
+                                            textStyle: CommunityPageTheme
+                                                .checkBoxDisable,
+                                          ),
+                                          RadioButton(
+                                            contentPadding: contentPadding,
+                                            description: "===",
+                                            value: "===4",
+                                            groupValue: groupValue,
+                                            activeColor: MainColor.three,
+                                            textStyle: CommunityPageTheme
+                                                .checkBoxDisable,
+                                          ),
+                                          RadioButton(
+                                            contentPadding: contentPadding,
+                                            description: "===",
+                                            value: "===5",
+                                            groupValue: groupValue,
+                                            activeColor: MainColor.three,
+                                            textStyle: CommunityPageTheme
+                                                .checkBoxDisable,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
                               );
                             },
-                          );
-                        },
-                      )),
+                          )),
                   Container(
                     width: MediaQuery.of(context).size.width * 0.8,
                     decoration: const BoxDecoration(
                         border: Border(
-                          bottom: BorderSide(width: 2, color: Colors.white),
-                        )),
+                      bottom: BorderSide(width: 2, color: Colors.white),
+                    )),
                     child: const TextField(
                         textInputAction: TextInputAction.next,
                         style: TextStyle(
@@ -379,13 +392,15 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                   textCapitalization: TextCapitalization.none,
                   focusNode: focusNode,
                   scrollController: _scrollController,
-                  controller: _controller,//_editorController,
+                  controller: _controller,
+                  //_editorController,
                   autoFocus: false,
                   expands: false,
-                  padding: const EdgeInsets.all(0),//EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(0),
+                  //EdgeInsets.all(20),
                   scrollable: true,
                   readOnly: false,
-                  minHeight: MediaQuery.of(context).size.height * 0.59,//0.626,
+                  minHeight: MediaQuery.of(context).size.height * 0.59, //0.626,
                 ),
               ),
             ),
@@ -394,29 +409,74 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Container(
-        width: MediaQuery.of(context).size.width,
-        height: floatingBarSize,
-        margin: EdgeInsets.only(bottom: floatingMargin()),
-        child: popup
-            ? Container(
-                decoration: const BoxDecoration(
-                  border: Border(
-                    top: BorderSide(width: 1, color: MainColor.one),
-                  ),
-                ),
-                child: CustomQuillToolbar.basic(
+          decoration: popup ? const BoxDecoration(
+            border: Border(
+              top: BorderSide(width: 1, color: MainColor.one),
+            ),
+          ) : null,
+          width: MediaQuery.of(context).size.width,
+          height: floatingBarSize,
+          margin: EdgeInsets.only(bottom : floatingMargin()),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              popupFont
+                  ? CustomQuillToolbar.basic(
+                    toolbarHeight: 30,
+                    showLink: false,
+                    controller: _controller,
+                    //_toolbarController,
+                    multiRowsDisplay: false,
+                    showImageButton: false,
+                    showVideoButton: false,
+                    iconTheme: const quill.QuillIconTheme(
+                        iconUnselectedFillColor: MainColor.six,
+                        iconUnselectedColor: MainColor.three,
+                        iconSelectedColor: Colors.white,
+                        iconSelectedFillColor: MainColor.one),
+                  )
+                  : SizedBox.shrink(),
+              popupImage
+                  ? CustomQuillToolbar.basic(
+                  toolbarHeight: 30,
                   showLink: false,
-                  controller: _controller,//_toolbarController,
+                  showUndo: false,
+                  showRedo: false,
+                  showRightAlignment: false,
+                  showCenterAlignment: false,
+                  showLeftAlignment: false,
+                  showListNumbers: false,
+                  showListCheck: false,
+                  showListBullets: false,
+                  showQuote: false,
+                  showJustifyAlignment: false,
+                  showInlineCode: false,
+                  showIndent: false,
+                  showFontSize: false,
+                  showDirection: false,
+                  showBoldButton: false,
+                  showItalicButton: false,
+                  showUnderLineButton: false,
+                  showClearFormat: false,
+                  showColorButton: false,
+                  showHeaderStyle: false,
+                  showBackgroundColorButton: false,
+                  showCodeBlock: false,
+                  showStrikeThrough: false,
+                  controller: _controller,
+                  //_toolbarController,
                   multiRowsDisplay: false,
+                  showImageButton: true,
+                  showVideoButton: true,
                   iconTheme: const quill.QuillIconTheme(
                       iconUnselectedFillColor: MainColor.six,
                       iconUnselectedColor: MainColor.three,
                       iconSelectedColor: Colors.white,
                       iconSelectedFillColor: MainColor.one),
-                ),
               )
-            : null,
-      ),
+                  :  SizedBox.shrink(),
+            ],
+          )),
       bottomNavigationBar: Transform.translate(
         offset: Offset(0.0, checkKeyBoard()),
         child: BottomAppBar(
@@ -425,23 +485,52 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   IconButton(
-                    icon: const ImageIcon(
-                      AssetImage("assets/images/letter-t-.png"),
-                    ),
+                    icon: Icon(Icons.text_fields,
+                        size: 35,
+                        color: popupFont ? MainColor.six : Colors.white),
                     onPressed: () {
                       setState(() {
-                        popup = !popup;
-                        print(popup);
-                        //팝업후 입력시 바로 포커스 가긴 하는데 입력 전에 바로 가야 매끄러울듯
+                        if (popupImage) {
+                          popupImage= false;
+                        }
+                        if(!popupFont){
+                          popupFont = true;
+                        }else{
+                          popupFont = false;
+                        }
+                        if(popupFont || popupImage){
+                          popup = true;
+                        }
+                        if(!popupFont && !popupImage){
+                          popup = false;
+                        }
+                        //팝업후 editor 입력시 바로 포커스 가긴 하는데 입력 전에 바로 가야 매끄러울듯
                       });
                     },
                   ),
                   IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.camera_alt,
-                      size: 35,
-                    ),
+                    icon: Icon(Icons.camera_alt,
+                        size: 35,
+                        color: popupImage? MainColor.six : Colors.white),
+                    onPressed: () {
+                      setState(() {
+                        if (popupFont) {
+                          popupFont = false;
+                        }
+                        if(!popupImage){
+                          popupImage = true;
+                        }else{
+                          popupImage = false;
+                        }
+                        if(popupFont || popupImage){
+                          popup = true;
+                        }
+                        if(!popupFont && !popupImage){
+                          popup = false;
+                        }
+                        //팝업후 editor 입력시 바로 포커스 가긴 하는데 입력 전에 바로 가야 매끄러울듯
+                      });
+                    },
                   ),
                   IconButton(
                     onPressed: () {},

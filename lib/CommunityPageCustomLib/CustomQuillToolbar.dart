@@ -9,7 +9,7 @@ import '../themeData.dart';
 class CustomQuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   const CustomQuillToolbar({
     required this.children,
-    this.toolbarHeight = 36,
+    this.toolbarHeight = 30,
     this.toolbarIconAlignment = WrapAlignment.center,
     this.toolbarSectionSpacing = 4,
     this.multiRowsDisplay = true,
@@ -22,6 +22,7 @@ class CustomQuillToolbar extends StatelessWidget implements PreferredSizeWidget 
 
   factory CustomQuillToolbar.basic({
     required quill.QuillController controller,
+    required double toolbarHeight,
     double toolbarIconSize = quill.kDefaultIconSize,
     double toolbarSectionSpacing = 4,
     WrapAlignment toolbarIconAlignment = WrapAlignment.center,
@@ -110,7 +111,7 @@ class CustomQuillToolbar extends StatelessWidget implements PreferredSizeWidget 
     return CustomQuillToolbar(
       color: MainColor.six,
       key: key,
-      toolbarHeight: toolbarIconSize * 2,
+      toolbarHeight: toolbarHeight,
       toolbarSectionSpacing: toolbarSectionSpacing,
       toolbarIconAlignment: toolbarIconAlignment,
       multiRowsDisplay: multiRowsDisplay,
