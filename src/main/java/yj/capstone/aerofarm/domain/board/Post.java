@@ -39,7 +39,8 @@ public class Post extends BaseEntity {
 
     private String title;
 
-    @Enumerated(EnumType.STRING)
+//    @Enumerated(EnumType.STRING)
+    @Convert(converter = CategoryConverter.class)
     private PostCategory category;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -26,7 +26,7 @@ let createPost = {
             },
         }).done(function () {
             alert('게시글 작성이 완료되었습니다.');
-            window.location.href ='/community';
+            window.location.href ='/community/free';
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });

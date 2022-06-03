@@ -26,7 +26,7 @@ public class PostController {
     @GetMapping("/community/{category}")
     public String community(@PathVariable String category, Model model) {
 
-        List<Post> posts = postService.findPosts(PostCategory.valueOf(category.toUpperCase()).name());
+        List<Post> posts = postService.findPosts(PostCategory.valueOf(category));
         List<PostDto> result = posts.stream()
                 .map(o -> new PostDto(o))
                 .collect(Collectors.toList());
