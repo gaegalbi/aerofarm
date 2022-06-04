@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
+import 'CustomFontSizeButton.dart';
 import 'camera_button.dart';
 import 'i18n_widget.dart';
 import '../themeData.dart';
@@ -135,7 +136,7 @@ class CustomQuillToolbar extends StatelessWidget implements PreferredSizeWidget 
             iconTheme: iconTheme,
           ),
         if (showFontSize)
-          quill.QuillFontSizeButton(
+          CustomQuillFontSizeButton(
             iconTheme: iconTheme,
             iconSize: toolbarIconSize,
             attribute: quill.Attribute.size,

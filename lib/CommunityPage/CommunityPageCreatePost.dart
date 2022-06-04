@@ -18,8 +18,6 @@ class CommunityPageCreatePost extends StatefulWidget {
 class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
     with TickerProviderStateMixin {
   final List<String> value = ["자유 게시판", "질문 게시판", "정보 게시판", "사진 게시판", "거래 게시판"];
-  final List<String> fontSizesName = ["Small", "Large", "Huge"];
-  final List<double> fontSizes = [20, 26, 32];
 
   final List<Icon> floatingAlignButton = const [
     Icon(
