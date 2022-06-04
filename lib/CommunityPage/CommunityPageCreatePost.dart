@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'package:capstone/CommunityPage/CommunityPageAll.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:get/get.dart';
 import '../CommunityPageCustomLib/CustomQuillToolbar.dart';
+import '../CommunityPageCustomLib/CustomRadioButton.dart';
 
 class CommunityPageCreatePost extends StatefulWidget {
   const CommunityPageCreatePost({Key? key}) : super(key: key);
@@ -40,14 +42,14 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
   String groupValue = "게시판 선택";
   bool popupFont = false;
   bool popupImage = false;
+  bool popupLink = false;
+  bool popupTag = false;
   bool popup = false;
-
-  bool linkButton = false;
-  bool tagButton = false;
 
   late quill.QuillController _controller;
   late ScrollController _scrollController;
   late ScrollController _scrollController1;
+  late TextEditingController _textEditingController;
   late final FocusNode focusNode;
 
   quill.OnImagePickCallback? onImagePickCallback;
@@ -61,14 +63,13 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
   void initState() {
     _controller = quill.QuillController(
       document: quill.Document(),
-      selection: const TextSelection.collapsed(offset: 0)
-      //not working
-      ,
-      keepStyleOnNewLine: true,
+      selection: const TextSelection.collapsed(offset: 0),
+      keepStyleOnNewLine: true, //not working
     );
 
     _scrollController = ScrollController();
     _scrollController1 = ScrollController();
+    _textEditingController = TextEditingController();
     focusNode = FocusNode();
     super.initState();
   }
@@ -78,6 +79,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
     _controller.dispose();
     _scrollController.dispose();
     _scrollController1.dispose();
+    _textEditingController.dispose();
     super.dispose();
   }
 
@@ -490,18 +492,19 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                         color: popupFont ? MainColor.six : Colors.white),
                     onPressed: () {
                       setState(() {
-                        if (popupImage) {
+                        if (popupImage || popupLink) {
                           popupImage= false;
+                          popupLink = false;
                         }
                         if(!popupFont){
                           popupFont = true;
                         }else{
                           popupFont = false;
                         }
-                        if(popupFont || popupImage){
+                        if(popupFont || popupImage || popupLink){
                           popup = true;
                         }
-                        if(!popupFont && !popupImage){
+                        if(!popupFont && !popupImage && !popupLink){
                           popup = false;
                         }
                         //팝업후 editor 입력시 바로 포커스 가긴 하는데 입력 전에 바로 가야 매끄러울듯
@@ -514,96 +517,35 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                         color: popupImage? MainColor.six : Colors.white),
                     onPressed: () {
                       setState(() {
-                        if (popupFont) {
+                        if (popupFont || popupLink) {
                           popupFont = false;
+                          popupLink = false;
                         }
                         if(!popupImage){
                           popupImage = true;
                         }else{
                           popupImage = false;
                         }
-                        if(popupFont || popupImage){
+                        if(popupFont || popupImage || popupLink){
                           popup = true;
                         }
-                        if(!popupFont && !popupImage){
+                        if(!popupFont && !popupImage && !popupLink){
                           popup = false;
                         }
                         //팝업후 editor 입력시 바로 포커스 가긴 하는데 입력 전에 바로 가야 매끄러울듯
                       });
                     },
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const ImageIcon(
-                      AssetImage("assets/images/link.png"),
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const ImageIcon(
-                      AssetImage("assets/images/hash.png"),
-                    ),
+                  quill.LinkStyleButton(
+                    controller: _controller,
+                    iconSize: 35,
+                    iconTheme: const quill.QuillIconTheme(
+                        iconUnselectedFillColor: MainColor.three,
+                        iconUnselectedColor: Colors.white,
+                        iconSelectedColor: Colors.white,
+                        iconSelectedFillColor: MainColor.three),
                   ),
                 ])),
-      ),
-    );
-  }
-}
-
-class RadioButton<T> extends StatelessWidget {
-  final String description;
-  final T value;
-  final T groupValue;
-  final void Function(T?)? onChanged;
-  final Color? activeColor;
-  final TextStyle? textStyle;
-  final double contentPadding;
-
-  const RadioButton(
-      {Key? key,
-      required this.description,
-      required this.value,
-      required this.groupValue,
-      this.onChanged,
-      this.activeColor,
-      this.textStyle,
-      required this.contentPadding})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        if (onChanged != null) {
-          onChanged!(value);
-        }
-      },
-      child: Container(
-        margin: EdgeInsets.only(
-            top: contentPadding / 3, bottom: contentPadding / 3),
-        padding: EdgeInsets.only(
-          left: contentPadding,
-          right: contentPadding,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              description,
-              style: textStyle,
-              textAlign: TextAlign.left,
-            ),
-            Transform.scale(
-              scale: 1.5,
-              child: Radio<T>(
-                groupValue: groupValue,
-                onChanged: onChanged,
-                value: value,
-                activeColor: activeColor,
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }

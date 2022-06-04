@@ -85,10 +85,10 @@ class CustomImageButton extends StatelessWidget {
     showDialog<String>(
       context: context,
       builder: (_) => LinkDialog(dialogTheme: dialogTheme),
-    ).then(_linkSubmitted);
+    ).then(linkSubmitted);
   }
 
-  void _linkSubmitted(String? value) {
+  void linkSubmitted(String? value) {
     if (value != null && value.isNotEmpty) {
       final index = controller.selection.baseOffset;
       final length = controller.selection.extentOffset - index;
