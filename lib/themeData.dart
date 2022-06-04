@@ -167,6 +167,11 @@ class CommunityPageTheme {
       decoration: TextDecoration.none,
       fontFamily: 'bmPro',
       fontSize: 25);
+  static const titleButton = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 18);
   static const main = TextStyle(
       color: Colors.white,
       decoration: TextDecoration.none,

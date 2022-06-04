@@ -105,11 +105,8 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                               style: ButtonStyle(
                                   padding: MaterialStateProperty.all(
                                       EdgeInsets.zero)),
-                              child: sort
-                                  ? const Text("등록순",
-                                      style: CommunityPageTheme.postFont)
-                                  : const Text("등록순",
-                                      style: CommunityPageTheme.postFalseFont),
+                              child: Text("등록순",
+                                      style: sort ? CommunityPageTheme.postFont : CommunityPageTheme.postFalseFont)
                             ),
                             TextButton(
                               onPressed: () {
@@ -120,11 +117,9 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                               style: ButtonStyle(
                                   padding: MaterialStateProperty.all(
                                       EdgeInsets.zero)),
-                              child: sort
-                                  ? const Text("최신순",
-                                      style: CommunityPageTheme.postFalseFont)
-                                  : const Text("최신순",
-                                      style: CommunityPageTheme.postFont),
+                              child: Text("최신순",
+                                      style: sort ? CommunityPageTheme.postFalseFont : CommunityPageTheme.postFont)
+
                             ),
                           ],
                         ),

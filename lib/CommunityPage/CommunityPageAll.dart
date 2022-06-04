@@ -8,6 +8,8 @@ import 'package:get/get.dart';
 import '../CurrentTime.dart';
 import 'CommunityPageFloating.dart';
 
+final List<Widget> boardList = [];
+
 class CommunityPageAll extends StatefulWidget {
   const CommunityPageAll({Key? key}) : super(key: key);
 
@@ -16,6 +18,18 @@ class CommunityPageAll extends StatefulWidget {
 }
 
 class _CommunityPageAllState extends State<CommunityPageAll> {
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,106 +149,111 @@ class _CommunityPageAllState extends State<CommunityPageAll> {
                 top: MediaQuery.of(context).size.height * 0.014,
               ),
               height: MediaQuery.of(context).size.height * 0.69,
-              child: ListView.builder(
-                scrollDirection: Axis.vertical,
-                itemCount: 10,
-                itemBuilder: (BuildContext context, int index) {
-                  return Container(
+              child: Column(
+                children: boardList,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class AddBoard extends StatelessWidget {
+  const AddBoard({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(
+          left: MediaQuery.of(context).size.width * 0.01,
+          right: MediaQuery.of(context).size.width * 0.01),
+      height: MediaQuery.of(context).size.height * 0.08,
+      decoration: const BoxDecoration(
+          border: Border(
+            bottom: BorderSide(width: 1, color: Colors.white),
+          )),
+      child: InkWell(
+        onTap: () {
+          Get.to(const CommunityPageReadPost());
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.8,
+              child: Row(
+                children: [
+                  Container(
+                    width:
+                    MediaQuery.of(context).size.width * 0.64,
                     margin: EdgeInsets.only(
-                        left: MediaQuery.of(context).size.width * 0.01,
-                        right: MediaQuery.of(context).size.width * 0.01),
-                    height: MediaQuery.of(context).size.height * 0.08,
-                    decoration: const BoxDecoration(
-                        border: Border(
-                      bottom: BorderSide(width: 1, color: Colors.white),
-                    )),
-                    child: InkWell(
-                      onTap: () {
-                        Get.to(const CommunityPageReadPost());
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.8,
-                            child: Row(
+                        right: MediaQuery.of(context).size.width *
+                            0.06),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment:
+                      CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                            margin: EdgeInsets.only(
+                                bottom: MediaQuery.of(context)
+                                    .size
+                                    .height *
+                                    0.008),
+                            child: Text(
+                              "도시농부 서비스 좋네여",
+                              style: CommunityPageTheme.main,
+                            )),
+                        Row(
+                          mainAxisAlignment:
+                          MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              "city",
+                              style: CommunityPageTheme.sub,
+                            ),
+                            const CurrentTime(
+                              type: true, style: 'sub',
+                            ),
+                            Text(
+                              "조회",
+                              style: CommunityPageTheme.sub,
+                            ),
+                            Row(
                               children: [
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.64,
-                                  margin: EdgeInsets.only(
-                                      right: MediaQuery.of(context).size.width *
-                                          0.06),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                          margin: EdgeInsets.only(
-                                              bottom: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.008),
-                                          child: Text(
-                                            "도시농부 서비스 좋네여 $index",
-                                            style: CommunityPageTheme.main,
-                                          )),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          const Text(
-                                            "city",
-                                            style: CommunityPageTheme.sub,
-                                          ),
-                                          const CurrentTime(
-                                            type: true, style: 'sub',
-                                          ),
-                                          Text(
-                                            "조회 $index",
-                                            style: CommunityPageTheme.sub,
-                                          ),
-                                          Row(
-                                            children: [
-                                              const Text(
-                                                "추천 ",
-                                                style: CommunityPageTheme.sub,
-                                              ),
-                                              Text(
-                                                "$index",
-                                                style: CommunityPageTheme.sub1,
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
+                                const Text(
+                                  "추천 ",
+                                  style: CommunityPageTheme.sub,
                                 ),
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.1,
-                                  height: MediaQuery.of(context).size.height *
-                                      0.048,
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    "$index",
-                                    style: CommunityPageTheme.main,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  decoration: BoxDecoration(
-                                      color: MainColor.one,
-                                      borderRadius: BorderRadius.circular(10)),
-                                )
+                                Text(
+                                  "",
+                                  style: CommunityPageTheme.sub1,
+                                ),
                               ],
                             ),
-                          ),
-                        ],
-                      ),
+                          ],
+                        ),
+                      ],
                     ),
-                  );
-                },
+                  ),
+                  Container(
+                    width:
+                    MediaQuery.of(context).size.width * 0.1,
+                    height: MediaQuery.of(context).size.height *
+                        0.048,
+                    alignment: Alignment.center,
+                    child: Text(
+                      "",
+                      style: CommunityPageTheme.main,
+                      textAlign: TextAlign.center,
+                    ),
+                    decoration: BoxDecoration(
+                        color: MainColor.one,
+                        borderRadius: BorderRadius.circular(10)),
+                  )
+                ],
               ),
             ),
           ],

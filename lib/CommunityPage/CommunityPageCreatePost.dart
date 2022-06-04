@@ -121,6 +121,12 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
     }
   }
 
+  void addBoard(String content, AssetImage image, String user) {
+    boardList.add(
+        const AddBoard()
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -148,7 +154,9 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
               borderRadius: BorderRadius.circular(10.0),
             ),
             child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+
+                },
                 child: const Text(
                   "등록",
                   style: CommunityPageTheme.postFont,

@@ -1,3 +1,4 @@
+import 'package:capstone/CommunityPage/CommunityPageAll.dart';
 import 'package:capstone/CommunityPage/CommunityPageDrawer.dart';
 import 'package:capstone/CommunityPage/CommunityPageFloating.dart';
 import 'package:capstone/MainPage/MainPage.dart';
@@ -99,7 +100,7 @@ class _CommunityPageHotState extends State<CommunityPageHot> {
           MediaQuery.of(context).size.width * 0.04,
           0,
           MediaQuery.of(context).size.width * 0.04,
-          MediaQuery.of(context).size.width * 0.04,
+          MediaQuery.of(context).size.height * 0.018,
         ),
         color: MainColor.six,
         child: Column(
@@ -116,24 +117,31 @@ class _CommunityPageHotState extends State<CommunityPageHot> {
                     )),
                 Container(
                   width: MediaQuery.of(context).size.width * 0.6,
-                  height: 30,
+                  padding: EdgeInsets.only(
+                    left: MediaQuery.of(context).size.width * 0.021,
+                    bottom: MediaQuery.of(context).size.height * 0.018,),
                   child: ListView(
                     controller: _scrollController,
                     scrollDirection: Axis.horizontal,
                     children: <Widget>[
-                      Text("정보"),
-                      Text("정보"),
-                      Text("정보"),
-                      Text("정보"),
-                      Text("정보"),
-                      Text("정보"),
-                      Text("정보"),
-                      Text("정보"),
-                      Text("정보"),
-                      Text("정보"),
-                      Text("정보"),
-                      Text("정보"),
-                      Text("정보"),
+                      TitleButton(title: "전체",onPressed: (){
+                        Get.to(const CommunityPageAll());
+                      }),
+                      TitleButton(title: "자유",onPressed: (){
+                        Get.to(const CommunityPageAll());
+                      }),
+                      TitleButton(title: "사진",onPressed: (){
+                        Get.to(const CommunityPageAll());
+                      }),
+                      TitleButton(title: "정보",onPressed: (){
+                        Get.to(const CommunityPageAll());
+                      }),
+                      TitleButton(title: "질문",onPressed: (){
+                        Get.to(const CommunityPageAll());
+                      }),
+                      TitleButton(title: "거래",onPressed: (){
+                        Get.to(const CommunityPageAll());
+                      }),
                     ],
                   ),
                 ),
@@ -277,6 +285,28 @@ class _CommunityPageHotState extends State<CommunityPageHot> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class TitleButton extends StatelessWidget {
+  const TitleButton({Key? key, required this.title, required this.onPressed}) : super(key: key);
+  final String title;
+  final Function onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width*0.12,
+      child: TextButton(
+        onPressed: (){
+         onPressed();
+        },
+        child: Text(title,style: CommunityPageTheme.titleButton,),
+        style: TextButton.styleFrom(
+            padding: EdgeInsets.zero
         ),
       ),
     );
