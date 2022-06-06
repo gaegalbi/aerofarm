@@ -1,14 +1,13 @@
 package yj.capstone.aerofarm.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import yj.capstone.aerofarm.controller.dto.PostDetailDto;
-import yj.capstone.aerofarm.controller.dto.PostDto;
-import yj.capstone.aerofarm.controller.dto.UserDetailsImpl;
+import yj.capstone.aerofarm.controller.dto.*;
 import yj.capstone.aerofarm.controller.form.PostForm;
 import yj.capstone.aerofarm.domain.board.Post;
 import yj.capstone.aerofarm.domain.board.PostCategory;
@@ -24,14 +23,22 @@ public class PostController {
 
     // 게시판 글 목록
     @GetMapping("/community/{category}")
-    public String community(@PathVariable String category, Model model) {
+    public String community(@PathVariable String category, Model model, @RequestParam(defaultValue = "1") Integer page) {
 
-        List<Post> posts = postService.findPosts(PostCategory.valueOf(category.toUpperCase()));
-        List<PostDto> result = posts.stream()
-                .map(o -> new PostDto(o))
-                .collect(Collectors.toList());
+//        List<Post> posts = postService.findPosts(PostCategory.valueOf(category.toUpperCase()));
+//        List<PostDto> result = posts.stream()
+//                .map(o -> new PostDto(o))
+//                .collect(Collectors.toList());
+//
+//        model.addAttribute("postDtos", result);
 
-        model.addAttribute("postDtos", result);
+        if (page < 1) {
+            page = 1;
+        }
+        
+        Page<PostDto> postInfo = postService.findPostInfo(PostCategory.valueOf(category.toUpperCase()), page);
+        PageableList<PostDto> pageableList = new PageableList<>(postInfo);
+        model.addAttribute("pageableList", pageableList);
 
         return "/community/communityPage";
     }

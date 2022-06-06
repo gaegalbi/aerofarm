@@ -1,5 +1,6 @@
 package yj.capstone.aerofarm.controller.dto;
 
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,5 +31,16 @@ public class PostDto {
         this.views = post.getViews();
         this.likes = post.getLikes();
         this.localDateTime = post.getCreatedDate();
+    }
+
+    @QueryProjection
+    public PostDto(Long id, String title, String writer, PostCategory category, int views, int likes, LocalDateTime localDateTime) {
+        this.id = id;
+        this.title = title;
+        this.writer = writer;
+        this.category = category;
+        this.views = views;
+        this.likes = likes;
+        this.localDateTime = localDateTime;
     }
 }
