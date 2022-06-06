@@ -33,19 +33,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/login/**",
             "/signup/**",
             "/community",
-            "/community/**" // 테스트 중
+            "/community/**", // TEST
+            "/css/**",
+            "/js/**",
+            "/image/**",
+            "/**" // TEST
     };
-
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web
-                .ignoring()
-                .antMatchers(
-                        "/css/**",
-                        "/js/**",
-                        "/image/**"
-                );
-    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

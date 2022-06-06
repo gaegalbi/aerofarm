@@ -11,9 +11,6 @@ import java.util.List;
 @Getter
 @Setter
 public class OrderForm {
-
     private AddressInfo addressInfo;
-    private String paymentType;
-    private String receiver;
     private List<OrderLineDto> orderLineDtos = new ArrayList<>();
 }

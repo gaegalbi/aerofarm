@@ -11,13 +11,13 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Money {
 
-    private int price;
+    private int money;
 
     public Money(int price) {
-        this.price = price;
+        this.money = price;
     }
 
     public Money add(Money money) {
-        return new Money(this.price + money.getPrice());
+        return new Money(this.money + money.getMoney());
     }
 }
