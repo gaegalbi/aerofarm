@@ -12,6 +12,8 @@ import yj.capstone.aerofarm.domain.board.PostCategory;
 import yj.capstone.aerofarm.domain.member.Member;
 import yj.capstone.aerofarm.repository.PostRepository;
 
+import java.util.Collections;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -37,7 +39,7 @@ public class PostService {
 //    }
 
     public Page<PostDto> findPostInfo(PostCategory category, Integer page) {
-        PageRequest pageRequest = PageRequest.of(page - 1, 10);
+        PageRequest pageRequest = PageRequest.of(page - 1, 1);
         return postRepository.findPostInfo(category, pageRequest);
     }
 
