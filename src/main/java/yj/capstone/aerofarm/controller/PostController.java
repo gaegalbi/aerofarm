@@ -35,7 +35,7 @@ public class PostController {
         if (page < 1) {
             page = 1;
         }
-        
+
         Page<PostDto> postInfo = postService.findPostInfo(PostCategory.valueOf(category.toUpperCase()), page);
         PageableList<PostDto> pageableList = new PageableList<>(postInfo);
         model.addAttribute("pageableList", pageableList);
@@ -44,8 +44,8 @@ public class PostController {
     }
 
     // 게시물 보기 페이지
-    @GetMapping("/community/free/{boardId}")
-    public String community_free(@PathVariable Long boardId, Model model) {
+    @GetMapping("/community/{category}/{boardId}")
+    public String community_detail(@PathVariable Long boardId, Model model) {
         Post post = postService.selectPost(boardId);
         PostDetailDto result = new PostDetailDto(post);
 

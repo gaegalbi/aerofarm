@@ -38,7 +38,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
         JPAQuery<Long> countQuery = queryFactory
                 .select(post.count())
-                .from(post);
+                .from(post)
+                .where(post.category.eq(category));
 
         return PageableExecutionUtils.getPage(results, pageable, countQuery::fetchOne);
     }
