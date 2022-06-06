@@ -26,4 +26,10 @@ public class StoreController {
         model.addAttribute("pageableList", pageableList);
         return "/store/storePage";
     }
+
+    @GetMapping("/stores")
+    @ResponseBody
+    public Page<ProductInfoDto> test() {
+        return productService.findProductInfo(null, 1);
+    }
 }

@@ -32,13 +32,13 @@ public class OrderController {
     public String cancelOrder(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable String uuid) {
         Long orderId = orderService.cancelOrder(uuid);
         log.info("order number {} cancel by email: {}", orderId, userDetails.getUsername());
-        return "/order/orderPage";
+        return "order/orderPage";
     }
 
     @GetMapping("/order/create")
     @PreAuthorize("hasAnyAuthority('GUEST')")
     public String createOrder() {
-        return "/order/orderPage";
+        return "order/orderPage";
     }
 
     /*@ResponseBody

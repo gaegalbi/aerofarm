@@ -32,12 +32,12 @@ public class LoginController {
             return "redirect:/";
         }
         model.addAttribute("loginForm", new LoginForm());
-        return "/loginPage";
+        return "loginPage";
     }
 
     @PostMapping("/login")
     public String loginSumit(@Valid LoginForm loginForm, BindingResult bindingResult) {
-        return "/loginPage";
+        return "loginPage";
     }
 
     @GetMapping("/login/confirm-email")
@@ -58,7 +58,7 @@ public class LoginController {
             return "redirect:/";
         }
         model.addAttribute("saveMemberForm", new SaveMemberForm());
-        return "/signupPage";
+        return "signupPage";
     }
 
     @PostMapping("/signup")
@@ -66,7 +66,7 @@ public class LoginController {
         signupValidate(saveMemberForm, bindingResult);
         if (bindingResult.hasErrors()) {
             log.debug("errors={} ", bindingResult);
-            return "/signupPage";
+            return "signupPage";
         }
         memberService.signup(saveMemberForm);
         log.info("New member created. Email: {}",saveMemberForm.getEmail());

@@ -29,6 +29,6 @@ public class CommunityController {
 
         model.addAttribute("postDtos", postDtos);
 
-        return "/community/communityPage";
+        return "community/communityPage";
     }
 }

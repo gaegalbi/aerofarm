@@ -25,15 +25,14 @@ public class ProductController {
     @PreAuthorize("hasAnyAuthority('GUEST')") // TODO ADMIN
     public String saveProductForm(Model model) {
         model.addAttribute("saveProductForm", new SaveProductForm());
-        return "/product/saveProductPage";
+        return "product/saveProductPage";
     }
 
     @PostMapping("/product/save")
     @PreAuthorize("hasAnyAuthority('GUEST')") // TODO ADMIN
     public String saveProduct(@Valid SaveProductForm saveProductForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            log.debug("errors={} ", bindingResult);
-            return "/product/saveProductPage";
+            return "product/saveProductPage";
         }
 
         Product product = productService.save(saveProductForm);
