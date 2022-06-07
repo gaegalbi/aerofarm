@@ -23,13 +23,11 @@ public class PostController {
 
     // 게시판 글 목록
     @GetMapping("/community/{category}")
-    public String community(@PathVariable String category, Model model, @RequestParam(defaultValue = "1") Integer page) {
+    public String community(@PathVariable String category, Model model, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "title") String searchCategory, @RequestParam(defaultValue = "%") String keyword) {
 
-        if (page < 1) {
-            page = 1;
-        }
+        if (page < 1) page = 1;
 
-        Page<PostDto> postInfo = postService.findPostInfo(PostCategory.valueOf(category.toUpperCase()), page);
+        Page<PostDto> postInfo = postService.findPostInfo(PostCategory.valueOf(category.toUpperCase()), searchCategory, keyword, page);
         PageableList<PostDto> pageableList = new PageableList<>(postInfo);
         model.addAttribute("pageableList", pageableList);
 
@@ -64,4 +62,5 @@ public class PostController {
     public Long createPost(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody PostForm postForm) {
         return postService.createPost(userDetails.getMember(), postForm).getId();
     }
+
 }

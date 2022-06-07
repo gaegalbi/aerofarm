@@ -6,5 +6,5 @@ import yj.capstone.aerofarm.dto.PostDto;
 import yj.capstone.aerofarm.domain.board.PostCategory;
 
 public interface PostRepositoryCustom {
-    Page<PostDto> findPostInfo(PostCategory category, Pageable pageable);
+    Page<PostDto> findPostInfo(PostCategory category, String searchCategory, String keyword, Pageable pageable);
 }

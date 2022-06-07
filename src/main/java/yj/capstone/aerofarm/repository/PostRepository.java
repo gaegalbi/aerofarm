@@ -7,6 +7,4 @@ import yj.capstone.aerofarm.domain.board.PostCategory;
 import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post, Long>, PostRepositoryCustom {
-
-    List<Post> findByCategory(PostCategory category);
 }

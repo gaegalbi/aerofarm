@@ -21,7 +21,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<PostDto> findPostInfo(PostCategory category, Pageable pageable) {
+    public Page<PostDto> findPostInfo(PostCategory category, String searchCategory, String keyword, Pageable pageable) {
         List<PostDto> results = queryFactory
                 .select(new QPostDto(
                         post.id,
@@ -32,7 +32,10 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         post.likes,
                         post.createdDate))
                 .from(post)
-                .where(categoryEq(category))
+                .where(
+                        categoryEq(category),
+                        titleOrWriterEq(searchCategory, keyword)
+                )
                 .limit(pageable.getPageSize())
                 .offset(pageable.getOffset())
                 .fetch();
@@ -40,12 +43,22 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         JPAQuery<Long> countQuery = queryFactory
                 .select(post.count())
                 .from(post)
-                .where(categoryEq(category));
+                .where(
+                        categoryEq(category),
+                        titleOrWriterEq(searchCategory, keyword)
+                );
 
         return PageableExecutionUtils.getPage(results, pageable, countQuery::fetchOne);
     }
 
     private BooleanExpression categoryEq(PostCategory category) {
         return category == null ? null : post.category.eq(category);
+    }
+
+    private BooleanExpression titleOrWriterEq(String searchCategory, String keyword) {
+        if (searchCategory.equals("title"))
+            return keyword == null ? null : post.title.like("%" + keyword + "%");
+        else
+            return keyword == null ? null : post.writer.nickname.like("%" + keyword + "%");
     }
 }
