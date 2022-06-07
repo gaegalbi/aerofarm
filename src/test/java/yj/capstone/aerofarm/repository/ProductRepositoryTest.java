@@ -33,7 +33,7 @@ class ProductRepositoryTest {
 
         //when
         PageRequest pageable = PageRequest.of(0, 10);
-        Page<ProductStoreInfoDto> productInfo = productRepository.findProductInfo(null, pageable);
+        Page<ProductStoreInfoDto> productInfo = productRepository.findProductInfo(null,null, pageable);
 
         //then
         assertThat(productInfo.getContent().size()).isEqualTo(10);
@@ -56,7 +56,7 @@ class ProductRepositoryTest {
 
         // when
         PageRequest pageable = PageRequest.of(0, 2);
-        Page<ProductStoreInfoDto> productInfo = productRepository.findProductInfo(null, pageable);
+        Page<ProductStoreInfoDto> productInfo = productRepository.findProductInfo(null,null, pageable);
 
         // then
         assertThat(productInfo.getContent().get(0).getReviewCnt()).isEqualTo(3);

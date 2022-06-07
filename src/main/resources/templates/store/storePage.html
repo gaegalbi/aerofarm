@@ -17,10 +17,6 @@
         color: #FFFFFF
     }
 
-    .blog-footer p:last-child {
-        margin-bottom: 0;
-    }
-
     .post-header {
         margin-right: 10px;
     }
@@ -99,7 +95,7 @@
     <br/>
     <div class="row row-cols-1 row-cols-md-5 g-4">
         <div class="col" th:each="product: ${pageableList.getContent()}">
-            <div class="card h-100 text-center">
+            <div class="card h-100 text-center" th:onclick="|location.href='@{/store/{id}(id=${product.getProductId()})}'|" style="cursor:pointer;">
                 <img src="/image/test_icon.png" th:src="${product.getImageUrl()}" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${product.getName()}">상품 이름</h5>

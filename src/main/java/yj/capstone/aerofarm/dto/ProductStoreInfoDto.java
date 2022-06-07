@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class ProductStoreInfoDto {
+    private Long productId;
     private String imageUrl;
     private String name;
     private int price;
@@ -16,7 +17,8 @@ public class ProductStoreInfoDto {
     private double scoreAvg;
 
     @QueryProjection
-    public ProductStoreInfoDto(String imageUrl, String name, int price, long reviewCnt, double scoreAvg) {
+    public ProductStoreInfoDto(Long productId, String imageUrl, String name, int price, long reviewCnt, double scoreAvg) {
+        this.productId = productId;
         this.imageUrl = imageUrl;
         this.name = name;
         this.price = price;
