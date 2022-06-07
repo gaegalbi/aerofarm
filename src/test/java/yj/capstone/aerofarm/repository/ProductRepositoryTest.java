@@ -1,20 +1,18 @@
 package yj.capstone.aerofarm.repository;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import yj.capstone.aerofarm.controller.dto.ProductInfoDto;
-import yj.capstone.aerofarm.controller.form.SaveProductForm;
+import yj.capstone.aerofarm.dto.ProductInfoDto;
+import yj.capstone.aerofarm.form.SaveProductForm;
 import yj.capstone.aerofarm.domain.product.Product;
 import yj.capstone.aerofarm.domain.product.ProductCategory;
 import yj.capstone.aerofarm.domain.product.ProductReview;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class ProductRepositoryTest {

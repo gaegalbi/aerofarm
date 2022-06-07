@@ -8,9 +8,13 @@ public enum PostCategory {
     PICTURE("사진게시판"),
     FREE("자유게시판");
 
-    private String category;
+    private final String category;
 
     PostCategory(String category) {
         this.category = category;
+    }
+
+    public String getCategoryTitle() {
+        return category;
     }
 }

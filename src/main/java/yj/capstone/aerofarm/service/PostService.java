@@ -5,14 +5,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import yj.capstone.aerofarm.controller.dto.PostDto;
-import yj.capstone.aerofarm.controller.form.PostForm;
+import yj.capstone.aerofarm.dto.PostDto;
+import yj.capstone.aerofarm.form.PostForm;
 import yj.capstone.aerofarm.domain.board.Post;
 import yj.capstone.aerofarm.domain.board.PostCategory;
 import yj.capstone.aerofarm.domain.member.Member;
 import yj.capstone.aerofarm.repository.PostRepository;
-
-import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor

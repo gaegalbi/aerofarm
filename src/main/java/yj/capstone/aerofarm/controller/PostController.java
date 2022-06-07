@@ -7,14 +7,14 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import yj.capstone.aerofarm.controller.dto.*;
-import yj.capstone.aerofarm.controller.form.PostForm;
+import yj.capstone.aerofarm.dto.PageableList;
+import yj.capstone.aerofarm.dto.PostDetailDto;
+import yj.capstone.aerofarm.dto.PostDto;
+import yj.capstone.aerofarm.dto.UserDetailsImpl;
+import yj.capstone.aerofarm.form.PostForm;
 import yj.capstone.aerofarm.domain.board.Post;
 import yj.capstone.aerofarm.domain.board.PostCategory;
 import yj.capstone.aerofarm.service.PostService;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -25,13 +25,6 @@ public class PostController {
     @GetMapping("/community/{category}")
     public String community(@PathVariable String category, Model model, @RequestParam(defaultValue = "1") Integer page) {
 
-//        List<Post> posts = postService.findPosts(PostCategory.valueOf(category.toUpperCase()));
-//        List<PostDto> result = posts.stream()
-//                .map(o -> new PostDto(o))
-//                .collect(Collectors.toList());
-//
-//        model.addAttribute("postDtos", result);
-
         if (page < 1) {
             page = 1;
         }
@@ -39,6 +32,9 @@ public class PostController {
         Page<PostDto> postInfo = postService.findPostInfo(PostCategory.valueOf(category.toUpperCase()), page);
         PageableList<PostDto> pageableList = new PageableList<>(postInfo);
         model.addAttribute("pageableList", pageableList);
+
+        PostCategory selectCategory = PostCategory.valueOf(category.toUpperCase());
+        model.addAttribute("selectCategory", selectCategory);
 
         return "/community/communityPage";
     }
@@ -53,9 +49,6 @@ public class PostController {
 
         return "/community/postingPage";
     }
-
-    // /community/free/{boardId} 자유게시판 글 상세보기
-
 
     // 글쓰기 페이지
     @GetMapping("/community/writing")

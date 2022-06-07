@@ -97,7 +97,7 @@
 <div class="container">
     <main>
         <div class="community-category">
-            <a>자유게시판</a>
+            <a th:text="${selectCategory.getCategoryTitle()}"/>
         </div>
         <!--필터링 헤더-->
         <div class="filtering">
@@ -138,46 +138,27 @@
     </table>
 </div>
 <div class="container">
-    <!--
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-    -->
-    <nav aria-label="Page navigation example" th:object="${pageableList.getContent().get(0)}">
-        <ul class="pagination justify-content-center">
             <li class="page-item" th:classappend="${pageableList.isFirst()} ? 'disabled' : ''">
-                <a class="page-link" href="#" th:href="@{*{category}(page=${pageableList.getNumber()-1})}" aria-label="Previous">
+                <a class="page-link" href="#" th:href="@{${selectCategory.toString()}(page=${pageableList.getNumber()-1})}" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
             <li class="page-item" th:classappend="${pageableList.getNumber() == 1} ? 'active' : ''">
-                <a class="page-link" th:href="@{*{category}(page=1)}">1</a>
+                <a class="page-link" th:href="@{${selectCategory.toString()}(page=1)}">1</a>
             </li>
             <li class="page-item" th:if="${pageableList.isMoreLeft()}"><a class="page-link">...</a></li>
 
             <li class="page-item" th:classappend="${pageableList.getNumber() == num} ? 'active' : ''" th:if="${pageableList.getTotalPage()} > 2" th:each="num : ${#numbers.sequence(pageableList.getListMin(),pageableList.getListMax())}">
-                <a class="page-link" href="#" th:href="@{*{category}(page=${num})}" th:text="${num}">1</a>
+                <a class="page-link" href="#" th:href="@{${selectCategory.toString()}(page=${num})}" th:text="${num}">1</a>
             </li>
 
             <li class="page-item" th:if="${pageableList.isMoreRight()}"><a class="page-link">...</a></li>
-            <li class="page-item" th:classappend="${pageableList.getNumber() == pageableList.getTotalPage()} ? 'active' : ''" th:unless="${pageableList.isFirst()} and ${pageableList.isLast()}"><a class="page-link" th:href="@{*{category}(page=${pageableList.getTotalPage()})}" th:text="${pageableList.getTotalPage()}">99</a></li>
+            <li class="page-item" th:classappend="${pageableList.getNumber() == pageableList.getTotalPage()} ? 'active' : ''" th:unless="${pageableList.isFirst()} and ${pageableList.isLast()}"><a class="page-link" th:href="@{${selectCategory.toString()}(page=${pageableList.getTotalPage()})}" th:text="${pageableList.getTotalPage()}">99</a></li>
 
             <li class="page-item" th:classappend="${pageableList.isLast()} ? 'disabled' : ''">
-                <a class="page-link" href="#" th:href="@{*{category}(page=${pageableList.getNumber()+1})}" aria-label="Next">
+                <a class="page-link" href="#" th:href="@{${selectCategory.toString()}(page=${pageableList.getNumber()+1})}" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
@@ -199,5 +180,6 @@
 <div th:replace="~{fragments/footer :: footer}"/>
 
 <script src="/js/bootstrap.bundle.js"></script>
+<script src="/js/community/selectCategory.js"></script>
 </body>
 </html>

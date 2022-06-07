@@ -1,4 +1,4 @@
-package yj.capstone.aerofarm.controller.dto;
+package yj.capstone.aerofarm.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

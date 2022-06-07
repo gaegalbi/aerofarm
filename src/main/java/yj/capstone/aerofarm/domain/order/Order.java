@@ -1,7 +1,7 @@
 package yj.capstone.aerofarm.domain.order;
 
 import lombok.*;
-import yj.capstone.aerofarm.controller.form.OrderForm;
+import yj.capstone.aerofarm.form.OrderForm;
 import yj.capstone.aerofarm.domain.AddressInfo;
 import yj.capstone.aerofarm.domain.BaseEntity;
 import yj.capstone.aerofarm.domain.member.Member;

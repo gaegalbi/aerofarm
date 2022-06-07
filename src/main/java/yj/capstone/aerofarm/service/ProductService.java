@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import yj.capstone.aerofarm.controller.dto.ProductInfoDto;
-import yj.capstone.aerofarm.controller.form.SaveProductForm;
+import yj.capstone.aerofarm.dto.ProductInfoDto;
+import yj.capstone.aerofarm.form.SaveProductForm;
 import yj.capstone.aerofarm.domain.product.Product;
 import yj.capstone.aerofarm.repository.ProductRepository;
 

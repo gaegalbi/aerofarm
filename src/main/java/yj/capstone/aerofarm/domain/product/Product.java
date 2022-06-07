@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import yj.capstone.aerofarm.controller.form.SaveProductForm;
+import yj.capstone.aerofarm.form.SaveProductForm;
 import yj.capstone.aerofarm.domain.BaseEntity;
 import yj.capstone.aerofarm.domain.order.Money;
 

@@ -1,4 +1,4 @@
-package yj.capstone.aerofarm.controller.form;
+package yj.capstone.aerofarm.form;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

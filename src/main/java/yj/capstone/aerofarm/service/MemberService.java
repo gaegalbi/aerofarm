@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import yj.capstone.aerofarm.controller.form.SaveMemberForm;
+import yj.capstone.aerofarm.form.SaveMemberForm;
 import yj.capstone.aerofarm.domain.member.ConfirmationToken;
 import yj.capstone.aerofarm.domain.member.Member;
 import yj.capstone.aerofarm.exception.TokenExpiredException;
