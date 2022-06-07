@@ -1,7 +1,7 @@
 package yj.capstone.aerofarm.domain.member;
 
 import lombok.*;
-import yj.capstone.aerofarm.controller.form.SaveMemberForm;
+import yj.capstone.aerofarm.form.SaveMemberForm;
 import yj.capstone.aerofarm.domain.BaseEntity;
 
 import javax.persistence.*;

@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import yj.capstone.aerofarm.controller.form.SaveProductForm;
+import yj.capstone.aerofarm.form.SaveProductForm;
 import yj.capstone.aerofarm.domain.product.Product;
 import yj.capstone.aerofarm.service.ProductService;
 

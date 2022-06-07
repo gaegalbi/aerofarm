@@ -1,8 +1,8 @@
-package yj.capstone.aerofarm.controller.form;
+package yj.capstone.aerofarm.form;
 
 import lombok.Getter;
 import lombok.Setter;
-import yj.capstone.aerofarm.controller.dto.OrderLineDto;
+import yj.capstone.aerofarm.dto.OrderLineDto;
 import yj.capstone.aerofarm.domain.AddressInfo;
 
 import java.util.ArrayList;

@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import yj.capstone.aerofarm.config.auth.dto.SessionUser;
-import yj.capstone.aerofarm.controller.dto.UserDetailsImpl;
+import yj.capstone.aerofarm.dto.UserDetailsImpl;
 import yj.capstone.aerofarm.domain.member.Member;
 import yj.capstone.aerofarm.repository.MemberRepository;
 

@@ -5,8 +5,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import yj.capstone.aerofarm.controller.dto.MemberDto;
-import yj.capstone.aerofarm.controller.dto.UserDetailsImpl;
+import yj.capstone.aerofarm.dto.MemberDto;
+import yj.capstone.aerofarm.dto.UserDetailsImpl;
 import yj.capstone.aerofarm.domain.member.Member;
 
 @Controller

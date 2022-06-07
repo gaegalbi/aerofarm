@@ -3,7 +3,7 @@ package yj.capstone.aerofarm.domain.order;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import yj.capstone.aerofarm.controller.dto.OrderLineDto;
+import yj.capstone.aerofarm.dto.OrderLineDto;
 import yj.capstone.aerofarm.domain.BaseEntity;
 import yj.capstone.aerofarm.domain.product.Product;
 

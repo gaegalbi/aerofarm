@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
-import yj.capstone.aerofarm.controller.dto.ProductInfoDto;
-import yj.capstone.aerofarm.controller.dto.QProductInfoDto;
+import yj.capstone.aerofarm.dto.ProductStoreInfoDto;
+import yj.capstone.aerofarm.controller.dto.QProductStoreInfoDto;
 
 import java.util.List;
 
@@ -20,9 +20,9 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<ProductInfoDto> findProductInfo(String order, Pageable pageable) {
-        List<ProductInfoDto> content = queryFactory
-                .select(new QProductInfoDto(
+    public Page<ProductStoreInfoDto> findProductInfo(String order, Pageable pageable) {
+        List<ProductStoreInfoDto> content = queryFactory
+                .select(new QProductStoreInfoDto(
                         product.imageUrl,
                         product.name,
                         product.price.money.as("price"),

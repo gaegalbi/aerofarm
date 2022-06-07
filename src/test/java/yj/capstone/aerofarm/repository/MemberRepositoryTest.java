@@ -1,11 +1,10 @@
 package yj.capstone.aerofarm.repository;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import yj.capstone.aerofarm.controller.form.SaveMemberForm;
+import yj.capstone.aerofarm.form.SaveMemberForm;
 import yj.capstone.aerofarm.domain.member.Member;
 
 import static org.assertj.core.api.Assertions.*;

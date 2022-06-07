@@ -3,7 +3,7 @@ package yj.capstone.aerofarm.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import yj.capstone.aerofarm.controller.dto.PostDto;
+import yj.capstone.aerofarm.dto.PostDto;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
