@@ -66,7 +66,7 @@ public class Post extends BaseEntity {
         this.writer = writer;
         this.title = postForm.getTitle();
         this.content = PostDetail.createPostDetail(postForm.getContents());
-        this.category = PostCategory.valueOf(postForm.getCategory());
+        this.category = PostCategory.findByLowerCase(postForm.getCategory());
     }
 
 }

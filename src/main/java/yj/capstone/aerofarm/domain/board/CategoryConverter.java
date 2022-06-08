@@ -8,12 +8,12 @@ public class CategoryConverter implements AttributeConverter<PostCategory, Strin
 
     @Override
     public String convertToDatabaseColumn(PostCategory attribute) {
-        return attribute.toString();
+        return attribute.getLowerCase();
     }
 
     @Override
     public PostCategory convertToEntityAttribute(String dbData) {
         if (dbData == null) return null;
-        return PostCategory.valueOf(dbData.toUpperCase());
+        return PostCategory.findByLowerCase(dbData);
     }
 }

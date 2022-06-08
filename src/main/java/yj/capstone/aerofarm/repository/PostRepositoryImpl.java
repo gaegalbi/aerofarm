@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import yj.capstone.aerofarm.dto.PostDto;
-import yj.capstone.aerofarm.controller.dto.QPostDto;
+import yj.capstone.aerofarm.dto.QPostDto;
 import yj.capstone.aerofarm.domain.board.PostCategory;
 
 import java.util.List;

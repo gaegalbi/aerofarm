@@ -10,10 +10,6 @@
         margin-top: 10px;
     }
 
-    .combo-margin {
-        margin-bottom: 0.5rem;
-    }
-
 </style>
 <body>
 <br><h2 style="text-align: center; color: #FFFFFF">게시글 작성</h2><br>
@@ -23,11 +19,11 @@
                 <label class="input-group-text" for="category">CATEGORY</label>
                 <select class="form-select" id="category">
                     <option selected>카테고리를 선택해주세요.</option>
-                    <option value="FREE">자유게시판</option>
-                    <option value="INFORMATION">정보게시판</option>
-                    <option value="QUESTION">질문게시판</option>
-                    <option value="PICTURE">사진게시판</option>
-                    <option value="TRADE">거래게시판</option>
+                    <option value="free">자유게시판</option>
+                    <option value="information">정보게시판</option>
+                    <option value="question">질문게시판</option>
+                    <option value="picture">사진게시판</option>
+                    <option value="trade">거래게시판</option>
                 </select>
             </div>
             <div class="input-group mb-3" style="width: 35%; margin-right: 20px">
@@ -53,7 +49,7 @@
         </div>
         <div style="width: 80%; margin: auto">
             <div class="d-grid gap-2 d-md-flex justify-content-md-end form-margin">
-                <button type="button" class="btn btn-secondary" onclick="location.href='/community'">취소</button>
+                <button type="button" class="btn btn-secondary" onclick="location.href='/community/free?page=1'">취소</button>
                 <button type="button" class="btn btn-secondary" id="btn-createPost">글 작성</button>
             </div>
         </div>

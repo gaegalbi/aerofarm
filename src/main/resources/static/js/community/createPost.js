@@ -7,6 +7,7 @@ let createPost = {
         });
     },
     createPost : function () {
+
         let token = $("meta[name='_csrf']").attr("content");
         let header = $("meta[name='_csrf_header']").attr("content");
         let data = {
@@ -26,7 +27,7 @@ let createPost = {
             },
         }).done(function () {
             alert('게시글 작성이 완료되었습니다.');
-            window.location.href ='/community/free';
+            window.location.href ='/community/free?page=1';
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });

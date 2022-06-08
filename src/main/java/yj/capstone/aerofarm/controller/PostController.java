@@ -27,12 +27,13 @@ public class PostController {
 
         if (page < 1) page = 1;
 
-        Page<PostDto> postInfo = postService.findPostInfo(PostCategory.valueOf(category.toUpperCase()), searchCategory, keyword, page);
+        PostCategory postCategory = PostCategory.findByLowerCase(category);
+        System.out.println("postCategory = " + postCategory);
+        Page<PostDto> postInfo = postService.findPostInfo(postCategory, searchCategory, keyword, page);
         PageableList<PostDto> pageableList = new PageableList<>(postInfo);
         model.addAttribute("pageableList", pageableList);
 
-        PostCategory selectCategory = PostCategory.valueOf(category.toUpperCase());
-        model.addAttribute("selectCategory", selectCategory);
+        model.addAttribute("selectCategory", postCategory);
 
         return "/community/communityPage";
     }
@@ -58,7 +59,7 @@ public class PostController {
     // 글쓰기 로직
     @ResponseBody
     @PostMapping("/community/createPost")
-    @PreAuthorize("hasAnyAuthority('GUEST')")
+    @PreAuthorize("hasAnyAuthority('GUEST')") // 추후 해제 필요
     public Long createPost(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody PostForm postForm) {
         return postService.createPost(userDetails.getMember(), postForm).getId();
     }

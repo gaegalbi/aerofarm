@@ -97,7 +97,7 @@
 <div class="container">
     <main>
         <div class="community-category">
-            <a th:text="${selectCategory.getCategoryTitle()}"/>
+            <a th:text="${selectCategory.getName()}"/>
         </div>
         <!--필터링 헤더-->
         <div class="filtering">
@@ -146,19 +146,19 @@
                 </a>
             </li>
             <li class="page-item" th:classappend="${pageableList.getNumber() == 1} ? 'active' : ''">
-                <a class="page-link" th:href="@{${selectCategory.toString()}(page=1)}">1</a>
+                <a class="page-link" th:href="@{${selectCategory.getLowerCase()}(page=1)}">1</a>
             </li>
             <li class="page-item" th:if="${pageableList.isMoreLeft()}"><a class="page-link">...</a></li>
 
             <li class="page-item" th:classappend="${pageableList.getNumber() == num} ? 'active' : ''" th:if="${pageableList.getTotalPage()} > 2" th:each="num : ${#numbers.sequence(pageableList.getListMin(),pageableList.getListMax())}">
-                <a class="page-link" href="#" th:href="@{${selectCategory.toString()}(page=${num})}" th:text="${num}">1</a>
+                <a class="page-link" href="#" th:href="@{${selectCategory.getLowerCase()}(page=${num})}" th:text="${num}">1</a>
             </li>
 
             <li class="page-item" th:if="${pageableList.isMoreRight()}"><a class="page-link">...</a></li>
-            <li class="page-item" th:classappend="${pageableList.getNumber() == pageableList.getTotalPage()} ? 'active' : ''" th:unless="${pageableList.isFirst()} and ${pageableList.isLast()}"><a class="page-link" th:href="@{${selectCategory.toString()}(page=${pageableList.getTotalPage()})}" th:text="${pageableList.getTotalPage()}">99</a></li>
+            <li class="page-item" th:classappend="${pageableList.getNumber() == pageableList.getTotalPage()} ? 'active' : ''" th:unless="${pageableList.isFirst()} and ${pageableList.isLast()}"><a class="page-link" th:href="@{${selectCategory.getLowerCase()}(page=${pageableList.getTotalPage()})}" th:text="${pageableList.getTotalPage()}">99</a></li>
 
             <li class="page-item" th:classappend="${pageableList.isLast()} ? 'disabled' : ''">
-                <a class="page-link" href="#" th:href="@{${selectCategory.toString()}(page=${pageableList.getNumber()+1})}" aria-label="Next">
+                <a class="page-link" href="#" th:href="@{${selectCategory.getLowerCase()}(page=${pageableList.getNumber()+1})}" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
@@ -175,7 +175,7 @@
         </div>
         <div style="margin-left: 10px; width: 300px"><input id="keyword" type="text" class="form-control" placeholder="키워드" aria-label="keywords" aria-describedby="basic-addon1"></div>
         <div style="margin-left: 10px"><button type="button" class="btn btn-primary" th:onclick="searchPost()">검색</button></div>
-        <input type="hidden" id="hidden_category" th:value="${selectCategory.toString()}"/>
+        <input type="hidden" id="hidden_category" th:value="${selectCategory.getLowerCase()}"/>
     </div>
 </div>
 <div th:replace="~{fragments/footer :: footer}"/>

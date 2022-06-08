@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import yj.capstone.aerofarm.dto.ProductInfoDto;
-import yj.capstone.aerofarm.controller.dto.QProductInfoDto;
+import yj.capstone.aerofarm.dto.QProductInfoDto;
 
 import java.util.List;
 
