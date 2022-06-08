@@ -66,25 +66,6 @@
         border-color: #FFFFFF;
         padding-top: 20px;
     }
-
-    .f-color-w {
-        color: #FFFFFF;
-        text-align: center;
-    }
-
-    .f-filter-color-b {
-        color: deepskyblue;
-    }
-
-    .title-f-sort {
-        text-align: left;
-    }
-
-    .post-list {
-        color: #FFFFFF;
-        font-size: 1.5em;
-        margin-bottom: 10px;
-    }
 </style>
 <body class="d-flex flex-column min-vh-100">
 <div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
@@ -125,8 +106,10 @@
             </div>
             <!--댓글 영역-->
             <div class="post-comment">
-                <div style="padding-bottom: 20px">
-                    댓글
+                <div class="input-group" style="padding-bottom: 20px">
+                    <span class="input-group-text">댓글</span>
+                    <textarea class="form-control" aria-label="comment" id="comment"></textarea>
+                    <button type="button" class="btn btn-secondary" style="margin-left: 10px">쓰기</button>
                 </div>
                 <table>
                     <tbody class="user-info">
@@ -141,10 +124,11 @@
                     </tr>
                     <tr>
                         <td>2022-05-17 10:36</td>
+                        <td><a href="#">댓글 달기</a></td>
                     </tr>
                     </tbody>
                 </table>
-                <!--답글 영역-->
+                <!--답글 영역--><!--
                 <table>
                     <tbody class="user-info">
                     <tr>
@@ -161,7 +145,7 @@
                         <td>2022-05-17 10:36</td>
                     </tr>
                     </tbody>
-                </table>
+                </table>-->
             </div>
         </div>
         <div>
