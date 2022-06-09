@@ -203,6 +203,9 @@ void addBoard(){
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
+              alignment: Alignment.center,
+              width: Get.width * 0.12,
+              height: Get.width* 0.09,
               margin: EdgeInsets.only(
                   right: Get.width * 0.015),
               decoration: BoxDecoration(
@@ -211,12 +214,12 @@ void addBoard(){
               ),
               child: const Text(
                 "필독",
-                style: CommunityPageTheme.main,
+                style: CommunityPageTheme.announce,
               ),
             ),
             const Text(
               "도시농부 서비스 안내",
-              style: CommunityPageTheme.main,
+              style: CommunityPageTheme.announce,
             ),
           ],
         ),

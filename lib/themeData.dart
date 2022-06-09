@@ -172,6 +172,11 @@ class CommunityPageTheme {
       decoration: TextDecoration.none,
       fontFamily: 'bmPro',
       fontSize: 18);
+  static const announce = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 22);
   static const main = TextStyle(
       color: Colors.white,
       decoration: TextDecoration.none,
