@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import yj.capstone.aerofarm.dto.MemberDto;
-import yj.capstone.aerofarm.dto.UserDetailsImpl;
+import yj.capstone.aerofarm.config.auth.dto.UserDetailsImpl;
 import yj.capstone.aerofarm.domain.member.Member;
 
 @Controller

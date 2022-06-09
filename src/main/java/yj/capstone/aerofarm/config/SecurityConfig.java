@@ -80,7 +80,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .maxSessionsPreventsLogin(true)
 //                .expiredUrl("/login");
                 .oauth2Login()
-                .successHandler(authSuccessHandler)
+//                .successHandler(authSuccessHandler)
                 .loginPage("/login")
                 .userInfoEndpoint()
                 .userService(OAuth2UserServiceImpl);
