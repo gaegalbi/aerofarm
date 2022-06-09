@@ -181,7 +181,7 @@ class CommunityPageTheme {
       color: Colors.white,
       decoration: TextDecoration.none,
       fontFamily: 'bmAir',
-      fontSize: 13);
+      fontSize: 17);
   static const sub1 = TextStyle(
       color: Colors.red,
       decoration: TextDecoration.none,

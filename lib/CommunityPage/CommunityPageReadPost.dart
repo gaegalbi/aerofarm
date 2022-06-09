@@ -281,7 +281,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                   ],
                                 ),
                                 onPressed: () {
-                                  Get.to( const CommunityPageReply());
+                                  Get.to(()=>const CommunityPageReply());
                                 },
                               ),
                               Container(
@@ -346,7 +346,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                       style: CommunityPageTheme.bottomAppBarFavorite,
                     ),
                     onPressed: () {
-                      Get.to( const CommunityPageAll());
+                      Get.to(()=>const CommunityPageAll());
                     },
                   ),
                   AppBarButton(
@@ -362,7 +362,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                       style: CommunityPageTheme.bottomAppBarReply,
                     ),
                     onPressed: () {
-                      Get.to(const CommunityPageReply());
+                      Get.to(()=>const CommunityPageReply());
                     },
                   )
                 ],

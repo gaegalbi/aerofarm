@@ -148,7 +148,7 @@ class _CommunityPageChatListState extends State<CommunityPageChatList> {
                     )),
                 MaterialButton(
                   onPressed: () {
-                    Get.to(const CommunityPageChat());
+                    Get.to(()=>const CommunityPageChat());
                   },
                   padding: EdgeInsets.zero,
                   child: Container(

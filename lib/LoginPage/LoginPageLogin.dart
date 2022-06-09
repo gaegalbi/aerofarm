@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 var name;
@@ -46,7 +46,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
         name = res.account.nickname;
         isLogin = true;
         print(res.account.email);
-        Get.to(const MainPage());
+        Get.offAll(()=>const MainPage());
       });
     } catch (error) {
       print(error);
@@ -140,12 +140,12 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                     style: LoginRegisterPageTheme.sButton,
                   ),
                   onPressed: () {
-                    Get.to(const LoginPageResetPassword());
+                    Get.to(()=>const LoginPageResetPassword());
                   },
                 ),
                 TextButton(
                   onPressed: () {
-                    Get.to(const LoginPageRegister());
+                    Get.to(()=>const LoginPageRegister());
                   },
                   child: const Text(
                     "회원이 아니신가요?",
@@ -206,7 +206,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                         print('카카오계정으로 로그인 성공');
                         User user = await UserApi.instance.me();
                         print(user.kakaoAccount?.email);
-                        Get.to(const MainPage());
+                        Get.to(()=>const MainPage());
                       } catch (error) {
                         print('카카오계정으로 로그인 실패 $error');
                       }
@@ -228,17 +228,26 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
               IconButton(
                 padding: EdgeInsets.zero,
                 onPressed: () async {
-                  try {
+                  launchUrl(
+                    Uri.parse('http://localhost:8080/oauth2/authorization/google'),
+                  );
+                /*  http.Response _res = await http.get(
+                    Uri.http('172.25.2.57:8080', 'login/oauth2/code/google'),
+                   // Uri.http('172.25.2.57:8080', '/login'),
+                  );
+                  print(_res);*/
+                  //http://127.0.0.1:8080/login/oauth2/code/google
+                  /*try {
                     GoogleSignIn _googleSignIn = GoogleSignIn();
                     GoogleSignInAccount? _googleUser =
                         await _googleSignIn.signIn();
                     print(_googleUser?.email);
                     if (_googleUser != null) {
-                      Get.to(const MainPage());
+                      Get.to(()=>const MainPage());
                     }
                   } catch (error) {
                     print(error);
-                  }
+                  }*/
                 },
                 icon: Image.asset("assets/google/google_circle.png"),
               ),

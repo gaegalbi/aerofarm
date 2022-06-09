@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 
-final dateFormat = DateFormat('yyyy-MM-dd');
+final dateFormat = DateFormat('yyyy.MM.dd');
 final timeFormat = DateFormat('hh:mm');
 final koreanFormat = DateFormat('M월 d일');
 

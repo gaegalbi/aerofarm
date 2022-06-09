@@ -6,6 +6,7 @@ import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:get/get.dart';
 import '../CommunityPageCustomLib/CustomQuillToolbar.dart';
 import '../CommunityPageCustomLib/CustomRadioButton.dart';
+import 'package:http/http.dart' as http;
 
 class CommunityPageCreatePost extends StatefulWidget {
   const CommunityPageCreatePost({Key? key}) : super(key: key);
@@ -57,6 +58,35 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
   quill.WebImagePickImpl? webImagePickImpl;
   quill.WebVideoPickImpl? webVideoPickImpl;
 
+/*  Future<http.Response> _postRequest(String title,String writer, String category) {
+    return http.post(
+      Uri.http('172.25.2.57:8080', '/community/createPost'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'title': title,
+        'writer' : writer,
+        'category' : category
+      }),
+    );
+  }*/
+/*
+
+  void _postRequest(String title, String writer,String category) async {
+    http.Response response = await http.post(
+      Uri.http('172.25.2.57:8080', '/community/createPost'),
+      headers: <String, String> {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      //headers: {"Content-Type": "application/json"},
+      body: SendPost(title: title, writer: writer, category: category),
+    );
+    print("work");
+  }
+
+*/
+
   @override
   void initState() {
     _controller = quill.QuillController(
@@ -64,7 +94,6 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
       selection: const TextSelection.collapsed(offset: 0),
       keepStyleOnNewLine: true, //not working
     );
-
     _scrollController = ScrollController();
     _scrollController1 = ScrollController();
     _textEditingController = TextEditingController();
@@ -121,11 +150,11 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
     }
   }
 
-  void addBoard(String content, AssetImage image, String user) {
+  /*void addBoard(String content, AssetImage image, String user) {
     boardList.add(
-        const AddBoard()
+       AddBoard()
     );
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -154,8 +183,18 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
               borderRadius: BorderRadius.circular(10.0),
             ),
             child: TextButton(
-                onPressed: () {
-
+                onPressed: () async {
+                /*  Future<http.Response> fetchPost() {
+                    return http.post(
+                      Uri.http('172.25.2.57:8080', '/community/test123'),
+                      // 백엔드에 Authorization 헤더를 보냅니다.
+                      headers: {HttpHeaders.authorizationHeader: "Basic your_api_token_here"},
+                    );
+                  }*/
+                  http.Response _res = await http.get(
+                    Uri.http('172.25.2.57:8080', '/login'),
+                  );
+                  print(_res.body);
                 },
                 child: const Text(
                   "등록",

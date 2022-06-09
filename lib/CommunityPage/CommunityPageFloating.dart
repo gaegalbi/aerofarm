@@ -20,7 +20,7 @@ class CommunityPageFloating extends StatelessWidget {
           color: Colors.indigo,
           child: IconButton(
             padding: EdgeInsets.zero,
-              onPressed: () => Get.to(const CommunityPageCreatePost()),
+              onPressed: () => Get.to(()=>const CommunityPageCreatePost()),
               icon: Image.asset("assets/images/create.png"))
         ),
         Material(
@@ -28,7 +28,7 @@ class CommunityPageFloating extends StatelessWidget {
           clipBehavior: Clip.antiAlias,
           child: IconButton(
               padding: EdgeInsets.zero,
-              onPressed: () => Get.to(const CommunityPageChatList()),
+              onPressed: () => Get.to(()=>const CommunityPageChatList()),
               icon: Image.asset("assets/images/chat.png")),
         ),
       ],

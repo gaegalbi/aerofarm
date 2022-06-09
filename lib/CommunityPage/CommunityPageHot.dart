@@ -125,22 +125,22 @@ class _CommunityPageHotState extends State<CommunityPageHot> {
                     scrollDirection: Axis.horizontal,
                     children: <Widget>[
                       TitleButton(title: "전체",onPressed: (){
-                        Get.to(const CommunityPageAll());
+                        Get.to(()=>const CommunityPageAll());
                       }),
                       TitleButton(title: "자유",onPressed: (){
-                        Get.to(const CommunityPageAll());
+                        Get.to(()=>const CommunityPageAll());
                       }),
                       TitleButton(title: "사진",onPressed: (){
-                        Get.to(const CommunityPageAll());
+                        Get.to(()=>const CommunityPageAll());
                       }),
                       TitleButton(title: "정보",onPressed: (){
-                        Get.to(const CommunityPageAll());
+                        Get.to(()=>const CommunityPageAll());
                       }),
                       TitleButton(title: "질문",onPressed: (){
-                        Get.to(const CommunityPageAll());
+                        Get.to(()=>const CommunityPageAll());
                       }),
                       TitleButton(title: "거래",onPressed: (){
-                        Get.to(const CommunityPageAll());
+                        Get.to(()=>const CommunityPageAll());
                       }),
                     ],
                   ),
