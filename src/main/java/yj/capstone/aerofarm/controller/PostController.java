@@ -37,7 +37,7 @@ public class PostController {
 
     // 게시물 보기 페이지
     @GetMapping("/community/{category}/{boardId}")
-    public String community_detail(@PathVariable Long boardId, Model model, @RequestParam(defaultValue = "1") Integer page) {
+    public String community_detail(@PathVariable String category, @PathVariable Long boardId, Model model, @RequestParam(defaultValue = "1") Integer page) {
         Post post = postService.selectPost(boardId);
         PostDetailDto result = new PostDetailDto(post);
 
@@ -48,6 +48,7 @@ public class PostController {
         model.addAttribute("pageableList", pageableList);
 
         model.addAttribute("selectPost", result);
+        model.addAttribute("selectPostCategory", category);
 
         return "/community/postingPage";
     }

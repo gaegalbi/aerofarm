@@ -109,7 +109,7 @@
             <a class="p-2 post-header" href="#">여행</a>
         </div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button type="button" class="btn btn-primary" onclick="location.href='/community/writing'">글쓰기</button>
+            <button type="button" class="btn btn-primary" onclick="location.href='/community/writing'" th:text="글쓰기"/>
         </div>
     </main>
 </div>
@@ -141,7 +141,7 @@
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
             <li class="page-item" th:classappend="${pageableList.isFirst()} ? 'disabled' : ''">
-                <a class="page-link" href="#" th:href="@{${selectCategory.toString()}(page=${pageableList.getNumber()-1})}" aria-label="Previous">
+                <a class="page-link" href="#" th:href="@{${selectCategory.getLowerCase()}(page=${pageableList.getNumber()-1})}" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
@@ -174,7 +174,7 @@
             </select>
         </div>
         <div style="margin-left: 10px; width: 300px"><input id="keyword" type="text" class="form-control" placeholder="키워드" aria-label="keywords" aria-describedby="basic-addon1"></div>
-        <div style="margin-left: 10px"><button type="button" class="btn btn-primary" th:onclick="searchPost()">검색</button></div>
+        <div style="margin-left: 10px"><button type="button" class="btn btn-primary" th:onclick="searchPost()" th:text="검색"/></div>
         <input type="hidden" id="hidden_category" th:value="${selectCategory.getLowerCase()}"/>
     </div>
 </div>
