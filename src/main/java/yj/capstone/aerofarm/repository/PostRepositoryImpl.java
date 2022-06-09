@@ -13,7 +13,7 @@ import yj.capstone.aerofarm.domain.board.PostCategory;
 
 import java.util.List;
 
-import static yj.capstone.aerofarm.domain.board.QPost.*;
+import static yj.capstone.aerofarm.domain.board.QPost.post;
 
 @RequiredArgsConstructor
 public class PostRepositoryImpl implements PostRepositoryCustom {

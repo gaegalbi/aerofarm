@@ -7,10 +7,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import yj.capstone.aerofarm.dto.PageableList;
-import yj.capstone.aerofarm.dto.PostDetailDto;
-import yj.capstone.aerofarm.dto.PostDto;
-import yj.capstone.aerofarm.dto.UserDetailsImpl;
+import yj.capstone.aerofarm.dto.*;
+import yj.capstone.aerofarm.form.CommentForm;
 import yj.capstone.aerofarm.form.PostForm;
 import yj.capstone.aerofarm.domain.board.Post;
 import yj.capstone.aerofarm.domain.board.PostCategory;
@@ -28,7 +26,6 @@ public class PostController {
         if (page < 1) page = 1;
 
         PostCategory postCategory = PostCategory.findByLowerCase(category);
-        System.out.println("postCategory = " + postCategory);
         Page<PostDto> postInfo = postService.findPostInfo(postCategory, searchCategory, keyword, page);
         PageableList<PostDto> pageableList = new PageableList<>(postInfo);
         model.addAttribute("pageableList", pageableList);
@@ -40,13 +37,27 @@ public class PostController {
 
     // 게시물 보기 페이지
     @GetMapping("/community/{category}/{boardId}")
-    public String community_detail(@PathVariable Long boardId, Model model) {
+    public String community_detail(@PathVariable Long boardId, Model model, @RequestParam(defaultValue = "1") Integer page) {
         Post post = postService.selectPost(boardId);
         PostDetailDto result = new PostDetailDto(post);
+
+        if (page < 1) page = 1;
+
+        Page<CommentDto> commentInfo = postService.findCommentInfo(post, page);
+        PageableList<CommentDto> pageableList = new PageableList<>(commentInfo);
+        model.addAttribute("pageableList", pageableList);
 
         model.addAttribute("selectPost", result);
 
         return "/community/postingPage";
+    }
+
+    // 게시글 안에서 댓글쓰기
+    @ResponseBody
+    @PostMapping("/community/createComment")
+    @PreAuthorize("hasAnyAuthority('GUEST')")
+    public Long createComment(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody CommentForm commentForm) {
+        return postService.createComment(userDetails.getMember(), commentForm).getId();
     }
 
     // 글쓰기 페이지
@@ -59,7 +70,7 @@ public class PostController {
     // 글쓰기 로직
     @ResponseBody
     @PostMapping("/community/createPost")
-    @PreAuthorize("hasAnyAuthority('GUEST')") // 추후 해제 필요
+    @PreAuthorize("hasAnyAuthority('GUEST')")
     public Long createPost(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody PostForm postForm) {
         return postService.createPost(userDetails.getMember(), postForm).getId();
     }

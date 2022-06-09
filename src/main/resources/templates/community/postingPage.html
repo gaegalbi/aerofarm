@@ -71,6 +71,7 @@
 <div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
 <div class="container">
     <main>
+        <input type="hidden" id="post-id" th:value="${selectPost.id}"/>
         <div class="row">
             <div class="col-lg-6 col-sm-12 text-lg-start">
                 <button type="button" class="btn btn-secondary button-margin" onclick="location.href='/community'">목록</button>
@@ -105,47 +106,49 @@
                 <span th:utext="${selectPost.contents}"></span>
             </div>
             <!--댓글 영역-->
-            <div class="post-comment">
-                <div class="input-group" style="padding-bottom: 20px">
-                    <span class="input-group-text">댓글</span>
-                    <textarea class="form-control" aria-label="comment" id="comment"></textarea>
-                    <button type="button" class="btn btn-secondary" style="margin-left: 10px">쓰기</button>
+            <div id="comment-area">
+                <div class="post-comment">
+                    <div class="input-group" style="padding-bottom: 20px">
+                        <span class="input-group-text">댓글</span>
+                        <textarea class="form-control" aria-label="comment" id="comment"></textarea>
+                        <button type="button" class="btn btn-secondary" style="margin-left: 10px" id="btn-createComment">쓰기</button>
+                    </div>
+                    <table>
+                        <tbody class="user-info" th:each="commentDto : ${pageableList.getContent()}">
+                        <tr>
+                            <td rowspan="3" width="50" height="40">
+                                <img src="/image/test_icon.png" class="rounded-circle" style="width: 40px; height: 40px">
+                            </td>
+                            <td th:text="${commentDto.getWriter()}"/>
+                        </tr>
+                        <tr>
+                            <td th:text="${commentDto.getContent()}"/>
+                        </tr>
+                        <tr>
+                            <td th:text="${#temporals.format(commentDto.localDateTime, 'yyyy.MM.dd HH:mm')}"/>
+                            <td><a href="#">댓글 달기</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!--답글 영역--><!--
+                    <table>
+                        <tbody class="user-info">
+                        <tr>
+                            <td rowspan="3" width="50" height="40" style="text-align: center">⤷</td>
+                            <td rowspan="3" width="50" height="40">
+                                <img src="/image/test_icon.png" class="rounded-circle" style="width: 40px; height: 40px">
+                            </td>
+                            <td>닉네임</td>
+                        </tr>
+                        <tr>
+                            <td>이 곳은 답글 내용이 들어갈 자리입니다.</td>
+                        </tr>
+                        <tr>
+                            <td>2022-05-17 10:36</td>
+                        </tr>
+                        </tbody>
+                    </table>-->
                 </div>
-                <table>
-                    <tbody class="user-info">
-                    <tr>
-                        <td rowspan="3" width="50" height="40">
-                            <img src="/image/test_icon.png" class="rounded-circle" style="width: 40px; height: 40px">
-                        </td>
-                        <td>닉네임</td>
-                    </tr>
-                    <tr>
-                        <td>이 곳은 댓글 내용이 들어갈 자리입니다.</td>
-                    </tr>
-                    <tr>
-                        <td>2022-05-17 10:36</td>
-                        <td><a href="#">댓글 달기</a></td>
-                    </tr>
-                    </tbody>
-                </table>
-                <!--답글 영역--><!--
-                <table>
-                    <tbody class="user-info">
-                    <tr>
-                        <td rowspan="3" width="50" height="40" style="text-align: center">⤷</td>
-                        <td rowspan="3" width="50" height="40">
-                            <img src="/image/test_icon.png" class="rounded-circle" style="width: 40px; height: 40px">
-                        </td>
-                        <td>닉네임</td>
-                    </tr>
-                    <tr>
-                        <td>이 곳은 답글 내용이 들어갈 자리입니다.</td>
-                    </tr>
-                    <tr>
-                        <td>2022-05-17 10:36</td>
-                    </tr>
-                    </tbody>
-                </table>-->
             </div>
         </div>
         <div>
@@ -156,6 +159,7 @@
 </div>
 <div th:replace="~{fragments/footer :: footer}"/>
 
+<script src="/js/community/createComment.js"></script>
 <script src="/js/bootstrap.bundle.js"></script>
 </body>
 </html>

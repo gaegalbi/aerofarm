@@ -1,10 +1,13 @@
 package yj.capstone.aerofarm.domain.board;
 
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import yj.capstone.aerofarm.domain.BaseEntity;
 import yj.capstone.aerofarm.domain.member.Member;
+import yj.capstone.aerofarm.form.CommentForm;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -45,4 +48,11 @@ public class Comment extends BaseEntity {
      */
 //    @OneToMany(mappedBy = "comment")
 //    private List<File> files = new ArrayList<>();
+
+    @Builder(builderClassName = "CommentBuilder", builderMethodName = "commentBuilder")
+    public Comment(CommentForm commentForm, Post selectPost, Member writer) {
+        this.post = selectPost;
+        this.writer = writer;
+        this.content = commentForm.getContent();
+    }
 }

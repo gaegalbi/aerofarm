@@ -126,7 +126,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="postDto : ${pageableList.getContent()}" th:onclick="|location.href='@{/community/{category}/{id}(category=${postDto.category}, id=${postDto.id})}'|">
+        <tr th:each="postDto : ${pageableList.getContent()}" th:onclick="|location.href='@{/community/{category}/{id}(category=${postDto.category.getLowerCase()}, id=${postDto.id})}'|">
             <td class="f-filter-color-b">일반</td> <!--추후 변수로 받아오기로 변경 필요-->
             <td class="title-f-sort" th:text="${postDto.title}"/>
             <td th:text="${postDto.writer}"/>
