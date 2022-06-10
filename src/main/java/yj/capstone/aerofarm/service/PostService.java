@@ -16,9 +16,6 @@ import yj.capstone.aerofarm.domain.member.Member;
 import yj.capstone.aerofarm.repository.CommentRepository;
 import yj.capstone.aerofarm.repository.PostRepository;
 
-import javax.swing.text.html.Option;
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 @Transactional
