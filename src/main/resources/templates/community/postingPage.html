@@ -72,13 +72,14 @@
 <div class="container">
     <main>
         <input type="hidden" id="post-id" th:value="${selectPost.id}"/>
+        <input type="hidden" id="post-category" th:value="${selectPostCategory}"/>
         <div class="row">
             <div class="col-lg-6 col-sm-12 text-lg-start">
                 <button type="button" class="btn btn-secondary button-margin" th:onclick="|location.href='@{/community/{category}?page=1(category=${selectPostCategory})}'|" th:text="목록"/>
             </div>
-            <div class="col-lg-6 col-sm-12 text-lg-end">
-                <input type="checkbox" class="btn-check" id="likeButton" autocomplete="off">
-                <label class="btn btn-outline-danger button-margin" for="likeButton" th:text="'♡ 좋아요 ' + ${selectPost.likes}"></label><br>
+            <div class="col-lg-6 col-sm-12 text-lg-end" id="like-area" th:each="postLike : ${postLikeInfo}">
+                <input type="checkbox" class="btn-check" id="createLike" th:checked="${isSelected} != 0">
+                <label class="btn btn-outline-danger button-margin" for="createLike" th:text="'♡ ' + ${postLike.getLikeCount()}"/><br>
             </div>
         </div>
         <!--사각 영역-->
@@ -111,7 +112,7 @@
                     <div class="input-group" style="padding-bottom: 20px">
                         <span class="input-group-text">댓글</span>
                         <textarea class="form-control" aria-label="comment" id="comment"></textarea>
-                        <button type="button" class="btn btn-secondary" style="margin-left: 10px" id="btn-createComment"th:text="쓰기"/>
+                        <button type="button" class="btn btn-secondary" style="margin-left: 10px" id="btn-createComment" th:text="쓰기"/>
                     </div>
                     <table>
                         <tbody class="user-info" th:each="commentDto : ${pageableList.getContent()}">
@@ -188,6 +189,7 @@
 </div>
 <div th:replace="~{fragments/footer :: footer}"/>
 
+<script src="/js/community/createLike.js"></script>
 <script src="/js/community/createComment.js"></script>
 <script src="/js/bootstrap.bundle.js"></script>
 </body>

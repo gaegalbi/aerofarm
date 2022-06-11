@@ -1,22 +1,21 @@
-let createComment = {
+let createLike = {
     init : function () {
         let _this = this;
 
-        $('#btn-createComment').on('click', function () {
-            _this.createComment();
+        $('#createLike').on('click', function () {
+            _this.createLike();
         });
     },
-    createComment : function () {
+    createLike : function () {
 
         let token = $("meta[name='_csrf']").attr("content");
         let header = $("meta[name='_csrf_header']").attr("content");
         let data = {
-            postId: $('#post-id').val(),
-            content: $('#comment').val()
+            postId: $('#post-id').val()
         };
         $.ajax({
             type: 'POST',
-            url: '/community/createComment',
+            url: '/community/createLike',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data),
@@ -25,13 +24,12 @@ let createComment = {
                 xhr.setRequestHeader(header, token); // CSRF
             },
         }).done(function () {
-            alert('댓글 작성이 완료되었습니다.');
-            window.location.href ='/community/' + $('#post-category').val() + '/' + $('#post-id').val();
-            // $('#comment-area').load(window.location.href + ' #comment-area');
+            alert('게시글을 추천합니다.');
+            $('#createLike').load(window.location.href + ' #createLike');
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });
     }
 };
 
-createComment.init();
+createLike.init();

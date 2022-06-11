@@ -15,7 +15,6 @@ public class PostDetailDto {
     private String title;
     private String writer;
     private int views;
-    private int likes;
     private String contents;
     private LocalDateTime localDateTime;
 
@@ -24,7 +23,6 @@ public class PostDetailDto {
         this.title = post.getTitle();
         this.writer = post.getWriter().getNickname();
         this.views = post.getViews();
-        this.likes = post.getLikes();
         this.contents = post.getContent().getContents();
         this.localDateTime = post.getCreatedDate();
     }

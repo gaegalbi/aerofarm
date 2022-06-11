@@ -7,8 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
-import yj.capstone.aerofarm.domain.board.Post;
-import yj.capstone.aerofarm.domain.board.QPost;
 import yj.capstone.aerofarm.dto.PostDto;
 import yj.capstone.aerofarm.dto.QPostDto;
 import yj.capstone.aerofarm.domain.board.PostCategory;
@@ -17,6 +15,7 @@ import java.util.List;
 
 import static yj.capstone.aerofarm.domain.board.QPost.post;
 import static yj.capstone.aerofarm.domain.board.QComment.comment;
+import static yj.capstone.aerofarm.domain.board.QPostLike.postLike;
 
 @RequiredArgsConstructor
 public class PostRepositoryImpl implements PostRepositoryCustom {
@@ -32,11 +31,12 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         post.writer.nickname,
                         post.category,
                         post.views,
-                        post.likes,
                         post.createdDate,
-                        comment.count()))
+                        comment.count(),
+                        comment.count()
+                ))
                 .from(post)
-                .leftJoin(comment).on(post.eq(comment.post))
+                .join(comment).on(post.eq(comment.post))
                 .where(
                         categoryEq(category),
                         titleOrWriterEq(searchCategory, keyword)

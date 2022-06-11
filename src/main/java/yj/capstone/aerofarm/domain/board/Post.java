@@ -58,9 +58,6 @@ public class Post extends BaseEntity {
     // 조회수
     private int views;
 
-    // 추천수
-    private int likes;
-
     @Builder(builderClassName = "PostBuilder", builderMethodName = "postBuilder")
     public Post(PostForm postForm, Member writer) {
         this.writer = writer;

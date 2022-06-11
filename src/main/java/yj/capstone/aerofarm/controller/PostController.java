@@ -14,6 +14,8 @@ import yj.capstone.aerofarm.domain.board.Post;
 import yj.capstone.aerofarm.domain.board.PostCategory;
 import yj.capstone.aerofarm.service.PostService;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 public class PostController {
@@ -37,7 +39,8 @@ public class PostController {
 
     // 게시물 보기 페이지
     @GetMapping("/community/{category}/{boardId}")
-    public String community_detail(@PathVariable String category, @PathVariable Long boardId, Model model, @RequestParam(defaultValue = "1") Integer page) {
+    @PreAuthorize("hasAnyAuthority('GUEST')")
+    public String community_detail(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable String category, @PathVariable Long boardId, Model model, @RequestParam(defaultValue = "1") Integer page) {
         Post post = postService.selectPost(boardId);
         PostDetailDto result = new PostDetailDto(post);
 
@@ -45,10 +48,15 @@ public class PostController {
 
         Page<CommentDto> commentInfo = postService.findCommentInfo(post, page);
         PageableList<CommentDto> pageableList = new PageableList<>(commentInfo);
-        model.addAttribute("pageableList", pageableList);
 
+        List<PostLikeDto> postLikeInfo = postService.findLikeInfo(post.getId());
+        List<Long> isSelect = postService.isMemberSelectInfo(userDetails.getMember(), boardId);
+
+        model.addAttribute("pageableList", pageableList);
         model.addAttribute("selectPost", result);
         model.addAttribute("selectPostCategory", category);
+        model.addAttribute("postLikeInfo", postLikeInfo);
+        model.addAttribute("isSelected", isSelect.size());
 
         return "/community/postingPage";
     }
@@ -76,4 +84,11 @@ public class PostController {
         return postService.createPost(userDetails.getMember(), postForm).getId();
     }
 
+    // 좋아요 로직
+    @ResponseBody
+    @PostMapping("/community/createLike")
+    @PreAuthorize("hasAnyAuthority('GUEST')")
+    public Long createLike(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody PostLikeDto postLikeDto) {
+        return postService.createLike(userDetails.getMember(), postLikeDto).getId();
+    }
 }
