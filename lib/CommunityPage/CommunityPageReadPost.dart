@@ -1,23 +1,67 @@
-import 'package:capstone/CommunityPage/CommunityPageAll.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:http/http.dart' as http;
+import 'package:html/parser.dart' as parser;
+import 'package:html/dom.dart' as dom;
+
 import 'package:capstone/CommunityPage/CommunityPageReply.dart';
 import 'package:capstone/MainPage/MainPage.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../CurrentTime.dart';
+import 'CommunityPageForm.dart';
 
 class CommunityPageReadPost extends StatefulWidget {
-  const CommunityPageReadPost({Key? key}) : super(key: key);
+  final int index;
+  final String id;
+  final String writer;
+  final String title;
+  final String views;
+  final String likes;
+  final String comments;
+  final String realDate;
+
+  const CommunityPageReadPost({Key? key,required this.index, required this.id, required this.writer, required this.title, required this.views, required this.likes, required this.comments, required this.realDate}) : super(key: key);
 
   @override
   State<CommunityPageReadPost> createState() => _CommunityPageReadPostState();
 }
 
 class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
+  late String? content;
+  late dom.Element? contents;
+
+  void printWrapped(String text) {
+    final pattern = RegExp('.{1,800}'); // 800 is the size of each chunk
+    pattern.allMatches(text).forEach((match) => print(match.group(0)));
+  }
+
+  Future fetch() async {
+    final response = await http
+        .get(Uri.http('127.0.0.1:8080', '/community/free/${widget.id}'));
+    if (response.statusCode == 200) {
+      dom.Document document = parser.parse(response.body);
+     contents = document.querySelector('.contents');
+      setState(() {
+        //contents = document.querySelector('.contents');
+        content = contents?.outerHtml;
+        print(contents);
+        //printWrapped(document.outerHtml);
+      });
+    }else{
+      print(Uri.http('127.0.0.1:8080', '/community/free${widget.id}'));
+      throw Exception('Failed to load post');
+    }
+  }
+  @override
+  void initState(){
+    content = "";
+    fetch();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: MainColor.six,
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: MainColor.six,
@@ -39,7 +83,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                 Icons.chevron_left,
               ),
               onPressed: () {
-                Get.offAll( const CommunityPageAll());
+                Get.off(()=>const CommunityPageForm(category:'all'));
               },
             )),
           ),
@@ -74,7 +118,6 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
               MediaQuery.of(context).size.width * 0.04,
               MediaQuery.of(context).size.width * 0.04,
             ),
-            color: MainColor.six,
             child: Column(
               children: [
                 Container(
@@ -100,23 +143,19 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                             Icons.chevron_right,
                           ),
                           onPressed: () {
-                            Get.offAll( const CommunityPageAll());
+                            Get.off(()=>const CommunityPageForm(category:'all'));
                           },
                         )
                       ],
                     )),
                 Container(
+                  alignment: Alignment.centerLeft,
                   padding: EdgeInsets.only(
                       right: MediaQuery.of(context).size.width * 0.05,
                       bottom: MediaQuery.of(context).size.height * 0.012),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: const [
-                      Text(
-                        "도시농부 서비스 좋네여",
-                        style: CommunityPageTheme.postTitle,
-                      )
-                    ],
+                  child: Text(
+                    widget.title,
+                    style: CommunityPageTheme.postTitle,
                   ),
                 ),
                 Container(
@@ -154,8 +193,8 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                       Container(
                                           margin:
                                               const EdgeInsets.only(right: 20),
-                                          child: const Text(
-                                            "city",
+                                          child:  Text(
+                                            widget.writer,
                                             style: CommunityPageTheme.postFont,
                                           )),
                                       SizedBox(
@@ -184,21 +223,17 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                     children: [
                                       Container(
                                         margin: EdgeInsets.only(right: 10),
-                                        child: const CurrentTime(
-                                          type: true,
-                                          style: 'normal',
-                                        ),
-                                      ),
-                                      Container(
-                                        margin: EdgeInsets.only(right: 10),
-                                        child: const CurrentTime(
-                                          type: false,
-                                          style: 'normal',
-                                        ),
+                                        child: Text(widget.realDate,)
                                       ),
                                       Container(
                                           margin: EdgeInsets.only(right: 10),
-                                          child: Text("조회 2222"))
+                                          child: Row(
+                                            children: [
+                                              const Text("조회 "),
+                                              Text(widget.views),
+                                            ],
+                                          )
+                                      ),
                                     ],
                                   )
                                 ],
@@ -208,41 +243,10 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                         ),
                       ),
                       Container(
+                        //height: MediaQuery.of(context).size.height*0.4,
                         margin: EdgeInsets.only(
                             top: MediaQuery.of(context).size.height * 0.01),
-                        child: Column(
-                          children: [
-                            //본문
-                            Container(
-                                alignment: Alignment.centerLeft,
-                                child: Text("하이")),
-                            Container(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                "Contrary to popular belief, Lorem Ipsum is not "
-                                "simply random text. It has roots in a piece of clas"
-                                "sical Latin literature from 45 BC, making it over 2"
-                                "000 years old. Richard McClintock, a Latin professor at"
-                                " Hampden-Sydney College in Virginia, looked up one of "
-                                "the more obscure Latin words, consectetur, from a Lorem I"
-                                "psum passage, and going through the cites of the word in classic"
-                                "al literature, discovered the undoubtable source. Lor"
-                                "em Ipsum comes from sections 1.10.32 and 1.10.33 of \"de Fini"
-                                "bus Bonorum et Malorum\" (The Extremes of Good and Evil) by C"
-                                "icero, written in 45 BC. This book is a treatise on the theory"
-                                " of ethics, very popular during the Renaissance. The first line "
-                                "of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a "
-                                "line in section 1.10.32.The standard chunk of Lorem Ipsum used "
-                                "since the 1500s is reproduced below for those interested. Sectio"
-                                "ns 1.10.32 and 1.10.33 from \"de Finibus Bonorum et Malorum\" by"
-                                " Cicero are also reproduced in their exact original form, accompa"
-                                "nied by English versions from the 1914 translation by H.Rackham.",
-                                textAlign: TextAlign.left,
-                              ),
-                            ),
-                            Image.asset("assets/images/dog.png")
-                          ],
-                        ),
+                        child: Html(data: content),
                       ),
                       Container(
                           margin: EdgeInsets.only(
@@ -270,8 +274,8 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                         style: CommunityPageTheme.postFont,
                                       ),
                                     ),
-                                    const Text(
-                                      "0",
+                                    Text(
+                                      widget.comments,
                                       style: CommunityPageTheme.postFont,
                                     ),
                                     const Icon(
@@ -341,12 +345,12 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                         color: Colors.red,
                       ),
                     ),
-                    text: const Text(
-                      "0",
+                    text: Text(
+                      widget.likes,
                       style: CommunityPageTheme.bottomAppBarFavorite,
                     ),
                     onPressed: () {
-                      Get.to(()=>const CommunityPageAll());
+                      Get.off(()=>const CommunityPageForm(category:'all'));
                     },
                   ),
                   AppBarButton(
@@ -357,8 +361,8 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                         size: 35,
                       ),
                     ),
-                    text: const Text(
-                      "0",
+                    text: Text(
+                      widget.comments,
                       style: CommunityPageTheme.bottomAppBarReply,
                     ),
                     onPressed: () {
@@ -399,49 +403,3 @@ class AppBarButton extends StatelessWidget {
     );
   }
 }
-
-/*
-*/
-/*
-
-BottomNavigationBar(
-backgroundColor: MainColor.three,
-items: <BottomNavigationBarItem>[
-BottomNavigationBarItem(
-icon: Row(
-children: const [
-Icon(Icons.menu),
-Text(
-"목록으로",
-style: Community.bottomAppBarList,
-)
-],
-),
-label: '',
-),
-BottomNavigationBarItem(
-icon: Row(
-children: const [
-Icon(Icons.menu),
-Text(
-"목록으로",
-style: Community.bottomAppBarList,
-)
-],
-),
-label: '',
-),
-BottomNavigationBarItem(
-icon: Row(
-children: const [
-Icon(Icons.menu),
-Text(
-"목록으로",
-style: Community.bottomAppBarList,
-)
-],
-),
-label: '',
-),
-],
-)*/

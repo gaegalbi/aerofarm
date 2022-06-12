@@ -1,9 +1,10 @@
-import 'package:capstone/CommunityPage/CommunityPageAll.dart';
 import 'package:capstone/MachinePage/MachinePageList.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:get/get.dart';
+
+import '../CommunityPage/CommunityPageForm.dart';
 
 class MainPageBottom extends StatefulWidget {
   const MainPageBottom({Key? key}) : super(key: key);
@@ -56,7 +57,7 @@ class _MainPageBottomState extends State<MainPageBottom> {
                 color: MainColor.three,
                 child: TextButton(
                   onPressed: () {
-                    Get.off(()=>const CommunityPageAll());
+                    Get.off(()=>const CommunityPageForm(category:'free'));
                   },
                   child: const Text(
                     "커뮤니티",

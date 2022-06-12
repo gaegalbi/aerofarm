@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:capstone/CommunityPage/CommunityPageAll.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
@@ -7,6 +6,8 @@ import 'package:get/get.dart';
 import '../CommunityPageCustomLib/CustomQuillToolbar.dart';
 import '../CommunityPageCustomLib/CustomRadioButton.dart';
 import 'package:http/http.dart' as http;
+
+import 'CommunityPageForm.dart';
 
 class CommunityPageCreatePost extends StatefulWidget {
   const CommunityPageCreatePost({Key? key}) : super(key: key);
@@ -170,7 +171,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
             //화면 전환시 키보드 부드럽게 내려가게
             focusNode.unfocus();
             Future.delayed(const Duration(microseconds: 1), () {
-              Get.offAll(const CommunityPageAll());
+              Get.off(()=>const CommunityPageForm(category:'all'));
             });
           },
           icon: const Icon(Icons.close),

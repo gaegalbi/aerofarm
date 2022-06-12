@@ -1,10 +1,9 @@
-import 'package:capstone/CommunityPage/CommunityPageHot.dart';
-import 'package:capstone/CommunityPage/CommunityPageAll.dart';
 import 'package:capstone/MainPage/MainPage.dart';
 import 'package:capstone/MainPage/MainPageMyProfile.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'CommunityPageForm.dart';
 
 class CommunityPageDrawer extends StatefulWidget {
   const CommunityPageDrawer({Key? key}) : super(key: key);
@@ -100,7 +99,7 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                       ],
                     ),
                     onPressed: () {
-                      Get.off(()=>const CommunityPageHot());
+                      Get.off(()=>const CommunityPageForm(category:'hot'));
                     },
                   ),
                 ),
@@ -127,7 +126,7 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                       ],
                     ),
                     onPressed: () {
-                      Get.off(()=>const CommunityPageAll());
+                      Get.off(()=>const CommunityPageForm(category:'all'));
                     },
                   ),
                 ),
@@ -153,7 +152,9 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                         const Text("자유게시판", style: MainTheme.drawerButton),
                       ],
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.offAll(()=>const CommunityPageForm(category:'free'));
+                    },
                   ),
                 ),
 
@@ -169,7 +170,9 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                         const Text("질문게시판", style: MainTheme.drawerButton),
                       ],
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.offAll(()=>const CommunityPageForm(category:'question'));
+                    },
                   ),
                 ),
                 Container(
@@ -201,7 +204,9 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                         const Text("정보게시판", style: MainTheme.drawerButton),
                       ],
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                        Get.offAll(()=>const CommunityPageForm(category:'information'));
+                    },
                   ),
                 ),
                 Container(
@@ -216,7 +221,9 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                         const Text("사진게시판", style: MainTheme.drawerButton),
                       ],
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.offAll(()=>const CommunityPageForm(category:'picture'));
+                    },
                   ),
                 ),
                 Container(
@@ -233,7 +240,9 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                         const Text("거래게시판", style: MainTheme.drawerButton),
                       ],
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.offAll(()=>const CommunityPageForm(category:'trade'));
+                    },
                   ),
                 ),
               ]),

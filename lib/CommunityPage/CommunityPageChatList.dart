@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../CurrentTime.dart';
-import 'CommunityPageAll.dart';
+import 'CommunityPageForm.dart';
 
 class CommunityPageChatList extends StatefulWidget {
   const CommunityPageChatList({Key? key}) : super(key: key);
@@ -55,7 +55,7 @@ class _CommunityPageChatListState extends State<CommunityPageChatList> {
               Icons.chevron_left,
             ),
             onPressed: () {
-              Get.offAll(const CommunityPageAll());
+              Get.off(()=>const CommunityPageForm(category:'all'));
             },
           )),
         ),

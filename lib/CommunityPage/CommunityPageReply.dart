@@ -1,7 +1,5 @@
-import 'package:capstone/CommunityPage/CommunityPageReadPost.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../CurrentTime.dart';
 
@@ -67,7 +65,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                   Icons.chevron_left,
                 ),
                 onPressed: () {
-                  Get.offAll(const CommunityPageReadPost());
+                  //Get.offAll(const CommunityPageReadPost());
                 },
               )),
             ),
