@@ -1,12 +1,15 @@
 package yj.capstone.aerofarm.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import yj.capstone.aerofarm.domain.product.Product;
 import yj.capstone.aerofarm.domain.product.ProductCategory;
 import yj.capstone.aerofarm.dto.PageableList;
+import yj.capstone.aerofarm.dto.ProductStoreDetailDto;
 import yj.capstone.aerofarm.dto.ProductStoreInfoDto;
 import yj.capstone.aerofarm.exception.NoCategoryFoundException;
 import yj.capstone.aerofarm.service.ProductService;
@@ -14,6 +17,7 @@ import yj.capstone.aerofarm.service.ProductService;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class StoreController {
 
     private final ProductService productService;
@@ -50,13 +54,10 @@ public class StoreController {
     }
 
     @GetMapping("/store/detail/{productId}")
-    public String storeProductDetail(@PathVariable Long productId, Model model) {
-        return "index";
-    }
-
-    @GetMapping("/stores")
-    @ResponseBody
-    public Page<ProductStoreInfoDto> test() {
-        return productService.findProductInfo(null,null, 1);
+    public String storeProductDetail(@PathVariable Long productId, @RequestHeader(required = false, defaultValue = "/") String referer, Model model) {
+        Product product = productService.findProductById(productId);
+        model.addAttribute("previousPage", referer);
+        model.addAttribute("product", new ProductStoreDetailDto(product));
+        return "store/productDetail";
     }
 }

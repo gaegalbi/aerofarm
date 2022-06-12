@@ -4,14 +4,9 @@ import marvin.image.MarvinImage;
 import org.marvinproject.image.transform.scale.Scale;
 
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class ImageResizer {
-    public static BufferedImage resizeImage(BufferedImage originalImage, int width, int height) throws IOException {
-        if (originalImage.getWidth() < width && originalImage.getHeight() < height) {
-            return originalImage;
-        }
-
+    public static BufferedImage forceResizeImage(BufferedImage originalImage, int width, int height) {
         MarvinImage imageMarvin = new MarvinImage(originalImage);
 
         Scale scale = new Scale();
@@ -21,5 +16,12 @@ public class ImageResizer {
         scale.process(imageMarvin.clone(), imageMarvin, null, null, false);
 
         return imageMarvin.getBufferedImageNoAlpha();
+    }
+
+    public static BufferedImage resizeImage(BufferedImage originalImage, int width, int height) {
+        if (originalImage.getWidth() < width && originalImage.getHeight() < height) {
+            return originalImage;
+        }
+        return forceResizeImage(originalImage, width, height);
     }
 }

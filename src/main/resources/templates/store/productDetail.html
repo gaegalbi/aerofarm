@@ -20,31 +20,188 @@
         }
     }
 
-
     @media screen and (max-width: 570px) {
-        .link-button-big {
-            height: 100px;
-            font-size: 2rem;
-        }
-
-        .link-button-left {
-            font-size: 1.8rem;
-        }
-
-        .link-button-right {
-            font-size: 1.8rem;
-        }
     }
+
+    .card {
+        background-color: #111620;
+    }
+
+
 </style>
 
 <body class="d-flex flex-column min-vh-100">
 
 <div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
 
-<div class="container">
+<div class="container pb-5">
+    <a class="btn btn-outline-light btn-sm my-4 ms-2" href="#" th:href="${previousPage}">
+        &laquo; 이전 항목으로 돌아가기
+    </a>
+    <div class="card me-4" th:object="${product}">
+        <div class="card-body row gx-4 gx-lg-5 align-items-center">
+            <div class="col-md-5">
+                <img class="card-img-top mb-5 mb-md-0" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..."
+                     th:src="*{imageUrl}"/>
+            </div>
+            <div class="col-md-7 text-white">
+                <h1 class="display-5 fw-bolder" th:text="*{name}">수경재배기 Model-2</h1>
+                <div class="fs-5 mb-5 d-flex align-items-center">
+                    <p class="m-0 fs-3" th:text="*{price}">
+                        50,000
+                    </p>
+                    <p class="m-0 fs-4">
+                        원
+                    </p>
+                </div>
+                <p class="lead" th:utext="*{contents}">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Praesentium at dolorem quidem
+                    modi. Nam sequi consequatur obcaecati excepturi alias magni, accusamus eius blanditiis delectus
+                    ipsam minima ea iste laborum vero?</p>
+                <form th:action="@{/cart/add/{id}(id=*{id})}" th:method="post">
+                    <input type="hidden" name="productId" id="productId" th:value="*{id}"/>
+                    <div class="d-flex">
+                        <input class="form-control pe-0 me-2" name="quantity" id="quantity" type="number" min="1" max="99"
+                               value="1"
+                               style="max-width: 3rem"/>
+                        <button class="btn btn-outline-light" id="btn-addCart" type="button">
+                            <i class="bi-cart-fill me-1"></i>
+                            장바구니 담기
+                        </button>
+                    </div>
+                </form>
+                <th:block sec:authorize="hasAuthority('ADMIN')">
+                    <div class="py-2">
+                        <form th:action="@{/admin/product/delete/{id}(id=*{id})}" th:method="post">
+                            <button class="btn btn-danger flex-shrink-0" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop">
+                                상품 삭제
+                            </button>
 
+                            <div class="modal fade text-black" id="staticBackdrop" data-bs-backdrop="static"
+                                 data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                 aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="staticBackdropLabel">상품 삭제</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            정말 상품을 삭제할까요?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소
+                                            </button>
+                                            <button type="submit" class="btn btn-danger">삭제</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+    </div>
+    <hr class="my-4 text-white"/>
+    <h2 class="m-3 text-white">
+        상품리뷰
+    </h2>
+    <ol class="list-group my-3">
+        <th:block th:each="num : ${#numbers.sequence(1,3)}">
+            <li class="list-group-item d-flex justify-content-between align-items-center"
+                style="background-color: #111620">
+                <div class="ms-2 me-auto">
+                    <div class="d-flex text-white">
+                        <div class="fw-bold">작성자:&nbsp;</div>
+                        <div class="fw-normal">홍길동</div>
+                    </div>
+                    <p class="m-0 blockquote-footer">
+                        배송이 빨라요!
+                    </p>
+                    <div class="d-flex">
+                        <p class="m-0 small text-muted">
+                            작성일:&nbsp;
+                        </p>
+                        <p class="m-0 small text-muted">
+                            2022-6-12
+                        </p>
+                    </div>
+
+                </div>
+                <div>
+                    ⭐⭐⭐⭐⭐
+                </div>
+            </li>
+        </th:block>
+    </ol>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination pagination-sm justify-content-center my-2">
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link">1</a>
+            </li>
+            <li class="page-item"><a class="page-link">...</a></li>
+
+            <li class="page-item">
+                <a class="page-link" href="#">1</a>
+            </li>
+
+            <li class="page-item"><a class="page-link">...</a></li>
+            <li class="page-item"><a class="page-link">99</a></li>
+
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">상품이 장바구니에 담겼습니다!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    상품이 장바구니에 담겼습니다!<br/>
+                    지금 장바구니로 이동할까요?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    <button type="button" class="btn btn-primary" onclick="location.href='/cart'">이동하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="existModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="existModalLabel">이미 장바구니에 있는 상품입니다!</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    해당 상품이 이미 장바구니에 있습니다!<br/>
+                    지금 장바구니로 이동할까요?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    <button type="button" class="btn btn-primary" onclick="location.href='/cart'">이동하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div th:replace="~{fragments/footer :: footer}"/>
+<script src="/js/product/productDetail.js"></script>
 </body>
 </html>

@@ -98,6 +98,8 @@
                             <label for="phoneNumber" th:for="phoneNumber" class="form-label"><small
                                     class="text-muted">PHONE</small></label>
                             <input type="tel" th:field="*{phoneNumber}" class="form-control input-box" id="phoneNumber"
+                                   oninput="autoHyphen(this)"
+                                   maxlength="13"
                                    placeholder="010-0000-0000" th:errorclass="fieldError" required>
                             <p class="fieldError" th:errors="*{phoneNumber}">전화번호 오류</p>
                         </div>
@@ -114,5 +116,6 @@
 </main>
 
 <div th:replace="~{fragments/footer :: footer}"/>
+<script src="/js/util/autoHyphen.js"></script>
 </body>
 </html>

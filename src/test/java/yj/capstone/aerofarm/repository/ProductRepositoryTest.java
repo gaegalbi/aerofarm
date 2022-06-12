@@ -26,14 +26,14 @@ class ProductRepositoryTest {
         // given
         for (int i = 1; i <= 11; i++) {
             Product product = Product.builder()
-                    .saveProductForm(new SaveProductForm("Product" + i, i * 100, i * 10, ProductCategory.ETC))
+                    .saveProductForm(new SaveProductForm("Product" + i, i * 100, i * 10, ProductCategory.ETC, null, null))
                     .build();
             productRepository.save(product);
         }
 
         //when
         PageRequest pageable = PageRequest.of(0, 10);
-        Page<ProductStoreInfoDto> productInfo = productRepository.findProductInfo(null,null, pageable);
+        Page<ProductStoreInfoDto> productInfo = productRepository.findProductInfo(ProductCategory.ETC, null, pageable);
 
         //then
         assertThat(productInfo.getContent().size()).isEqualTo(10);
@@ -46,19 +46,37 @@ class ProductRepositoryTest {
     void productInfoFind_reviewCount_reviewAvg() {
         // given
         Product product = Product.builder()
-                .saveProductForm(new SaveProductForm("Product" , 1000, 10, ProductCategory.ETC))
+                .saveProductForm(new SaveProductForm("product", 1000, 10, ProductCategory.ETC, null, null))
                 .build();
-        new ProductReview(product, 1, "TEST");
-        new ProductReview(product, 2, "TEST");
-        new ProductReview(product, 3, "TEST");
+
+        ProductReview.builder()
+                .product(product)
+                .score(1)
+                .review("TEST")
+                .build();
+
+        ProductReview.builder()
+                .product(product)
+                .score(2)
+                .review("TEST")
+                .build();
+
+        ProductReview.builder()
+                .product(product)
+                .score(3)
+                .review("TEST")
+                .build();
 
         productRepository.save(product);
 
         // when
         PageRequest pageable = PageRequest.of(0, 2);
-        Page<ProductStoreInfoDto> productInfo = productRepository.findProductInfo(null,null, pageable);
+        Page<ProductStoreInfoDto> productInfo = productRepository.findProductInfo(ProductCategory.ETC, null, pageable);
 
         // then
+        int size = productInfo.getContent().size();
+        System.out.println("size = " + size);
+
         assertThat(productInfo.getContent().get(0).getReviewCnt()).isEqualTo(3);
         assertThat(productInfo.getContent().get(0).getScoreAvg()).isEqualTo(2);
     }

@@ -7,12 +7,9 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import marvin.image.MarvinImage;
-import org.marvinproject.image.transform.scale.Scale;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -31,17 +28,22 @@ import java.util.UUID;
 public class S3Service {
     private final AmazonS3 amazonS3;
 
-    private static final String FOLDER_NAME = "aerofarm/";
+    private static final String FOLDER_NAME = "aerofarm";
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    public String uploadImage(MultipartFile multipartFile, int resizeWidth, int resizeHeight) {
+    public String uploadImage(MultipartFile multipartFile, int resizeWidth, int resizeHeight, boolean forceResize) {
         if (Objects.requireNonNull(multipartFile.getContentType()).contains("image")) {
             try (InputStream inputStream = multipartFile.getInputStream()) {
                 BufferedImage originalImage = ImageIO.read(inputStream);
 
-                BufferedImage resizedImage = ImageResizer.resizeImage(originalImage, resizeWidth, resizeHeight);
+                BufferedImage resizedImage;
+                if (forceResize) {
+                    resizedImage = ImageResizer.forceResizeImage(originalImage, resizeWidth, resizeHeight);
+                } else {
+                    resizedImage = ImageResizer.resizeImage(originalImage, resizeWidth, resizeHeight);
+                }
 
                 String type = multipartFile.getContentType().substring(multipartFile.getContentType().lastIndexOf("/") + 1);
 
@@ -50,11 +52,13 @@ public class S3Service {
                 baos.flush();
                 InputStream is = new ByteArrayInputStream(baos.toByteArray());
 
-                String fileName = "business_card/" + UUID.randomUUID();
+                String fileName = FOLDER_NAME + "/" + UUID.randomUUID();
 
                 ObjectMetadata objectMetadata = new ObjectMetadata();
                 objectMetadata.setContentLength(baos.size());
                 objectMetadata.setContentType(multipartFile.getContentType());
+                objectMetadata.addUserMetadata("width", String.valueOf(resizedImage.getWidth()));
+                objectMetadata.addUserMetadata("height", String.valueOf(resizedImage.getHeight()));
 
                 amazonS3.putObject(new PutObjectRequest(bucket, fileName, is, objectMetadata)
                         .withCannedAcl(CannedAccessControlList.PublicRead));
@@ -64,11 +68,14 @@ public class S3Service {
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
-        return "/image/default-image.png";
+        return "https://via.placeholder.com/400x500";
     }
 
 
     public void deleteFile(String fileName) {
-        amazonS3.deleteObject(new DeleteObjectRequest(bucket, FOLDER_NAME + fileName.substring(fileName.lastIndexOf("/") + 1)));
+        if (fileName.contains("placeholder")) {
+            return;
+        }
+        amazonS3.deleteObject(new DeleteObjectRequest(bucket, FOLDER_NAME + fileName.substring(fileName.lastIndexOf("/"))));
     }
 }

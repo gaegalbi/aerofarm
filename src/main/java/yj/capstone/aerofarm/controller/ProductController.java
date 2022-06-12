@@ -22,21 +22,20 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping("/product/save")
-    @PreAuthorize("hasAnyAuthority('GUEST')") // TODO ADMIN
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public String saveProductForm(Model model) {
         model.addAttribute("saveProductForm", new SaveProductForm());
         return "product/saveProductPage";
     }
 
     @PostMapping("/product/save")
-    @PreAuthorize("hasAnyAuthority('GUEST')") // TODO ADMIN
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public String saveProduct(@Valid SaveProductForm saveProductForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "product/saveProductPage";
         }
-
         Product product = productService.save(saveProductForm);
-        log.info("product {} created",product.getId());
-        return "redirect:/product/save";
+        log.info("Product created, id = {}", product.getId());
+        return "redirect:/product/save?create=true";
     }
 }
