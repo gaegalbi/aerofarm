@@ -43,16 +43,6 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
   String subString(String str,int index, int cnt){
    String tmp="";
    String a;
-/*    if(str.length<cnt){
-      if(str.length%2==0){
-        a = str.substring(0 + (str.length/2).round());
-        tmp =a + "\n" + str.substring((str.length/2).round()+1,str.length);
-      }else{
-        a = str.substring(0 + (str.length/2).round());
-        tmp =a + "\n" + str.substring((str.length/2).round()-1,str.length);
-      }
-      return tmp;
-    }*/
    for(int  i=0;i<=index;i++){
        a = str.substring(0 + (cnt * i), cnt + (cnt * i));
        if (i == index) {
@@ -92,18 +82,13 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
         ,
         });
       }
-/*      print(Uri.http('127.0.0.1:8080', '/community/free/${widget.id}'));
-      print(customKeywords);*/
-
       setState(() {
-        //contents = document.querySelector('.contents');
         for (var element in customKeywords) {
           commentList.add(AddComment(
             keywords: element,
           ));
         }
         content = contents?.outerHtml;
-        //printWrapped(document.outerHtml);
       });
     }else{
       print(Uri.http('127.0.0.1:8080', '/community/free${widget.id}'));
