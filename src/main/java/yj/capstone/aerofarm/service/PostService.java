@@ -2,12 +2,15 @@ package yj.capstone.aerofarm.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import yj.capstone.aerofarm.domain.board.Comment;
 import yj.capstone.aerofarm.domain.board.PostLike;
+import yj.capstone.aerofarm.domain.order.OrderLine;
 import yj.capstone.aerofarm.dto.CommentDto;
+import yj.capstone.aerofarm.dto.PostAllDto;
 import yj.capstone.aerofarm.dto.PostDto;
 import yj.capstone.aerofarm.dto.PostLikeDto;
 import yj.capstone.aerofarm.form.CommentForm;
@@ -20,6 +23,7 @@ import yj.capstone.aerofarm.repository.PostLikeRepository;
 import yj.capstone.aerofarm.repository.PostRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -64,8 +68,15 @@ public class PostService {
     // 게시글 검색
     public Page<PostDto> findPostInfo(PostCategory category, String searchCategory, String keyword, Integer page) {
         PageRequest pageRequest = PageRequest.of(page - 1, 10);
-        return postRepository.findPostInfo(category, searchCategory, keyword, pageRequest);
+        Page<PostDto> commentInfo = postRepository.findPostInfo(category, searchCategory, keyword, pageRequest);
+
+        return commentInfo;
     }
+//    public List<PostDto> findPostLikeInfo(PostCategory category, String searchCategory, String keyword, Integer page) {
+//        PageRequest pageRequest = PageRequest.of(page - 1, 10);
+//        List<PostDto> postLikeInfo = postRepository.findPostLikeInfo(category, searchCategory, keyword, pageRequest);
+//        return postLikeInfo;
+//    }
 
     // 선택한 게시물 보기
     public Post selectPost(Long boardId) {

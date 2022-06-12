@@ -1,6 +1,9 @@
 package yj.capstone.aerofarm.repository;
 
+import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -28,15 +31,17 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .select(new QPostDto(
                         post.id,
                         post.title,
-                        post.writer.nickname,
+                        post.writer.nickname.as("writer"),
                         post.category,
                         post.views,
                         post.createdDate,
-                        comment.count(),
-                        comment.count()
+                        comment.count().as("commentCount"),
+                        postLike.count().as("likeCount")
                 ))
                 .from(post)
-                .join(comment).on(post.eq(comment.post))
+//                .leftJoin(comment).on(post.eq(comment.post))
+                .join(post.comments, comment).on(comment.post.eq(post))
+                .join(post.likes, postLike).on(postLike.post.eq(post))
                 .where(
                         categoryEq(category),
                         titleOrWriterEq(searchCategory, keyword)
@@ -56,6 +61,34 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 );
 
         return PageableExecutionUtils.getPage(results, pageable, countQuery::fetchOne);
+    }
+
+    @Override
+    public List<PostDto> findPostLikeInfo(PostCategory category, String searchCategory, String keyword, Pageable pageable) {
+        List<PostDto> results = queryFactory
+                .select(new QPostDto(
+                        post.id,
+                        post.title,
+                        post.writer.nickname,
+                        post.category,
+                        post.views,
+                        post.createdDate,
+                        comment.count(),
+                        postLike.count()
+                ))
+                .from(post)
+                .leftJoin(postLike).on(post.eq(postLike.post))
+                .where(
+                        categoryEq(category),
+                        titleOrWriterEq(searchCategory, keyword)
+                )
+                .groupBy(post.id)
+                .orderBy(post.createdDate.desc())
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset())
+                .fetch();
+
+        return results;
     }
 
     private BooleanExpression categoryEq(PostCategory category) {

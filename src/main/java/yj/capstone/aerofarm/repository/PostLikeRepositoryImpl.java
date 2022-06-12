@@ -3,7 +3,6 @@ package yj.capstone.aerofarm.repository;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import yj.capstone.aerofarm.domain.board.PostCategory;
 import yj.capstone.aerofarm.domain.member.Member;
 import yj.capstone.aerofarm.dto.PostLikeDto;
 import yj.capstone.aerofarm.dto.QPostLikeDto;

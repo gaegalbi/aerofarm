@@ -49,6 +49,12 @@ public class Post extends BaseEntity {
     @OneToMany(mappedBy = "parent")
     private List<Post> child = new ArrayList<>();
 
+    @OneToMany(mappedBy = "post")
+    private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post")
+    private List<PostLike> likes = new ArrayList<>();
+
     /**
      * 추후 필요 시 주석 해제
      */

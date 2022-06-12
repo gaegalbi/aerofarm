@@ -30,8 +30,11 @@ public class PostController {
         PostCategory postCategory = PostCategory.findByLowerCase(category);
         Page<PostDto> postInfo = postService.findPostInfo(postCategory, searchCategory, keyword, page);
         PageableList<PostDto> pageableList = new PageableList<>(postInfo);
-        model.addAttribute("pageableList", pageableList);
 
+        //List<PostDto> postLikeInfo = postService.findPostLikeInfo(postCategory, searchCategory, keyword, page);
+
+        //model.addAttribute("postLikeInfo", postLikeInfo);
+        model.addAttribute("pageableList", pageableList);
         model.addAttribute("selectCategory", postCategory);
 
         return "/community/communityPage";
@@ -52,10 +55,12 @@ public class PostController {
         List<PostLikeDto> postLikeInfo = postService.findLikeInfo(post.getId());
         List<Long> isSelect = postService.isMemberSelectInfo(userDetails.getMember(), boardId);
 
+        if (postLikeInfo.size() == 0) postLikeInfo.add(new PostLikeDto(post.getId(), 0L));
+
         model.addAttribute("pageableList", pageableList);
         model.addAttribute("selectPost", result);
         model.addAttribute("selectPostCategory", category);
-        model.addAttribute("postLikeInfo", postLikeInfo);
+        model.addAttribute("postLikeInfo", postLikeInfo.get(0));
         model.addAttribute("isSelected", isSelect.size());
 
         return "/community/postingPage";

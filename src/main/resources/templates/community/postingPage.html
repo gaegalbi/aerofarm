@@ -77,9 +77,9 @@
             <div class="col-lg-6 col-sm-12 text-lg-start">
                 <button type="button" class="btn btn-secondary button-margin" th:onclick="|location.href='@{/community/{category}?page=1(category=${selectPostCategory})}'|" th:text="목록"/>
             </div>
-            <div class="col-lg-6 col-sm-12 text-lg-end" id="like-area" th:each="postLike : ${postLikeInfo}">
+            <div class="col-lg-6 col-sm-12 text-lg-end" id="like-area">
                 <input type="checkbox" class="btn-check" id="createLike" th:checked="${isSelected} != 0">
-                <label class="btn btn-outline-danger button-margin" for="createLike" th:text="'♡ ' + ${postLike.getLikeCount()}"/><br>
+                <label class="btn btn-outline-danger button-margin" for="createLike" th:text="'♡ ' + ${postLikeInfo.getLikeCount()}"/><br>
             </div>
         </div>
         <!--사각 영역-->

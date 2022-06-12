@@ -130,7 +130,7 @@
             <td class="f-filter-color-b">일반</td> <!--추후 변수로 받아오기로 변경 필요-->
             <td class="title-f-sort" th:text="|${postDto.title}(${postDto.getCommentCount()})|"/>
             <td class="writer" th:text="${postDto.writer}"/>
-            <td class="date" th:text="${#temporals.format(postDto.localDateTime, 'yyyy.MM.dd HH:mm')}"/>
+            <td class="date" th:text="${#temporals.format(postDto.createDate, 'yyyy.MM.dd HH:mm')}"/>
             <td class="likes" th:text="${postDto.likeCount}"/> <!-- 좋아요 대체 필요-->
             <td class="views" th:text="${postDto.views}"/>
         </tr>
