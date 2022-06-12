@@ -78,8 +78,8 @@
                 <button type="button" class="btn btn-secondary button-margin" th:onclick="|location.href='@{/community/{category}?page=1(category=${selectPostCategory})}'|" th:text="목록"/>
             </div>
             <div class="col-lg-6 col-sm-12 text-lg-end" id="like-area">
-                <input type="checkbox" class="btn-check" id="createLike" th:checked="${isSelected} != 0">
-                <label class="btn btn-outline-danger button-margin" for="createLike" th:text="'♡ ' + ${postLikeInfo.getLikeCount()}"/><br>
+                <input type="checkbox" class="btn-check" id="likeButton" th:checked="${isSelected} != 0">
+                <label class="btn btn-outline-danger button-margin" for="likeButton" th:text="'♡ ' + ${postLikeInfo.getLikeCount()}"/><br>
             </div>
         </div>
         <!--사각 영역-->
@@ -189,7 +189,7 @@
 </div>
 <div th:replace="~{fragments/footer :: footer}"/>
 
-<script src="/js/community/createLike.js"></script>
+<script src="/js/community/eventsLike.js"></script>
 <script src="/js/community/createComment.js"></script>
 <script src="/js/bootstrap.bundle.js"></script>
 </body>

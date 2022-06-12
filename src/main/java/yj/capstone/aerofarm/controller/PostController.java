@@ -31,9 +31,6 @@ public class PostController {
         Page<PostDto> postInfo = postService.findPostInfo(postCategory, searchCategory, keyword, page);
         PageableList<PostDto> pageableList = new PageableList<>(postInfo);
 
-        //List<PostDto> postLikeInfo = postService.findPostLikeInfo(postCategory, searchCategory, keyword, page);
-
-        //model.addAttribute("postLikeInfo", postLikeInfo);
         model.addAttribute("pageableList", pageableList);
         model.addAttribute("selectCategory", postCategory);
 
@@ -95,5 +92,15 @@ public class PostController {
     @PreAuthorize("hasAnyAuthority('GUEST')")
     public Long createLike(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody PostLikeDto postLikeDto) {
         return postService.createLike(userDetails.getMember(), postLikeDto).getId();
+    }
+
+    // 좋아요 취소 로직
+    @ResponseBody
+    @PostMapping("/community/deleteLike")
+    @PreAuthorize("hasAnyAuthority('GUEST')")
+    public Long deleteLike(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody PostLikeDto postLikeDto) {
+        if (userDetails.getMember() == null) return null;
+        postService.deleteLike(userDetails.getMember(), postLikeDto);
+        return postLikeDto.getPostId();
     }
 }

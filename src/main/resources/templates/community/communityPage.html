@@ -128,11 +128,11 @@
         <tbody>
         <tr th:each="postDto : ${pageableList.getContent()}" th:onclick="|location.href='@{/community/{category}/{id}(category=${postDto.category.getLowerCase()}, id=${postDto.id})}'|">
             <td class="f-filter-color-b">일반</td> <!--추후 변수로 받아오기로 변경 필요-->
-            <td class="title-f-sort" th:text="|${postDto.title}(${postDto.getCommentCount()})|"/>
-            <td class="writer" th:text="${postDto.writer}"/>
-            <td class="date" th:text="${#temporals.format(postDto.createDate, 'yyyy.MM.dd HH:mm')}"/>
-            <td class="likes" th:text="${postDto.likeCount}"/> <!-- 좋아요 대체 필요-->
-            <td class="views" th:text="${postDto.views}"/>
+            <td class="title-f-sort" th:text="|${postDto.getTitle()}(${postDto.getCommentCount()==null ? '0' : postDto.getCommentCount()})|"/>
+            <td class="writer" th:text="${postDto.getWriter()}"/>
+            <td class="date" th:text="${#temporals.format(postDto.getCreateDate(), 'yyyy.MM.dd HH:mm')}"/>
+            <td class="likes" th:text="${postDto.getLikeCount()==null} ? '0' : ${postDto.getLikeCount()}"/> <!-- 좋아요 대체 필요-->
+            <td class="views" th:text="${postDto.getViews()}"/>
         </tr>
         </tbody>
     </table>
