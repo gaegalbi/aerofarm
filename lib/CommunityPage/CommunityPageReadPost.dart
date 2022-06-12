@@ -8,6 +8,7 @@ import 'package:capstone/MainPage/MainPage.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../CommunityPageCustomLib/CommunityAddComment.dart';
 import 'CommunityPageForm.dart';
 
 class CommunityPageReadPost extends StatefulWidget {
@@ -29,22 +30,79 @@ class CommunityPageReadPost extends StatefulWidget {
 class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
   late String? content;
   late dom.Element? contents;
+  late int count;
+  final List<Widget> commentList = [];
+  late ScrollController _scrollController;
+  int index = 1;
 
   void printWrapped(String text) {
     final pattern = RegExp('.{1,800}'); // 800 is the size of each chunk
     pattern.allMatches(text).forEach((match) => print(match.group(0)));
   }
 
+  String subString(String str,int index, int cnt){
+   String tmp="";
+   String a;
+/*    if(str.length<cnt){
+      if(str.length%2==0){
+        a = str.substring(0 + (str.length/2).round());
+        tmp =a + "\n" + str.substring((str.length/2).round()+1,str.length);
+      }else{
+        a = str.substring(0 + (str.length/2).round());
+        tmp =a + "\n" + str.substring((str.length/2).round()-1,str.length);
+      }
+      return tmp;
+    }*/
+   for(int  i=0;i<=index;i++){
+       a = str.substring(0 + (cnt * i), cnt + (cnt * i));
+       if (i == index) {
+         if(str.length%2==0){
+           tmp += a;
+         }else{
+           tmp += a + str.substring((cnt+cnt*i),str.length);
+         }
+       } else {
+         tmp += a + "\n";
+       }
+   }
+   return tmp;
+  }
   Future fetch() async {
+    final List<Map<String, dynamic>> customKeywords = [];
+    final Map<String, String> _queryParameters = <String, String>{
+      'page': index.toString(),
+    };
+
     final response = await http
-        .get(Uri.http('127.0.0.1:8080', '/community/free/${widget.id}'));
+        .get(Uri.http('127.0.0.1:8080', '/community/free/${widget.id}',_queryParameters));
     if (response.statusCode == 200) {
       dom.Document document = parser.parse(response.body);
-     contents = document.querySelector('.contents');
+      List<dom.Element> keywordElements = document.querySelectorAll('.comment-user-info');
+      contents = document.querySelector('.contents');
+      for (var element in keywordElements) {
+        dom.Element? commentWriter = element.querySelector('.commentWriter');
+        dom.Element? commentContent = element.querySelector('.commentContent');
+        dom.Element? commentDate = element.querySelector('.commentDate');
+        customKeywords.add({
+          'writer': commentWriter?.text,
+          'date': commentDate?.text,
+          'content': commentContent!.text.length<=15?
+          commentContent.text :
+          subString(commentContent.text,commentContent.text.length%10,15)
+        ,
+        });
+      }
+/*      print(Uri.http('127.0.0.1:8080', '/community/free/${widget.id}'));
+      print(customKeywords);*/
+
       setState(() {
         //contents = document.querySelector('.contents');
+        for (var element in customKeywords) {
+          commentList.add(AddComment(
+            keywords: element,
+          ));
+        }
         content = contents?.outerHtml;
-        print(contents);
         //printWrapped(document.outerHtml);
       });
     }else{
@@ -52,14 +110,29 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
       throw Exception('Failed to load post');
     }
   }
+  void handleScrolling() {
+    //전체게시판은 전체 게시물을 전부 불러올 거라서 전체게시판이나 인기게시판일때는 동작x
+    if (_scrollController.offset ==
+        _scrollController.position.maxScrollExtent) {
+      index++;
+      keywords.clear();
+      fetch();
+    }
+  }
   @override
   void initState(){
+    _scrollController = ScrollController();
+    _scrollController.addListener(() {
+      handleScrolling();
+    });
     content = "";
     fetch();
+    count = int.parse(widget.comments);
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         backgroundColor: MainColor.six,
         appBar: AppBar(
@@ -111,6 +184,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
           ],
         ),
         body: SingleChildScrollView(
+          controller: _scrollController,
           child: Container(
             padding: EdgeInsets.fromLTRB(
               MediaQuery.of(context).size.width * 0.04,
@@ -195,7 +269,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                               const EdgeInsets.only(right: 20),
                                           child:  Text(
                                             widget.writer,
-                                            style: CommunityPageTheme.postFont,
+                                            style: CommunityPageTheme.commentWriter,
                                           )),
                                       SizedBox(
                                         width: 54,
@@ -285,10 +359,10 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                   ],
                                 ),
                                 onPressed: () {
-                                  Get.to(()=>const CommunityPageReply());
+                                    Get.to(() => CommunityPageReply(id:widget.id, index: widget.index, likes: widget.likes, comments: widget.comments, title: widget.title, views: widget.views, writer: widget.writer, realDate: widget.realDate,));
                                 },
                               ),
-                              Container(
+                               count < 1? Container(
                                 margin: EdgeInsets.only(top: 5),
                                 child: Row(
                                   children: [
@@ -308,7 +382,8 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                     ),
                                   ],
                                 ),
-                              )
+                              ) : Column(children: commentList
+                               ,),
                             ],
                           ))
                     ],
@@ -366,7 +441,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                       style: CommunityPageTheme.bottomAppBarReply,
                     ),
                     onPressed: () {
-                      Get.to(()=>const CommunityPageReply());
+                      Get.to(() => CommunityPageReply(id:widget.id, index: widget.index, likes: widget.likes, comments: widget.comments, title: widget.title, views: widget.views, writer: widget.writer, realDate: widget.realDate,));
                     },
                   )
                 ],

@@ -1,10 +1,20 @@
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../CurrentTime.dart';
+import 'CommunityPageReadPost.dart';
 
 class CommunityPageReply extends StatefulWidget {
-  const CommunityPageReply({Key? key}) : super(key: key);
+  final int index;
+  final String id;
+  final String writer;
+  final String title;
+  final String views;
+  final String likes;
+  final String comments;
+  final String realDate;
+  const CommunityPageReply({Key? key, required this.index, required this.id, required this.writer, required this.title, required this.views, required this.likes, required this.comments, required this.realDate}) : super(key: key);
 
   @override
   State<CommunityPageReply> createState() => _CommunityPageReplyState();
@@ -43,6 +53,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
+          backgroundColor: MainColor.six,
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
             centerTitle: true,
@@ -65,7 +76,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                   Icons.chevron_left,
                 ),
                 onPressed: () {
-                  //Get.offAll(const CommunityPageReadPost());
+                    Get.offAll(() => CommunityPageReadPost(id:widget.id, index: widget.index, likes: widget.likes, comments: widget.comments, title: widget.title, views: widget.views, writer: widget.writer, realDate: widget.realDate,));
                 },
               )),
             ),

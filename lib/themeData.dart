@@ -231,7 +231,12 @@ class CommunityPageTheme {
       color: Colors.white,
       decoration: TextDecoration.none,
       fontFamily: 'bmAir',
-      fontSize: 18);
+      fontSize: 17);
+  static const commentDate = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmAir',
+      fontSize: 15);
   static const postFalseFont = TextStyle(
       color: Colors.grey,
       decoration: TextDecoration.none,
@@ -277,4 +282,9 @@ class CommunityPageTheme {
       decoration: TextDecoration.none,
       fontFamily: 'bmPro',
       fontSize: 17);
+  static const commentWriter = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 22);
 }
