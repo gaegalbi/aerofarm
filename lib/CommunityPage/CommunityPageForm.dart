@@ -16,12 +16,23 @@ import 'CommunityPageFloating.dart';
 final List<Widget> boardList = [];
 final List<Map<String, dynamic>> keywords = [];
 final dateFormat = DateFormat('yyyy.MM.dd');
-final Map<String, String> matchCategory =
-  {"all":"전체게시판","hot":"인기게시판","free":"자유게시판","information":"정보게시판","question":"질문게시판","picture":"사진게시판","trade":"거래게시판"};
+final Map<String, String> matchCategory = {
+  "all": "전체게시판",
+  "hot": "인기게시판",
+  "free": "자유게시판",
+  "information": "정보게시판",
+  "question": "질문게시판",
+  "picture": "사진게시판",
+  "trade": "거래게시판"
+};
 
 class CommunityPageForm extends StatefulWidget {
   final String category;
-  const CommunityPageForm({Key? key, required this.category,}) : super(key: key);
+
+  const CommunityPageForm({
+    Key? key,
+    required this.category,
+  }) : super(key: key);
 
   @override
   State<CommunityPageForm> createState() => _CommunityPageFormState();
@@ -30,59 +41,148 @@ class CommunityPageForm extends StatefulWidget {
 class _CommunityPageFormState extends State<CommunityPageForm> {
   late ScrollController _scrollController;
   int index = 1;
-
+  late List<Map<String, dynamic>> customKeywords = [];
   Future fetch() async {
+    List<String> boardCategory = ["free","information","question","picture","trade"];
     String current = dateFormat.format(DateTime.now());
-    //final response = await http.get(Uri.http('172.25.2.57:8080', '/community/free'));
-    final Map<String, String> _queryParameters = <String, String>{
-      '?page=': index.toString(),
-    };
-    final response = await http
-        .get(Uri.http('127.0.0.1:8080', '/community/${widget.category}', _queryParameters));
-    if (response.statusCode == 200) {
-      dom.Document document = parser.parse(response.body);
-      List<dom.Element> keywordElements = document.querySelectorAll('.post-data');
-      for (var element in keywordElements) {
-        dom.Element? writer = element.querySelector('.writer');
-        dom.Element? title = element.querySelector('.title-f-sort');
-        dom.Element? category = element.querySelector('.f-filter-color-b');
-        dom.Element? date = element.querySelector('.date');
-        dom.Element? likes = element.querySelector('.likes');
-        dom.Element? views = element.querySelector('.views');
-        dom.Element? id = element.querySelector('.post-id');
-        dom.Element? realDate = element.querySelector('.date');
-        keywords.add({
-          'writer': writer?.text,
-          'title': title?.text.substring(0,title.text.lastIndexOf('(')),
-          'category': category?.text,
-          'realDate' : realDate?.text,
-          'date': current == date?.text.substring(0, 10)?  date?.text = date.text.substring(10, date.text.length) :   date?.text = date.text.substring(2, 10),
-          'likes': likes?.text,
-          'views': views?.text,
-          'comments':title?.text.substring(title.text.lastIndexOf('(')+1,title.text.lastIndexOf(')')),
-          'id':id?.text,
-        });
+    if(widget.category=='all' || widget.category=='hot') {
+      int i=1;
+      int categoryIndex=0;
+      final List<Map<String, dynamic>> customKeywords = [];
+      while(true) {
+        final Map<String, String> _queryParameters = <String, String>{
+          'page': i.toString(),
+        };
+        final response = await http.get(Uri.http(
+            '127.0.0.1:8080', '/community/${boardCategory[categoryIndex]}',
+            _queryParameters));
+        if (response.statusCode == 200) {
+          /*print(Uri.http(
+              '127.0.0.1:8080', '/community/${boardCategory[categoryIndex]}',
+              _queryParameters));*/
+          dom.Document document = parser.parse(response.body);
+          List<dom.Element> keywordElements =
+          document.querySelectorAll('.post-data');
+          if (keywordElements.isEmpty) {
+           /* print(Uri.http('127.0.0.1:8080', '/community/${boardCategory[categoryIndex]}',
+                _queryParameters));*/
+            if (categoryIndex < 4) {
+              setState(() {
+                categoryIndex++;
+                i = 1;
+              });
+              print(categoryIndex);
+            }else{
+              print("break work");
+              break;
+            }
+          } else {
+            for (var element in keywordElements) {
+              dom.Element? writer = element.querySelector('.writer');
+              dom.Element? title = element.querySelector('.title-f-sort');
+              dom.Element? category = element.querySelector('.f-filter-color-b');
+              dom.Element? date = element.querySelector('.date');
+              dom.Element? likes = element.querySelector('.likes');
+              dom.Element? views = element.querySelector('.views');
+              dom.Element? id = element.querySelector('.post-id');
+              dom.Element? realDate = element.querySelector('.date');
+              customKeywords.add({
+                'writer': writer?.text,
+                'title': title?.text.substring(0, title.text.lastIndexOf('(')),
+                'category': category?.text,
+                'realDate': realDate?.text,
+                'date': current == date?.text.substring(0, 10)
+                    ? date?.text = date.text.substring(10, date.text.length)
+                    : date?.text = date.text.substring(2, 10),
+                'likes': likes?.text,
+                'views': views?.text,
+                'comments': title?.text.substring(
+                    title.text.lastIndexOf('(') + 1,
+                    title.text.lastIndexOf(')')),
+                'id': id?.text,
+              });
+            }
+            i++;
+          }
+        }
+      }
+      if(widget.category =='all') {
+        customKeywords.sort((b, a) => a['realDate'].compareTo(b['realDate']));
+      }else{
+        customKeywords.sort((b, a) => a['comments'].compareTo(b['comments']));
       }
       setState(() {
-        for (var element in keywords) {
-          boardList.add(AddBoard(keywords: element, index: index,));
+        for (var element in customKeywords) {
+          boardList.add(AddBoard(
+            keywords: element,
+            index: index,
+          ));
         }
-        keywords.clear();
+        customKeywords.clear();
       });
-    } else {
-      print(Uri.http('127.0.0.1:8080', '/community/${widget.category}?page=$index'));
-      index--;
-      throw Exception('Failed to load post');
+    }else{
+      final Map<String, String> _queryParameters = <String, String>{
+        'page': index.toString(),
+      };
+      final response = await http.get(Uri.http('127.0.0.1:8080', '/community/${widget.category}', _queryParameters));
+      if (response.statusCode == 200) {
+        dom.Document document = parser.parse(response.body);
+        List<dom.Element> keywordElements =
+        document.querySelectorAll('.post-data');
+        if (keywordElements.isEmpty) {
+          print(Uri.http('127.0.0.1:8080', '/community/${widget.category}',
+              _queryParameters));
+          index--;
+          throw Exception('Failed to load post');
+        } else {
+          for (var element in keywordElements) {
+            dom.Element? writer = element.querySelector('.writer');
+            dom.Element? title = element.querySelector('.title-f-sort');
+            dom.Element? category = element.querySelector('.f-filter-color-b');
+            dom.Element? date = element.querySelector('.date');
+            dom.Element? likes = element.querySelector('.likes');
+            dom.Element? views = element.querySelector('.views');
+            dom.Element? id = element.querySelector('.post-id');
+            dom.Element? realDate = element.querySelector('.date');
+            keywords.add({
+              'writer': writer?.text,
+              'title': title?.text.substring(0, title.text.lastIndexOf('(')),
+              'category': category?.text,
+              'realDate': realDate?.text,
+              'date': current == date?.text.substring(0, 10)
+                  ? date?.text = date.text.substring(10, date.text.length)
+                  : date?.text = date.text.substring(2, 10),
+              'likes': likes?.text,
+              'views': views?.text,
+              'comments': title?.text.substring(
+                  title.text.lastIndexOf('(') + 1, title.text.lastIndexOf(')')),
+              'id': id?.text,
+            });
+          }
+          setState(() {
+            for (var element in keywords) {
+              boardList.add(AddBoard(
+                keywords: element,
+                index: index,
+              ));
+            }
+            keywords.clear();
+            print(Uri.http('127.0.0.1:8080', '/community/${widget.category}',
+                _queryParameters));
+          });
+        }
+      }
     }
   }
 
   void handleScrolling() {
-    if (_scrollController.offset ==
-        _scrollController.position.maxScrollExtent) {
-      index++;
-      keywords.clear();
-      fetch();
-    }
+    //전체게시판은 전체 게시물을 전부 불러올 거라서 전체게시판이나 인기게시판일때는 동작x
+      if (_scrollController.offset ==
+          _scrollController.position.maxScrollExtent && !(widget.category=='all' || widget.category=='hot')) {
+        index++;
+        keywords.clear();
+        fetch();
+      }
   }
 
   @override
@@ -114,21 +214,21 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
         leadingWidth: MediaQuery.of(context).size.width * 0.2106,
         leading: Container(
           margin:
-          EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
+              EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
           child: FittedBox(
               child: Builder(
-                builder: (context) => IconButton(
-                  padding: EdgeInsets.zero,
-                  alignment: Alignment.center,
-                  color: MainColor.three,
-                  iconSize: 50,
-                  constraints: const BoxConstraints(),
-                  icon: const Icon(
-                    Icons.menu,
-                  ),
-                  onPressed: () => Scaffold.of(context).openDrawer(),
-                ),
-              )),
+            builder: (context) => IconButton(
+              padding: EdgeInsets.zero,
+              alignment: Alignment.center,
+              color: MainColor.three,
+              iconSize: 50,
+              constraints: const BoxConstraints(),
+              icon: const Icon(
+                Icons.menu,
+              ),
+              onPressed: () => Scaffold.of(context).openDrawer(),
+            ),
+          )),
         ),
         title: const Text(
           "도시농부",
@@ -197,7 +297,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
                         itemBuilder: (BuildContext context, int index) {
                           if (index < boardList.length) {
                             return boardList[index];
-                          }else{
+                          } else {
                             return Container();
                           }
                         })),

@@ -99,7 +99,7 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                       ],
                     ),
                     onPressed: () {
-                      Get.off(()=>const CommunityPageForm(category:'hot'));
+                      Get.offAll(()=>const CommunityPageForm(category:'hot'));
                     },
                   ),
                 ),
@@ -126,7 +126,7 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                       ],
                     ),
                     onPressed: () {
-                      Get.off(()=>const CommunityPageForm(category:'all'));
+                      Get.offAll(()=>const CommunityPageForm(category:'all'));
                     },
                   ),
                 ),

@@ -57,7 +57,7 @@ class _MainPageBottomState extends State<MainPageBottom> {
                 color: MainColor.three,
                 child: TextButton(
                   onPressed: () {
-                    Get.off(()=>const CommunityPageForm(category:'free'));
+                    Get.off(()=>const CommunityPageForm(category:'all'));
                   },
                   child: const Text(
                     "커뮤니티",
