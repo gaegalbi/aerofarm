@@ -1,6 +1,7 @@
 package yj.capstone.aerofarm.domain.member;
 
 import lombok.*;
+import yj.capstone.aerofarm.domain.AddressInfo;
 import yj.capstone.aerofarm.form.SaveMemberForm;
 import yj.capstone.aerofarm.domain.BaseEntity;
 
@@ -38,6 +39,12 @@ public class Member extends BaseEntity {
     // 이메일 인증 여부
     private boolean verify;
 
+    private String name;
+
+    @Embedded
+    private AddressInfo addressInfo;
+
+
     /**
      * 양방향 연관관계에서 굳이 필요 없는데
      * 연습, 테스트 목적으로 작성
@@ -60,13 +67,13 @@ public class Member extends BaseEntity {
         this.password = saveMemberForm.getPassword();
         this.nickname = saveMemberForm.getNickname();
         this.roles.add(new MemberRole(Role.GUEST, this));
-        this.phoneNumber = saveMemberForm.getPhoneNumber();
         this.provider = Provider.LOCAL;
         this.verify = false; // 로컬 회원가입 시 검증 기본값 false
+        this.name = saveMemberForm.getName();
         this.picture = "image/default-avatar.png";
     }
 
-    @Builder(builderClassName = "UserDetailBuilder")
+    @Builder(builderClassName = "oAuth2Builder")
     public Member(String nickname, String password, Provider provider, String picture, String email) {
         this.nickname = nickname;
         this.password = password;

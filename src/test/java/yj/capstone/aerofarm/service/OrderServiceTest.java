@@ -46,7 +46,6 @@ class OrderServiceTest {
         SaveMemberForm saveMemberForm = new SaveMemberForm();
         saveMemberForm.setEmail("abc123@naver.com");
         saveMemberForm.setPassword("1234");
-        saveMemberForm.setPhoneNumber("010-1234-1234");
         saveMemberForm.setNickname("qqc");
         Member member = Member.saveMemberFormBuilder().saveMemberForm(saveMemberForm).build();
 
