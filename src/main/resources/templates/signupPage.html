@@ -89,19 +89,17 @@
                                    id="passwordRepeat" th:errorclass="fieldError" required>
                             <p class="fieldError" th:errors="*{confirmPassword}">검증 비밀번호 오류</p>
                             <br/>
+                            <label for="name" th:for="name" class="form-label"><small
+                                    class="text-muted">NAME</small></label>
+                            <input type="text" th:field="*{name}" class="form-control input-box" id="name"
+                                   placeholder="홍길동" th:errorclass="fieldError" required>
+                            <p class="fieldError" th:errors="*{name}">이름 오류</p>
+                            <br/>
                             <label for="nickname" th:for="nickname" class="form-label"><small
                                     class="text-muted">NICKNAME</small></label>
                             <input type="text" th:field="*{nickname}" class="form-control input-box" id="nickname"
                                    th:errorclass="fieldError" required>
                             <p class="fieldError" th:errors="*{nickname}">닉네임 오류</p>
-                            <br/>
-                            <label for="phoneNumber" th:for="phoneNumber" class="form-label"><small
-                                    class="text-muted">PHONE</small></label>
-                            <input type="tel" th:field="*{phoneNumber}" class="form-control input-box" id="phoneNumber"
-                                   oninput="autoHyphen(this)"
-                                   maxlength="13"
-                                   placeholder="010-0000-0000" th:errorclass="fieldError" required>
-                            <p class="fieldError" th:errors="*{phoneNumber}">전화번호 오류</p>
                         </div>
                         <br/>
                         <div class="d-grid gap-2 col-12 mx-auto">
@@ -116,6 +114,5 @@
 </main>
 
 <div th:replace="~{fragments/footer :: footer}"/>
-<script src="/js/util/autoHyphen.js"></script>
 </body>
 </html>

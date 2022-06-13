@@ -87,8 +87,5 @@ public class LoginController {
         if (memberService.duplicateNicknameCheck(saveMemberForm.getNickname())) {
             bindingResult.rejectValue("nickname", "duplicate");
         }
-        if (memberService.duplicatePhoneNumberCheck(saveMemberForm.getPhoneNumber())) {
-            bindingResult.rejectValue("phoneNumber", "duplicate");
-        }
     }
 }

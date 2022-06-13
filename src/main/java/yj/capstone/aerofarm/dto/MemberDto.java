@@ -4,7 +4,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import yj.capstone.aerofarm.domain.AddressInfo;
-import yj.capstone.aerofarm.domain.member.Member;
 
 @Setter
 @Getter
@@ -15,16 +14,18 @@ public class MemberDto {
     private String picture;
     private String phoneNumber;
     private AddressInfo addressInfo;
+    private String name;
 
     public MemberDto() {
     }
 
     @Builder
-    public MemberDto(String email, String nickname, String picture, String phoneNumber, AddressInfo addressInfo) {
+    public MemberDto(String email, String nickname, String picture, String phoneNumber, AddressInfo addressInfo, String name) {
         this.email = email;
         this.nickname = nickname;
         this.picture = picture;
         this.phoneNumber = phoneNumber;
         this.addressInfo = addressInfo;
+        this.name = name;
     }
 }
