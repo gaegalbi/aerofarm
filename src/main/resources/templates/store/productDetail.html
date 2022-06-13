@@ -54,21 +54,28 @@
                         원
                     </p>
                 </div>
-                <p class="lead" th:utext="*{contents}">Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Praesentium at dolorem quidem
-                    modi. Nam sequi consequatur obcaecati excepturi alias magni, accusamus eius blanditiis delectus
-                    ipsam minima ea iste laborum vero?</p>
+                <p class="lead" th:utext="*{contents}">상품내용</p>
                 <form th:action="@{/cart/add/{id}(id=*{id})}" th:method="post">
                     <input type="hidden" name="productId" id="productId" th:value="*{id}"/>
-                    <div class="d-flex">
-                        <input class="form-control pe-0 me-2" name="quantity" id="quantity" type="number" min="1" max="99"
-                               value="1"
-                               style="max-width: 3rem"/>
-                        <button class="btn btn-outline-light" id="btn-addCart" type="button">
-                            <i class="bi-cart-fill me-1"></i>
-                            장바구니 담기
-                        </button>
-                    </div>
+                    <row>
+                        <div class="col-2 col-md-1">
+                            <input class="form-control pe-0 me-2" name="quantity" id="quantity" type="text"
+                                   value="1"
+                                   maxlength="2"
+                                   oninput="quantityCheck(this)"
+                                   autocomplete="off"
+                                   required/>
+                        <div class="invalid-feedback">
+                            1개에서 99개 사이의 수량만 선택해주세요!
+                        </div>
+                        </div>
+                        <div class="col-12 mt-2 d-grid mx-auto">
+                            <a class="btn btn-outline-light" id="btn-addCart" type="button">
+                                <i class="bi-cart-fill me-1"></i>
+                                장바구니 담기
+                            </a>
+                        </div>
+                    </row>
                 </form>
                 <th:block sec:authorize="hasAuthority('ADMIN')">
                     <div class="py-2">

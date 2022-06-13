@@ -8,8 +8,8 @@ let tinyEditor = tinymce.init({
 });
 
 let createProduct = {
-    init : function () {
-        $(document).ready(function(){
+    init: function () {
+        $(document).ready(function () {
             let query = window.location.search;
             let param = new URLSearchParams(query);
             let create = param.get('create');

@@ -1,17 +1,22 @@
 package yj.capstone.aerofarm.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import yj.capstone.aerofarm.dto.CartDto;
+import yj.capstone.aerofarm.dto.Message;
 import yj.capstone.aerofarm.dto.ProductCartDto;
 import yj.capstone.aerofarm.service.CartService;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static yj.capstone.aerofarm.dto.Message.createMessage;
 
 @Controller
 @SessionAttributes("cart")
@@ -42,28 +47,37 @@ public class CartController {
         return "cart/cartList";
     }
 
-    @PutMapping("/cart")
+    @PostMapping("/cart")
     @ResponseBody
-    public Boolean productToCart(@RequestBody CartDto cartDto, @ModelAttribute("cart") List<CartDto> cart) {
+    public ResponseEntity<Message> productToCart(@RequestBody CartDto cartDto, @ModelAttribute("cart") List<CartDto> cart) {
         for (CartDto inCart : cart) {
             if (inCart.getProductId().equals(cartDto.getProductId())) {
-                return false;
+                return ResponseEntity.status(HttpStatus.ACCEPTED)
+                        .body(createMessage("상품이 이미 장바구니에 있습니다."));
             }
         }
         cart.add(cartDto);
-        return true;
+        return ResponseEntity.ok()
+                .body(createMessage("상품이 장바구니에 추가되었습니다."));
     }
 
     @DeleteMapping("/cart")
     @ResponseBody
-    public Boolean deleteCart(@RequestBody CartDto cartDto, @ModelAttribute("cart") List<CartDto> cart) {
-        return cart.removeIf(inCart -> inCart.getProductId().equals(cartDto.getProductId()));
+    public ResponseEntity<Message> deleteCart(@RequestBody CartDto cartDto, @ModelAttribute("cart") List<CartDto> cart) {
+        boolean result = cart.removeIf(inCart -> inCart.getProductId().equals(cartDto.getProductId()));
+        if (result) {
+            return ResponseEntity.ok()
+                    .body(createMessage("장바구니에 상품이 제거되었습니다."));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(createMessage("해당 상품이 장바구니에 없습니다."));
     }
 
-    @ResponseBody
     @PostMapping("/cart/clear")
-    public boolean clearCart(SessionStatus sessionStatus) {
+    @ResponseBody
+    public ResponseEntity<Message> clearCart(SessionStatus sessionStatus) {
         sessionStatus.setComplete();
-        return true;
+        return ResponseEntity.ok()
+                .body(createMessage("장바구니에 상품이 모두 지워졌습니다"));
     }
 }
