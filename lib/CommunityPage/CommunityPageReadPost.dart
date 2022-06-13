@@ -40,27 +40,6 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
     pattern.allMatches(text).forEach((match) => print(match.group(0)));
   }
 
-  /*String subString(String str,int index, int cnt){
-   String tmp="";
-   String a;
-   for(int  i=0;i<=index;i++){
-       a = str.substring(0 + (cnt * i), cnt + (cnt * i));
-       if (i == index) {
-         if(str.length%2==0){
-           tmp += a;
-         }else{
-           if(a.length >= cnt){
-             tmp += a + str.substring((cnt+cnt*i),str.length) + "\n";
-           }else {
-             tmp += a + str.substring((cnt + cnt * i), str.length);
-           }
-         }
-       } else {
-         tmp += a + "\n";
-       }
-   }
-   return tmp;
-  }*/
   Future fetch() async {
     final List<Map<String, dynamic>> customKeywords = [];
     final Map<String, String> _queryParameters = <String, String>{
@@ -80,9 +59,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
         customKeywords.add({
           'writer': commentWriter?.text,
           'date': commentDate?.text,
-          'content':  commentContent?.text,//commentContent!.text.length<=15?
-          //commentContent.text //:
-          //subString(commentContent.text,commentContent.text.length%10,15),
+          'content':  commentContent?.text,
         });
       }
       setState(() {

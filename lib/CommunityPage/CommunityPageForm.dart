@@ -57,15 +57,10 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
             '127.0.0.1:8080', '/community/${boardCategory[categoryIndex]}',
             _queryParameters));
         if (response.statusCode == 200) {
-          /*print(Uri.http(
-              '127.0.0.1:8080', '/community/${boardCategory[categoryIndex]}',
-              _queryParameters));*/
           dom.Document document = parser.parse(response.body);
           List<dom.Element> keywordElements =
           document.querySelectorAll('.post-data');
           if (keywordElements.isEmpty) {
-           /* print(Uri.http('127.0.0.1:8080', '/community/${boardCategory[categoryIndex]}',
-                _queryParameters));*/
             if (categoryIndex < 4) {
               setState(() {
                 categoryIndex++;

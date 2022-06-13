@@ -23,6 +23,7 @@ class CommunityPageReply extends StatefulWidget {
 class _CommunityPageReplyState extends State<CommunityPageReply> {
   late bool sort;
   late TextEditingController _textEditingController;
+
   //late final List<Widget> _replyList = [];
 
   @override
@@ -60,35 +61,58 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
             backgroundColor: MainColor.six,
             toolbarHeight: MainSize.toobarHeight,
             elevation: 0,
-            leadingWidth: MediaQuery.of(context).size.width * 0.2106,
+            leadingWidth: MediaQuery
+                .of(context)
+                .size
+                .width * 0.2106,
             leading: Container(
               margin: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * 0.05),
+                  left: MediaQuery
+                      .of(context)
+                      .size
+                      .width * 0.05),
               child: FittedBox(
                   child: IconButton(
-                padding: EdgeInsets.zero,
-                alignment: Alignment.center,
-                color: MainColor.three,
-                iconSize: 50,
-                // 패딩 설정
-                constraints: const BoxConstraints(),
-                icon: const Icon(
-                  Icons.chevron_left,
-                ),
-                onPressed: () {
-                    Get.offAll(() => CommunityPageReadPost(id:widget.id, likes: widget.likes, comments: widget.comments, title: widget.title, views: widget.views, writer: widget.writer, realDate: widget.realDate, index: widget.index,));
-                },
-              )),
+                    padding: EdgeInsets.zero,
+                    alignment: Alignment.center,
+                    color: MainColor.three,
+                    iconSize: 50,
+                    // 패딩 설정
+                    constraints: const BoxConstraints(),
+                    icon: const Icon(
+                      Icons.chevron_left,
+                    ),
+                    onPressed: () {
+                      Get.offAll(() =>
+                          CommunityPageReadPost(id: widget.id,
+                            likes: widget.likes,
+                            comments: widget.comments,
+                            title: widget.title,
+                            views: widget.views,
+                            writer: widget.writer,
+                            realDate: widget.realDate,
+                            index: widget.index,));
+                    },
+                  )),
             ),
             title: const Text("도시농부", style: MainTheme.title),
           ),
           body: SingleChildScrollView(
             child: Container(
               padding: EdgeInsets.fromLTRB(
-                MediaQuery.of(context).size.width * 0.04,
+                MediaQuery
+                    .of(context)
+                    .size
+                    .width * 0.04,
                 0,
-                MediaQuery.of(context).size.width * 0.04,
-                MediaQuery.of(context).size.width * 0.04,
+                MediaQuery
+                    .of(context)
+                    .size
+                    .width * 0.04,
+                MediaQuery
+                    .of(context)
+                    .size
+                    .width * 0.04,
               ),
               color: MainColor.six,
               child: Column(
@@ -97,44 +121,54 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                     children: [
                       Container(
                         margin: EdgeInsets.only(
-                            right: MediaQuery.of(context).size.width * 0.02,
-                            left: MediaQuery.of(context).size.width * 0.02),
+                            right: MediaQuery
+                                .of(context)
+                                .size
+                                .width * 0.02,
+                            left: MediaQuery
+                                .of(context)
+                                .size
+                                .width * 0.02),
                         decoration: const BoxDecoration(
                             border: Border(
-                          bottom: BorderSide(width: 2, color: Colors.white),
-                        )),
+                              bottom: BorderSide(width: 2, color: Colors.white),
+                            )),
                         child: Row(
                           children: [
                             TextButton(
-                              onPressed: () {
-                                setState(() {
-                                  if (!sort) sort = !sort;
-                                });
-                              },
-                              style: ButtonStyle(
-                                  padding: MaterialStateProperty.all(
-                                      EdgeInsets.zero)),
-                              child: Text("등록순",
-                                      style: sort ? CommunityPageTheme.postFont : CommunityPageTheme.postFalseFont)
+                                onPressed: () {
+                                  setState(() {
+                                    if (!sort) sort = !sort;
+                                  });
+                                },
+                                style: ButtonStyle(
+                                    padding: MaterialStateProperty.all(
+                                        EdgeInsets.zero)),
+                                child: Text("등록순",
+                                    style: sort
+                                        ? CommunityPageTheme.postFont
+                                        : CommunityPageTheme.postFalseFont)
                             ),
                             TextButton(
-                              onPressed: () {
-                                setState(() {
-                                  if (sort) sort = !sort;
-                                });
-                              },
-                              style: ButtonStyle(
-                                  padding: MaterialStateProperty.all(
-                                      EdgeInsets.zero)),
-                              child: Text("최신순",
-                                      style: sort ? CommunityPageTheme.postFalseFont : CommunityPageTheme.postFont)
+                                onPressed: () {
+                                  setState(() {
+                                    if (sort) sort = !sort;
+                                  });
+                                },
+                                style: ButtonStyle(
+                                    padding: MaterialStateProperty.all(
+                                        EdgeInsets.zero)),
+                                child: Text("최신순",
+                                    style: sort ? CommunityPageTheme
+                                        .postFalseFont : CommunityPageTheme
+                                        .postFont)
 
                             ),
                           ],
                         ),
                       ),
                       Column(
-                        children: widget.commentList,//_replyList,
+                        children: widget.commentList, //_replyList,
                       ),
                     ],
                   ),
@@ -144,7 +178,10 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
           ),
           bottomNavigationBar: Transform.translate(
             offset:
-                Offset(0.0, -0.9 * MediaQuery.of(context).viewInsets.bottom),
+            Offset(0.0, -0.9 * MediaQuery
+                .of(context)
+                .viewInsets
+                .bottom),
             child: BottomAppBar(
               color: Colors.indigo,
               child: Container(
@@ -156,7 +193,10 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.5,
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width * 0.5,
                       child: TextField(
                         controller: _textEditingController,
                         textInputAction: TextInputAction.next,
@@ -180,20 +220,20 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                           onPressed: () {},
                         ),
                         TextButton(
-                          style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(MainColor.one)),
-                          child: const Text(
-                            "등록",
-                            style: CommunityPageTheme.bottomAppBarList,
-                          ),
-                          onPressed: () {
-                            setState((){
-                             /* addReply(_textEditingController.text, AssetImage("assets/images/profile.png"), "city");
+                            style: ButtonStyle(
+                                backgroundColor:
+                                MaterialStateProperty.all(MainColor.one)),
+                            child: const Text(
+                              "등록",
+                              style: CommunityPageTheme.bottomAppBarList,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                /* addReply(_textEditingController.text, AssetImage("assets/images/profile.png"), "city");
                               _textEditingController.text = "";*/
-                              _textEditingController.text="";
-                            });
-                          }
+                                _textEditingController.text = "";
+                              });
+                            }
                         )
                       ],
                     ),
@@ -205,105 +245,3 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
     );
   }
 }
-/*
-
-class AddReply extends StatelessWidget {
-  final String user;
-  final String content;
-  final AssetImage image;
-
-  const AddReply(
-      {Key? key,
-      required this.content,
-      required this.image,
-      required this.user})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01),
-        padding: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height * 0.01,
-            bottom: MediaQuery.of(context).size.height * 0.01),
-        decoration: const BoxDecoration(
-            border: Border(
-          bottom: BorderSide(width: 1, color: Colors.white),
-        )),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              child: Row(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(right: 15),
-                    child: CircleAvatar(
-                      radius: MediaQuery.of(context).size.width * 0.08,
-                      backgroundImage: image,
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(
-                        right: MediaQuery.of(context).size.width * 0.02,
-                        left: MediaQuery.of(context).size.width * 0.02),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                                margin: const EdgeInsets.only(bottom: 10),
-                                child: Text(
-                                  user,
-                                  style: CommunityPageTheme.postFont,
-                                )),
-                          ],
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 10),
-                          child:
-                              Text(content, style: CommunityPageTheme.postFont),
-                        ),
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(right: 10),
-                              child: const CurrentTime(
-                                type: true,
-                                style: 'contentInfo',
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(right: 10),
-                              child: const CurrentTime(
-                                type: false,
-                                style: 'contentInfo',
-                              ),
-                            ),
-                            SizedBox(
-                                height: 20,
-                                child: TextButton(
-                                  style: ButtonStyle(
-                                      padding: MaterialStateProperty.all(
-                                          EdgeInsets.zero)),
-                                  onPressed: () {},
-                                  child: const Text(
-                                    "답글 쓰기",
-                                    style: CommunityPageTheme.contentInfo,
-                                  ),
-                                ))
-                          ],
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            )
-          ],
-        ));
-  }
-}
-*/
