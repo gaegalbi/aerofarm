@@ -66,4 +66,7 @@ public class Post extends BaseEntity {
         this.category = PostCategory.findByLowerCase(postForm.getCategory());
     }
 
+    public void updateViews(int views) {
+        this.views = views;
+    }
 }

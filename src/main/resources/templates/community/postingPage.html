@@ -85,7 +85,10 @@
         <!--사각 영역-->
         <div class="card card-body body-color body-font-color body-line">
             <!--제목-->
-            <div class="post-title" th:text="${selectPost.title}"/>
+            <div class="row">
+                    <div class="post-title col-11" th:text="${selectPost.title}"/>
+                    <div class="col-1" th:text="|조회수 : ${selectPost.getViews()}|"/>
+            </div>
             <!--회원 정보-->
             <div class="user-info-border">
                 <table>

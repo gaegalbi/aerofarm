@@ -20,6 +20,7 @@ import yj.capstone.aerofarm.repository.PostLikeRepository;
 import yj.capstone.aerofarm.repository.PostRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -99,6 +100,13 @@ public class PostService {
     // 좋아요 누름 여부
     public List<Long> isMemberSelectInfo(Member member, Long postId) {
         return postLikeRepository.isMemberSelectInfo(member, postId);
+    }
+
+    // 조회수 업데이트
+    public void updateViews(Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> null);
+        post.updateViews(post.getViews()+1);
+        postRepository.save(post);
     }
 
     //게시글 필터링

@@ -31,10 +31,7 @@ public class PostServiceTest {
 
         PostForm postForm = new PostForm();
         postForm.setCategory("FREE");
-        postForm.setLikes(0);
-        postForm.setViews(0);
         postForm.setTitle("제목 1");
-        postForm.setPostDetail("내용1");
 
         Post post = postService.createPost(member, postForm);
 

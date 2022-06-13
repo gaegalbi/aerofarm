@@ -41,13 +41,15 @@ public class PostController {
     @GetMapping("/community/{category}/{boardId}")
     @PreAuthorize("hasAnyAuthority('GUEST')")
     public String community_detail(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable String category, @PathVariable Long boardId, Model model, @RequestParam(defaultValue = "1") Integer page) {
-        Post post = postService.selectPost(boardId);
-        PostDetailDto result = new PostDetailDto(post);
-
         if (page < 1) page = 1;
 
-        Page<CommentDto> commentInfo = postService.findCommentInfo(post, page);
-        PageableList<CommentDto> pageableList = new PageableList<>(commentInfo);
+        Post post = postService.selectPost(boardId);    // 선택한 게시물 찾기
+        PostDetailDto result = new PostDetailDto(post); // 선택한 게시물 id로 상세 내용 가져오기
+
+        postService.updateViews(boardId);           // 조회수 업데이트
+
+        Page<CommentDto> commentInfo = postService.findCommentInfo(post, page); // 게시물 id로 포함 댓글 검색
+        PageableList<CommentDto> pageableList = new PageableList<>(commentInfo);    // 페이징
 
         List<PostLikeDto> postLikeInfo = postService.findLikeInfo(post.getId());
         List<Long> isSelect = postService.isMemberSelectInfo(userDetails.getMember(), boardId);
