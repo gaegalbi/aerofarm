@@ -63,6 +63,7 @@ public class Member extends BaseEntity {
         this.phoneNumber = saveMemberForm.getPhoneNumber();
         this.provider = Provider.LOCAL;
         this.verify = false; // 로컬 회원가입 시 검증 기본값 false
+        this.picture = "image/default-avatar.png";
     }
 
     @Builder(builderClassName = "UserDetailBuilder")
