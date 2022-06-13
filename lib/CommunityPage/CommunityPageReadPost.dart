@@ -40,7 +40,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
     pattern.allMatches(text).forEach((match) => print(match.group(0)));
   }
 
-  String subString(String str,int index, int cnt){
+  /*String subString(String str,int index, int cnt){
    String tmp="";
    String a;
    for(int  i=0;i<=index;i++){
@@ -49,14 +49,18 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
          if(str.length%2==0){
            tmp += a;
          }else{
-           tmp += a + str.substring((cnt+cnt*i),str.length);
+           if(a.length >= cnt){
+             tmp += a + str.substring((cnt+cnt*i),str.length) + "\n";
+           }else {
+             tmp += a + str.substring((cnt + cnt * i), str.length);
+           }
          }
        } else {
          tmp += a + "\n";
        }
    }
    return tmp;
-  }
+  }*/
   Future fetch() async {
     final List<Map<String, dynamic>> customKeywords = [];
     final Map<String, String> _queryParameters = <String, String>{
@@ -76,16 +80,15 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
         customKeywords.add({
           'writer': commentWriter?.text,
           'date': commentDate?.text,
-          'content': commentContent!.text.length<=15?
-          commentContent.text :
-          subString(commentContent.text,commentContent.text.length%10,15)
-        ,
+          'content':  commentContent?.text,//commentContent!.text.length<=15?
+          //commentContent.text //:
+          //subString(commentContent.text,commentContent.text.length%10,15),
         });
       }
       setState(() {
         for (var element in customKeywords) {
           commentList.add(AddComment(
-            keywords: element,
+            keywords: element,index: widget.index,id: widget.id,writer: widget.writer,title: widget.title,views: widget.views,likes: widget.likes,comments: widget.comments,realDate: widget.realDate,commentList: commentList,
           ));
         }
         content = contents?.outerHtml;
@@ -344,7 +347,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                   ],
                                 ),
                                 onPressed: () {
-                                    Get.to(() => CommunityPageReply(id:widget.id, index: widget.index, likes: widget.likes, comments: widget.comments, title: widget.title, views: widget.views, writer: widget.writer, realDate: widget.realDate,));
+                                    Get.to(() => CommunityPageReply(index: widget.index,id: widget.id,writer: widget.writer,title: widget.title,views: widget.views,likes: widget.likes,comments: widget.comments,realDate: widget.realDate,commentList: commentList));
                                 },
                               ),
                                count < 1? Container(
@@ -426,7 +429,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                       style: CommunityPageTheme.bottomAppBarReply,
                     ),
                     onPressed: () {
-                      Get.to(() => CommunityPageReply(id:widget.id, index: widget.index, likes: widget.likes, comments: widget.comments, title: widget.title, views: widget.views, writer: widget.writer, realDate: widget.realDate,));
+                      Get.to(() => CommunityPageReply(index: widget.index,id: widget.id,writer: widget.writer,title: widget.title,views: widget.views,likes: widget.likes,comments: widget.comments,realDate: widget.realDate,commentList: commentList,));
                     },
                   )
                 ],

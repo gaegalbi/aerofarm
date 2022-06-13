@@ -1,11 +1,10 @@
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../CurrentTime.dart';
 import 'CommunityPageReadPost.dart';
 
 class CommunityPageReply extends StatefulWidget {
+  final List<Widget> commentList;
   final int index;
   final String id;
   final String writer;
@@ -14,7 +13,8 @@ class CommunityPageReply extends StatefulWidget {
   final String likes;
   final String comments;
   final String realDate;
-  const CommunityPageReply({Key? key, required this.index, required this.id, required this.writer, required this.title, required this.views, required this.likes, required this.comments, required this.realDate}) : super(key: key);
+
+  const CommunityPageReply({Key? key, required this.commentList, required this.index, required this.id, required this.writer, required this.title, required this.views, required this.likes, required this.comments, required this.realDate,}) : super(key: key);
 
   @override
   State<CommunityPageReply> createState() => _CommunityPageReplyState();
@@ -23,11 +23,11 @@ class CommunityPageReply extends StatefulWidget {
 class _CommunityPageReplyState extends State<CommunityPageReply> {
   late bool sort;
   late TextEditingController _textEditingController;
-  late final List<Widget> _replyList = [];
+  //late final List<Widget> _replyList = [];
 
   @override
   void initState() {
-    _replyList.clear();
+    //_replyList.clear();
     sort = true;
     _textEditingController = TextEditingController();
     super.initState();
@@ -35,16 +35,16 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
 
   @override
   void dispose() {
-    _replyList.clear();
+    //_replyList.clear();
     _textEditingController.dispose();
     super.dispose();
   }
 
-  void addReply(String content, AssetImage image, String user) {
-    _replyList.add(
-      AddReply(content: content, image: image, user: user)
+/*  void addReply(String content, AssetImage image, String user) {
+    widget.commentList.add(
+        AddReply(content: content, image: image, user: user)
     );
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +76,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                   Icons.chevron_left,
                 ),
                 onPressed: () {
-                    Get.offAll(() => CommunityPageReadPost(id:widget.id, index: widget.index, likes: widget.likes, comments: widget.comments, title: widget.title, views: widget.views, writer: widget.writer, realDate: widget.realDate,));
+                    Get.offAll(() => CommunityPageReadPost(id:widget.id, likes: widget.likes, comments: widget.comments, title: widget.title, views: widget.views, writer: widget.writer, realDate: widget.realDate, index: widget.index,));
                 },
               )),
             ),
@@ -134,7 +134,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                         ),
                       ),
                       Column(
-                        children: _replyList,
+                        children: widget.commentList,//_replyList,
                       ),
                     ],
                   ),
@@ -189,8 +189,9 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                           ),
                           onPressed: () {
                             setState((){
-                              addReply(_textEditingController.text, AssetImage("assets/images/profile.png"), "city");
-                              _textEditingController.text = "";
+                             /* addReply(_textEditingController.text, AssetImage("assets/images/profile.png"), "city");
+                              _textEditingController.text = "";*/
+                              _textEditingController.text="";
                             });
                           }
                         )
@@ -204,6 +205,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
     );
   }
 }
+/*
 
 class AddReply extends StatelessWidget {
   final String user;
@@ -304,3 +306,4 @@ class AddReply extends StatelessWidget {
         ));
   }
 }
+*/

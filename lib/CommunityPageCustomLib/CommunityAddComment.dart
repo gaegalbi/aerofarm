@@ -1,16 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../CommunityPage/CommunityPageReply.dart';
 import '../themeData.dart';
 
 class AddComment extends StatelessWidget {
   final Map<String, dynamic> keywords;
-
-  const AddComment({Key? key, required this.keywords}) : super(key: key);
+  final String id;
+  final int index;
+  final String writer;
+  final String title;
+  final String views;
+  final String likes;
+  final String comments;
+  final String realDate;
+  final List<Widget> commentList;
+  const AddComment({Key? key, required this.keywords,  required this.id,required this.index, required this.writer, required this.title, required this.views, required this.likes, required this.comments, required this.realDate, required this.commentList,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return  InkWell(
       onTap: (){
-        //Get.to(()=> ());
+        Get.to(() => CommunityPageReply(id:id, index: index,likes: likes, comments: comments, title: title, views: views, writer: writer, realDate: realDate, commentList: commentList,));
       },
       child: Container(
         //margin: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.03),
@@ -36,13 +46,38 @@ class AddComment extends StatelessWidget {
               children: [
                 Text(keywords['writer'],style: CommunityPageTheme.commentWriter,),
                 Container(
-                  margin: EdgeInsets.only(top: 10,bottom: 10),
-                  child: Text(
-                    keywords['content'],
-                    style: CommunityPageTheme.postFont,
-                  ),
-                ),
-                Text(keywords['date'],style: CommunityPageTheme.commentDate,)
+                    margin: EdgeInsets.only(top: 10,bottom: 10),
+                  width: MediaQuery.of(context).size.width*0.63,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Flexible(
+                        child: RichText(
+                          maxLines: null,
+                          text: TextSpan(text:  keywords['content'],
+                              style:CommunityPageTheme.postFont),
+                        )),
+                    ],
+                  )),
+                Row(
+                  children: [
+                    Text(keywords['date'],style: CommunityPageTheme.commentDate,),
+                    Container(
+                        margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.053),
+                        height: MediaQuery.of(context).size.height*0.025,
+                        child: TextButton(
+                          style: ButtonStyle(
+                              padding: MaterialStateProperty.all(
+                                  EdgeInsets.zero)),
+                          onPressed: () {},
+                          child: const Text(
+                            "답글 쓰기",
+                            style: CommunityPageTheme.commentDate,
+                          ),
+                        ))
+                  ],
+                )
+
               ],
             ),
           ],
