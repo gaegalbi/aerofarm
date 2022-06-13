@@ -1,9 +1,11 @@
 package yj.capstone.aerofarm.form;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.web.multipart.MultipartFile;
 import yj.capstone.aerofarm.domain.product.ProductCategory;
 
 import javax.validation.constraints.NotBlank;
@@ -11,6 +13,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class SaveProductForm {
 
     @NotBlank(message = "이름을 입력해주세요.")
@@ -24,10 +27,7 @@ public class SaveProductForm {
 
     private ProductCategory category;
 
-    public SaveProductForm(String name, Integer money, Integer stock, ProductCategory category) {
-        this.name = name;
-        this.money = money;
-        this.stock = stock;
-        this.category = category;
-    }
+    private String productDetail;
+
+    private MultipartFile image;
 }

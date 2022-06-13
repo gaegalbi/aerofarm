@@ -45,8 +45,6 @@ public class LoginController {
         try {
             memberService.confirmEmail(token);
         } catch (TokenExpiredException e) {
-//            confirmationTokenService.deleteById(token);
-            log.debug("{}",e.getMessage(),e);
             rttr.addFlashAttribute("error", e.getMessage());
         }
         return "redirect:/login";
@@ -65,22 +63,21 @@ public class LoginController {
     public String signupSubmit(@Valid SaveMemberForm saveMemberForm, BindingResult bindingResult) {
         signupValidate(saveMemberForm, bindingResult);
         if (bindingResult.hasErrors()) {
-            log.debug("errors={} ", bindingResult);
             return "signupPage";
         }
         memberService.signup(saveMemberForm);
-        log.info("New member created. Email: {}",saveMemberForm.getEmail());
         return "redirect:/login";
     }
 
     private void signupValidate(SaveMemberForm saveMemberForm, BindingResult bindingResult) {
-        log.debug("Duplicate member check. Email: {}", saveMemberForm.getEmail());
+        log.debug("Duplicate member check. email = {}", saveMemberForm.getEmail());
         if (!saveMemberForm.getPassword().equals(saveMemberForm.getConfirmPassword())) {
-            bindingResult.rejectValue("password","notMatch");
+            bindingResult.rejectValue("password", "notMatch");
         }
         if (memberService.duplicateEmailCheck(saveMemberForm.getEmail())) {
             if (memberService.isNotVerified(saveMemberForm.getEmail())) {
-                log.debug("Member is already exist but not verified. Email: {}", saveMemberForm.getEmail());
+                // 이미 가입했지만 이메일 인증을 하지 않았을 때
+                log.info("Member is already exist but not verified. email = {}", saveMemberForm.getEmail());
                 confirmationTokenService.deleteByEmail(saveMemberForm.getEmail());
                 memberService.deleteByEmail(saveMemberForm.getEmail());
                 return;

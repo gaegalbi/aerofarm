@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"/>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
+
+    .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+
+    @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+        }
+    }
+
+    @media screen and (max-width: 570px) {
+
+    }
+
+    .form-control {
+        border-color: #131825;
+        background-color: #182030;
+        color: #FFFFFF;
+    }
+
+    .form-select {
+        border-color: #131825;
+        background-color: #182030;
+        color: #FFFFFF;
+    }
+
+    .form-control:focus {
+        background-color: #182030;
+        color: #FFFFFF;
+    }
+
+    .list-group-item {
+        background-color: #182030;
+        color: #FFFFFF;
+    }
+
+    input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 30px #182030 inset;
+        -webkit-text-fill-color: #FFFFFF !important;
+    }
+
+</style>
+
+<body class="d-flex flex-column min-vh-100">
+
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
+
+<div class="container">
+    <main>
+        <div class="card m-4" style="background-color: #111620">
+            <div class="card-body text-white">
+                <div class="py-5 text-center">
+                    <h1><i class="bi bi-credit-card"></i></h1>
+                    <h2>결제 정보 입력</h2>
+                </div>
+
+                <div class="row g-5">
+                    <div class="col-md-5 col-lg-4 order-md-last">
+                        <h4 class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="text-white">주문 목록</span>
+                            <span class="badge bg-primary rounded-pill" th:text="${cartDtos.size()}">3</span>
+                        </h4>
+                        <ul class="list-group mb-3">
+                            <th:block th:each="cartDto: ${cartDtos}">
+                                <li class="list-group-item lh-sm">
+                                    <div class="row justify-content-between">
+                                        <div class="d-flex align-items-center">
+                                            <div class="col-auto me-auto">
+                                                <h6 class="mb-1" th:text="${cartDto.getName()}">수경 재배기 Model-2</h6>
+                                                <div class="d-flex">
+                                                    <h6 class="text-muted m-0">수량:&nbsp;</h6>
+                                                    <h6 class="m-0" th:text="${cartDto.getQuantity()}">5</h6>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class="d-flex">
+                                                    <h6 class="mt-2" th:text="${cartDto.getPrice()}">50,000</h6>
+                                                    <h6 class="mt-2">원</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </th:block>
+                            <li class="list-group-item lh-sm">
+                                <div class="row justify-content-between">
+                                    <div class="d-flex align-items-center">
+                                        <div class="col-auto me-auto">
+                                            <h6 class="m-0">배송비</h6>
+                                        </div>
+                                        <div class="col-auto d-flex">
+                                            <h6 class="mt-2" th:text="${deliveryPrice}">2500</h6>
+                                            <h6 class="mt-2">원</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <h5>총합</h5>
+                                <div class="d-flex">
+                                    <h5 th:text="${totalPrice} + ${deliveryPrice}">50,000</h5>
+                                    <h5>원</h5>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-7 col-lg-8">
+                        <h4 class="mb-3">배송 정보 입력</h4>
+                        <form action="/checkout" method="post" th:object="${checkoutForm}">
+                            <div class="row g-3">
+                                <div class="col-sm-6">
+                                    <label for="name" class="form-label">받는사람</label>
+                                    <input type="text" class="form-control" id="name" placeholder="홍길동" value=""
+                                           required th:field="*{receiver}" th:errorclass="is-invalid">
+                                    <div class="invalid-feedback" th:errors="*{receiver}">받는사람 오류</div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label for="phoneNumber" class="form-label">전화번호</label>
+                                    <input type="text" class="form-control" id="phoneNumber"
+                                           placeholder="010-0000-0000"
+                                           value="" th:errorclass="is-invalid"
+                                           th:field="*{phoneNumber}"
+                                           oninput="autoHyphen(this)"
+                                           maxlength="13"
+                                           required>
+                                    <div class="invalid-feedback" th:errors="*{phoneNumber}">전화번호 오류</div>
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="zipcode" class="form-label">우편번호</label>
+                                </div>
+                                <div class="col-6 mt-0">
+                                    <input type="text" class="form-control" id="zipcode" placeholder="우편번호"
+                                           th:field="*{zipcode}"
+                                           th:errorclass="is-invalid"
+                                           minlength="5"
+                                           maxlength="7"
+                                           required>
+                                    <div class="invalid-feedback" th:errors="*{zipcode}">우편번호 오류</div>
+                                </div>
+                                <div class="col-6 mt-0 mx-auto">
+                                    <a type="button" onclick="findAddress()" class="btn btn-primary d-grid"
+                                       id="address-btn">우편번호 찾기
+                                    </a>
+                                </div>
+
+                                <div class="col-12">
+                                    <label for="address1" class="form-label">주소</label>
+                                    <input type="text" th:field="*{address1}" th:errorclass="is-invalid" class="form-control" placeholder="주소"
+                                           id="address1">
+                                    <div class="invalid-feedback" th:errors="*{address1}">주소 오류</div>
+                                </div>
+
+                                <div class="col-6">
+                                    <label for="address2" class="form-label">상세주소</label>
+                                    <input type="text" th:field="*{address2}" th:errorclass="is-invalid" class="form-control" placeholder="상세주소"
+                                           id="address2">
+                                    <div class="invalid-feedback" th:errors="*{address2}">상세주소 오류</div>
+                                </div>
+                                <div class="col-6">
+                                    <label for="extraAddress" class="form-label">참고항목</label>
+                                    <input type="text" th:field="*{extraAddress}" th:errorclass="is-invalid" class="form-control"
+                                           placeholder="참고항목" id="extraAddress">
+                                    <div class="invalid-feedback" th:errors="*{extraAddress}">참고항목 오류</div>
+                                </div>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <div class="form-check mb-2">
+                                <input type="checkbox" class="form-check-input" id="same-address">
+                                <label class="form-check-label" for="same-address">
+                                    배송지 주소가 나의 주소와 같습니다.
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <input th:field="*{saveAddress}" type="checkbox" class="form-check-input"
+                                       id="save-info">
+                                <label class="form-check-label" for="save-info">
+                                    해당 배송 정보를 저장합니다.
+                                </label>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <h4 class="mb-3">결제 방법 선택</h4>
+
+                            <div class="my-3">
+                                <div class="form-check">
+                                    <input id="paymentDeposit" type="radio" class="form-check-input"
+                                           th:field="*{paymentType}"
+                                           th:value="MOOTONGJANG"
+                                           checked>
+                                    <label class="form-check-label" for="paymentDeposit">무통장입급</label>
+                                </div>
+                                <div class="form-check">
+                                    <input id="debit" type="radio" class="form-check-input"
+                                           name="paymentType" disabled>
+                                    <label class="form-check-label" for="debit">신용카드</label>
+                                </div>
+                                <div class="form-check">
+                                    <input id="paypal" type="radio" class="form-check-input"
+                                           name="paymentType" disabled>
+                                    <label class="form-check-label" for="paypal">카카오페이</label>
+                                </div>
+                            </div>
+
+                            <div class="row gy-3">
+                                <div class="col-md-6">
+                                    <label for="deposit" class="form-label">계좌목록</label>
+                                    <select th:field="*{deposit}" th:errorclass="is-invalid" class="form-select" id="deposit" required>
+                                        <option value="">선택해주세요</option>
+                                        <option value="NH">농협</option>
+                                        <option value="SHINHAN">신한은행</option>
+                                        <option value="DAEGU">대구은행</option>
+                                        <option value="KUKMIN">국민은행</option>
+                                    </select>
+                                    <small class="text-muted">입금자 명은 회원님의 이름으로 입금해주세요.</small>
+                                    <div class="invalid-feedback" th:errors="*{deposit}">계좌선택 오류</div>
+                                </div>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <button class="w-100 btn btn-primary btn-lg" type="submit">주문하기</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"/>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="/js/util/findAddress.js"></script>
+<script src="/js/util/autoHyphen.js"></script>
+
+</body>
+</html>

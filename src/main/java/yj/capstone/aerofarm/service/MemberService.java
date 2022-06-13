@@ -22,31 +22,20 @@ public class MemberService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
 
-//    public boolean validateLogin(String email, String password) {
-//        return memberRepository.existsByEmailAndPwd(email,password);
-//    }
-
-    public Member findByEmail(String email) {
-        return memberRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));
-    }
-
     public boolean duplicateEmailCheck(String email) {
         return memberRepository.existsByEmail(email);
     }
 
     public void signup(SaveMemberForm saveMemberForm) {
-        saveMemberForm.setPhoneNumber(removeHyphenPhoneNumber(saveMemberForm.getPhoneNumber()));
         saveMemberForm.setPassword(passwordEncoder.encode(saveMemberForm.getPassword()));
 
         Member member = Member.saveMemberFormBuilder()
                 .saveMemberForm(saveMemberForm)
                 .build();
+
         confirmationTokenService.createEmailConfirmationToken(saveMemberForm.getEmail());
         memberRepository.save(member);
-    }
-
-    private String removeHyphenPhoneNumber(String phoneNumber) {
-        return phoneNumber.replace("-", "");
+        log.info("New member created. email = {}", saveMemberForm.getEmail());
     }
 
     public boolean duplicateNicknameCheck(String nickname) {
@@ -54,7 +43,7 @@ public class MemberService {
     }
 
     public boolean duplicatePhoneNumberCheck(String phoneNumber) {
-        return memberRepository.existsByPhoneNumber(removeHyphenPhoneNumber(phoneNumber));
+        return memberRepository.existsByPhoneNumber(phoneNumber);
     }
 
     public void confirmEmail(String token) {
@@ -68,7 +57,7 @@ public class MemberService {
     }
 
     public void deleteByEmail(String email) {
-        log.debug("Member is delete by email. Email: {}", email);
+        log.info("Member is delete. email = {}", email);
         memberRepository.deleteByEmail(email);
     }
 

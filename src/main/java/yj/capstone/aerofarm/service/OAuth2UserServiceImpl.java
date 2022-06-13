@@ -12,12 +12,10 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import yj.capstone.aerofarm.config.auth.dto.OAuthAttributes;
-import yj.capstone.aerofarm.config.auth.dto.SessionUser;
-import yj.capstone.aerofarm.dto.UserDetailsImpl;
+import yj.capstone.aerofarm.config.auth.dto.UserDetailsImpl;
 import yj.capstone.aerofarm.domain.member.Member;
 import yj.capstone.aerofarm.repository.MemberRepository;
 
-import javax.servlet.http.HttpSession;
 import java.util.UUID;
 
 @Service
@@ -28,7 +26,6 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
 
     private final BCryptPasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
-    private final HttpSession httpSession;
 
     /**
      * 기존 회원이 있으면 기존 회원의 정보를 그대로 받아오게 했음 (로그인만 되게)
@@ -51,7 +48,6 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
         Member member = saveOrUpdate(attributes);
-        httpSession.setAttribute("user", new SessionUser(member)); // SessionUser (직렬화된 dto 클래스 사용)
         log.info("{} has login.",member.getEmail());
         return new UserDetailsImpl(member, oAuth2User.getAttributes());
     }
@@ -71,7 +67,6 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
             log.debug("Member is already exist but not verified. Email: {}", attributes.getEmail());
             memberRepository.deleteByEmail(attributes.getEmail());
             log.debug("Member is delete by email. Email: {}", attributes.getEmail());
-            return saveOAuth2Member(attributes.toEntity());
         }
         return saveOAuth2Member(attributes.toEntity());
     }
