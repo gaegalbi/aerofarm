@@ -32,9 +32,7 @@ public class ProductRepositoryImpl extends Querydsl5RepositorySupport implements
                 .from(product)
                 .leftJoin(product.productReviews, productReview)
                 .groupBy(product.id, product.imageUrl, product.name, product.price)
-                .where(categoryEq(category))
-                .limit(pageable.getPageSize())
-                .offset(pageable.getOffset()),
+                .where(categoryEq(category)),
 
                 query -> query
                 .select(product.count())
