@@ -189,6 +189,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
 
   }
   bool loading = true;
+  bool floating= false;
   @override
   void initState() {
     _scrollController = ScrollController();
@@ -212,41 +213,24 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: CommunityPageFloating(id: widget.category,),
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: MainColor.six,
-        toolbarHeight: MainSize.toobarHeight,
-        elevation: 0,
-        leadingWidth: MediaQuery.of(context).size.width * 0.2106,
-        leading: Container(
-          margin:
-              EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
-          child: FittedBox(
-              child: Builder(
-            builder: (context) => IconButton(
-              padding: EdgeInsets.zero,
-              alignment: Alignment.center,
-              color: MainColor.three,
-              iconSize: 50,
-              constraints: const BoxConstraints(),
-              icon: const Icon(
-                Icons.menu,
-              ),
-              onPressed: () => Scaffold.of(context).openDrawer(),
-            ),
-          )),
-        ),
-        title: const Text(
-          "도시농부",
-          style: MainTheme.title,
-        ),
-        actions: [
-          Container(
-            margin: EdgeInsets.only(
-                right: MediaQuery.of(context).size.width * 0.05),
-            child: Builder(
+    return GestureDetector(
+      onDoubleTap: (){
+        setState((){
+          floating = !floating;
+        });},
+      child: Scaffold(
+        floatingActionButton: floating? CommunityPageFloating(id: widget.category,) : null,
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: MainColor.six,
+          toolbarHeight: MainSize.toobarHeight,
+          elevation: 0,
+          leadingWidth: MediaQuery.of(context).size.width * 0.2106,
+          leading: Container(
+            margin:
+                EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
+            child: FittedBox(
+                child: Builder(
               builder: (context) => IconButton(
                 padding: EdgeInsets.zero,
                 alignment: Alignment.center,
@@ -254,64 +238,87 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
                 iconSize: 50,
                 constraints: const BoxConstraints(),
                 icon: const Icon(
-                  Icons.home,
+                  Icons.menu,
                 ),
-                onPressed: () {
-                  Get.off(() => const MainPage());
-                },
+                onPressed: () => Scaffold.of(context).openDrawer(),
               ),
-            ),
-          )
-        ],
-      ),
-      drawer: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.75,
-        height: MediaQuery.of(context).size.height,
-        child: const Drawer(
-          backgroundColor: Colors.black,
-          child: CommunityPageDrawer(),
-        ),
-      ),
-      body: Container(
-        padding: EdgeInsets.fromLTRB(
-          MediaQuery.of(context).size.width * 0.04,
-          0,
-          MediaQuery.of(context).size.width * 0.04,
-          MediaQuery.of(context).size.width * 0.04,
-        ),
-        color: MainColor.six,
-        child: Column(
-          children: [
-            Container(
-                alignment: Alignment.topLeft,
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 0.03,
-                margin: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).size.height * 0.02),
-                child: Text(
-                  matchCategory[widget.category]!,
-                  style: CommunityPageTheme.title,
-                )),
+            )),
+          ),
+          title: const Text(
+            "도시농부",
+            style: MainTheme.title,
+          ),
+          actions: [
             Container(
               margin: EdgeInsets.only(
-                top: MediaQuery.of(context).size.height * 0.014,
+                  right: MediaQuery.of(context).size.width * 0.05),
+              child: Builder(
+                builder: (context) => IconButton(
+                  padding: EdgeInsets.zero,
+                  alignment: Alignment.center,
+                  color: MainColor.three,
+                  iconSize: 50,
+                  constraints: const BoxConstraints(),
+                  icon: const Icon(
+                    Icons.home,
+                  ),
+                  onPressed: () {
+                    Get.off(() => const MainPage());
+                  },
+                ),
               ),
-              height: MediaQuery.of(context).size.height * 0.69,
-              child: Column(children: [
-                !loading?Expanded(
-                    child: ListView.builder(
-                        controller: _scrollController,
-                        itemCount: boardList.length + 1,
-                        itemBuilder: (BuildContext context, int index) {
-                          if (index < boardList.length) {
-                            return boardList[index];
-                          } else {
-                            return Container();
-                          }
-                        })):const Expanded(child: Center(child: CircularProgressIndicator(color: MainColor.three,))),
-              ]),
-            ),
+            )
           ],
+        ),
+        drawer: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.75,
+          height: MediaQuery.of(context).size.height,
+          child: const Drawer(
+            backgroundColor: Colors.black,
+            child: CommunityPageDrawer(),
+          ),
+        ),
+        body: Container(
+          padding: EdgeInsets.fromLTRB(
+            MediaQuery.of(context).size.width * 0.04,
+            0,
+            MediaQuery.of(context).size.width * 0.04,
+            MediaQuery.of(context).size.width * 0.04,
+          ),
+          color: MainColor.six,
+          child: Column(
+            children: [
+              Container(
+                  alignment: Alignment.topLeft,
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * 0.03,
+                  margin: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).size.height * 0.02),
+                  child: Text(
+                    matchCategory[widget.category]!,
+                    style: CommunityPageTheme.title,
+                  )),
+              Container(
+                margin: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.014,
+                ),
+                height: MediaQuery.of(context).size.height * 0.69,
+                child: Column(children: [
+                  !loading?Expanded(
+                      child: ListView.builder(
+                          controller: _scrollController,
+                          itemCount: boardList.length + 1,
+                          itemBuilder: (BuildContext context, int index) {
+                            if (index < boardList.length) {
+                              return boardList[index];
+                            } else {
+                              return Container();
+                            }
+                          })):const Expanded(child: Center(child: CircularProgressIndicator(color: MainColor.three,))),
+                ]),
+              ),
+            ],
+          ),
         ),
       ),
     );
