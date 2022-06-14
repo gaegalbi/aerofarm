@@ -35,6 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/login/**",
             "/signup/**",
             "/community",
+            "/community/**", // TEST
             "/css/**",
             "/js/**",
             "/image/**",

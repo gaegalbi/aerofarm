@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"/>
+<style>
+    @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+        }
+    }
+
+    body {
+        background-color: #131825;
+    }
+
+    a {
+        text-decoration: none;
+        color: #FFFFFF
+    }
+
+    .blog-footer p:last-child {
+        margin-bottom: 0;
+    }
+
+    .body-color {
+        background-color: #131825;
+    }
+
+    .body-font-color {
+        color: #FFFFFF;
+    }
+
+    .body-line {
+        border-style: solid;
+        border-color: #FFFFFF;
+    }
+
+    .button-margin {
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+
+    .post-title {
+        font-size: 1.5em;
+        margin-bottom: 10px;
+    }
+
+    .user-info {
+        font-size: 0.8em;
+    }
+
+    .user-info-border {
+        border-style: solid;
+        border-width: 0px 0px 2px 0px;
+        border-color: #FFFFFF;
+        padding-bottom: 20px;
+    }
+
+    .post-content {
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+
+    .post-comment {
+        border-style: solid;
+        border-width: 2px 0px 0px 0px;
+        border-color: #FFFFFF;
+        padding-top: 20px;
+    }
+</style>
+<body class="d-flex flex-column min-vh-100">
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
+<div class="container">
+    <main>
+        <input type="hidden" id="post-id" th:value="${selectPost.id}"/>
+        <input type="hidden" id="post-category" th:value="${selectPostCategory}"/>
+        <div class="row">
+            <div class="col-lg-6 col-sm-12 text-lg-start">
+                <button type="button" class="btn btn-secondary button-margin" th:onclick="|location.href='@{/community/{category}?page=1(category=${selectPostCategory})}'|" th:text="목록"/>
+            </div>
+            <div class="col-lg-6 col-sm-12 text-lg-end" id="like-area">
+                <button type="button" class="btn btn-secondary button-margin" onclick="location.href='/community/writing'" th:text="답글"/>
+                <input type="checkbox" class="btn-check" id="likeButton" th:checked="${isSelected} != 0">
+                <label class="btn btn-outline-danger button-margin" for="likeButton" th:text="'♡ ' + ${postLikeInfo.getLikeCount()}"/><br>
+            </div>
+        </div>
+        <!--사각 영역-->
+        <div class="card card-body body-color body-font-color body-line">
+            <!--제목-->
+            <div class="row">
+                <div class="post-title col-11" th:utext="'&lt;b&gt;' + ${selectPost.title} + '&lt;/b&gt;'"/>
+                <div class="col-1" th:text="|조회수 : ${selectPost.getViews()}|"/>
+            </div>
+            <!--회원 정보-->
+            <div class="user-info-border">
+                <table>
+                    <tbody class="user-info">
+                        <tr>
+                            <td rowspan="2" width="50" height="40" style="text-align: center">
+                                <img src="/image/test_icon.png" class="rounded-circle" style="width: 35px; height: 35px">
+                            </td>
+                            <td th:utext="${selectPost.writer}"/>
+                        </tr>
+                        <tr>
+                            <td th:text="${#temporals.format(selectPost.localDateTime, 'yyyy-MM-dd HH:mm:ss')}"/>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--게시글 내용 영역-->
+            <div class="post-content">
+                <span th:utext="${selectPost.contents}"></span>
+            </div>
+            <!--댓글 영역-->
+            <div id="comment-area">
+                <div class="post-comment">
+                    <div class="input-group" style="padding-bottom: 20px">
+                        <span class="input-group-text">댓글</span>
+                        <textarea class="form-control" aria-label="comment" id="comment"></textarea>
+                        <button type="button" class="btn btn-secondary" style="margin-left: 10px" id="btn-createComment" th:text="쓰기"/>
+                    </div>
+                    <table>
+                        <tbody class="user-info" th:each="commentDto : ${pageableList.getContent()}">
+                        <tr>
+                            <td rowspan="3" width="50" height="40">
+                                <img src="/image/test_icon.png" class="rounded-circle" style="width: 40px; height: 40px">
+                            </td>
+                            <td th:utext="'&lt;b&gt;' + ${commentDto.writer} + '&lt;/b&gt;'"/>
+                        </tr>
+                        <tr>
+                            <td th:text="${commentDto.content}"/>
+                        </tr>
+                        <tr>
+                            <td th:text="${#temporals.format(commentDto.localDateTime, 'yyyy.MM.dd HH:mm')}"/>
+                            <td><a href="#">댓글 달기</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <!--답글 영역--><!--
+                    <table>
+                        <tbody class="user-info">
+                        <tr>
+                            <td rowspan="3" width="50" height="40" style="text-align: center">⤷</td>
+                            <td rowspan="3" width="50" height="40">
+                                <img src="/image/test_icon.png" class="rounded-circle" style="width: 40px; height: 40px">
+                            </td>
+                            <td>닉네임</td>
+                        </tr>
+                        <tr>
+                            <td>이 곳은 답글 내용이 들어갈 자리입니다.</td>
+                        </tr>
+                        <tr>
+                            <td>2022-05-17 10:36</td>
+                        </tr>
+                        </tbody>
+                    </table>-->
+                </div>
+            </div>
+            <div class="container">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item" th:classappend="${pageableList.isFirst()} ? 'disabled' : ''">
+                            <a class="page-link" href="#" th:href="@{${selectPost.getId().toString()}(page=${pageableList.getNumber()-1})}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item" th:classappend="${pageableList.getNumber() == 1} ? 'active' : ''">
+                            <a class="page-link" th:href="@{${selectPost.getId().toString()}(page=1)}">1</a>
+                        </li>
+                        <li class="page-item" th:if="${pageableList.isMoreLeft()}"><a class="page-link">...</a></li>
+
+                        <li class="page-item" th:classappend="${pageableList.getNumber() == num} ? 'active' : ''" th:if="${pageableList.getTotalPage()} > 2" th:each="num : ${#numbers.sequence(pageableList.getListMin(),pageableList.getListMax())}">
+                            <a class="page-link" href="#" th:href="@{${selectPost.getId().toString()}(page=${num})}" th:text="${num}">1</a>
+                        </li>
+
+                        <li class="page-item" th:if="${pageableList.isMoreRight()}"><a class="page-link">...</a></li>
+                        <li class="page-item" th:classappend="${pageableList.getNumber() == pageableList.getTotalPage()} ? 'active' : ''" th:unless="${pageableList.isFirst()} and ${pageableList.isLast()}"><a class="page-link" th:href="@{${selectPost.getId().toString()}(page=${pageableList.getTotalPage()})}" th:text="${pageableList.getTotalPage()}">99</a></li>
+
+                        <li class="page-item" th:classappend="${pageableList.isLast()} ? 'disabled' : ''">
+                            <a class="page-link" href="#" th:href="@{${selectPost.getId().toString()}(page=${pageableList.getNumber()+1})}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div>
+            <button type="button" class="btn btn-secondary button-margin" th:onclick="|location.href='@{/community/{category}?page=1(category=${selectPostCategory})}'|" th:text="목록"/>
+            <button type="button" class="btn btn-secondary button-margin" onclick="window.scrollTo(0,0);" th:text="TOP"/>
+        </div>
+    </main>
+</div>
+<div th:replace="~{fragments/footer :: footer}"/>
+
+<script src="/js/community/eventsLike.js"></script>
+<script src="/js/community/createComment.js"></script>
+</body>
+</html>

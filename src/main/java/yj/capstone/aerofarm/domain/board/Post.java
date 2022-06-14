@@ -1,8 +1,10 @@
 package yj.capstone.aerofarm.domain.board;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import yj.capstone.aerofarm.form.PostForm;
 import yj.capstone.aerofarm.domain.BaseEntity;
 import yj.capstone.aerofarm.domain.member.Member;
 
@@ -36,7 +38,8 @@ public class Post extends BaseEntity {
 
     private String title;
 
-    @Enumerated(EnumType.STRING)
+//    @Enumerated(EnumType.STRING)
+    @Convert(converter = CategoryConverter.class)
     private PostCategory category;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -55,7 +58,27 @@ public class Post extends BaseEntity {
     // 조회수
     private int views;
 
-    // 추천수
-    private int likes;
+    // 삭제 여부
+    private boolean deleteTnF;
 
+    @Builder(builderClassName = "PostBuilder", builderMethodName = "postBuilder")
+    public Post(PostForm postForm, Member writer) {
+        this.writer = writer;
+        this.title = postForm.getTitle();
+        this.content = PostDetail.createPostDetail(postForm.getContents());
+        this.category = PostCategory.findByLowerCase(postForm.getCategory());
+    }
+
+    @Builder(builderClassName = "PostParentBuilder", builderMethodName = "postParentBuilder")
+    public Post(PostForm postForm, Member writer, Post parent) {
+        this.writer = writer;
+        this.title = postForm.getTitle();
+        this.content = PostDetail.createPostDetail(postForm.getContents());
+        this.category = PostCategory.findByLowerCase(postForm.getCategory());
+        this.parent = parent;
+    }
+
+    public void updateViews(int views) {
+        this.views = views;
+    }
 }

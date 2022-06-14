@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"/>
+<style>
+    body {
+        background-color: #1C273A;
+    }
+
+    .form-margin {
+        margin-top: 10px;
+    }
+
+</style>
+<body>
+<br><h2 style="text-align: center; color: #FFFFFF">게시글 작성</h2><br>
+    <div class="container">
+        <div class="input-group" style="width: 80%; margin: auto">
+            <div class="input-group mb-3" style="width: 35%; margin-right: 20px">
+                <label class="input-group-text" for="category">CATEGORY</label>
+                <select class="form-select" id="category">
+                    <option selected>카테고리를 선택해주세요.</option>
+                    <option value="free">자유게시판</option>
+                    <option value="information">정보게시판</option>
+                    <option value="question">질문게시판</option>
+                    <option value="picture">사진게시판</option>
+                    <option value="trade">거래게시판</option>
+                </select>
+            </div>
+            <div class="input-group mb-3" style="width: 35%; margin-right: 20px">
+                <label class="input-group-text" for="inputGroupSelect02">CLASSIFICATION</label>
+                <select class="form-select" id="inputGroupSelect02">
+                    <option selected>분류를 선택해주세요.</option>
+                    <option value="1">일반</option>
+                    <option value="2">취미</option>
+                    <option value="3">게임</option>
+                    <option value="4">일상</option>
+                    <option value="5">여행</option>
+                </select>
+            </div>
+        </div>
+        <div class="input-group mb-3" style="width: 80%; margin: auto">
+            <span class="input-group-text">Title</span>
+            <input id="title" type="text" class="form-control" placeholder="제목" aria-label="Title" aria-describedby="basic-addon1">
+        </div>
+        <div style="width: 80%; margin: auto; background-color: #FFFFFF">
+            <form method="post">
+                <textarea id="summernote" name="content"></textarea>
+            </form>
+        </div>
+        <div style="width: 80%; margin: auto">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end form-margin">
+                <button type="button" class="btn btn-secondary" onclick="location.href='/community/free?page=1'">취소</button>
+                <button type="button" class="btn btn-secondary" id="btn-createPost">글 작성</button>
+            </div>
+        </div>
+    </div>
+<div th:replace="~{fragments/footer :: footer}"/>
+<script src="/js/community/createPost.js"></script>
+<!--글 쓰기 헤더 정의-->
+<!-- include libraries(jQuery, bootstrap) -->
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" />
+<!--    <script type="text/javascript" src="http://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- include summernote css/js-->
+<link href="/css/summernote/summernote-lite.css" rel="stylesheet">
+<script src="/js/summernote/summernote-lite.js"></script>
+<!-- include summernote-ko-KR -->
+<script src="/js/summernote/summernote-ko-KR.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#summernote').summernote({
+            placeholder: 'content',
+            minHeight: 400,
+            maxHeight: null,
+            focus: true,
+            lang : 'ko-KR'
+        });
+    });
+</script>
+<!--글 쓰기 헤더 정의 끝-->
+</body>
+</html>

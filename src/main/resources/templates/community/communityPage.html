@@ -80,24 +80,25 @@
 <body class="d-flex flex-column min-vh-100">
 <div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
 <nav style="background-color: #1C273A">
+    <!--카테고리 헤더-->
     <div class="container">
         <div class="py-1">
             <nav class="d-flex justify-content-start">
-                <a class="p-2 post-header" href="#">공지사항</a>
-                <a class="p-2 post-header" href="#">자유게시판</a>
-                <a class="p-2 post-header" href="#">정보게시판</a>
-                <a class="p-2 post-header" href="#">질문게시판</a>
-                <a class="p-2 post-header" href="#">사진게시판</a>
-                <a class="p-2 post-header" href="#">거래게시판</a>
+                <a class="p-2 post-header" href="announcement?page=1">공지사항</a>
+                <a class="p-2 post-header" href="free?page=1">자유게시판</a>
+                <a class="p-2 post-header" href="information?page=1">정보게시판</a>
+                <a class="p-2 post-header" href="question?page=1">질문게시판</a>
+                <a class="p-2 post-header" href="picture?page=1">사진게시판</a>
+                <a class="p-2 post-header" href="trade?page=1">거래게시판</a>
             </nav>
         </div>
     </div>
 </nav>
 <div class="container">
     <main>
-        <div class="community-category">
-            <a>전체게시판</a>
-        </div>
+        <!--카테고리 표시-->
+        <div class="community-category" th:text="${selectCategory.getName()}"/>
+        <!--필터링 헤더-->
         <div class="filtering">
             <a class="p-2 post-header" href="#">전체</a>
             <a class="p-2 post-header" href="#">일반</a>
@@ -107,10 +108,11 @@
             <a class="p-2 post-header" href="#">여행</a>
         </div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button type="button" class="btn btn-primary">글쓰기</button>
+            <button type="button" class="btn btn-primary" onclick="location.href='/community/writing'" th:text="글쓰기"/>
         </div>
     </main>
 </div>
+<!--목록 표시-->
 <div class="container">
     <table id="post-events" class="table f-color-w">
         <thead>
@@ -124,116 +126,61 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="postDto: ${postDtos}">
-            <td class="f-filter-color-b">분류1</td>
-            <td class="title-f-sort" th:text="${postDto.title}">글제목</td>
-            <td th:text="${postDto.writer}">작성자</td>
-            <td th:text="${#temporals.format(postDto.localDateTime, 'yyyy.MM.dd HH:mm:ss')}">2022-05-09</td>
-            <td th:text="${postDto.likes}">추천수</td>
-            <td th:text="${postDto.views}">조회수</td>
+        <tr th:each="postDto : ${pageableList.getContent()}" th:onclick="|location.href='@{/community/{category}/{id}(category=${postDto.category.getLowerCase()}, id=${postDto.id})}'|">
+            <td class="f-filter-color-b">일반</td> <!--추후 변수로 받아오기로 변경 필요-->
+            <td class="title-f-sort" th:text="|${postDto.getTitle()}(${postDto.getCommentCount()==null ? '0' : postDto.getCommentCount()})|"/>
+            <td class="writer" th:text="${postDto.getWriter()}"/>
+            <td class="date" th:text="${#temporals.format(postDto.getCreateDate(), 'yyyy.MM.dd HH:mm')}"/>
+            <td class="likes" th:text="${postDto.getLikeCount()==null} ? '0' : ${postDto.getLikeCount()}"/> <!-- 좋아요 대체 필요-->
+            <td class="views" th:text="${postDto.getViews()}"/>
         </tr>
-        <!--<tr>
-            <td class="f-filter-color-b">분류1</td>
-            <td class="title-f-sort">이것은 제목 입니다</td>
-            <td>관리자</td>
-            <td>2022-05-09</td>
-            <td>555</td>
-            <td>999</td>
-        </tr>
-        <tr>
-            <td class="f-filter-color-b">분류1</td>
-            <td class="title-f-sort">이것은 제목 입니다</td>
-            <td>관리자</td>
-            <td>2022-05-09</td>
-            <td>555</td>
-            <td>999</td>
-        </tr>
-        <tr>
-            <td class="f-filter-color-b">분류1</td>
-            <td class="title-f-sort">이것은 제목 입니다</td>
-            <td>관리자</td>
-            <td>2022-05-09</td>
-            <td>555</td>
-            <td>999</td>
-        </tr>
-        <tr>
-            <td class="f-filter-color-b">분류1</td>
-            <td class="title-f-sort">이것은 제목 입니다</td>
-            <td>관리자</td>
-            <td>2022-05-09</td>
-            <td>555</td>
-            <td>999</td>
-        </tr>
-        <tr>
-            <td class="f-filter-color-b">분류1</td>
-            <td class="title-f-sort">이것은 제목 입니다</td>
-            <td>관리자</td>
-            <td>2022-05-09</td>
-            <td>555</td>
-            <td>999</td>
-        </tr>
-        <tr>
-            <td class="f-filter-color-b">분류1</td>
-            <td class="title-f-sort">이것은 제목 입니다</td>
-            <td>관리자</td>
-            <td>2022-05-09</td>
-            <td>555</td>
-            <td>999</td>
-        </tr>
-        <tr>
-            <td class="f-filter-color-b">분류1</td>
-            <td class="title-f-sort">이것은 제목 입니다</td>
-            <td>관리자</td>
-            <td>2022-05-09</td>
-            <td>555</td>
-            <td>999</td>
-        </tr>
-        <tr>
-            <td class="f-filter-color-b">분류1</td>
-            <td class="title-f-sort">이것은 제목 입니다</td>
-            <td>관리자</td>
-            <td>2022-05-09</td>
-            <td>555</td>
-            <td>999</td>
-        </tr>
-        <tr>
-            <td class="f-filter-color-b">분류1</td>
-            <td class="title-f-sort">이것은 제목 입니다</td>
-            <td>관리자</td>
-            <td>2022-05-09</td>
-            <td>555</td>
-            <td>999</td>
-        </tr>
-        <tr>
-            <td class="f-filter-color-b">분류1</td>
-            <td class="title-f-sort">이것은 제목 입니다</td>
-            <td>관리자</td>
-            <td>2022-05-09</td>
-            <td>555</td>
-            <td>999</td>
-        </tr>-->
         </tbody>
     </table>
 </div>
+<!--페이징 번호 표시-->
 <div class="container">
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
+            <li class="page-item" th:classappend="${pageableList.isFirst()} ? 'disabled' : ''">
+                <a class="page-link" href="#" th:href="@{${selectCategory.getLowerCase()}(page=${pageableList.getNumber()-1})}" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
+            <li class="page-item" th:classappend="${pageableList.getNumber() == 1} ? 'active' : ''">
+                <a class="page-link" th:href="@{${selectCategory.getLowerCase()}(page=1)}">1</a>
+            </li>
+            <li class="page-item" th:if="${pageableList.isMoreLeft()}"><a class="page-link">...</a></li>
+
+            <li class="page-item" th:classappend="${pageableList.getNumber() == num} ? 'active' : ''" th:if="${pageableList.getTotalPage()} > 2" th:each="num : ${#numbers.sequence(pageableList.getListMin(),pageableList.getListMax())}">
+                <a class="page-link" href="#" th:href="@{${selectCategory.getLowerCase()}(page=${num})}" th:text="${num}">1</a>
+            </li>
+
+            <li class="page-item" th:if="${pageableList.isMoreRight()}"><a class="page-link">...</a></li>
+            <li class="page-item" th:classappend="${pageableList.getNumber() == pageableList.getTotalPage()} ? 'active' : ''" th:unless="${pageableList.isFirst()} and ${pageableList.isLast()}"><a class="page-link" th:href="@{${selectCategory.getLowerCase()}(page=${pageableList.getTotalPage()})}" th:text="${pageableList.getTotalPage()}">99</a></li>
+
+            <li class="page-item" th:classappend="${pageableList.isLast()} ? 'disabled' : ''">
+                <a class="page-link" href="#" th:href="@{${selectCategory.getLowerCase()}(page=${pageableList.getNumber()+1})}" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
         </ul>
     </nav>
 </div>
+<div class="container">
+    <div class="input-group mb-3" style="width: 40%; margin: auto">
+        <div>
+            <select class="form-select" id="search_category">
+                <option value="title" selected>제목</option>
+                <option value="writer">작성자</option>
+            </select>
+        </div>
+        <div style="margin-left: 10px; width: 300px"><input id="keyword" type="text" class="form-control" placeholder="키워드" aria-label="keywords" aria-describedby="basic-addon1"></div>
+        <div style="margin-left: 10px"><button type="button" class="btn btn-primary" th:onclick="searchPost()" th:text="검색"/></div>
+        <input type="hidden" id="hidden_category" th:value="${selectCategory.getLowerCase()}"/>
+    </div>
+</div>
 <div th:replace="~{fragments/footer :: footer}"/>
+
+<script src="/js/community/searchPost.js"></script>
 </body>
 </html>
