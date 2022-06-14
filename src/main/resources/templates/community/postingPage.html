@@ -78,7 +78,7 @@
                 <button type="button" class="btn btn-secondary button-margin" th:onclick="|location.href='@{/community/{category}?page=1(category=${selectPostCategory})}'|" th:text="목록"/>
             </div>
             <div class="col-lg-6 col-sm-12 text-lg-end" id="like-area">
-                <button type="button" class="btn btn-secondary button-margin" onclick="location.href='/community/writing'" th:text="답글"/>
+                <button type="button" class="btn btn-secondary button-margin" th:onclick="|location.href='@{/writing?postId={postId}(postId=${selectPost.id})}'|" th:text="답글"/>
                 <input type="checkbox" class="btn-check" id="likeButton" th:checked="${isSelected} != 0">
                 <label class="btn btn-outline-danger button-margin" for="likeButton" th:text="'♡ ' + ${postLikeInfo.getLikeCount()}"/><br>
             </div>

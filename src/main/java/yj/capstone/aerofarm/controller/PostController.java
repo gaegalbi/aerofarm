@@ -66,15 +66,16 @@ public class PostController {
     }
 
     // 글쓰기 페이지
-    @GetMapping("/community/writing")
-    public String community_writing() {
+    @GetMapping("/writing")
+    public String community_writing(@RequestParam(required = false) Long postId, Model model) {
 
+        if (postId != null) model.addAttribute("selectPostId", postId);
         return "/community/writingPage";
     }
 
     // 글쓰기 로직
     @ResponseBody
-    @PostMapping("/community/createPost")
+    @PostMapping("/createPost")
     @PreAuthorize("hasAnyAuthority('GUEST')")
     public Long createPost(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody PostForm postForm) {
         return postService.createPost(userDetails.getMember(), postForm).getId();
@@ -90,7 +91,7 @@ public class PostController {
 
     // 게시글 안에서 댓글쓰기
     @ResponseBody
-    @PostMapping("/community/createComment")
+    @PostMapping("/createComment")
     @PreAuthorize("hasAnyAuthority('GUEST')")
     public Long createComment(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody CommentForm commentForm) {
         return postService.createComment(userDetails.getMember(), commentForm).getId();
@@ -98,7 +99,7 @@ public class PostController {
 
     // 좋아요 로직
     @ResponseBody
-    @PostMapping("/community/createLike")
+    @PostMapping("/createLike")
     @PreAuthorize("hasAnyAuthority('GUEST')")
     public Long createLike(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody PostLikeDto postLikeDto) {
         return postService.createLike(userDetails.getMember(), postLikeDto).getId();
@@ -106,7 +107,7 @@ public class PostController {
 
     // 좋아요 취소 로직
     @ResponseBody
-    @PostMapping("/community/deleteLike")
+    @PostMapping("/deleteLike")
     @PreAuthorize("hasAnyAuthority('GUEST')")
     public Long deleteLike(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody PostLikeDto postLikeDto) {
         if (userDetails.getMember() == null) return null;
