@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
@@ -7,6 +8,7 @@ import '../CommunityPageCustomLib/CustomQuillToolbar.dart';
 import '../CommunityPageCustomLib/CustomRadioButton.dart';
 import 'package:http/http.dart' as http;
 
+import '../LoginPage/LoginPageLogin.dart';
 import 'CommunityPageForm.dart';
 
 class CommunityPageCreatePost extends StatefulWidget {
@@ -49,7 +51,8 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
   late quill.QuillController _controller;
   late ScrollController _scrollController;
   late ScrollController _scrollController1;
-  late TextEditingController _textEditingController;
+  // late TextEditingController _contentsController;
+  late TextEditingController _titleController;
   late final FocusNode focusNode;
 
   quill.OnImagePickCallback? onImagePickCallback;
@@ -59,34 +62,14 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
   quill.WebImagePickImpl? webImagePickImpl;
   quill.WebVideoPickImpl? webVideoPickImpl;
 
-/*  Future<http.Response> _postRequest(String title,String writer, String category) {
-    return http.post(
-      Uri.http('172.25.2.57:8080', '/community/createPost'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'title': title,
-        'writer' : writer,
-        'category' : category
-      }),
-    );
-  }*/
-/*
-
-  void _postRequest(String title, String writer,String category) async {
-    http.Response response = await http.post(
-      Uri.http('172.25.2.57:8080', '/community/createPost'),
-      headers: <String, String> {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      //headers: {"Content-Type": "application/json"},
-      body: SendPost(title: title, writer: writer, category: category),
-    );
-    print("work");
-  }
-
-*/
+  var data = <String, dynamic>{};
+  final Map<String, String> matchCategory = {
+    "자유 게시판":"free",
+    "정보 게시판":"information",
+    "질문 게시판":"question",
+    "사진 게시판" : "picture",
+    "거래 게시판":"trade"
+  };
 
   @override
   void initState() {
@@ -97,7 +80,8 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
     );
     _scrollController = ScrollController();
     _scrollController1 = ScrollController();
-    _textEditingController = TextEditingController();
+    // _contentsController = TextEditingController();
+    _titleController = TextEditingController();
     focusNode = FocusNode();
     super.initState();
   }
@@ -107,7 +91,8 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
     _controller.dispose();
     _scrollController.dispose();
     _scrollController1.dispose();
-    _textEditingController.dispose();
+    // _contentsController.dispose();
+    _titleController.dispose();
     super.dispose();
   }
 
@@ -185,6 +170,25 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
             ),
             child: TextButton(
                 onPressed: () async {
+                  data = {
+                    "category":matchCategory[groupValue],
+                    "title":_titleController.text,
+                    "contents":_controller.document.toPlainText(),
+                  };
+                  //print(matchCategory[groupValue]);
+                  // print(_contentsController.text);
+                  var body = json.encode(data);
+
+                  await http.post(
+                    Uri.http('127.0.0.1:8080', '/community/createPost'),
+                    headers: {
+                      "Content-Type": "application/json",
+                      "Cookie":"JSESSIONID=$session",
+                    },
+                    encoding: Encoding.getByName('utf-8'),
+                    body: body,
+                  );
+
                 /*  Future<http.Response> fetchPost() {
                     return http.post(
                       Uri.http('172.25.2.57:8080', '/community/test123'),
@@ -192,10 +196,10 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                       headers: {HttpHeaders.authorizationHeader: "Basic your_api_token_here"},
                     );
                   }*/
-                  http.Response _res = await http.get(
+                 /* http.Response _res = await http.get(
                     Uri.http('172.25.2.57:8080', '/login'),
                   );
-                  print(_res.body);
+                  print(_res.body);*/
                 },
                 child: const Text(
                   "등록",
@@ -405,14 +409,15 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                         border: Border(
                       bottom: BorderSide(width: 2, color: Colors.white),
                     )),
-                    child: const TextField(
+                    child: TextField(
+                        controller: _titleController,
                         textInputAction: TextInputAction.next,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontFamily: "bmPro",
                           fontSize: 25,
                           color: Colors.white,
                         ),
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           contentPadding: EdgeInsets.zero,
                           filled: true,
                           fillColor: Colors.transparent,
@@ -436,6 +441,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                     right: contentPadding,
                     left: contentPadding),
                 child: quill.QuillEditor(
+
                   keyboardAppearance: Brightness.dark,
                   textCapitalization: TextCapitalization.none,
                   focusNode: focusNode,

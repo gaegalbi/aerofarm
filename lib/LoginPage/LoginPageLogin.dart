@@ -8,16 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
-import 'package:url_launcher/url_launcher.dart';
-
 import 'package:http/http.dart' as http;
-import 'package:html/parser.dart' as parser;
-import 'package:html/dom.dart' as dom;
 
-
-var name;
-var isLogin;
+late String? session;
+late String name;
+late bool isLogin;
 
 class LoginPageLoginRegister extends StatefulWidget {
   const LoginPageLoginRegister({Key? key}) : super(key: key);
@@ -30,6 +27,8 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
   late TextEditingController _lUserNameController;
   late TextEditingController _lPasswordController;
   final String _kakaoNative = 'cf0a2321116751cad7b6b470377c39b3';
+
+  var data = <String, dynamic>{};
 
   @override
   void initState() {
@@ -83,18 +82,12 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                 try{
                   final response = await http
                       .get(Uri.http('127.0.0.1:8080', '/login'));
-                  //dom.Document document = parser.parse(response.body);
-                  //dom.Element? keywordElements = document.querySelector('.flutter-login');
-
-
-                 //String? token = keywordElements?.outerHtml.substring(63,99);
-                  String? session = response.headers['set-cookie']?.substring(11,43);
-
-                  var map = <String, dynamic>{};
-                  map['email'] = '217wjs@naver.com';
-                  map['password'] = '12';
-                  //map['_csrf'] = token;
-
+                  session = response.headers['set-cookie']?.substring(11,43);
+                  data = {
+                    'email' :_lUserNameController.text,
+                    'password' : _lPasswordController.text,
+                    'remember-me' : "true"
+                  };
                   final response1 = await http.post(
                     Uri.http('127.0.0.1:8080', '/login'),
                     headers: {
@@ -102,75 +95,22 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                       "Cookie":"JSESSIONID=$session",
                     },
                     encoding: Encoding.getByName('utf-8'),
-                    body: map,
+                    body: data,
                   );
 
-                 /* print(token);
-                  dom.Document document1 = parser.parse(response3.body);
-                  dom.Element? keywordElements1 = document1.querySelector('._csrf');
-                  //print(keywordElements1?.outerHtml);
-                  token = keywordElements1?.outerHtml.substring(42,78);*/
-                  //print(response1.headers);
-
-                  session = response1.headers['set-cookie']?.substring(11,43);
-
-                  //print(response1.headers);
-                  //var headers = response1.headers;
-                  //print(headers);
-                  //print(session);
-                  var map1 = <String, dynamic>{};
-                  map1['category'] = "free";
-                  map1['title'] = "플러터 글쓰기제목";
-                  map1['contents'] = "플러터 글쓰기내용";
-                  var body = json.encode(map1);
-
-                  print(body);
-                  //printWrapped(document2.outerHtml);
-                  final response2 = await http.post(
-                    Uri.http('127.0.0.1:8080', '/community/createPost'),
-                    headers: {
-                    "Content-Type": "application/json",
-                    "Cookie":"JSESSIONID=$session",
-                  },
-                    encoding: Encoding.getByName('utf-8'),
-                    body: body,
-                  );
-                  dom.Document document2 = parser.parse(response2.body);
-                  print(document2.outerHtml);
-
-                  //print(response1.body);
-                  //print(keywordElements);
-                  //printWrapped(response.body);
-                  //print(response.body);
-                  //print(response.headers);
-
-
-                    //final authToken = cookies[1].split(';')[0]; //it depends on how your server sending cookie
-                    //save this authToken in local storage, and pass in further api calls.
-
-                    //aToken = authToken; //saving this to global variable to refresh current api calls to add cookie.
-                    //print(authToken);
-
-
-                  /*final response = await http
-                      .get(Uri.http('172.25.2.57:8080', '/login'));
-                  if (response.statusCode == 200) {
-                    print(response.headers);
+                  if(response1.statusCode ==200){
+                    print("error"); //post 응답이 있으면 안됨
+                    _lUserNameController.text="";
+                    _lPasswordController.text="";
+                    //팝업 띄우기
                   }else{
-                    print("notwork");
-                  }*/
-                  /*final response = await http.post(
-                    Uri.http('172.25.2.57:8080', '/community/createPost'),
-                    headers: <String, String>{
-                      'Content-Type': 'application/json; charset=UTF-8',
-                      'Cookie': 'JSESSIONID=123123123'
-                    },
-                  );*/
-
+                    print("work"); //정상동작
+                    session = response1.headers['set-cookie']?.substring(11,43);
+                    Get.offAll(()=>const MainPage());
+                  }
                 }catch(error){
                   print(error);
                 }
-
               },
               child: const Text(
                 "도시농부 아이디로 로그인하기",
@@ -329,16 +269,16 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
               IconButton(
                 padding: EdgeInsets.zero,
                 onPressed: () async {
-                  launchUrl(
+                /*  launchUrl(
                     Uri.parse('http://localhost:8080/oauth2/authorization/google'),
-                  );
-                /*  http.Response _res = await http.get(
+                  );*/
+                  http.Response _res = await http.get(
                     Uri.http('172.25.2.57:8080', 'login/oauth2/code/google'),
                    // Uri.http('172.25.2.57:8080', '/login'),
                   );
-                  print(_res);*/
+                  print(_res);
                   //http://127.0.0.1:8080/login/oauth2/code/google
-                  /*try {
+                  try {
                     GoogleSignIn _googleSignIn = GoogleSignIn();
                     GoogleSignInAccount? _googleUser =
                         await _googleSignIn.signIn();
@@ -348,7 +288,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                     }
                   } catch (error) {
                     print(error);
-                  }*/
+                  }
                 },
                 icon: Image.asset("assets/google/google_circle.png"),
               ),
