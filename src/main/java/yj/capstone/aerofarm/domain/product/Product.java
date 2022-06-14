@@ -62,7 +62,7 @@ public class Product extends BaseEntity {
     public void decreaseStock(int quantity) {
         // 재고 수보다 주문 수가 많을 때
         if (stock.getStock() < quantity) {
-            throw new IllegalArgumentException("재고가 부족 합니다.");
+            throw new IllegalArgumentException("재고가 부족합니다.");
         }
         stock = stock.decreaseStock(quantity);
     }

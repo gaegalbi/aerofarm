@@ -8,7 +8,6 @@ import javax.validation.constraints.Pattern;
 @Setter
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class CheckoutForm {
 
     private boolean saveAddress;
@@ -36,6 +35,19 @@ public class CheckoutForm {
 
     @NotBlank(message = "입금 계좌를 선택해주세요.")
     private String deposit;
+
+    @Builder
+    public CheckoutForm(boolean saveAddress, String paymentType, String receiver, String phoneNumber, String address1, String address2, String extraAddress, String zipcode, String deposit) {
+        this.saveAddress = saveAddress;
+        this.paymentType = paymentType;
+        this.receiver = receiver;
+        this.phoneNumber = phoneNumber;
+        this.address1 = address1;
+        this.address2 = address2;
+        this.extraAddress = extraAddress;
+        this.zipcode = zipcode;
+        this.deposit = deposit;
+    }
 
     // radio button 기본값 설정 위함
     public CheckoutForm(String paymentType) {

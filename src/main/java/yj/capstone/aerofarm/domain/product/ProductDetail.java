@@ -1,11 +1,13 @@
 package yj.capstone.aerofarm.domain.product;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class ProductDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,10 +15,6 @@ public class ProductDetail {
 
     // 상품의 상세 정보
     private String contents;
-
-    public ProductDetail() {
-
-    }
 
     public ProductDetail(String contents) {
         this.contents = contents;

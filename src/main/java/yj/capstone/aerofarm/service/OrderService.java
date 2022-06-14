@@ -1,9 +1,13 @@
 package yj.capstone.aerofarm.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import yj.capstone.aerofarm.dto.CartDto;
+import yj.capstone.aerofarm.dto.OrderInfoDto;
 import yj.capstone.aerofarm.form.CheckoutForm;
 import yj.capstone.aerofarm.domain.member.Member;
 import yj.capstone.aerofarm.domain.order.Order;
@@ -51,5 +55,27 @@ public class OrderService {
         }
 
         return order.getId();
+    }
+
+    public Page<OrderInfoDto> findOrderInfoByMemberId(Long memberId, Integer page) {
+        // Page가 0부터 시작하기 때문에 -1 해줌
+        PageRequest pageRequest = PageRequest.of(page - 1, 10);
+        return orderRepository.findOrderInfoDto(pageRequest, memberId);
+    }
+
+    public Order findByUuid(String uuid) {
+        return orderRepository.findByUuid(uuid).orElseThrow(() -> new IllegalArgumentException("해당 주문이 없습니다."));
+    }
+
+    private boolean verifyOrderOwner(String uuid, Member member) {
+        return orderRepository.existsByUuidAndOrderer(uuid, member);
+    }
+
+    public void reviewOrder(String uuid, Member member) {
+        if (verifyOrderOwner(uuid, member)) {
+            findByUuid(uuid).reviewed();
+            return;
+        }
+        throw new IllegalArgumentException("해당 유저의 주문이 없습니다.");
     }
 }
