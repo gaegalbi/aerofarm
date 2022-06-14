@@ -40,7 +40,6 @@ public class PostController {
 
     // 게시물 보기 페이지
     @GetMapping("/community/{category}/{boardId}")
-    @PreAuthorize("hasAnyAuthority('GUEST')")
     public String community_detail(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable String category, @PathVariable Long boardId, Model model, @RequestParam(defaultValue = "1") Integer page) {
         if (page < 1) page = 1;
 
@@ -68,6 +67,7 @@ public class PostController {
 
     // 글쓰기 페이지
     @GetMapping("/community/writing")
+    @PreAuthorize("hasAnyAuthority('GUEST')")
     public String community_writing() {
 
         return "/community/writingPage";
