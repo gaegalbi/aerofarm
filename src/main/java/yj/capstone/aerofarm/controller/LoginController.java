@@ -71,7 +71,7 @@ public class LoginController {
 
     private void signupValidate(SaveMemberForm saveMemberForm, BindingResult bindingResult) {
         log.debug("Duplicate member check. email = {}", saveMemberForm.getEmail());
-        if (!saveMemberForm.getPassword().equals(saveMemberForm.getConfirmPassword())) {
+        if (!saveMemberForm.isPasswordMatch()) {
             bindingResult.rejectValue("password", "notMatch");
         }
         if (memberService.duplicateEmailCheck(saveMemberForm.getEmail())) {

@@ -72,7 +72,6 @@ public class OAuth2UserServiceImpl implements OAuth2UserService<OAuth2UserReques
     }
 
     public Member saveOAuth2Member(Member newMember) {
-        newMember.changePassword(passwordEncoder.encode(UUID.randomUUID().toString().substring(0, 6)));
         String newNickname = duplicateNicknameChange(newMember.getNickname());
         newMember.changeNickname(newNickname);
         log.info("New member created. Email: {}", newMember.getEmail());

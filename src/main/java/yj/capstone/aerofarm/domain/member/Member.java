@@ -70,13 +70,13 @@ public class Member extends BaseEntity {
         this.provider = Provider.LOCAL;
         this.verify = false; // 로컬 회원가입 시 검증 기본값 false
         this.name = saveMemberForm.getName();
-        this.picture = "image/default-avatar.png";
+        this.picture = "/image/default-avatar.png";
     }
 
     @Builder(builderClassName = "oAuth2Builder")
-    public Member(String nickname, String password, Provider provider, String picture, String email) {
+    public Member(String nickname, Provider provider, String picture, String email) {
         this.nickname = nickname;
-        this.password = password;
+        this.password = "";
         this.picture = picture;
         this.email = email;
         this.provider = provider;
