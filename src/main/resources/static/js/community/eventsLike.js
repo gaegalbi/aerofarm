@@ -19,7 +19,7 @@ let eventsLike = {
         };
         $.ajax({
             type: 'POST',
-            url: '/community/createLike',
+            url: '/createLike',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data),
@@ -44,7 +44,7 @@ let eventsLike = {
         };
         $.ajax({
             type: 'POST',
-            url: '/community/deleteLike',
+            url: '/deleteLike',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data),
