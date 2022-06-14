@@ -75,7 +75,7 @@ public class PostController {
 
     // 글쓰기 로직
     @ResponseBody
-    @PostMapping("/createPost")
+    @PostMapping("/createBasicPost")
     @PreAuthorize("hasAnyAuthority('GUEST')")
     public Long createPost(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody PostForm postForm) {
         return postService.createPost(userDetails.getMember(), postForm).getId();
@@ -83,7 +83,7 @@ public class PostController {
 
     // 답글 쓰기 로직
 //    @ResponseBody
-//    @PostMapping("/community/createAnswerPost/{postId}")
+//    @PostMapping("/createAnswerPost/{postId}")
 //    @PreAuthorize("hasAnyAuthority('GUEST')")
 //    public Long createAnswerPost(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody PostForm postForm, @PathVariable Long postId) {
 //        return postService.createAnswerPost(userDetails.getMember(), postForm, postId).getId();

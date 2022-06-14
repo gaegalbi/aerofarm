@@ -12,6 +12,7 @@
 
 </style>
 <body>
+<input type="hidden" id="post-id" th:value="${selectPostId}"/>
 <br><h2 style="text-align: center; color: #FFFFFF">게시글 작성</h2><br>
     <div class="container">
         <div class="input-group" style="width: 80%; margin: auto">
@@ -50,12 +51,12 @@
         <div style="width: 80%; margin: auto">
             <div class="d-grid gap-2 d-md-flex justify-content-md-end form-margin">
                 <button type="button" class="btn btn-secondary" onclick="location.href='/community/free?page=1'">취소</button>
-                <button type="button" class="btn btn-secondary" id="btn-createPost">글 작성</button>
+                <button type="button" class="btn btn-secondary" id="btn-eventsPost">글 작성</button>
             </div>
         </div>
     </div>
 <div th:replace="~{fragments/footer :: footer}"/>
-<script src="/js/community/createPost.js"></script>
+<script src="/js/community/eventsPost.js"></script>
 <script src="/js/bootstrap.bundle.js"></script>
 </body>
 </html>
