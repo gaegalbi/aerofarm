@@ -96,9 +96,8 @@
 </nav>
 <div class="container">
     <main>
-        <div class="community-category">
-            <a th:text="${selectCategory.getName()}"/>
-        </div>
+        <!--카테고리 표시-->
+        <div class="community-category" th:text="${selectCategory.getName()}"/>
         <!--필터링 헤더-->
         <div class="filtering">
             <a class="p-2 post-header" href="#">전체</a>
@@ -113,6 +112,7 @@
         </div>
     </main>
 </div>
+<!--목록 표시-->
 <div class="container">
     <table id="post-events" class="table f-color-w">
         <thead>
@@ -137,6 +137,7 @@
         </tbody>
     </table>
 </div>
+<!--페이징 번호 표시-->
 <div class="container">
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">

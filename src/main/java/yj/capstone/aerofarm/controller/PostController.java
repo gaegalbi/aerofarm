@@ -43,10 +43,10 @@ public class PostController {
     public String community_detail(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable String category, @PathVariable Long boardId, Model model, @RequestParam(defaultValue = "1") Integer page) {
         if (page < 1) page = 1;
 
+        postService.updateViews(boardId);           // 조회수 업데이트
+
         Post post = postService.selectPost(boardId);    // 선택한 게시물 찾기
         PostDetailDto result = new PostDetailDto(post); // 선택한 게시물 id로 상세 내용 가져오기
-
-        postService.updateViews(boardId);           // 조회수 업데이트
 
         Page<CommentDto> commentInfo = postService.findCommentInfo(post, page); // 게시물 id로 포함 댓글 검색
         PageableList<CommentDto> pageableList = new PageableList<>(commentInfo);    // 페이징
@@ -65,14 +65,6 @@ public class PostController {
         return "/community/postingPage";
     }
 
-    // 게시글 안에서 댓글쓰기
-    @ResponseBody
-    @PostMapping("/community/createComment")
-    @PreAuthorize("hasAnyAuthority('GUEST')")
-    public Long createComment(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody CommentForm commentForm) {
-        return postService.createComment(userDetails.getMember(), commentForm).getId();
-    }
-
     // 글쓰기 페이지
     @GetMapping("/community/writing")
     public String community_writing() {
@@ -86,6 +78,22 @@ public class PostController {
     @PreAuthorize("hasAnyAuthority('GUEST')")
     public Long createPost(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody PostForm postForm) {
         return postService.createPost(userDetails.getMember(), postForm).getId();
+    }
+
+    // 답글 쓰기 로직
+//    @ResponseBody
+//    @PostMapping("/community/createAnswerPost/{postId}")
+//    @PreAuthorize("hasAnyAuthority('GUEST')")
+//    public Long createAnswerPost(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody PostForm postForm, @PathVariable Long postId) {
+//        return postService.createAnswerPost(userDetails.getMember(), postForm, postId).getId();
+//    }
+
+    // 게시글 안에서 댓글쓰기
+    @ResponseBody
+    @PostMapping("/community/createComment")
+    @PreAuthorize("hasAnyAuthority('GUEST')")
+    public Long createComment(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody CommentForm commentForm) {
+        return postService.createComment(userDetails.getMember(), commentForm).getId();
     }
 
     // 좋아요 로직

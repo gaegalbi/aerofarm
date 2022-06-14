@@ -43,6 +43,9 @@ public class Comment extends BaseEntity {
     @OneToMany(mappedBy = "parent")
     private List<Comment> child = new ArrayList<>();
 
+    // 삭제 여부
+    private boolean deleteTnF;
+
     /**
      * 추후 필요 시 주석 해제
      */

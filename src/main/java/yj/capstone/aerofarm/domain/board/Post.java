@@ -58,12 +58,24 @@ public class Post extends BaseEntity {
     // 조회수
     private int views;
 
+    // 삭제 여부
+    private boolean deleteTnF;
+
     @Builder(builderClassName = "PostBuilder", builderMethodName = "postBuilder")
     public Post(PostForm postForm, Member writer) {
         this.writer = writer;
         this.title = postForm.getTitle();
         this.content = PostDetail.createPostDetail(postForm.getContents());
         this.category = PostCategory.findByLowerCase(postForm.getCategory());
+    }
+
+    @Builder(builderClassName = "PostParentBuilder", builderMethodName = "postParentBuilder")
+    public Post(PostForm postForm, Member writer, Post parent) {
+        this.writer = writer;
+        this.title = postForm.getTitle();
+        this.content = PostDetail.createPostDetail(postForm.getContents());
+        this.category = PostCategory.findByLowerCase(postForm.getCategory());
+        this.parent = parent;
     }
 
     public void updateViews(int views) {

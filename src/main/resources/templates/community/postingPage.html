@@ -78,6 +78,7 @@
                 <button type="button" class="btn btn-secondary button-margin" th:onclick="|location.href='@{/community/{category}?page=1(category=${selectPostCategory})}'|" th:text="목록"/>
             </div>
             <div class="col-lg-6 col-sm-12 text-lg-end" id="like-area">
+                <button type="button" class="btn btn-secondary button-margin" onclick="location.href='/community/writing'" th:text="답글"/>
                 <input type="checkbox" class="btn-check" id="likeButton" th:checked="${isSelected} != 0">
                 <label class="btn btn-outline-danger button-margin" for="likeButton" th:text="'♡ ' + ${postLikeInfo.getLikeCount()}"/><br>
             </div>
@@ -86,8 +87,8 @@
         <div class="card card-body body-color body-font-color body-line">
             <!--제목-->
             <div class="row">
-                    <div class="post-title col-11" th:text="${selectPost.title}"/>
-                    <div class="col-1" th:text="|조회수 : ${selectPost.getViews()}|"/>
+                <div class="post-title col-11" th:utext="'&lt;b&gt;' + ${selectPost.title} + '&lt;/b&gt;'"/>
+                <div class="col-1" th:text="|조회수 : ${selectPost.getViews()}|"/>
             </div>
             <!--회원 정보-->
             <div class="user-info-border">
@@ -97,7 +98,7 @@
                             <td rowspan="2" width="50" height="40" style="text-align: center">
                                 <img src="/image/test_icon.png" class="rounded-circle" style="width: 35px; height: 35px">
                             </td>
-                            <td th:text="${selectPost.writer}"/>
+                            <td th:utext="${selectPost.writer}"/>
                         </tr>
                         <tr>
                             <td th:text="${#temporals.format(selectPost.localDateTime, 'yyyy-MM-dd HH:mm:ss')}"/>
@@ -123,7 +124,7 @@
                             <td rowspan="3" width="50" height="40">
                                 <img src="/image/test_icon.png" class="rounded-circle" style="width: 40px; height: 40px">
                             </td>
-                            <td th:text="${commentDto.writer}"/>
+                            <td th:utext="'&lt;b&gt;' + ${commentDto.writer} + '&lt;/b&gt;'"/>
                         </tr>
                         <tr>
                             <td th:text="${commentDto.content}"/>
@@ -186,7 +187,7 @@
         </div>
         <div>
             <button type="button" class="btn btn-secondary button-margin" th:onclick="|location.href='@{/community/{category}?page=1(category=${selectPostCategory})}'|" th:text="목록"/>
-            <button type="button" class="btn btn-secondary button-margin" th:text="TOP"/>
+            <button type="button" class="btn btn-secondary button-margin" onclick="window.scrollTo(0,0);" th:text="TOP"/>
         </div>
     </main>
 </div>

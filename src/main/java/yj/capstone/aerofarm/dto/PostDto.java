@@ -22,6 +22,7 @@ public class PostDto {
     private LocalDateTime createDate;
     private Long commentCount;
     private Long likeCount;
+    private Long postId;
 
     @Builder
     public PostDto(Post post) {
