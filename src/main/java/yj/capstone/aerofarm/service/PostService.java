@@ -111,8 +111,8 @@ public class PostService {
     }
 
     // 좋아요 누름 여부
-    public List<Long> isMemberSelectInfo(Member member, Long postId) {
-        return postLikeRepository.isMemberSelectInfo(member, postId);
+    public Long isMemberSelectInfo(Long memberId, Long postId) {
+        return postLikeRepository.findByMemberIdAndPostId(memberId, postId);
     }
 
     // 조회수 업데이트

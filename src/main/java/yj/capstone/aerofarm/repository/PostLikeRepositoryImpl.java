@@ -28,19 +28,4 @@ public class PostLikeRepositoryImpl extends Querydsl5RepositorySupport implement
                 .having(postLike.post.id.eq(postId))
                 .fetch();
     }
-
-    @Override
-    public List<Long> isMemberSelectInfo(Member member, Long postId) {
-
-        return select(postLike.id)
-                .from(postLike)
-                .where(
-                        memberEq(member),
-                        postLike.post.id.eq(postId))
-                .fetch();
-    }
-
-    private BooleanExpression memberEq(Member member) {
-        return member == null ? null : postLike.member.eq(member);
-    }
 }

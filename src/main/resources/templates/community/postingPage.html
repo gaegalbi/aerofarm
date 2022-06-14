@@ -79,7 +79,7 @@
             </div>
             <div class="col-lg-6 col-sm-12 text-lg-end" id="like-area">
                 <button type="button" class="btn btn-secondary button-margin" th:onclick="|location.href='@{/writing?postId={postId}(postId=${selectPost.id})}'|" th:text="답글"/>
-                <input type="checkbox" class="btn-check" id="likeButton" th:checked="${isSelected} != 0">
+                <input type="checkbox" class="btn-check" id="likeButton" th:checked="${isSelected == 1}">
                 <label class="btn btn-outline-danger button-margin" for="likeButton" th:text="'♡ ' + ${postLikeInfo.getLikeCount()}"/><br>
             </div>
         </div>
@@ -124,14 +124,15 @@
                             <td rowspan="3" width="50" height="40">
                                 <img src="/image/test_icon.png" class="rounded-circle" style="width: 40px; height: 40px">
                             </td>
-                            <td th:utext="'&lt;b&gt;' + ${commentDto.writer} + '&lt;/b&gt;'"/>
+                            <td th:utext="'&lt;b&gt;' + ${commentDto.getWriter()} + '&lt;/b&gt;'"/>
                         </tr>
                         <tr>
-                            <td th:text="${commentDto.content}"/>
+                            <td th:text="${commentDto.getContent()}"/>
                         </tr>
                         <tr>
-                            <td th:text="${#temporals.format(commentDto.localDateTime, 'yyyy.MM.dd HH:mm')}"/>
+                            <td th:text="${#temporals.format(commentDto.getLocalDateTime(), 'yyyy.MM.dd HH:mm')}"/>
                             <td><a href="#">댓글 달기</a></td>
+                            <td><a href="#" th:if="${user == commentDto.getWriterId()}">댓글 삭제</a></td>
                         </tr>
                         </tbody>
                     </table>

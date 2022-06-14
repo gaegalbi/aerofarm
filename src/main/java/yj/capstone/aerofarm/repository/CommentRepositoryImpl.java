@@ -26,7 +26,8 @@ public class CommentRepositoryImpl extends Querydsl5RepositorySupport implements
                                 comment.writer.nickname,
                                 comment.content,
                                 comment.createdDate,
-                                comment.post))
+                                comment.post,
+                                comment.writer.id))
                         .from(comment)
                         .where(comment.post.eq(post)),
                 query -> query

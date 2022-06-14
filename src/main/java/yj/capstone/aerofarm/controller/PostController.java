@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import yj.capstone.aerofarm.config.auth.dto.UserDetailsImpl;
+import yj.capstone.aerofarm.domain.member.Member;
 import yj.capstone.aerofarm.dto.*;
 import yj.capstone.aerofarm.form.CommentForm;
 import yj.capstone.aerofarm.form.PostForm;
@@ -50,9 +51,11 @@ public class PostController {
 
         Page<CommentDto> commentInfo = postService.findCommentInfo(post, page); // 게시물 id로 포함 댓글 검색
         PageableList<CommentDto> pageableList = new PageableList<>(commentInfo);    // 페이징
-
         List<PostLikeDto> postLikeInfo = postService.findLikeInfo(post.getId());
-        List<Long> isSelect = postService.isMemberSelectInfo(userDetails.getMember(), boardId);
+
+        Long userId = null;
+        if (userDetails != null) userId = userDetails.getMember().getId();
+        Long isSelect = postService.isMemberSelectInfo(userId, boardId);
 
         if (postLikeInfo.size() == 0) postLikeInfo.add(new PostLikeDto(post.getId(), 0L));
 
@@ -60,7 +63,8 @@ public class PostController {
         model.addAttribute("selectPost", result);
         model.addAttribute("selectPostCategory", category);
         model.addAttribute("postLikeInfo", postLikeInfo.get(0));
-        model.addAttribute("isSelected", isSelect.size());
+        model.addAttribute("isSelected", isSelect);
+        model.addAttribute("user", userId);
 
         return "/community/postingPage";
     }
