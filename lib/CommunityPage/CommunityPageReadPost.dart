@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../CommunityPageCustomLib/CommunityAddComment.dart';
 import 'CommunityPageForm.dart';
+final List<Widget> commentList = [];
 
 class CommunityPageReadPost extends StatefulWidget {
   final int index;
@@ -20,8 +21,9 @@ class CommunityPageReadPost extends StatefulWidget {
   final String likes;
   final String comments;
   final String realDate;
+  final String category;
 
-  const CommunityPageReadPost({Key? key,required this.index, required this.id, required this.writer, required this.title, required this.views, required this.likes, required this.comments, required this.realDate}) : super(key: key);
+  const CommunityPageReadPost({Key? key,required this.index, required this.id, required this.writer, required this.title, required this.views, required this.likes, required this.comments, required this.realDate, required this.category}) : super(key: key);
 
   @override
   State<CommunityPageReadPost> createState() => _CommunityPageReadPostState();
@@ -31,14 +33,8 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
   late String? content;
   late dom.Element? contents;
   late int count;
-  final List<Widget> commentList = [];
   late ScrollController _scrollController;
   int index = 1;
-
-  void printWrapped(String text) {
-    final pattern = RegExp('.{1,800}'); // 800 is the size of each chunk
-    pattern.allMatches(text).forEach((match) => print(match.group(0)));
-  }
 
   Future fetch() async {
     final List<Map<String, dynamic>> customKeywords = [];
@@ -65,7 +61,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
       setState(() {
         for (var element in customKeywords) {
           commentList.add(AddComment(
-            keywords: element,index: widget.index,id: widget.id,writer: widget.writer,title: widget.title,views: widget.views,likes: widget.likes,comments: widget.comments,realDate: widget.realDate,commentList: commentList,
+            keywords: element,index: widget.index,id: widget.id,writer: widget.writer,title: widget.title,views: widget.views,likes: widget.likes,comments: widget.comments,realDate: widget.realDate, category: widget.category,
           ));
         }
         content = contents?.outerHtml;
@@ -86,6 +82,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
   }
   @override
   void initState(){
+    commentList.clear();
     _scrollController = ScrollController();
     _scrollController.addListener(() {
       handleScrolling();
@@ -121,7 +118,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                 Icons.chevron_left,
               ),
               onPressed: () {
-                Get.off(()=>const CommunityPageForm(category:'all'));
+                Get.off(()=>CommunityPageForm(category:widget.category));
               },
             )),
           ),
@@ -168,8 +165,8 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const Text(
-                          "전체게시판",
+                        Text(
+                          matchCategory[widget.category]!,
                           style: CommunityPageTheme.title,
                         ),
                         IconButton(
@@ -182,7 +179,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                             Icons.chevron_right,
                           ),
                           onPressed: () {
-                            Get.off(()=>const CommunityPageForm(category:'all'));
+                            Get.off(()=> CommunityPageForm(category:widget.category));
                           },
                         )
                       ],
@@ -324,10 +321,10 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                   ],
                                 ),
                                 onPressed: () {
-                                    Get.to(() => CommunityPageReply(index: widget.index,id: widget.id,writer: widget.writer,title: widget.title,views: widget.views,likes: widget.likes,comments: widget.comments,realDate: widget.realDate,commentList: commentList));
+                                    Get.to(() => CommunityPageReply(index: widget.index,id: widget.id,writer: widget.writer,title: widget.title,views: widget.views,likes: widget.likes,comments: widget.comments,realDate: widget.realDate, category: widget.category,));
                                 },
                               ),
-                               count < 1? Container(
+                               if (count < 1) Container(
                                 margin: EdgeInsets.only(top: 5),
                                 child: Row(
                                   children: [
@@ -341,13 +338,18 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                             "assets/images/profile.png"),
                                       ),
                                     ),
-                                    const Text(
-                                      "첫 댓글을 입력하세요",
-                                      style: CommunityPageTheme.postFont,
+                                    TextButton(
+                                      onPressed: (){
+                                        Get.to(() => CommunityPageReply(id:widget.id, index: widget.index,likes: widget.likes, comments: widget.comments, title: widget.title, views: widget.views, writer: widget.writer, realDate: widget.realDate, category: widget.category,));
+                                      },
+                                      child: const Text(
+                                        "첫 댓글을 입력하세요",
+                                        style: CommunityPageTheme.postFont,
+                                      ),
                                     ),
                                   ],
                                 ),
-                              ) : Column(children: commentList
+                              ) else Column(children: commentList
                                ,),
                             ],
                           ))
@@ -390,7 +392,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                       style: CommunityPageTheme.bottomAppBarFavorite,
                     ),
                     onPressed: () {
-                      Get.off(()=>const CommunityPageForm(category:'all'));
+                      Get.off(()=> CommunityPageForm(category:widget.category));
                     },
                   ),
                   AppBarButton(
@@ -406,7 +408,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                       style: CommunityPageTheme.bottomAppBarReply,
                     ),
                     onPressed: () {
-                      Get.to(() => CommunityPageReply(index: widget.index,id: widget.id,writer: widget.writer,title: widget.title,views: widget.views,likes: widget.likes,comments: widget.comments,realDate: widget.realDate,commentList: commentList,));
+                      Get.to(() => CommunityPageReply(index: widget.index,id: widget.id,writer: widget.writer,title: widget.title,views: widget.views,likes: widget.likes,comments: widget.comments,realDate: widget.realDate, category: widget.category,));
                     },
                   )
                 ],

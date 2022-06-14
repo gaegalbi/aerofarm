@@ -1,10 +1,16 @@
+import 'dart:convert';
+
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../CommunityPageCustomLib/CommunityAddComment.dart';
+import '../LoginPage/LoginPageLogin.dart';
 import 'CommunityPageReadPost.dart';
+import 'package:http/http.dart' as http;
+import 'package:html/parser.dart' as parser;
+import 'package:html/dom.dart' as dom;
 
 class CommunityPageReply extends StatefulWidget {
-  final List<Widget> commentList;
   final int index;
   final String id;
   final String writer;
@@ -13,8 +19,9 @@ class CommunityPageReply extends StatefulWidget {
   final String likes;
   final String comments;
   final String realDate;
+  final String category;
 
-  const CommunityPageReply({Key? key, required this.commentList, required this.index, required this.id, required this.writer, required this.title, required this.views, required this.likes, required this.comments, required this.realDate,}) : super(key: key);
+  const CommunityPageReply({Key? key, required this.index, required this.id, required this.writer, required this.title, required this.views, required this.likes, required this.comments, required this.realDate, required this.category,}) : super(key: key);
 
   @override
   State<CommunityPageReply> createState() => _CommunityPageReplyState();
@@ -86,12 +93,12 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                       Get.offAll(() =>
                           CommunityPageReadPost(id: widget.id,
                             likes: widget.likes,
-                            comments: widget.comments,
+                            comments: commentList.length.toString(),
                             title: widget.title,
                             views: widget.views,
                             writer: widget.writer,
                             realDate: widget.realDate,
-                            index: widget.index,));
+                            index: widget.index, category: widget.category,));
                     },
                   )),
             ),
@@ -168,7 +175,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                         ),
                       ),
                       Column(
-                        children: widget.commentList, //_replyList,
+                        children: commentList, //_replyList,
                       ),
                     ],
                   ),
@@ -227,12 +234,55 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                               "등록",
                               style: CommunityPageTheme.bottomAppBarList,
                             ),
-                            onPressed: () {
-                              setState(() {
-                                /* addReply(_textEditingController.text, AssetImage("assets/images/profile.png"), "city");
-                              _textEditingController.text = "";*/
+                            onPressed: () async{
+                              print(widget.id);
+                                var data = {
+                                  "postId":widget.id,
+                                  "content":_textEditingController.text,
+                                };
+                                var body = json.encode(data);
+
+                                await http.post(
+                                  Uri.http('127.0.0.1:8080', '/community/createComment'),
+                                  headers: {
+                                    "Content-Type": "application/json",
+                                    "Cookie":"JSESSIONID=$session",
+                                  },
+                                  encoding: Encoding.getByName('utf-8'),
+                                  body: body,
+                                );
+                              final List<Map<String, dynamic>> customKeywords = [];
+                              final Map<String, String> _queryParameters = <String, String>{
+                                'page': "1",
+                              };
+
+                              final response = await http
+                                  .get(Uri.http('127.0.0.1:8080', '/community/free/${widget.id}',_queryParameters));
+                              if (response.statusCode == 200) {
+                                dom.Document document = parser.parse(response.body);
+                                List<dom.Element> keywordElements = document.querySelectorAll('.comment-user-info');
+                                for (var element in keywordElements) {
+                                  dom.Element? commentWriter = element.querySelector('.commentWriter');
+                                  dom.Element? commentContent = element.querySelector('.commentContent');
+                                  dom.Element? commentDate = element.querySelector('.commentDate');
+                                  customKeywords.add({
+                                    'writer': commentWriter?.text,
+                                    'date': commentDate?.text,
+                                    'content':  commentContent?.text,
+                                  });
+                                }
+                                setState(() {
+                                  commentList.clear();
+                                  for (var element in customKeywords) {
+                                   commentList.add(AddComment(
+                                      keywords: element,index: widget.index,id: widget.id,writer: widget.writer,title: widget.title,views: widget.views,likes: widget.likes,comments: widget.comments,realDate: widget.realDate, category: widget.category,
+                                    ));
+                                  }
+                                });
+                              }
                                 _textEditingController.text = "";
-                              });
+                               //Get.offAll(CommunityPageForm(category: widget.id));
+
                             }
                         )
                       ],

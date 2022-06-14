@@ -1,3 +1,4 @@
+import 'package:capstone/CommunityPage/CommunityPageReadPost.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' as parser;
 import 'package:html/dom.dart' as dom;
@@ -66,7 +67,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
                 categoryIndex++;
                 i = 1;
               });
-              print(categoryIndex);
+              //print(categoryIndex);
             }else{
               print("break work");
               break;
@@ -80,7 +81,8 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
               dom.Element? likes = element.querySelector('.likes');
               dom.Element? views = element.querySelector('.views');
               dom.Element? id = element.querySelector('.post-id');
-              dom.Element? realDate = element.querySelector('.date');
+              dom.Element? realDate = element.querySelector('.realDate');
+              //print(realDate?.text);
               customKeywords.add({
                 'writer': writer?.text,
                 'title': title?.text.substring(0, title.text.lastIndexOf('(')),
@@ -96,6 +98,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
                     title.text.lastIndexOf(')')),
                 'id': id?.text,
               });
+
             }
             i++;
           }
@@ -110,7 +113,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
         for (var element in customKeywords) {
           boardList.add(AddBoard(
             keywords: element,
-            index: index,
+            index: index, category: widget.category,
           ));
         }
         customKeywords.clear();
@@ -158,7 +161,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
             for (var element in keywords) {
               boardList.add(AddBoard(
                 keywords: element,
-                index: index,
+                index: index, category: widget.category,
               ));
             }
             keywords.clear();
@@ -178,17 +181,27 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
         keywords.clear();
         fetch();
       }
-  }
+      if (_scrollController.offset ==_scrollController.position.minScrollExtent) {
+        keywords.clear();
+        index = 1;
+        fetch();
+      }
 
+  }
+  bool loading = true;
   @override
   void initState() {
     _scrollController = ScrollController();
     _scrollController.addListener(() {
       handleScrolling();
     });
+    commentList.clear();
     boardList.clear();
     boardList.add(notice());
     fetch();
+    Future.delayed(const Duration(microseconds: 100), () {
+      loading = false;
+    });
     super.initState();
   }
 
@@ -285,7 +298,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
               ),
               height: MediaQuery.of(context).size.height * 0.69,
               child: Column(children: [
-                Expanded(
+                !loading?Expanded(
                     child: ListView.builder(
                         controller: _scrollController,
                         itemCount: boardList.length + 1,
@@ -295,7 +308,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
                           } else {
                             return Container();
                           }
-                        })),
+                        })):const Expanded(child: Center(child: CircularProgressIndicator(color: MainColor.three,))),
               ]),
             ),
           ],

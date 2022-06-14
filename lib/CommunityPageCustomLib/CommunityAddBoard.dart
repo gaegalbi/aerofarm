@@ -8,8 +8,9 @@ import '../themeData.dart';
 class AddBoard extends StatelessWidget {
   final Map<String, dynamic> keywords;
   final int index;
+  final String category;
 
-  const AddBoard({Key? key, required this.keywords, required this.index}) : super(key: key);
+  const AddBoard({Key? key, required this.keywords, required this.index, required this.category}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class AddBoard extends StatelessWidget {
           )),
       child: InkWell(
         onTap: () {
-          Get.to(() => CommunityPageReadPost(id:keywords['id'], index: index, likes: keywords['likes'], comments: keywords['comments'], title: keywords['title'], views: keywords['views'], writer: keywords['writer'], realDate: keywords['realDate'],));
+          Get.to(() => CommunityPageReadPost(id:keywords['id'], index: index, likes: keywords['likes'], comments: keywords['comments'], title: keywords['title'], views: keywords['views'], writer: keywords['writer'], realDate: keywords['realDate'], category: category,));
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

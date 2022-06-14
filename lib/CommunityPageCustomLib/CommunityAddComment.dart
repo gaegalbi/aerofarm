@@ -13,14 +13,14 @@ class AddComment extends StatelessWidget {
   final String likes;
   final String comments;
   final String realDate;
-  final List<Widget> commentList;
-  const AddComment({Key? key, required this.keywords,  required this.id,required this.index, required this.writer, required this.title, required this.views, required this.likes, required this.comments, required this.realDate, required this.commentList,}) : super(key: key);
+  final String category;
+  const AddComment({Key? key, required this.keywords,  required this.id,required this.index, required this.writer, required this.title, required this.views, required this.likes, required this.comments, required this.realDate, required this.category}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return  InkWell(
       onTap: (){
-        Get.to(() => CommunityPageReply(id:id, index: index,likes: likes, comments: comments, title: title, views: views, writer: writer, realDate: realDate, commentList: commentList,));
+        Get.to(() => CommunityPageReply(id:id, index: index,likes: likes, comments: comments, title: title, views: views, writer: writer, realDate: realDate, category: category,));
       },
       child: Container(
         //margin: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.03),
