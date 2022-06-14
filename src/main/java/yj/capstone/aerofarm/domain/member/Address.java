@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import yj.capstone.aerofarm.domain.AddressInfo;
+import yj.capstone.aerofarm.domain.Receiver;
 
 import javax.persistence.*;
 
@@ -17,6 +18,9 @@ public class Address {
     private Long id;
 
     private String name;
+
+    @Embedded
+    private Receiver receiver;
 
     // TODO 추후 컬럼 이름 바꿀 수 있으면 바꾸기
     @Embedded

@@ -10,9 +10,7 @@ import javax.persistence.Embeddable;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddressInfo {
-    private String address1;
-    private String address2;
-    private String extraAddress;
-    private String zipcode;
+public class Receiver {
+    private String receiver;
+    private String phoneNumber;
 }

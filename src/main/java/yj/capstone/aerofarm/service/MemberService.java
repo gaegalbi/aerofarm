@@ -64,4 +64,19 @@ public class MemberService {
     public Member findByEmailAndVerifyFalse(String email) {
         return memberRepository.findByEmailAndVerifyFalse(email).orElseThrow(() -> new TokenExpiredException("이미 인증된 회원 입니다!"));
     }
+
+    public boolean verifyPassword(String inputPassword, String userPassword) {
+        return passwordEncoder.matches(inputPassword, userPassword);
+    }
+
+    public void changePassword(Member member, String password) {
+        Member findMember = findMemberById(member.getId());
+        String encodePassword = passwordEncoder.encode(password);
+        member.changePassword(encodePassword);
+        findMember.changePassword(encodePassword);
+    }
+
+    public Member findMemberById(Long memberId) {
+        return memberRepository.findById(memberId).orElseThrow(() -> new UsernameNotFoundException("해당 회원이 없습니다."));
+    }
 }

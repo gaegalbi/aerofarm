@@ -71,7 +71,7 @@ public class LoginController {
 
     private void signupValidate(SaveMemberForm saveMemberForm, BindingResult bindingResult) {
         log.debug("Duplicate member check. email = {}", saveMemberForm.getEmail());
-        if (!saveMemberForm.getPassword().equals(saveMemberForm.getConfirmPassword())) {
+        if (!saveMemberForm.isPasswordMatch()) {
             bindingResult.rejectValue("password", "notMatch");
         }
         if (memberService.duplicateEmailCheck(saveMemberForm.getEmail())) {
@@ -86,9 +86,6 @@ public class LoginController {
         }
         if (memberService.duplicateNicknameCheck(saveMemberForm.getNickname())) {
             bindingResult.rejectValue("nickname", "duplicate");
-        }
-        if (memberService.duplicatePhoneNumberCheck(saveMemberForm.getPhoneNumber())) {
-            bindingResult.rejectValue("phoneNumber", "duplicate");
         }
     }
 }

@@ -15,12 +15,14 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        MemberDto memberDto = new MemberDto();
         if (userDetails != null) {
             Member member = userDetails.getMember();
-            memberDto.build(member);
+            MemberDto memberDto = MemberDto.builder()
+                    .nickname(member.getNickname())
+                    .picture(member.getPicture())
+                    .build();
+            model.addAttribute("memberDto", memberDto);
         }
-        model.addAttribute("memberDto", memberDto);
         return "index";
     }
 }

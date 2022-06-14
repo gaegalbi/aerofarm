@@ -6,15 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.transaction.annotation.Transactional;
 import yj.capstone.aerofarm.dto.ProductStoreInfoDto;
 import yj.capstone.aerofarm.form.SaveProductForm;
 import yj.capstone.aerofarm.domain.product.Product;
 import yj.capstone.aerofarm.domain.product.ProductCategory;
 import yj.capstone.aerofarm.domain.product.ProductReview;
 
+
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
+@Transactional
 class ProductRepositoryTest {
 
     @Autowired
@@ -74,9 +77,6 @@ class ProductRepositoryTest {
         Page<ProductStoreInfoDto> productInfo = productRepository.findProductInfo(ProductCategory.ETC, null, pageable);
 
         // then
-        int size = productInfo.getContent().size();
-        System.out.println("size = " + size);
-
         assertThat(productInfo.getContent().get(0).getReviewCnt()).isEqualTo(3);
         assertThat(productInfo.getContent().get(0).getScoreAvg()).isEqualTo(2);
     }

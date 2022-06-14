@@ -1,6 +1,7 @@
 package yj.capstone.aerofarm.domain.order;
 
 import lombok.*;
+import yj.capstone.aerofarm.domain.Receiver;
 import yj.capstone.aerofarm.form.CheckoutForm;
 import yj.capstone.aerofarm.domain.AddressInfo;
 import yj.capstone.aerofarm.domain.BaseEntity;
@@ -37,6 +38,9 @@ public class Order extends BaseEntity {
     private Member orderer;
 
     @Embedded
+    private Receiver receiver;
+
+    @Embedded
     private AddressInfo addressInfo;
 
     @Enumerated(EnumType.STRING)
@@ -45,12 +49,14 @@ public class Order extends BaseEntity {
     @Builder(builderClassName = "OrderBuilder", builderMethodName = "orderBuilder")
     public Order(CheckoutForm checkoutForm, Member orderer, List<OrderLine> orderLines) {
         this.addressInfo = new AddressInfo(
-                checkoutForm.getReceiver(),
-                checkoutForm.getPhoneNumber(),
                 checkoutForm.getAddress1(),
                 checkoutForm.getAddress2(),
                 checkoutForm.getExtraAddress(),
                 checkoutForm.getZipcode());
+        this.receiver = new Receiver(
+                checkoutForm.getReceiver(),
+                checkoutForm.getPhoneNumber()
+        );
         this.orderer = orderer;
         this.paymentType = PaymentType.valueOf(checkoutForm.getPaymentType());
         setOrderLines(orderLines);
