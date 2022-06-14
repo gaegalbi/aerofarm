@@ -38,12 +38,21 @@ public class Product extends BaseEntity {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductReview> productReviews = new ArrayList<>();
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "contents_id")
+    private ProductDetail contents;
+
     @Builder
     public Product(SaveProductForm saveProductForm) {
         name = saveProductForm.getName();
         price = new Money(saveProductForm.getMoney());
         stock = new Stock(saveProductForm.getStock());
+        contents = new ProductDetail(saveProductForm.getProductDetail());
         category = saveProductForm.getCategory();
+    }
+
+    public void changeImage(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public void increaseStock(int quantity) {

@@ -94,15 +94,15 @@
             <div class="user-info-border">
                 <table>
                     <tbody class="user-info">
-                        <tr>
-                            <td rowspan="2" width="50" height="40" style="text-align: center">
-                                <img src="/image/test_icon.png" class="rounded-circle" style="width: 35px; height: 35px">
-                            </td>
-                            <td th:utext="${selectPost.writer}"/>
-                        </tr>
-                        <tr>
-                            <td th:text="${#temporals.format(selectPost.localDateTime, 'yyyy-MM-dd HH:mm:ss')}"/>
-                        </tr>
+                    <tr>
+                        <td rowspan="2" width="50" height="40" style="text-align: center">
+                            <img src="/image/test_icon.png" class="rounded-circle" style="width: 35px; height: 35px">
+                        </td>
+                        <td th:utext="${selectPost.writer}"/>
+                    </tr>
+                    <tr>
+                        <td th:text="${#temporals.format(selectPost.localDateTime, 'yyyy-MM-dd HH:mm:ss')}"/>
+                    </tr>
                     </tbody>
                 </table>
             </div>
@@ -195,6 +195,5 @@
 
 <script src="/js/community/eventsLike.js"></script>
 <script src="/js/community/createComment.js"></script>
-<script src="/js/bootstrap.bundle.js"></script>
 </body>
 </html>

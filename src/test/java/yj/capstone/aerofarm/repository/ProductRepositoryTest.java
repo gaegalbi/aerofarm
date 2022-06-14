@@ -6,15 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import yj.capstone.aerofarm.dto.ProductInfoDto;
+import org.springframework.transaction.annotation.Transactional;
+import yj.capstone.aerofarm.dto.ProductStoreInfoDto;
 import yj.capstone.aerofarm.form.SaveProductForm;
 import yj.capstone.aerofarm.domain.product.Product;
 import yj.capstone.aerofarm.domain.product.ProductCategory;
 import yj.capstone.aerofarm.domain.product.ProductReview;
 
+
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
+@Transactional
 class ProductRepositoryTest {
 
     @Autowired
@@ -26,14 +29,14 @@ class ProductRepositoryTest {
         // given
         for (int i = 1; i <= 11; i++) {
             Product product = Product.builder()
-                    .saveProductForm(new SaveProductForm("Product" + i, i * 100, i * 10, ProductCategory.ETC))
+                    .saveProductForm(new SaveProductForm("Product" + i, i * 100, i * 10, ProductCategory.ETC, null, null))
                     .build();
             productRepository.save(product);
         }
 
         //when
         PageRequest pageable = PageRequest.of(0, 10);
-        Page<ProductInfoDto> productInfo = productRepository.findProductInfo(null, pageable);
+        Page<ProductStoreInfoDto> productInfo = productRepository.findProductInfo(ProductCategory.ETC, null, pageable);
 
         //then
         assertThat(productInfo.getContent().size()).isEqualTo(10);
@@ -46,17 +49,32 @@ class ProductRepositoryTest {
     void productInfoFind_reviewCount_reviewAvg() {
         // given
         Product product = Product.builder()
-                .saveProductForm(new SaveProductForm("Product" , 1000, 10, ProductCategory.ETC))
+                .saveProductForm(new SaveProductForm("product", 1000, 10, ProductCategory.ETC, null, null))
                 .build();
-        new ProductReview(product, 1, "TEST");
-        new ProductReview(product, 2, "TEST");
-        new ProductReview(product, 3, "TEST");
+
+        ProductReview.builder()
+                .product(product)
+                .score(1)
+                .review("TEST")
+                .build();
+
+        ProductReview.builder()
+                .product(product)
+                .score(2)
+                .review("TEST")
+                .build();
+
+        ProductReview.builder()
+                .product(product)
+                .score(3)
+                .review("TEST")
+                .build();
 
         productRepository.save(product);
 
         // when
         PageRequest pageable = PageRequest.of(0, 2);
-        Page<ProductInfoDto> productInfo = productRepository.findProductInfo(null, pageable);
+        Page<ProductStoreInfoDto> productInfo = productRepository.findProductInfo(ProductCategory.ETC, null, pageable);
 
         // then
         assertThat(productInfo.getContent().get(0).getReviewCnt()).isEqualTo(3);

@@ -5,32 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Title</title>
     <link href="/css/bootstrap.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-
-<!--글 쓰기 헤더 정의-->
-    <!-- include libraries(jQuery, bootstrap) -->
-    <link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" />
-<!--    <script type="text/javascript" src="http://code.jquery.com/jquery-3.6.0.min.js"></script>-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script type="text/javascript" src="http://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- include summernote css/js-->
-    <link href="/css/summernote/summernote-lite.css" rel="stylesheet">
-    <script src="/js/summernote/summernote-lite.js"></script>
-    <!-- include summernote-ko-KR -->
-    <script src="/js/summernote/summernote-ko-KR.js"></script>
-
-    <script>
-        $(document).ready(function() {
-            $('#summernote').summernote({
-                placeholder: 'content',
-                minHeight: 400,
-                maxHeight: null,
-                focus: true,
-                lang : 'ko-KR'
-            });
-        });
-    </script>
-<!--글 쓰기 헤더 정의 끝-->
+    <link href="/css/bootstrap-icons.css" rel="stylesheet">
 
     <style>
         .footer {
@@ -57,6 +32,17 @@
             border-width: 2px;
             color: #bd2130;
             margin-bottom: 5px;
+        }
+
+        .input-box {
+            border-color: #131825;
+            background-color: #182030;
+            color: #FFFFFF;
+        }
+
+        .input-box:focus {
+            background-color: #182030;
+            color: #FFFFFF;
         }
 
 

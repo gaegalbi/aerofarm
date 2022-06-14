@@ -7,6 +7,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import yj.capstone.aerofarm.config.auth.dto.UserDetailsImpl;
 import yj.capstone.aerofarm.dto.*;
 import yj.capstone.aerofarm.form.CommentForm;
 import yj.capstone.aerofarm.form.PostForm;
@@ -39,7 +40,6 @@ public class PostController {
 
     // 게시물 보기 페이지
     @GetMapping("/community/{category}/{boardId}")
-    @PreAuthorize("hasAnyAuthority('GUEST')")
     public String community_detail(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable String category, @PathVariable Long boardId, Model model, @RequestParam(defaultValue = "1") Integer page) {
         if (page < 1) page = 1;
 
@@ -67,6 +67,7 @@ public class PostController {
 
     // 글쓰기 페이지
     @GetMapping("/writing")
+    @PreAuthorize("hasAnyAuthority('GUEST')")
     public String community_writing(@RequestParam(required = false) Long postId, Model model) {
 
         if (postId != null) model.addAttribute("selectPostId", postId);

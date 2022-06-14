@@ -11,6 +11,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import yj.capstone.aerofarm.domain.member.Role;
 import yj.capstone.aerofarm.service.OAuth2UserServiceImpl;
 import yj.capstone.aerofarm.service.UserDetailsServiceImpl;
@@ -23,9 +26,8 @@ import yj.capstone.aerofarm.service.handler.AuthSuccessHandler;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsServiceImpl userDetailsService;
-    private final BCryptPasswordEncoder passwordEncoder;
     private final OAuth2UserServiceImpl OAuth2UserServiceImpl;
-    private final AuthSuccessHandler authSuccessHandler;
+//    private final AuthSuccessHandler authSuccessHandler;
     private final AuthFailureHandler authFailureHandler;
 
     private static final String[] ALLOW_LIST = {
@@ -40,10 +42,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/**" // TEST
     };
 
-    @Override
+    /*@Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
-    }
+    }*/
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -59,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .usernameParameter("email")
                 .loginPage("/login")
-                .successHandler(authSuccessHandler)
+//                .successHandler(authSuccessHandler)
                 .failureHandler(authFailureHandler)
                 .permitAll()
                 .and()
@@ -81,7 +83,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .maxSessionsPreventsLogin(true)
 //                .expiredUrl("/login");
                 .oauth2Login()
-                .successHandler(authSuccessHandler)
+//                .successHandler(authSuccessHandler)
                 .loginPage("/login")
                 .userInfoEndpoint()
                 .userService(OAuth2UserServiceImpl);
@@ -89,9 +91,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        super.configure(http);
     }
 
-    @Bean
+    /*@Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
-    }
+    }*/
 }

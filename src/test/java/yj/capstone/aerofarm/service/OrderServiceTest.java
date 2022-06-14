@@ -6,12 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import yj.capstone.aerofarm.dto.OrderLineDto;
-import yj.capstone.aerofarm.dto.ProductDto;
-import yj.capstone.aerofarm.form.OrderForm;
+import yj.capstone.aerofarm.dto.CartDto;
+import yj.capstone.aerofarm.form.CheckoutForm;
 import yj.capstone.aerofarm.form.SaveMemberForm;
 import yj.capstone.aerofarm.form.SaveProductForm;
-import yj.capstone.aerofarm.domain.AddressInfo;
 import yj.capstone.aerofarm.domain.member.Member;
 import yj.capstone.aerofarm.domain.order.Order;
 import yj.capstone.aerofarm.domain.product.Product;
@@ -42,29 +40,24 @@ class OrderServiceTest {
     }
 
     @Test
-    @DisplayName("주문 생성")
+    @DisplayName("주문이 생성되면 재고가 줄어들어야 한다")
     void create_order() {
         // given
         SaveMemberForm saveMemberForm = new SaveMemberForm();
         saveMemberForm.setEmail("abc123@naver.com");
         saveMemberForm.setPassword("1234");
-        saveMemberForm.setPhoneNumber("010-1234-1234");
         saveMemberForm.setNickname("qqc");
         Member member = Member.saveMemberFormBuilder().saveMemberForm(saveMemberForm).build();
 
-        Product product = new Product(new SaveProductForm("Apple", 1000, 100, ProductCategory.ETC));
-
-        List<OrderLineDto> orderLineDtoList = new ArrayList<>();
-        orderLineDtoList.add(new OrderLineDto(new ProductDto(product), 5, 1000));
-
-        OrderForm orderForm = new OrderForm();
-        orderForm.setOrderLineDtos(orderLineDtoList);
-        orderForm.setAddressInfo(new AddressInfo("홍길동","seoul", "seoul", "12345"));
+        Product product = new Product(new SaveProductForm("Apple", 1000, 100, ProductCategory.ETC, null, null));
+        List<CartDto> cartDtos = new ArrayList<>();
+        cartDtos.add(new CartDto(1L, 5));
+        CheckoutForm checkoutForm = new CheckoutForm(true, "MOOTONGJANG", "jonedoe", "010-1111-1111", "seoul", "seoul", "apt", "12345", "NH");
 
         // when
         when(orderRepository.save(any(Order.class))).then(returnsFirstArg());
-        when(productService.findProduct(any())).thenReturn(product);
-        Order order = orderService.createOrder(member, orderForm);
+        when(productService.findProductById(any())).thenReturn(product);
+        Order order = orderService.createOrder(member, cartDtos, checkoutForm);
 
         // then
         assertThat(order.getOrderer()).isEqualTo(member);
@@ -76,39 +69,33 @@ class OrderServiceTest {
     @DisplayName("주문 수량이 재고보다 많으면 실패해야 한다.")
     void create_order_over_quantity() {
         // given
-        Product product = new Product(new SaveProductForm("Apple", 1000, 100, ProductCategory.ETC));
-
-        List<OrderLineDto> orderLineDtoList = new ArrayList<>();
-        orderLineDtoList.add(new OrderLineDto(new ProductDto(product), 101, 5000));
-
-        OrderForm orderForm = new OrderForm();
-        orderForm.setOrderLineDtos(orderLineDtoList);
-        orderForm.setAddressInfo(new AddressInfo("홍길동","seoul", "seoul", "12345"));
+        Product product = new Product(new SaveProductForm("Apple", 1000, 100, ProductCategory.ETC, null, null));
+        List<CartDto> cartDtos = new ArrayList<>();
+        cartDtos.add(new CartDto(1L, 101));
+        CheckoutForm checkoutForm = new CheckoutForm(true, "MOOTONGJANG", "jonedoe", "010-1111-1111", "seoul", "seoul", "apt", "12345", "NH");
 
         // when
-        when(productService.findProduct(any())).thenReturn(product);
+        when(productService.findProductById(any())).thenReturn(product);
 
         // then
-        assertThatThrownBy(() -> orderService.createOrder(null, orderForm)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> orderService.createOrder(null, cartDtos, checkoutForm)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
     @DisplayName("주문 취소 시 재고가 다시 늘어나야 한다.")
     void cancel_order_must_rollback_quantity() {
         // given
-        Product product = new Product(new SaveProductForm("Apple", 1000, 100, ProductCategory.ETC));
+        Product product = new Product(new SaveProductForm("Apple", 1000, 100, ProductCategory.ETC, null, null));
 
-        List<OrderLineDto> orderLineDtoList = new ArrayList<>();
-        orderLineDtoList.add(new OrderLineDto(new ProductDto(product), 5, 5000));
+        List<CartDto> cartDtos = new ArrayList<>();
+        cartDtos.add(new CartDto(1L, 5));
+        CheckoutForm checkoutForm = new CheckoutForm(true, "MOOTONGJANG", "jonedoe", "010-1111-1111", "seoul", "seoul", "apt", "12345", "NH");
 
-        OrderForm orderForm = new OrderForm();
-        orderForm.setOrderLineDtos(orderLineDtoList);
-        orderForm.setAddressInfo(new AddressInfo("홍길동","seoul", "seoul", "12345"));
 
-        when(productService.findProduct(any())).thenReturn(product);
         when(orderRepository.save(any(Order.class))).then(returnsFirstArg());
+        when(productService.findProductById(any())).thenReturn(product);
+        Order order = orderService.createOrder(null, cartDtos, checkoutForm);
 
-        Order order = orderService.createOrder(null, orderForm);
         when(orderRepository.findByUuid(any())).thenReturn(Optional.ofNullable(order));
         // when
         orderService.cancelOrder(order.getUuid());
