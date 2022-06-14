@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import yj.capstone.aerofarm.config.auth.dto.UserDetailsImpl;
+import yj.capstone.aerofarm.domain.board.PostLike;
+import yj.capstone.aerofarm.domain.member.Member;
 import yj.capstone.aerofarm.dto.*;
 import yj.capstone.aerofarm.form.CommentForm;
 import yj.capstone.aerofarm.form.PostForm;
@@ -50,9 +52,11 @@ public class PostController {
 
         Page<CommentDto> commentInfo = postService.findCommentInfo(post, page); // 게시물 id로 포함 댓글 검색
         PageableList<CommentDto> pageableList = new PageableList<>(commentInfo);    // 페이징
-
         List<PostLikeDto> postLikeInfo = postService.findLikeInfo(post.getId());
-        List<Long> isSelect = postService.isMemberSelectInfo(userDetails.getMember(), boardId);
+
+        Long userId = null;
+        if (userDetails != null) userId = userDetails.getMember().getId();
+        List<PostLike> isSelect = postService.isMemberSelectInfo(userId, boardId);
 
         if (postLikeInfo.size() == 0) postLikeInfo.add(new PostLikeDto(post.getId(), 0L));
 
@@ -61,45 +65,56 @@ public class PostController {
         model.addAttribute("selectPostCategory", category);
         model.addAttribute("postLikeInfo", postLikeInfo.get(0));
         model.addAttribute("isSelected", isSelect.size());
+        model.addAttribute("user", userId);
 
         return "/community/postingPage";
     }
 
     // 글쓰기 페이지
-    @GetMapping("/community/writing")
+    @GetMapping("/writing")
     @PreAuthorize("hasAnyAuthority('GUEST')")
-    public String community_writing() {
+    public String community_writing(@RequestParam(required = false) Long postId, Model model) {
 
+        if (postId != null) model.addAttribute("selectPostId", postId);
         return "/community/writingPage";
     }
 
     // 글쓰기 로직
     @ResponseBody
-    @PostMapping("/community/createPost")
+    @PostMapping("/createBasicPost")
     @PreAuthorize("hasAnyAuthority('GUEST')")
     public Long createPost(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody PostForm postForm) {
-        return postService.createPost(userDetails.getMember(), postForm).getId();
+        return postService.createBasicPost(userDetails.getMember(), postForm).getId();
     }
 
     // 답글 쓰기 로직
-//    @ResponseBody
-//    @PostMapping("/community/createAnswerPost/{postId}")
-//    @PreAuthorize("hasAnyAuthority('GUEST')")
-//    public Long createAnswerPost(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody PostForm postForm, @PathVariable Long postId) {
-//        return postService.createAnswerPost(userDetails.getMember(), postForm, postId).getId();
-//    }
+    @ResponseBody
+    @PostMapping("/createAnswerPost/{postId}")
+    @PreAuthorize("hasAnyAuthority('GUEST')")
+    public Long createAnswerPost(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody PostForm postForm, @PathVariable Long postId) {
+        return postService.createAnswerPost(userDetails.getMember(), postForm, postId).getId();
+    }
 
     // 게시글 안에서 댓글쓰기
     @ResponseBody
-    @PostMapping("/community/createComment")
+    @PostMapping("/createComment")
     @PreAuthorize("hasAnyAuthority('GUEST')")
     public Long createComment(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody CommentForm commentForm) {
         return postService.createComment(userDetails.getMember(), commentForm).getId();
     }
 
+    // 댓글 삭제
+    @ResponseBody
+    @PostMapping("/deleteComment")
+    public Long deleteComment(@RequestBody CommentDto commentDto) {
+        postService.deleteComment(commentDto.getId());
+        System.out.println("commentDto = " + commentDto.getId());
+        return commentDto.getId();
+    }
+
     // 좋아요 로직
     @ResponseBody
-    @PostMapping("/community/createLike")
+    @PostMapping("/createLike")
     @PreAuthorize("hasAnyAuthority('GUEST')")
     public Long createLike(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody PostLikeDto postLikeDto) {
         return postService.createLike(userDetails.getMember(), postLikeDto).getId();
@@ -107,7 +122,7 @@ public class PostController {
 
     // 좋아요 취소 로직
     @ResponseBody
-    @PostMapping("/community/deleteLike")
+    @PostMapping("/deleteLike")
     @PreAuthorize("hasAnyAuthority('GUEST')")
     public Long deleteLike(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody PostLikeDto postLikeDto) {
         if (userDetails.getMember() == null) return null;

@@ -30,12 +30,25 @@ public class PostService {
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
     private final PostLikeRepository postLikeRepository;
+
     // 게시글 등록
-    public Post createPost(Member writer, PostForm postForm) {
+    public Post createBasicPost(Member writer, PostForm postForm) {
 
         Post post = Post.postBuilder()
                 .postForm(postForm)
                 .writer(writer)
+                .build();
+
+        postRepository.save(post);
+        return post;
+    }
+
+    // 답글 등록
+    public Post createAnswerPost(Member writer, PostForm postForm, Long postId) {
+        Post post = Post.postParentBuilder()
+                .postForm(postForm)
+                .writer(writer)
+                .parent(selectPost(postId))
                 .build();
 
         postRepository.save(post);
@@ -54,6 +67,13 @@ public class PostService {
 
         commentRepository.save(comment);
         return comment;
+    }
+
+    // 댓글 삭제
+    public void deleteComment(Long commentId) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> null);
+        comment.updateDeleteTnF(true);
+        commentRepository.save(comment);
     }
 
     // 댓글 가져오기
@@ -98,8 +118,8 @@ public class PostService {
     }
 
     // 좋아요 누름 여부
-    public List<Long> isMemberSelectInfo(Member member, Long postId) {
-        return postLikeRepository.isMemberSelectInfo(member, postId);
+    public List<PostLike> isMemberSelectInfo(Long memberId, Long postId) {
+        return postLikeRepository.findByMemberIdAndPostId(memberId, postId);
     }
 
     // 조회수 업데이트

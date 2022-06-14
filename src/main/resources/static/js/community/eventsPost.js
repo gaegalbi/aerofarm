@@ -1,25 +1,26 @@
-let eventsLike = {
+let eventsPost = {
     init : function () {
         let _this = this;
 
-        $('#likeButton').on('click', function () {
-            if ($('#likeButton').is(":checked") == true) {
-                _this.createLike();
+        $('#btn-eventsPost').on('click', function () {
+            if ($('#post-id').val() == '') {
+                _this.createBasicPost();
             } else {
-                _this.deleteLike();
+                _this.createAnswerPost();
             }
         });
     },
-    createLike : function () {
-
+    createBasicPost : function () {
         let token = $("meta[name='_csrf']").attr("content");
         let header = $("meta[name='_csrf_header']").attr("content");
         let data = {
-            postId: $('#post-id').val()
+            category: $('#category').val(),
+            title: $('#title').val(),
+            contents: $('#summernote').val()
         };
         $.ajax({
             type: 'POST',
-            url: '/createLike',
+            url: '/createBasicPost',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data),
@@ -28,23 +29,24 @@ let eventsLike = {
                 xhr.setRequestHeader(header, token); // CSRF
             },
         }).done(function () {
-            alert('게시글을 추천합니다.');
-            window.location.href ='/community/' + $('#post-category').val() + '/' + $('#post-id').val();
-            // $('#createLike').load(window.location.href + ' #createLike');
+            alert('게시글 작성이 완료되었습니다.');
+            window.location.href ='/community/free?page=1';
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });
     },
-    deleteLike : function () {
-
+    createAnswerPost : function () {
         let token = $("meta[name='_csrf']").attr("content");
         let header = $("meta[name='_csrf_header']").attr("content");
         let data = {
+            category: $('#category').val(),
+            title: $('#title').val(),
+            contents: $('#summernote').val(),
             postId: $('#post-id').val()
         };
         $.ajax({
             type: 'POST',
-            url: '/deleteLike',
+            url: '/createAnswerPost/' + $('#post-id').val(),
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data),
@@ -53,13 +55,12 @@ let eventsLike = {
                 xhr.setRequestHeader(header, token); // CSRF
             },
         }).done(function () {
-            alert('게시글 추천을 취소합니다.');
-            window.location.href ='/community/' + $('#post-category').val() + '/' + $('#post-id').val();
-            // $('#createLike').load(window.location.href + ' #createLike');
+            alert('답글 작성이 완료되었습니다.');
+            window.location.href ='/community/free?page=1';
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });
     }
 };
 
-eventsLike.init();
+eventsPost.init();

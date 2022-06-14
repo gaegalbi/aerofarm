@@ -12,9 +12,11 @@
 
 </style>
 <body>
+<input type="hidden" id="post-id" th:value="${selectPostId}"/>
 <br><h2 style="text-align: center; color: #FFFFFF">게시글 작성</h2><br>
     <div class="container">
         <div class="input-group" style="width: 80%; margin: auto">
+            <!--th:disabled="${selectPostId != null}"-->
             <div class="input-group mb-3" style="width: 35%; margin-right: 20px">
                 <label class="input-group-text" for="category">CATEGORY</label>
                 <select class="form-select" id="category">
@@ -50,12 +52,12 @@
         <div style="width: 80%; margin: auto">
             <div class="d-grid gap-2 d-md-flex justify-content-md-end form-margin">
                 <button type="button" class="btn btn-secondary" onclick="location.href='/community/free?page=1'">취소</button>
-                <button type="button" class="btn btn-secondary" id="btn-createPost">글 작성</button>
+                <button type="button" class="btn btn-secondary" id="btn-eventsPost">글 작성</button>
             </div>
         </div>
     </div>
 <div th:replace="~{fragments/footer :: footer}"/>
-<script src="/js/community/createPost.js"></script>
+<script src="/js/community/eventsPost.js"></script>
 <!--글 쓰기 헤더 정의-->
 <!-- include libraries(jQuery, bootstrap) -->
 <!--    <script type="text/javascript" src="http://code.jquery.com/jquery-3.6.0.min.js"></script>-->

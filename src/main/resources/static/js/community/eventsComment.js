@@ -1,23 +1,22 @@
-let createPost = {
+let eventsComment = {
     init : function () {
         let _this = this;
 
-        $('#btn-createPost').on('click', function () {
-            _this.createPost();
+        $('#btn-eventsComment').on('click', function () {
+            _this.createComment();
         });
     },
-    createPost : function () {
+    createComment : function () {
 
         let token = $("meta[name='_csrf']").attr("content");
         let header = $("meta[name='_csrf_header']").attr("content");
         let data = {
-            category: $('#category').val(),
-            title: $('#title').val(),
-            contents: $('#summernote').val()
+            postId: $('#post-id').val(),
+            content: $('#comment').val()
         };
         $.ajax({
             type: 'POST',
-            url: '/community/createPost',
+            url: '/createComment',
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data),
@@ -26,12 +25,13 @@ let createPost = {
                 xhr.setRequestHeader(header, token); // CSRF
             },
         }).done(function () {
-            alert('게시글 작성이 완료되었습니다.');
-            window.location.href ='/community/free?page=1';
+            alert('댓글 작성이 완료되었습니다.');
+            window.location.href ='/community/' + $('#post-category').val() + '/' + $('#post-id').val();
+            // $('#comment-area').load(window.location.href + ' #comment-area');
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });
     }
 };
 
-createPost.init();
+eventsComment.init();
