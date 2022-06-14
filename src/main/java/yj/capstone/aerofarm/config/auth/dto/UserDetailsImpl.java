@@ -1,4 +1,4 @@
-package yj.capstone.aerofarm.dto;
+package yj.capstone.aerofarm.config.auth.dto;
 
 import lombok.Getter;
 import lombok.ToString;
