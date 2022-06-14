@@ -11,6 +11,7 @@ import yj.capstone.aerofarm.domain.product.ProductCategory;
 import yj.capstone.aerofarm.dto.PageableList;
 import yj.capstone.aerofarm.dto.ProductStoreDetailDto;
 import yj.capstone.aerofarm.dto.ProductStoreInfoDto;
+import yj.capstone.aerofarm.dto.StoreReviewDto;
 import yj.capstone.aerofarm.exception.NoCategoryFoundException;
 import yj.capstone.aerofarm.service.ProductService;
 
@@ -54,8 +55,15 @@ public class StoreController {
     }
 
     @GetMapping("/store/detail/{productId}")
-    public String storeProductDetail(@PathVariable Long productId, @RequestHeader(required = false, defaultValue = "/") String referer, Model model) {
+    public String storeProductDetail(@PathVariable Long productId, @RequestParam(defaultValue = "1") Integer page, @RequestHeader(required = false, defaultValue = "/") String referer, Model model) {
+        if (page < 1) {
+            page = 1;
+        }
         Product product = productService.findProductById(productId);
+        Page<StoreReviewDto> productReviews = productService.findProductReviews(productId, page);
+        PageableList<StoreReviewDto> pageableList = new PageableList<>(productReviews);
+        model.addAttribute("productId", productId);
+        model.addAttribute("pageableList", pageableList);
         model.addAttribute("previousPage", referer);
         model.addAttribute("product", new ProductStoreDetailDto(product));
         return "store/productDetail";

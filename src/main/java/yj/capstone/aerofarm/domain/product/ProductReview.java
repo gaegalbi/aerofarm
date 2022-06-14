@@ -26,14 +26,19 @@ public class ProductReview extends BaseEntity {
     private Member member;
 
     // 해당 리뷰의 평점
-    private double score;
+    private int score;
 
     // 해당 리뷰의 내용
     private String review;
 
     @Builder
-    public ProductReview(Product product, Member member, double score, String review) {
+    public ProductReview(Product product, Member member, int score, String review) {
         product.getProductReviews().add(this);
+        if (score < 0) {
+            score = 0;
+        } else if (score > 5) {
+            score = 5;
+        }
         this.member = member;
         this.product = product;
         this.score = score;

@@ -117,54 +117,68 @@
         상품리뷰
     </h2>
     <ol class="list-group my-3">
-        <th:block th:each="num : ${#numbers.sequence(1,3)}">
+        <th:block th:each="review : ${pageableList.getContent()}">
             <li class="list-group-item d-flex justify-content-between align-items-center"
                 style="background-color: #111620">
                 <div class="ms-2 me-auto">
                     <div class="d-flex text-white">
                         <div class="fw-bold">작성자:&nbsp;</div>
-                        <div class="fw-normal">홍길동</div>
+                        <div class="fw-normal" th:text="${review.getReviewer()}">홍길동</div>
                     </div>
-                    <p class="m-0 blockquote-footer">
+                    <p class="m-0 blockquote-footer" th:text="${review.getReview()}">
                         배송이 빨라요!
                     </p>
                     <div class="d-flex">
                         <p class="m-0 small text-muted">
                             작성일:&nbsp;
                         </p>
-                        <p class="m-0 small text-muted">
+                        <p class="m-0 small text-muted" th:text="${#temporals.format(review.getCreatedDate(), 'yyyy.MM.dd')}">
                             2022-6-12
                         </p>
                     </div>
 
                 </div>
                 <div>
-                    ⭐⭐⭐⭐⭐
+                    <th:block th:each="num : ${#numbers.sequence(1,review.getScore(),1)}">
+                        ⭐
+                    </th:block>
                 </div>
             </li>
         </th:block>
     </ol>
     <nav aria-label="Page navigation example">
-        <ul class="pagination pagination-sm justify-content-center my-2">
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Previous">
+        <ul class="pagination pagination-sm justify-content-center">
+            <li class="page-item" th:classappend="${pageableList.isFirst()} ? 'disabled' : ''">
+                <a class="page-link" href="#" th:href="@{${productId}(page=${pageableList.getNumber()-1})}"
+                   aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
-            <li class="page-item">
-                <a class="page-link">1</a>
+            <li class="page-item" th:classappend="${pageableList.getNumber() == 1} ? 'active' : ''">
+                <a class="page-link" th:href="@{${productId}(page=1)}">1</a>
             </li>
-            <li class="page-item"><a class="page-link">...</a></li>
-
-            <li class="page-item">
-                <a class="page-link" href="#">1</a>
+            <li class="page-item" th:if="${pageableList.isMoreLeft()}"><a class="page-link">...</a>
             </li>
 
-            <li class="page-item"><a class="page-link">...</a></li>
-            <li class="page-item"><a class="page-link">99</a></li>
+            <li class="page-item"
+                th:classappend="${pageableList.getNumber() == num} ? 'active' : ''"
+                th:if="${pageableList.getTotalPage()} > 2"
+                th:each="num : ${#numbers.sequence(pageableList.getListMin(),pageableList.getListMax())}">
+                <a class="page-link" href="#" th:href="@{${productId}(page=${num})}" th:text="${num}">1</a>
+            </li>
 
-            <li class="page-item">
-                <a class="page-link" href="#" aria-label="Next">
+            <li class="page-item" th:if="${pageableList.isMoreRight()}"><a class="page-link">...</a>
+            </li>
+            <li class="page-item"
+                th:classappend="${pageableList.getNumber() == pageableList.getTotalPage()} ? 'active' : ''"
+                th:unless="${pageableList.isFirst()} and ${pageableList.isLast()}"><a
+                    class="page-link" th:href="@{${productId}(page=${pageableList.getTotalPage()})}"
+                    th:text="${pageableList.getTotalPage()}">99</a></li>
+
+            <li class="page-item" th:classappend="${pageableList.isLast()} ? 'disabled' : ''">
+                <a class="page-link" href="#"
+                   th:href="@{${productId}(page=${pageableList.getNumber()+1})}"
+                   aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>

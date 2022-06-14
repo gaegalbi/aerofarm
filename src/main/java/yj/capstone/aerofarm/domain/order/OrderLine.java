@@ -19,14 +19,17 @@ public class OrderLine extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
     private int quantity;
+
+    // OrderLine들의 대표(프리뷰 이미지, 상품 이름 보여주기용)
+    private boolean delegate;
 
     @Embedded
     private Money price;
@@ -39,10 +42,14 @@ public class OrderLine extends BaseEntity {
         this.order = order;
     }
 
-    private OrderLine(Product product,Money price ,int quantity) {
+    private OrderLine(Product product, Money price, int quantity) {
         this.quantity = quantity;
         this.product = product;
         this.price = price;
+    }
+
+    public void makeDelegate() {
+        this.delegate = true;
     }
 
     public static OrderLine createOrderLine(Product product, CartDto cartDto) {

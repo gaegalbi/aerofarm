@@ -46,6 +46,11 @@ public class Order extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private PaymentType paymentType;
 
+    private long totalQuantity;
+
+    // 리뷰된 주문인지 확인
+    private boolean reviewed;
+
     @Builder(builderClassName = "OrderBuilder", builderMethodName = "orderBuilder")
     public Order(CheckoutForm checkoutForm, Member orderer, List<OrderLine> orderLines) {
         this.addressInfo = new AddressInfo(
@@ -65,8 +70,10 @@ public class Order extends BaseEntity {
     private void setOrderLines(List<OrderLine> orderLines) {
         for (OrderLine orderLine : orderLines) {
             orderLine.setOrder(this);
+            this.totalQuantity += orderLine.getQuantity();
         }
         this.orderLines.addAll(orderLines);
+        this.orderLines.get(0).makeDelegate();
         calculateTotalPrice();
     }
 
@@ -90,5 +97,9 @@ public class Order extends BaseEntity {
         }
 
         throw new IllegalArgumentException("배송 시작 후에는 취소가 불가능 합니다."); // TODO 예외 이름 변경
+    }
+
+    public void reviewed() {
+        this.reviewed = true;
     }
 }
