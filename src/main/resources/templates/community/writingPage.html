@@ -12,9 +12,11 @@
 
 </style>
 <body>
+<input type="hidden" id="post-id" th:value="${selectPostId}"/>
 <br><h2 style="text-align: center; color: #FFFFFF">게시글 작성</h2><br>
     <div class="container">
         <div class="input-group" style="width: 80%; margin: auto">
+            <!--th:disabled="${selectPostId != null}"-->
             <div class="input-group mb-3" style="width: 35%; margin-right: 20px">
                 <label class="input-group-text" for="category">CATEGORY</label>
                 <select class="form-select" id="category">

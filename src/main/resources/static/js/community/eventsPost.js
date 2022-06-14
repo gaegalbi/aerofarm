@@ -3,7 +3,7 @@ let eventsPost = {
         let _this = this;
 
         $('#btn-eventsPost').on('click', function () {
-            if ($('#post-id').val() == null) {
+            if ($('#post-id').val() == '') {
                 _this.createBasicPost();
             } else {
                 _this.createAnswerPost();
