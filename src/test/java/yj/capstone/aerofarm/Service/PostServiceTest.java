@@ -33,7 +33,7 @@ public class PostServiceTest {
         postForm.setCategory("FREE");
         postForm.setTitle("제목 1");
 
-        Post post = postService.createPost(member, postForm);
+        Post post = postService.createBasicPost(member, postForm);
 
         assertThat(post.getWriter()).isEqualTo(member);
         assertThat(post.getCategory()).isEqualTo(PostCategory.FREE);
