@@ -69,6 +69,13 @@ public class PostService {
         return comment;
     }
 
+    // 댓글 삭제
+    public void deleteComment(Long commentId) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> null);
+        comment.updateDeleteTnF(true);
+        commentRepository.save(comment);
+    }
+
     // 댓글 가져오기
     public Page<CommentDto> findCommentInfo(Post post, Integer page) {
         PageRequest pageRequest = PageRequest.of(page - 1, 10);
@@ -111,7 +118,7 @@ public class PostService {
     }
 
     // 좋아요 누름 여부
-    public Long isMemberSelectInfo(Long memberId, Long postId) {
+    public List<PostLike> isMemberSelectInfo(Long memberId, Long postId) {
         return postLikeRepository.findByMemberIdAndPostId(memberId, postId);
     }
 

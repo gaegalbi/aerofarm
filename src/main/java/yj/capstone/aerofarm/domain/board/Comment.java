@@ -58,4 +58,8 @@ public class Comment extends BaseEntity {
         this.writer = writer;
         this.content = commentForm.getContent();
     }
+
+    public void updateDeleteTnF(boolean deleteTnF) {
+        this.deleteTnF = deleteTnF;
+    }
 }

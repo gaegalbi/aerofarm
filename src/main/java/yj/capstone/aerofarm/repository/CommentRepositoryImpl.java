@@ -27,9 +27,11 @@ public class CommentRepositoryImpl extends Querydsl5RepositorySupport implements
                                 comment.content,
                                 comment.createdDate,
                                 comment.post,
-                                comment.writer.id))
+                                comment.writer.id,
+                                comment.deleteTnF))
                         .from(comment)
-                        .where(comment.post.eq(post)),
+                        .where(comment.post.eq(post))
+                        .orderBy(comment.createdDate.desc()),
                 query -> query
                         .select(comment.count())
                         .from(comment)

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import yj.capstone.aerofarm.config.auth.dto.UserDetailsImpl;
+import yj.capstone.aerofarm.domain.board.PostLike;
 import yj.capstone.aerofarm.domain.member.Member;
 import yj.capstone.aerofarm.dto.*;
 import yj.capstone.aerofarm.form.CommentForm;
@@ -55,7 +56,7 @@ public class PostController {
 
         Long userId = null;
         if (userDetails != null) userId = userDetails.getMember().getId();
-        Long isSelect = postService.isMemberSelectInfo(userId, boardId);
+        List<PostLike> isSelect = postService.isMemberSelectInfo(userId, boardId);
 
         if (postLikeInfo.size() == 0) postLikeInfo.add(new PostLikeDto(post.getId(), 0L));
 
@@ -63,7 +64,7 @@ public class PostController {
         model.addAttribute("selectPost", result);
         model.addAttribute("selectPostCategory", category);
         model.addAttribute("postLikeInfo", postLikeInfo.get(0));
-        model.addAttribute("isSelected", isSelect);
+        model.addAttribute("isSelected", isSelect.size());
         model.addAttribute("user", userId);
 
         return "/community/postingPage";
@@ -100,6 +101,15 @@ public class PostController {
     @PreAuthorize("hasAnyAuthority('GUEST')")
     public Long createComment(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody CommentForm commentForm) {
         return postService.createComment(userDetails.getMember(), commentForm).getId();
+    }
+
+    // 댓글 삭제
+    @ResponseBody
+    @PostMapping("/deleteComment")
+    public Long deleteComment(@RequestBody CommentDto commentDto) {
+        postService.deleteComment(commentDto.getId());
+        System.out.println("commentDto = " + commentDto.getId());
+        return commentDto.getId();
     }
 
     // 좋아요 로직

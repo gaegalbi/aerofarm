@@ -127,12 +127,14 @@
                             <td th:utext="'&lt;b&gt;' + ${commentDto.getWriter()} + '&lt;/b&gt;'"/>
                         </tr>
                         <tr>
-                            <td th:text="${commentDto.getContent()}"/>
+                            <td th:text="${commentDto.isDeleteTnF()} ? '삭제된 댓글입니다.' : ${commentDto.getContent()}"/>
                         </tr>
                         <tr>
                             <td th:text="${#temporals.format(commentDto.getLocalDateTime(), 'yyyy.MM.dd HH:mm')}"/>
                             <td><a href="#">댓글 달기</a></td>
-                            <td><a href="#" th:if="${user == commentDto.getWriterId()}">댓글 삭제</a></td>
+                            <td>
+                                <a href="#" th:id="${commentDto.getId()}" onclick="deleteComment(this.id)" th:if="${user == commentDto.getWriterId() and !commentDto.isDeleteTnF()}" th:text="|댓글 삭제|"/>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
@@ -195,6 +197,7 @@
 <div th:replace="~{fragments/footer :: footer}"/>
 
 <script src="/js/community/eventsLike.js"></script>
-<script src="/js/community/createComment.js"></script>
+<script src="/js/community/deleteComment.js"></script>
+<script src="/js/community/eventsComment.js"></script>
 </body>
 </html>

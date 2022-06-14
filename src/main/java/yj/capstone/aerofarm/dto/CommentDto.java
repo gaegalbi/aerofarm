@@ -20,6 +20,7 @@ public class CommentDto {
     private String content;
     private Long postId;
     private Long writerId;
+    private boolean deleteTnF;
 
     @Builder
     public CommentDto(Comment comment) {
@@ -31,12 +32,13 @@ public class CommentDto {
     }
 
     @QueryProjection
-    public CommentDto(Long id, String writer, String content, LocalDateTime localDateTime, Post post, Long writerId) {
+    public CommentDto(Long id, String writer, String content, LocalDateTime localDateTime, Post post, Long writerId, boolean deleteTnF) {
         this.id = id;
         this.writer = writer;
         this.content = content;
         this.localDateTime = localDateTime;
         this.postId = post.getId();
         this.writerId = writerId;
+        this.deleteTnF = deleteTnF;
     }
 }

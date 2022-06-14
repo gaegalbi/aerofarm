@@ -1,8 +1,6 @@
 package yj.capstone.aerofarm.repository;
 
-import com.querydsl.core.types.dsl.BooleanExpression;
 import yj.capstone.aerofarm.domain.board.PostLike;
-import yj.capstone.aerofarm.domain.member.Member;
 import yj.capstone.aerofarm.dto.PostLikeDto;
 import yj.capstone.aerofarm.dto.QPostLikeDto;
 import yj.capstone.aerofarm.repository.support.Querydsl5RepositorySupport;
