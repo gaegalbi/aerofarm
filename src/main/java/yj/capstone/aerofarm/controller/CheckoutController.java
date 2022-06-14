@@ -66,9 +66,14 @@ public class CheckoutController {
             return "redirect:/checkout";
         }
 
-        Order order = orderService.createOrder(userDetails.getMember(), cart, checkoutForm);
-        log.info("order {} create. by {}", order.getId(), userDetails.getUsername());
-        return "redirect:/checkout/" + order.getUuid();
+        try {
+            Order order = orderService.createOrder(userDetails.getMember(), cart, checkoutForm);
+            log.info("Order {} create. by {}", order.getId(), userDetails.getUsername());
+            return "redirect:/checkout/" + order.getUuid();
+        } catch (IllegalArgumentException e) {
+            log.info("Order fail, out of stock. by {}", userDetails.getUsername());
+        }
+        return "redirect:/store";
     }
 
     @GetMapping("/checkout/{uuid}")
