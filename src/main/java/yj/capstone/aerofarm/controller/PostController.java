@@ -79,16 +79,16 @@ public class PostController {
     @PostMapping("/createBasicPost")
     @PreAuthorize("hasAnyAuthority('GUEST')")
     public Long createPost(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody PostForm postForm) {
-        return postService.createPost(userDetails.getMember(), postForm).getId();
+        return postService.createBasicPost(userDetails.getMember(), postForm).getId();
     }
 
     // 답글 쓰기 로직
-//    @ResponseBody
-//    @PostMapping("/createAnswerPost/{postId}")
-//    @PreAuthorize("hasAnyAuthority('GUEST')")
-//    public Long createAnswerPost(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody PostForm postForm, @PathVariable Long postId) {
-//        return postService.createAnswerPost(userDetails.getMember(), postForm, postId).getId();
-//    }
+    @ResponseBody
+    @PostMapping("/createAnswerPost/{postId}")
+    @PreAuthorize("hasAnyAuthority('GUEST')")
+    public Long createAnswerPost(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody PostForm postForm, @PathVariable Long postId) {
+        return postService.createAnswerPost(userDetails.getMember(), postForm, postId).getId();
+    }
 
     // 게시글 안에서 댓글쓰기
     @ResponseBody

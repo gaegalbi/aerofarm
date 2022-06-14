@@ -30,12 +30,25 @@ public class PostService {
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
     private final PostLikeRepository postLikeRepository;
+
     // 게시글 등록
-    public Post createPost(Member writer, PostForm postForm) {
+    public Post createBasicPost(Member writer, PostForm postForm) {
 
         Post post = Post.postBuilder()
                 .postForm(postForm)
                 .writer(writer)
+                .build();
+
+        postRepository.save(post);
+        return post;
+    }
+
+    // 답글 등록
+    public Post createAnswerPost(Member writer, PostForm postForm, Long postId) {
+        Post post = Post.postParentBuilder()
+                .postForm(postForm)
+                .writer(writer)
+                .parent(selectPost(postId))
                 .build();
 
         postRepository.save(post);

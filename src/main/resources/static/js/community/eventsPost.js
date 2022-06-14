@@ -3,7 +3,7 @@ let eventsPost = {
         let _this = this;
 
         $('#btn-eventsPost').on('click', function () {
-            if ($('post-id').val() == null) {
+            if ($('#post-id').val() == null) {
                 _this.createBasicPost();
             } else {
                 _this.createAnswerPost();
@@ -46,7 +46,7 @@ let eventsPost = {
         };
         $.ajax({
             type: 'POST',
-            url: '/createAnswerPost',
+            url: '/createAnswerPost/' + $('#post-id').val(),
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data),
@@ -55,7 +55,7 @@ let eventsPost = {
                 xhr.setRequestHeader(header, token); // CSRF
             },
         }).done(function () {
-            alert('게시글 작성이 완료되었습니다.');
+            alert('답글 작성이 완료되었습니다.');
             window.location.href ='/community/free?page=1';
         }).fail(function (error) {
             alert(JSON.stringify(error));
