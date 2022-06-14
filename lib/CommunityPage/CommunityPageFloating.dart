@@ -6,8 +6,8 @@ import 'CommunityPageCreatePost.dart';
 
 @immutable
 class CommunityPageFloating extends StatelessWidget {
-
-  const CommunityPageFloating({Key? key}) : super(key: key);
+  final String id;
+  const CommunityPageFloating({Key? key, required this.id}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class CommunityPageFloating extends StatelessWidget {
           color: Colors.indigo,
           child: IconButton(
             padding: EdgeInsets.zero,
-              onPressed: () => Get.to(()=>const CommunityPageCreatePost()),
+              onPressed: () => Get.to(()=>CommunityPageCreatePost(id:id)),
               icon: Image.asset("assets/images/create.png"))
         ),
         Material(

@@ -12,7 +12,8 @@ import '../LoginPage/LoginPageLogin.dart';
 import 'CommunityPageForm.dart';
 
 class CommunityPageCreatePost extends StatefulWidget {
-  const CommunityPageCreatePost({Key? key}) : super(key: key);
+  final String id;
+  const CommunityPageCreatePost({Key? key, required this.id}) : super(key: key);
 
   @override
   State<CommunityPageCreatePost> createState() =>
@@ -170,24 +171,36 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
             ),
             child: TextButton(
                 onPressed: () async {
-                  data = {
-                    "category":matchCategory[groupValue],
-                    "title":_titleController.text,
-                    "contents":_controller.document.toPlainText(),
-                  };
-                  //print(matchCategory[groupValue]);
-                  // print(_contentsController.text);
-                  var body = json.encode(data);
+                  if(matchCategory[groupValue]==null || _titleController.text.isEmpty || _controller.document.toPlainText().length==1){
+                    showDialog(context: context, builder: (context){
+                      Future.delayed(const Duration(milliseconds: 900), () {
+                        Navigator.pop(context);
+                      });
+                      return const AlertDialog(
+                        backgroundColor: Colors.transparent,
+                        contentPadding: EdgeInsets.all(5),
+                        content: Text("게시판 종류,제목,내용이\n있어야합니다.",style: TextStyle(fontSize: 28),textAlign: TextAlign.center,),
+                      );
+                    });
+                  }else{
+                    data = {
+                      "category":matchCategory[groupValue],
+                      "title":_titleController.text,
+                      "contents":_controller.document.toPlainText(),
+                    };
+                    var body = json.encode(data);
 
-                  await http.post(
-                    Uri.http('127.0.0.1:8080', '/community/createPost'),
-                    headers: {
-                      "Content-Type": "application/json",
-                      "Cookie":"JSESSIONID=$session",
-                    },
-                    encoding: Encoding.getByName('utf-8'),
-                    body: body,
-                  );
+                    await http.post(
+                      Uri.http('127.0.0.1:8080', '/community/createPost'),
+                      headers: {
+                        "Content-Type": "application/json",
+                        "Cookie":"JSESSIONID=$session",
+                      },
+                      encoding: Encoding.getByName('utf-8'),
+                      body: body,
+                    );
+                    Get.offAll(CommunityPageForm(category: widget.id));
+                  }
 
                 /*  Future<http.Response> fetchPost() {
                     return http.post(

@@ -200,7 +200,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: const CommunityPageFloating(),
+      floatingActionButton: CommunityPageFloating(id: widget.category,),
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: MainColor.six,

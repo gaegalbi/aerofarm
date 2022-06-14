@@ -50,7 +50,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
       setState(() {
         name = res.account.nickname;
         isLogin = true;
-        print(res.account.email);
+       // print(res.account.email);
         Get.offAll(()=>const MainPage());
       });
     } catch (error) {
@@ -97,14 +97,21 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                     encoding: Encoding.getByName('utf-8'),
                     body: data,
                   );
-
                   if(response1.statusCode ==200){
-                    print("error"); //post 응답이 있으면 안됨
+                    showDialog(context: context, builder: (context){
+                      Future.delayed(const Duration(milliseconds: 400), () {
+                        Navigator.pop(context);
+                      });
+                      return const AlertDialog(
+                        backgroundColor: Colors.transparent,
+                        contentPadding: EdgeInsets.all(5),
+                        content: Text("이메일이나 비밀번호가 잘못되었습니다.",style: TextStyle(fontSize: 30),textAlign: TextAlign.center,),
+                      );
+                    });
                     _lUserNameController.text="";
                     _lPasswordController.text="";
                     //팝업 띄우기
                   }else{
-                    print("work"); //정상동작
                     session = response1.headers['set-cookie']?.substring(11,43);
                     Get.offAll(()=>const MainPage());
                   }
