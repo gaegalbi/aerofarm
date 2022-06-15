@@ -1,8 +1,8 @@
-let eventsComment = {
+let createComment = {
     init : function () {
         let _this = this;
 
-        $('#btn-eventsComment').on('click', function () {
+        $('#btn-createComment').on('click', function () {
             _this.createComment();
         });
     },
@@ -34,4 +34,4 @@ let eventsComment = {
     }
 };
 
-eventsComment.init();
+createComment.init();
