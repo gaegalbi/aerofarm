@@ -22,8 +22,8 @@ let productDetail = {
         });
     },
     addCart: function () {
-        let token = $("meta[name='_csrf']").attr("content");
-        let header = $("meta[name='_csrf_header']").attr("content");
+       /* let token = $("meta[name='_csrf']").attr("content");
+        let header = $("meta[name='_csrf_header']").attr("content");*/
         let data = {
             productId: $('#productId').val(),
             quantity: $('#quantity').val()
@@ -34,9 +34,9 @@ let productDetail = {
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data),
-            beforeSend: function (xhr) {
+           /* beforeSend: function (xhr) {
                 xhr.setRequestHeader(header, token); // CSRF
-            },
+            },*/
         }).done(function (data, status, xhr) {
             if (xhr.status === 200) {
                 $('#successModal').modal('show');

@@ -7,8 +7,8 @@ let cartList = {
         });
     },
     removeItem: function (id) {
-        let token = $("meta[name='_csrf']").attr("content");
-        let header = $("meta[name='_csrf_header']").attr("content");
+       /* let token = $("meta[name='_csrf']").attr("content");
+        let header = $("meta[name='_csrf_header']").attr("content");*/
         let data = {
             productId: id
         };
@@ -18,9 +18,9 @@ let cartList = {
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data),
-            beforeSend: function (xhr) {
+           /* beforeSend: function (xhr) {
                 xhr.setRequestHeader(header, token); // CSRF
-            },
+            },*/
         }).done(function (data, status, xhr) {
             if (xhr.status === 200) {
                 $('#removeModal').modal('show');

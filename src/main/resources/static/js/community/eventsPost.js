@@ -11,8 +11,8 @@ let eventsPost = {
         });
     },
     createBasicPost : function () {
-        let token = $("meta[name='_csrf']").attr("content");
-        let header = $("meta[name='_csrf_header']").attr("content");
+       /* let token = $("meta[name='_csrf']").attr("content");
+        let header = $("meta[name='_csrf_header']").attr("content");*/
         let data = {
             category: $('#category').val(),
             title: $('#title').val(),
@@ -24,10 +24,10 @@ let eventsPost = {
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data),
-            beforeSend : function(xhr)
+           /* beforeSend : function(xhr)
             {
                 xhr.setRequestHeader(header, token); // CSRF
-            },
+            },*/
         }).done(function () {
             alert('게시글 작성이 완료되었습니다.');
             window.location.href ='/community/free?page=1';
@@ -36,8 +36,8 @@ let eventsPost = {
         });
     },
     createAnswerPost : function () {
-        let token = $("meta[name='_csrf']").attr("content");
-        let header = $("meta[name='_csrf_header']").attr("content");
+       /* let token = $("meta[name='_csrf']").attr("content");
+        let header = $("meta[name='_csrf_header']").attr("content");*/
         let data = {
             category: $('#category').val(),
             title: $('#title').val(),
@@ -50,10 +50,10 @@ let eventsPost = {
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data),
-            beforeSend : function(xhr)
+            /*beforeSend : function(xhr)
             {
                 xhr.setRequestHeader(header, token); // CSRF
-            },
+            },*/
         }).done(function () {
             alert('답글 작성이 완료되었습니다.');
             window.location.href ='/community/free?page=1';
