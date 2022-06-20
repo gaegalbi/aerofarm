@@ -62,9 +62,14 @@
         text-align: left;
     }
 
-    #post-events:hover tbody tr:hover td {
+    #post-events:hover li ol:hover li {
       background: lightgray;
       color: black;
+    }
+
+    #list-item:hover{
+        background: lightgray;
+        color: black;
     }
 
     td {
@@ -76,6 +81,32 @@
         border-color: #1C273A;
         color: #FFFFFF;
     }
+
+    .list-item-backcolor {
+        background-color: #131825;
+        padding: 0px;
+    }
+    .title-header {
+        color: #FFFFFF;
+        text-align: center;
+        font-weight: bold;
+    }
+    .list-body {
+        color: #FFFFFF;
+        padding: 7px 0px 7px 0px;
+    }
+
+    .list-text-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .list-col-1 {width: 5.81%;}
+    .list-col-2 {width: 55.04%;}
+    .list-col-3 {width: 10.85%;}
+    .list-col-4 {width: 14.34%;}
+    .list-col-5 {width: 6.98%;}
+    .list-col-6 {width: 6.98%;}
 </style>
 <body class="d-flex flex-column min-vh-100">
 <div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
@@ -114,7 +145,34 @@
 </div>
 <!--목록 표시-->
 <div class="container">
-    <table id="post-events" class="table f-color-w">
+    <ol class="list-group">
+        <li class="list-group-item list-item-backcolor" style="border-style: solid; border-width: 0px 0px 2px 0px; border-color: #FFFFFF">
+            <div class="row g-0" style="height: 35px">
+                <div class="title-header col-sm-1 list-text-center list-col-1" th:text="분류"/>    <!--75px-->
+                <div class="title-header col-sm-1 list-text-center list-col-2" th:text="제목"/>   <!--710-->
+                <div class="title-header col-sm-1 list-text-center list-col-3" th:text="작성자"/>   <!--140-->
+                <div class="title-header col-sm-1 list-text-center list-col-4" th:text="작성일"/>    <!--185-->
+                <div class="title-header col-sm-1 list-text-center list-col-5" th:text="추천"/>   <!--90-->
+                <div class="title-header col-sm-1 list-text-center list-col-6" th:text="조회"/>     <!--90-->
+            </div>
+        </li>
+        <li class="list-group-item list-item-backcolor" style="border: none" th:each="postDto : ${pageableList.getContent()}" th:onclick="|location.href='@{/community/{category}/{id}(category=${postDto.category.getLowerCase()}, id=${postDto.id})}'|">
+            <button type="button" class="list-group-item list-group-item-action" id="list-item" style="background-color: #131825; padding: 0px; border: none">
+                <div class="row g-0">
+                    <div class="list-body col-sm-1 list-text-center list-col-1" style="color: deepskyblue" th:text="일반"/>
+                    <div class="list-body col-sm-1 list-col-2" style="text-align: left" th:text="|${postDto.getTitle()}(${postDto.getCommentCount()==null ? '0' : postDto.getCommentCount()})|"/>
+                    <div class="list-body col-sm-1 list-text-center list-col-3" th:text="${postDto.getWriter()}"/>
+                    <div class="list-body col-sm-1 list-text-center list-col-4" th:text="${#temporals.format(postDto.getCreateDate(), 'yyyy.MM.dd HH:mm')}"/>
+                    <div class="list-body col-sm-1 list-text-center list-col-5" th:text="${postDto.getLikeCount()==null} ? '0' : ${postDto.getLikeCount()}"/>
+                    <div class="list-body col-sm-1 list-text-center list-col-6" th:text="${postDto.getViews()}"/>
+                </div>
+            </button>
+        </li>
+    </ol>
+</div>
+<!--
+<div class="container">
+    <table class="table f-color-w">
         <thead>
         <tr>
             <th th:width="20">분류</th>
@@ -127,16 +185,16 @@
         </thead>
         <tbody>
         <tr th:each="postDto : ${pageableList.getContent()}" th:onclick="|location.href='@{/community/{category}/{id}(category=${postDto.category.getLowerCase()}, id=${postDto.id})}'|">
-            <td class="f-filter-color-b">일반</td> <!--추후 변수로 받아오기로 변경 필요-->
+            <td class="f-filter-color-b">일반</td> <--추후 변수로 받아오기로 변경 필요->
             <td class="title-f-sort" th:text="|${postDto.getTitle()}(${postDto.getCommentCount()==null ? '0' : postDto.getCommentCount()})|"/>
             <td class="writer" th:text="${postDto.getWriter()}"/>
             <td class="date" th:text="${#temporals.format(postDto.getCreateDate(), 'yyyy.MM.dd HH:mm')}"/>
-            <td class="likes" th:text="${postDto.getLikeCount()==null} ? '0' : ${postDto.getLikeCount()}"/> <!-- 좋아요 대체 필요-->
+            <td class="likes" th:text="${postDto.getLikeCount()==null} ? '0' : ${postDto.getLikeCount()}"/> <-- 좋아요 대체 필요->
             <td class="views" th:text="${postDto.getViews()}"/>
         </tr>
         </tbody>
     </table>
-</div>
+</div>-->
 <!--페이징 번호 표시-->
 <div class="container">
     <nav aria-label="Page navigation example">
