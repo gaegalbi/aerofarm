@@ -23,15 +23,16 @@ class MainPageDrawer extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: MediaQuery.of(context).size.width*0.25,
-            backgroundImage: const AssetImage("assets/images/profile.png"),
+            backgroundImage: profile!.image,
+            /*backgroundImage: const AssetImage("assets/images/profile.png"),*/
           ),
           Container(
             margin: EdgeInsets.only(top: drawerPadding*2),
             alignment: Alignment.center,
             child: Column(
               children: [
-                const Text(
-                  "도시농부1",
+                 Text(
+                  nickname!,
                   style: MainTheme.name,
                 ),
                 Container(

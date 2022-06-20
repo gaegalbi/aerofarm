@@ -2,6 +2,7 @@ import 'package:capstone/LoginPage/LoginPage.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 class LoginPageRegister extends StatefulWidget {
   const LoginPageRegister({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
   late TextEditingController _passwordController;
   late TextEditingController _passwordConfirmController;
   late TextEditingController _nickNameController;
-  late TextEditingController _phoneNumberController;
+  late TextEditingController _nameController;
 
   @override
   void initState() {
@@ -25,7 +26,7 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
     _passwordController = TextEditingController();
    _passwordConfirmController = TextEditingController();
    _nickNameController = TextEditingController();
-   _phoneNumberController = TextEditingController();
+   _nameController = TextEditingController();
     super.initState();
   }
 
@@ -36,7 +37,7 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
     _passwordController.dispose();
     _passwordConfirmController.dispose();
     _nickNameController.dispose();
-    _phoneNumberController.dispose();
+    _nameController.dispose();
     super.dispose();
   }
 
@@ -95,7 +96,7 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                       margin: EdgeInsets.only(
                           top: topMargin),
                       child: const Text(
-                        "EMAILL ADDRESS",
+                        "EMAIL ADDRESS",
                         style: LoginRegisterPageTheme.registerTitle,
                         textAlign: TextAlign.start,
                       ),
@@ -109,7 +110,7 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                         controller: _emailController,
                         textInputAction: TextInputAction.next,
                         style: LoginRegisterPageTheme.text,
-                        textAlign: TextAlign.center,
+                        //textAlign: TextAlign.center,
                         decoration: const InputDecoration(
                             filled: true,
                             fillColor: MainColor.one,
@@ -139,12 +140,12 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                       alignment: Alignment.center,
                       width: MediaQuery.of(context).size.width * 0.8,
                       child: TextField(
-                        //obscureText: true,
-                        //obscuringCharacter: "*",
+                        obscureText: true,
+                        obscuringCharacter: "*",
                         controller: _passwordController,
                         textInputAction: TextInputAction.next,
                         style: LoginRegisterPageTheme.text,
-                        textAlign: TextAlign.center,
+                        //textAlign: TextAlign.center,
                         decoration: const InputDecoration(
                             filled: true,
                             fillColor: MainColor.one,
@@ -162,7 +163,7 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                       margin: EdgeInsets.only(
                           top: topMargin),
                       child: const Text(
-                        "PASSWORD CONFIRM",
+                        "CONFIRM PASSWORD",
                         style: LoginRegisterPageTheme.registerTitle,
                         textAlign: TextAlign.start,
                       ),
@@ -173,17 +174,51 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                       alignment: Alignment.center,
                       width: MediaQuery.of(context).size.width * 0.8,
                       child: TextField(
-                        //obscureText: true,
-                        //obscuringCharacter: "*",
+                        obscureText: true,
+                        obscuringCharacter: "*",
                         controller: _passwordConfirmController,
                         textInputAction: TextInputAction.next,
                         style: LoginRegisterPageTheme.text,
-                        textAlign: TextAlign.center,
+                        //textAlign: TextAlign.center,
                         decoration: const InputDecoration(
                             filled: true,
                             fillColor: MainColor.one,
                             enabledBorder: InputBorder.none,
                             focusedBorder: InputBorder.none,
+                            hintStyle: LoginRegisterPageTheme.hint),
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      margin: EdgeInsets.only(
+                          top: topMargin),
+                      child: const Text(
+                        "NAME",
+                        style: LoginRegisterPageTheme.registerTitle,
+                        textAlign: TextAlign.start,
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height * 0.02),
+                      alignment: Alignment.center,
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      child: TextField(
+                        controller: _nameController,
+                        textInputAction: TextInputAction.next,
+                        style: LoginRegisterPageTheme.text,
+                        //textAlign: TextAlign.center,
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                            filled: true,
+                            fillColor: MainColor.one,
+                            enabledBorder: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            hintText: "홍길동",
                             hintStyle: LoginRegisterPageTheme.hint),
                       ),
                     ),
@@ -210,47 +245,13 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                         controller: _nickNameController,
                         textInputAction: TextInputAction.next,
                         style: LoginRegisterPageTheme.text,
-                        textAlign: TextAlign.center,
+                        //textAlign: TextAlign.center,
                         decoration: const InputDecoration(
                             filled: true,
                             fillColor: MainColor.one,
                             enabledBorder: InputBorder.none,
                             focusedBorder: InputBorder.none,
                             hintText: "NICKNAME을 입력해주세요",
-                            hintStyle: LoginRegisterPageTheme.hint),
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      margin: EdgeInsets.only(
-                          top: topMargin),
-                      child: const Text(
-                        "PHONE NUMBER",
-                        style: LoginRegisterPageTheme.registerTitle,
-                        textAlign: TextAlign.start,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(
-                          top: MediaQuery.of(context).size.height * 0.02),
-                      alignment: Alignment.center,
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      child: TextField(
-                        controller: _phoneNumberController,
-                        textInputAction: TextInputAction.next,
-                        style: LoginRegisterPageTheme.text,
-                        textAlign: TextAlign.center,
-                        keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(
-                            filled: true,
-                            fillColor: MainColor.one,
-                            enabledBorder: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            hintText: "010-0000-0000",
                             hintStyle: LoginRegisterPageTheme.hint),
                       ),
                     ),
@@ -263,9 +264,17 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                   color: MainColor.three,
                   width: MediaQuery.of(context).size.width * 0.8,
                   child: TextButton(
-                    onPressed: () {
+                    onPressed: () async {
                       //회원 가입
-                      Get.offAll(const LoginPage());
+                      await http.post(Uri.http('127.0.0.1:8080', '/signup'),
+                          body: {
+                            "email":_emailController.text,
+                            "password":_passwordController.text,
+                            "confirmPassword":_passwordConfirmController.text,
+                            "name":_nameController.text,
+                            "nickname":_nickNameController.text
+                          });
+                      Get.offAll(()=>const LoginPage());
                     },
                     child: const Text(
                       "가입",

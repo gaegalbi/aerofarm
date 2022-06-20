@@ -1,3 +1,4 @@
+import 'package:capstone/LoginPage/LoginPageLogin.dart';
 import 'package:capstone/MainPage/MainPage.dart';
 import 'package:capstone/MainPage/MainPageMyProfile.dart';
 import 'package:capstone/themeData.dart';
@@ -42,14 +43,15 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
         children: [
           CircleAvatar(
             radius: MediaQuery.of(context).size.width * 0.25,
-            backgroundImage: const AssetImage("assets/images/profile.png"),
+            backgroundImage: profile!.image,
+            /*backgroundImage: const AssetImage("assets/images/profile.png"),*/
           ),
           Container(
             margin: EdgeInsets.only(top: drawerPadding * 2),
             child: Column(
               children: [
-                const Text(
-                  "도시농부1",
+                 Text(
+                  nickname!,
                   style: MainTheme.name,
                 ),
                 Container(

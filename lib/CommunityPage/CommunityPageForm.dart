@@ -27,6 +27,7 @@ final Map<String, String> matchCategory = {
   "trade": "거래게시판"
 };
 
+
 class CommunityPageForm extends StatefulWidget {
   final String category;
 
@@ -42,13 +43,14 @@ class CommunityPageForm extends StatefulWidget {
 class _CommunityPageFormState extends State<CommunityPageForm> {
   late ScrollController _scrollController;
   int index = 1;
+  int categoryIndex=0;
+  int i=1;
   late List<Map<String, dynamic>> customKeywords = [];
   Future fetch() async {
     List<String> boardCategory = ["free","information","question","picture","trade"];
     String current = dateFormat.format(DateTime.now());
     if(widget.category=='all' || widget.category=='hot') {
-      int i=1;
-      int categoryIndex=0;
+
       final List<Map<String, dynamic>> customKeywords = [];
       while(true) {
         final Map<String, String> _queryParameters = <String, String>{
@@ -69,6 +71,8 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
               });
               //print(categoryIndex);
             }else{
+              print(categoryIndex);
+              print(i);
               print("break work");
               break;
             }
@@ -107,7 +111,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
       if(widget.category =='all') {
         customKeywords.sort((b, a) => a['realDate'].compareTo(b['realDate']));
       }else{
-        customKeywords.sort((b, a) => a['comments'].compareTo(b['comments']));
+        customKeywords.sort((b, a) => int.parse(a['comments']).compareTo(int.parse(b['comments'])));
       }
       setState(() {
         for (var element in customKeywords) {
@@ -182,9 +186,23 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
         fetch();
       }
       if (_scrollController.offset ==_scrollController.position.minScrollExtent) {
-        keywords.clear();
-        index = 1;
-        fetch();
+        //keywords.clear();
+        setState((){
+          commentList.clear();
+          boardList.clear();
+          boardList.add(notice());
+          index = 1;
+          categoryIndex = 0;
+          i=1;
+          print(categoryIndex);
+          print(i);
+          loading = true;
+          fetch();
+          Future.delayed(const Duration(microseconds: 100), () {
+            loading = false;
+          });
+        });
+
       }
 
   }

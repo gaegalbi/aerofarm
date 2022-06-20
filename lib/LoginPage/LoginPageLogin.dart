@@ -11,10 +11,16 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:http/http.dart' as http;
+import 'package:html/parser.dart' as parser;
+import 'package:html/dom.dart' as dom;
 
 late String? session;
 late String name;
 late bool isLogin;
+late String? nickname;
+//쿠키 받아두는 변수
+late String? tmp;
+late Image? profile;
 
 class LoginPageLoginRegister extends StatefulWidget {
   const LoginPageLoginRegister({Key? key}) : super(key: key);
@@ -82,7 +88,8 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                 try{
                   final response = await http
                       .get(Uri.http('127.0.0.1:8080', '/login'));
-                  session = response.headers['set-cookie']?.substring(11,43);
+                  tmp = response.headers['set-cookie'];
+                  session = tmp?.substring(tmp!.lastIndexOf('JSESSIONID')+11,tmp!.lastIndexOf('JSESSIONID')+43);
                   data = {
                     'email' :_lUserNameController.text,
                     'password' : _lPasswordController.text,
@@ -97,22 +104,46 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                     encoding: Encoding.getByName('utf-8'),
                     body: data,
                   );
+
                   if(response1.statusCode ==200){
                     showDialog(context: context, builder: (context){
-                      Future.delayed(const Duration(milliseconds: 400), () {
+                      Future.delayed(const Duration(milliseconds: 1500), () {
                         Navigator.pop(context);
                       });
                       return const AlertDialog(
                         backgroundColor: Colors.transparent,
                         contentPadding: EdgeInsets.all(5),
-                        content: Text("이메일이나 비밀번호가 잘못되었습니다.",style: TextStyle(fontSize: 30),textAlign: TextAlign.center,),
+                        content: Text("이메일이나 비밀번호가 잘못되었습니다.\n또는 이메일 인증을 진행해야 합니다.",style: TextStyle(fontSize: 30),textAlign: TextAlign.center,),
                       );
                     });
                     _lUserNameController.text="";
                     _lPasswordController.text="";
                     //팝업 띄우기
                   }else{
-                    session = response1.headers['set-cookie']?.substring(11,43);
+                    //printWrapped(document.outerHtml);
+                    tmp = response1.headers['set-cookie'];
+                    session = tmp?.substring(tmp!.lastIndexOf('JSESSIONID')+11,tmp!.lastIndexOf('JSESSIONID')+43);
+
+                    final response = await http.get(
+                      Uri.http('127.0.0.1:8080', ''),
+                      headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                        "Cookie":"JSESSIONID=$session",
+                      },
+                    );
+                    dom.Document document = parser.parse(response.body);
+                    nickname = document
+                        .querySelector('.nickname')
+                        ?.text.substring(0,document.querySelector('.nickname')
+                        ?.text.lastIndexOf('님'));
+                    tmp = document.querySelector('.rounded-circle')?.outerHtml;
+                    String? src = tmp!.substring(
+                       tmp!.lastIndexOf("src")+5,
+                       tmp!.lastIndexOf(".png")+4
+                    );
+                    //print(nickname);
+                    //printWrapped(document.outerHtml);
+                    profile = Image.network("http://127.0.0.1:8080$src");
                     Get.offAll(()=>const MainPage());
                   }
                 }catch(error){

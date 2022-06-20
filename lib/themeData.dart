@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+void printWrapped(String text) {
+  final pattern = RegExp('.{1,800}'); // 800 is the size of each chunk
+  pattern.allMatches(text).forEach((match) => print(match.group(0)));
+}
+
 class MainColor {
 /*  static const ten = Color.fromRGBO(93, 195, 121, 100);
   static const thirty = Color.fromRGBO(186, 244, 111, 100);

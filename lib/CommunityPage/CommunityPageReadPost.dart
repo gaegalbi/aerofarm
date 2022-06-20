@@ -233,7 +233,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                             widget.writer,
                                             style: CommunityPageTheme.commentWriter,
                                           )),
-                                      SizedBox(
+                                     /* SizedBox(
                                         width: 54,
                                         height: 30,
                                         child: IconButton(
@@ -251,7 +251,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                                 ),
                                               ],
                                             )),
-                                      ),
+                                      ),*/
                                     ],
                                   ),
                                   Row(
