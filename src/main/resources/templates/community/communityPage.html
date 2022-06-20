@@ -62,12 +62,12 @@
         text-align: left;
     }
 
-    #post-events:hover li ol:hover li {
+    #post-events:hover tbody tr:hover td {
       background: lightgray;
       color: black;
     }
 
-    #list-item:hover{
+    .hover-item:hover .list-body{
         background: lightgray;
         color: black;
     }
@@ -101,7 +101,7 @@
         justify-content: center;
         align-items: center;
     }
-    .list-col-1 {width: 5.81%;}
+    .list-col-1 {width: 5.81%;} .list-item-1 {color: deepskyblue;}
     .list-col-2 {width: 55.04%;}
     .list-col-3 {width: 10.85%;}
     .list-col-4 {width: 14.34%;}
@@ -145,7 +145,7 @@
 </div>
 <!--목록 표시-->
 <div class="container">
-    <ol class="list-group">
+    <ol class="list-group" style="margin-bottom: 20px">
         <li class="list-group-item list-item-backcolor" style="border-style: solid; border-width: 0px 0px 2px 0px; border-color: #FFFFFF">
             <div class="row g-0" style="height: 35px">
                 <div class="title-header col-sm-1 list-text-center list-col-1" th:text="분류"/>    <!--75px-->
@@ -157,9 +157,9 @@
             </div>
         </li>
         <li class="list-group-item list-item-backcolor" style="border: none" th:each="postDto : ${pageableList.getContent()}" th:onclick="|location.href='@{/community/{category}/{id}(category=${postDto.category.getLowerCase()}, id=${postDto.id})}'|">
-            <button type="button" class="list-group-item list-group-item-action" id="list-item" style="background-color: #131825; padding: 0px; border: none">
+            <button type="button" class="list-item-backcolor list-group-item list-group-item-action hover-item" style="padding: 0px; border: none">
                 <div class="row g-0">
-                    <div class="list-body col-sm-1 list-text-center list-col-1" style="color: deepskyblue" th:text="일반"/>
+                    <div class="list-item-1 list-body col-sm-1 list-text-center list-col-1" th:text="일반"/>
                     <div class="list-body col-sm-1 list-col-2" style="text-align: left" th:text="|${postDto.getTitle()}(${postDto.getCommentCount()==null ? '0' : postDto.getCommentCount()})|"/>
                     <div class="list-body col-sm-1 list-text-center list-col-3" th:text="${postDto.getWriter()}"/>
                     <div class="list-body col-sm-1 list-text-center list-col-4" th:text="${#temporals.format(postDto.getCreateDate(), 'yyyy.MM.dd HH:mm')}"/>
@@ -170,31 +170,6 @@
         </li>
     </ol>
 </div>
-<!--
-<div class="container">
-    <table class="table f-color-w">
-        <thead>
-        <tr>
-            <th th:width="20">분류</th>
-            <th th:width="300">제목</th>
-            <th th:width="30">작성자</th>
-            <th th:width="50">작성일</th>
-            <th th:width="20">추천</th>
-            <th th:width="20">조회</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="postDto : ${pageableList.getContent()}" th:onclick="|location.href='@{/community/{category}/{id}(category=${postDto.category.getLowerCase()}, id=${postDto.id})}'|">
-            <td class="f-filter-color-b">일반</td> <--추후 변수로 받아오기로 변경 필요->
-            <td class="title-f-sort" th:text="|${postDto.getTitle()}(${postDto.getCommentCount()==null ? '0' : postDto.getCommentCount()})|"/>
-            <td class="writer" th:text="${postDto.getWriter()}"/>
-            <td class="date" th:text="${#temporals.format(postDto.getCreateDate(), 'yyyy.MM.dd HH:mm')}"/>
-            <td class="likes" th:text="${postDto.getLikeCount()==null} ? '0' : ${postDto.getLikeCount()}"/> <-- 좋아요 대체 필요->
-            <td class="views" th:text="${postDto.getViews()}"/>
-        </tr>
-        </tbody>
-    </table>
-</div>-->
 <!--페이징 번호 표시-->
 <div class="container">
     <nav aria-label="Page navigation example">
