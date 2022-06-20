@@ -22,7 +22,7 @@ public class PostRepositoryImpl extends Querydsl5RepositorySupport implements Po
     }
 
     @Override
-    public Page<PostDto> findPostInfo(PostCategory category, String searchCategory, String keyword, Pageable pageable) {
+    public Page<PostDto> findPostInfo(PostCategory category, String searchCategory, String keyword, Pageable pageable, boolean tnf) {
         QComment commentSub = new QComment("commentSub");
         QPostLike postLikeSub = new QPostLike("likeCount");
 
@@ -46,11 +46,13 @@ public class PostRepositoryImpl extends Querydsl5RepositorySupport implements Po
                                                         .select(postLikeSub.post.count())
                                                         .from(postLikeSub)
                                                         .groupBy(postLikeSub.post)
-                                                        .having(postLikeSub.post.eq(post)), "likeCount")))
+                                                        .having(postLikeSub.post.eq(post)), "likeCount"),
+                                        post.parent.id))
                         .from(post)
                         .where(
                                 categoryEq(category),
-                                titleOrWriterEq(searchCategory, keyword)
+                                titleOrWriterEq(searchCategory, keyword),
+                                parentEq(tnf)
                         )
                         .orderBy(post.createdDate.desc()),
                 query -> query
@@ -71,5 +73,10 @@ public class PostRepositoryImpl extends Querydsl5RepositorySupport implements Po
             return keyword == null ? null : post.title.like("%" + keyword + "%");
         else
             return keyword == null ? null : post.writer.nickname.like("%" + keyword + "%");
+    }
+
+    private BooleanExpression parentEq(boolean tnf) {
+        if (tnf) return post.parent.id.isNull();
+        else return post.parent.id.isNotNull();
     }
 }

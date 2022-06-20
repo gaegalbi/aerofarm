@@ -31,11 +31,15 @@ public class PostController {
         if (page < 1) page = 1;
 
         PostCategory postCategory = PostCategory.findByLowerCase(category);
-        Page<PostDto> postInfo = postService.findPostInfo(postCategory, searchCategory, keyword, page);
+        Page<PostDto> postInfo = postService.findPostInfo(postCategory, searchCategory, keyword, page, true);
         PageableList<PostDto> pageableList = new PageableList<>(postInfo);
 
-        model.addAttribute("pageableList", pageableList);
-        model.addAttribute("selectCategory", postCategory);
+        Page<PostDto> answerPostInfo = postService.findPostInfo(postCategory, searchCategory, keyword, page, false);
+        PageableList<PostDto> answerPageableList = new PageableList<>(answerPostInfo);
+
+        model.addAttribute("pageableList", pageableList);       // 시초 게시글
+        model.addAttribute("selectCategory", postCategory);     // 카테고리
+        model.addAttribute("answerPageableList", answerPageableList);   // 답글 리스트
 
         return "/community/communityPage";
     }

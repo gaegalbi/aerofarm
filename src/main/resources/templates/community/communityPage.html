@@ -145,6 +145,7 @@
 </div>
 <!--목록 표시-->
 <div class="container">
+    <!--헤더 부분-->
     <ol class="list-group" style="margin-bottom: 20px">
         <li class="list-group-item list-item-backcolor" style="border-style: solid; border-width: 0px 0px 2px 0px; border-color: #FFFFFF">
             <div class="row g-0" style="height: 35px">
@@ -156,6 +157,7 @@
                 <div class="title-header col-sm-1 list-text-center list-col-6" th:text="조회"/>     <!--90-->
             </div>
         </li>
+        <!--데이터 부분-->
         <li class="list-group-item list-item-backcolor" style="border: none" th:each="postDto : ${pageableList.getContent()}" th:onclick="|location.href='@{/community/{category}/{id}(category=${postDto.category.getLowerCase()}, id=${postDto.id})}'|">
             <button type="button" class="list-item-backcolor list-group-item list-group-item-action hover-item" style="padding: 0px; border: none">
                 <div class="row g-0">
@@ -167,6 +169,20 @@
                     <div class="list-body col-sm-1 list-text-center list-col-6" th:text="${postDto.getViews()}"/>
                 </div>
             </button>
+            <ol class="list-group" th:each="answerDto : ${answerPageableList.getContent()}">
+                <li class="list-group-item list-item-backcolor" th:if="${postDto.getId() == answerDto.getParentId()}" th:onclick="|location.href='@{/community/{category}/{id}(category=${answerDto.category.getLowerCase()}, id=${answerDto.id})}'|">
+                    <button type="button" class="list-item-backcolor list-group-item list-group-item-action hover-item" style="padding: 0px; border: none">
+                        <div class="row g-0" style="height: 35px">
+                            <div class="list-body col-sm-1 list-text-center list-col-1" th:text="'↳'"/>
+                            <div class="list-body col-sm-1 list-col-2" style="text-align: left" th:text="|${answerDto.getTitle()}(${answerDto.getCommentCount()==null ? '0' : answerDto.getCommentCount()})|"/>
+                            <div class="list-body col-sm-1 list-text-center list-col-3" th:text="${answerDto.getWriter()}"/>
+                            <div class="list-body col-sm-1 list-text-center list-col-4" th:text="${#temporals.format(answerDto.getCreateDate(), 'yyyy.MM.dd HH:mm')}"/>
+                            <div class="list-body col-sm-1 list-text-center list-col-5" th:text="${answerDto.getLikeCount()==null} ? '0' : ${answerDto.getLikeCount()}"/>
+                            <div class="list-body col-sm-1 list-text-center list-col-6" th:text="${answerDto.getViews()}"/>
+                        </div>
+                    </button>
+                </li>
+            </ol>
         </li>
     </ol>
 </div>
