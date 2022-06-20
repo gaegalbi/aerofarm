@@ -22,7 +22,8 @@ public class PostDto {
     private LocalDateTime createDate;
     private Long commentCount;
     private Long likeCount;
-    private Long postId;
+//    private Long postId;
+    private Long parentId;
 
     @Builder
     public PostDto(Post post) {
@@ -35,7 +36,7 @@ public class PostDto {
     }
 
     @QueryProjection
-    public PostDto(Long id, String title, String writer, PostCategory category, int views, LocalDateTime createDate, Long commentCount, Long likeCount) {
+    public PostDto(Long id, String title, String writer, PostCategory category, int views, LocalDateTime createDate, Long commentCount, Long likeCount, Long parentId) {
         this.id = id;
         this.title = title;
         this.writer = writer;
@@ -44,5 +45,6 @@ public class PostDto {
         this.createDate = createDate;
         this.commentCount = commentCount;
         this.likeCount = likeCount;
+        this.parentId = parentId;
     }
 }

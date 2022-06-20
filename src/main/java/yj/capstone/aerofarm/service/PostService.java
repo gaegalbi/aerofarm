@@ -83,9 +83,9 @@ public class PostService {
     }
 
     // 게시글 검색
-    public Page<PostDto> findPostInfo(PostCategory category, String searchCategory, String keyword, Integer page) {
+    public Page<PostDto> findPostInfo(PostCategory category, String searchCategory, String keyword, Integer page, boolean tnf) {
         PageRequest pageRequest = PageRequest.of(page - 1, 10);
-        return postRepository.findPostInfo(category, searchCategory, keyword, pageRequest);
+        return postRepository.findPostInfo(category, searchCategory, keyword, pageRequest, tnf);
 
     }
 
