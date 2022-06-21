@@ -83,7 +83,7 @@ class OrderRepositoryTest {
         orderRepository.save(order);
 
         PageRequest pageable = PageRequest.of(0, 10);
-        Page<OrderInfoDto> orderInfoDto = orderRepository.findOrderInfoDto(pageable, 2L);
+        Page<OrderInfoDto> orderInfoDto = orderRepository.findOrderInfoDto(pageable, 1L);
 
         for (OrderInfoDto infoDto : orderInfoDto) {
             System.out.println("infoDto = " + infoDto);

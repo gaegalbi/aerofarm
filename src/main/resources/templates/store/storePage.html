@@ -93,11 +93,11 @@
         <a th:text="${category}">전체상품</a>
     </div>
     <br/>
-    <div class="row row-cols-1 row-cols-md-5 g-4">
-        <div class="col" th:each="product: ${pageableList.getContent()}">
+    <div class="row row-cols-2 row-cols-md-5 g-2">
+        <div class="col px-2 pb-2" th:each="product: ${pageableList.getContent()}">
             <div class="card text-center" th:onclick="|location.href='@{/store/detail/{id}(id=${product.getProductId()})}'|" style="cursor:pointer;">
                 <img src="/image/test_icon.png" th:src="${product.getImageUrl()}" class="card-img-top" alt="...">
-                <div class="card-body">
+                <div class="card-body p-2">
                     <h5 class="card-title" th:text="${product.getName()}">상품 이름</h5>
                     <p class="card-text" th:text="|${product.getPrice()}원|">상품 가격</p>
                     <div class="d-flex align-items-center">

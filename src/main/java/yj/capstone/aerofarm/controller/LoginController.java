@@ -36,7 +36,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String loginSumit(@Valid LoginForm loginForm, BindingResult bindingResult) {
+    public String loginSumit(LoginForm loginForm) {
         return "loginPage";
     }
 
