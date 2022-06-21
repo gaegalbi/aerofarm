@@ -31,15 +31,15 @@ public class PostController {
         if (page < 1) page = 1;
 
         PostCategory postCategory = PostCategory.findByLowerCase(category);
-        Page<PostDto> postInfo = postService.findPostInfo(postCategory, searchCategory, keyword, page, true);
+        Page<PostDto> postInfo = postService.findPostInfo(postCategory, searchCategory, keyword, page);
         PageableList<PostDto> pageableList = new PageableList<>(postInfo);
 
-        Page<PostDto> answerPostInfo = postService.findPostInfo(postCategory, searchCategory, keyword, page, false);
-        PageableList<PostDto> answerPageableList = new PageableList<>(answerPostInfo);
+        List<PostDto> answerPostInfo = postService.findAnswerInfo(postCategory, searchCategory, keyword);
+
 
         model.addAttribute("pageableList", pageableList);       // 시초 게시글
         model.addAttribute("selectCategory", postCategory);     // 카테고리
-        model.addAttribute("answerPageableList", answerPageableList);   // 답글 리스트
+        model.addAttribute("answerPostInfo", answerPostInfo);   // 답글 리스트
 
         return "/community/communityPage";
     }
@@ -79,7 +79,12 @@ public class PostController {
     @PreAuthorize("hasAnyAuthority('GUEST')")
     public String community_writing(@RequestParam(required = false) Long postId, Model model) {
 
-        if (postId != null) model.addAttribute("selectPostId", postId);
+        if (postId != null) {
+            Post post = postService.selectPost(postId);
+            model.addAttribute("postCategory", post.getCategory().getLowerCase());
+            model.addAttribute("postTitle", post.getTitle());
+            model.addAttribute("selectPostId", postId);
+        }
         return "/community/writingPage";
     }
 

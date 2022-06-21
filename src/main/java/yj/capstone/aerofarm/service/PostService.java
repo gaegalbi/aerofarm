@@ -83,10 +83,14 @@ public class PostService {
     }
 
     // 게시글 검색
-    public Page<PostDto> findPostInfo(PostCategory category, String searchCategory, String keyword, Integer page, boolean tnf) {
+    public Page<PostDto> findPostInfo(PostCategory category, String searchCategory, String keyword, Integer page) {
         PageRequest pageRequest = PageRequest.of(page - 1, 10);
-        return postRepository.findPostInfo(category, searchCategory, keyword, pageRequest, tnf);
+        return postRepository.findPostInfo(category, searchCategory, keyword, pageRequest);
 
+    }
+
+    public List<PostDto> findAnswerInfo(PostCategory category, String searchCategory, String keyword) {
+        return postRepository.findAnswerPostInfo(category, searchCategory, keyword);
     }
 
     // 선택한 게시물 보기
