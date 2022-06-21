@@ -103,6 +103,14 @@ public class PostController {
     public Long createAnswerPost(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody PostForm postForm, @PathVariable Long postId) {
         return postService.createAnswerPost(userDetails.getMember(), postForm, postId).getId();
     }
+    
+    // 게시글 삭제(soft)
+    @ResponseBody
+    @PostMapping("/deletePost")
+    public Long deletePost(@RequestBody PostDto postDto) {
+        postService.deletePost(postDto.getId());
+        return postDto.getId();
+    }
 
     // 게시글 안에서 댓글쓰기
     @ResponseBody
@@ -112,12 +120,11 @@ public class PostController {
         return postService.createComment(userDetails.getMember(), commentForm).getId();
     }
 
-    // 댓글 삭제
+    // 댓글 삭제 (soft)
     @ResponseBody
     @PostMapping("/deleteComment")
     public Long deleteComment(@RequestBody CommentDto commentDto) {
         postService.deleteComment(commentDto.getId());
-        System.out.println("commentDto = " + commentDto.getId());
         return commentDto.getId();
     }
 

@@ -43,6 +43,12 @@ public class PostService {
         return post;
     }
 
+    public void deletePost(Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> null);
+        post.updateDeleteTnF(true);
+        postRepository.save(post);
+    }
+
     // 답글 등록
     public Post createAnswerPost(Member writer, PostForm postForm, Long postId) {
         Post post = Post.postParentBuilder()
