@@ -43,7 +43,9 @@ public class PostService {
         return post;
     }
 
+    // 게시글 삭제
     public void deletePost(Long postId) {
+
         Post post = postRepository.findById(postId).orElseThrow(() -> null);
         post.updateDeleteTnF(true);
         postRepository.save(post);
@@ -99,9 +101,9 @@ public class PostService {
         return postRepository.findAnswerPostInfo(category, searchCategory, keyword);
     }
 
-    // 선택한 게시물 보기
-    public Post selectPost(Long boardId) {
-        return postRepository.findById(boardId).orElseThrow(() -> null);
+    // 선택한 게시물 정보
+    public Post selectPost(Long postId) {
+        return postRepository.findById(postId).orElseThrow(() -> null);
     }
 
     // 좋아요 등록

@@ -49,19 +49,6 @@
         margin-top: 15px;
     }
 
-    .f-color-w {
-        color: #FFFFFF;
-        text-align: center;
-    }
-
-    .f-filter-color-b {
-        color: deepskyblue;
-    }
-
-    .title-f-sort {
-        text-align: left;
-    }
-
     #post-events:hover tbody tr:hover td {
       background: lightgray;
       color: black;
@@ -163,7 +150,7 @@
                 <div class="row g-0">
                     <div class="list-item-1 list-body col-sm-1 list-text-center list-col-1" th:text="일반"/>
                     <div class="list-body col-sm-1 list-col-2" style="text-align: left">
-                        <span th:text="${#strings.abbreviate(postDto.getTitle(), 25)}"/>
+                        <span th:text="${postDto.isDeleteTnF()} ? '삭제된 게시글입니다.' : ${#strings.abbreviate(postDto.getTitle(), 25)}"/>
                         <span class="badge bg-secondary bi-messenger" th:text="' ' + ${postDto.getCommentCount()==null ? '0' : postDto.getCommentCount()}"/>
                     </div>
                     <div class="list-body col-sm-1 list-text-center list-col-3" th:text="${postDto.getWriter()}"/>
@@ -178,7 +165,7 @@
                         <div class="row g-0" style="height: 35px">
                             <div class="list-body col-sm-1 list-text-center list-col-1" th:text="'↳'"/>
                             <div class="list-body col-sm-1 list-col-2" style="text-align: left">
-                                <span th:text="${#strings.abbreviate(answerDto.getTitle(), 25)}"/>
+                                <span th:text="${answerDto.isDeleteTnF()} ? '삭제된 게시글입니다.' : ${#strings.abbreviate(answerDto.getTitle(), 25)}"/>
                                 <span class="badge bg-secondary bi-messenger" th:text="' ' + ${answerDto.getCommentCount()==null ? '0' : answerDto.getCommentCount()}"/>
                             </div>
                             <div class="list-body col-sm-1 list-text-center list-col-3" th:text="${answerDto.getWriter()}"/>
