@@ -81,4 +81,7 @@ public class Post extends BaseEntity {
     public void updateViews(int views) {
         this.views = views;
     }
+    public void updateDeleteTnF(boolean deleteTnF) {
+        this.deleteTnF = deleteTnF;
+    }
 }
