@@ -2,6 +2,7 @@ package yj.capstone.aerofarm.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import yj.capstone.aerofarm.domain.product.Product;
 import yj.capstone.aerofarm.dto.CartDto;
 import yj.capstone.aerofarm.dto.ProductCartDto;
@@ -16,6 +17,7 @@ public class CartService {
 
     private final ProductRepository productRepository;
 
+    @Transactional
     public List<ProductCartDto> createProductCartDtos(List<CartDto> cartDtos) {
         List<ProductCartDto> productCartDtos = new ArrayList<>();
         for (CartDto cartDto : cartDtos) {

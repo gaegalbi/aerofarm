@@ -3,11 +3,12 @@ package yj.capstone.aerofarm.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import yj.capstone.aerofarm.dto.CartDto;
+import yj.capstone.aerofarm.dto.CheckoutCompleteDto;
 import yj.capstone.aerofarm.dto.OrderInfoDto;
+import yj.capstone.aerofarm.dto.ProductCartDto;
 import yj.capstone.aerofarm.form.CheckoutForm;
 import yj.capstone.aerofarm.domain.member.Member;
 import yj.capstone.aerofarm.domain.order.Order;
@@ -17,6 +18,7 @@ import yj.capstone.aerofarm.repository.OrderRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -77,5 +79,26 @@ public class OrderService {
             return;
         }
         throw new IllegalArgumentException("해당 유저의 주문이 없습니다.");
+    }
+
+    public CheckoutCompleteDto createOrderDetail(Order order) {
+        CheckoutCompleteDto checkoutCompleteDto = CheckoutCompleteDto.builder()
+                .orderId(order.getId())
+                .receiver(order.getReceiver().getReceiver())
+                .phoneNumber(order.getReceiver().getPhoneNumber())
+                .address1(order.getAddressInfo().getAddress1())
+                .address2(order.getAddressInfo().getAddress2())
+                .extraAddress(order.getAddressInfo().getExtraAddress())
+                .zipcode(order.getAddressInfo().getZipcode())
+                .paymentType(order.getPaymentType())
+                .build();
+
+        List<ProductCartDto> collect = order.getOrderLines().stream()
+                .map(ProductCartDto::new)
+                .collect(Collectors.toList());
+
+        checkoutCompleteDto.getProductCartDtos().addAll(collect);
+
+        return checkoutCompleteDto;
     }
 }

@@ -91,7 +91,6 @@ class OrderServiceTest {
         cartDtos.add(new CartDto(1L, 5));
         CheckoutForm checkoutForm = new CheckoutForm(true, "MOOTONGJANG", "jonedoe", "010-1111-1111", "seoul", "seoul", "apt", "12345", "NH");
 
-
         when(orderRepository.save(any(Order.class))).then(returnsFirstArg());
         when(productService.findProductById(any())).thenReturn(product);
         Order order = orderService.createOrder(null, cartDtos, checkoutForm);

@@ -1,5 +1,6 @@
 package yj.capstone.aerofarm.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import yj.capstone.aerofarm.domain.order.PaymentType;
@@ -24,6 +25,7 @@ public class CheckoutCompleteDto {
     public CheckoutCompleteDto() {
     }
 
+    @Builder
     public CheckoutCompleteDto(Long orderId,String receiver, String phoneNumber, String zipcode, String address1, String address2, String extraAddress, PaymentType paymentType) {
         this.orderId = orderId;
         this.receiver = receiver;

@@ -19,8 +19,6 @@ import yj.capstone.aerofarm.service.MemberService;
 import yj.capstone.aerofarm.service.OrderService;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @PreAuthorize("hasAnyAuthority('GUEST')")
@@ -29,10 +27,10 @@ import java.util.stream.Collectors;
 @SessionAttributes("verify")
 public class MemberController {
 
-    // TODO AOP 사용해서 인증 여부 관련 공통화 필요
     private final MemberService memberService;
     private final OrderService orderService;
 
+    // TODO AOP 사용해서 인증 여부 관련 공통화 필요
     @ModelAttribute("verify")
     public MyPageAuthDto setMyPageSession() {
         return new MyPageAuthDto();
@@ -130,22 +128,7 @@ public class MemberController {
         }
         try {
             Order order = orderService.findByUuid(uuid);
-            CheckoutCompleteDto checkoutCompleteDto = new CheckoutCompleteDto();
-
-            // TODO 조회용 쿼리 따로 만들어 처리할 것
-            List<ProductCartDto> collect = order.getOrderLines().stream()
-                    .map(ProductCartDto::new)
-                    .collect(Collectors.toList());
-            checkoutCompleteDto.getProductCartDtos().addAll(collect);
-
-            checkoutCompleteDto.setOrderId(order.getId());
-            checkoutCompleteDto.setReceiver(order.getReceiver().getReceiver());
-            checkoutCompleteDto.setPhoneNumber(order.getReceiver().getPhoneNumber());
-            checkoutCompleteDto.setPaymentType(order.getPaymentType());
-            checkoutCompleteDto.setAddress1(order.getAddressInfo().getAddress1());
-            checkoutCompleteDto.setAddress2(order.getAddressInfo().getAddress2());
-            checkoutCompleteDto.setExtraAddress(order.getAddressInfo().getExtraAddress());
-            checkoutCompleteDto.setZipcode(order.getAddressInfo().getZipcode());
+            CheckoutCompleteDto checkoutCompleteDto = orderService.createOrderDetail(order);
 
             model.addAttribute("orderUuid", uuid);
             model.addAttribute("reviewd", order.isReviewed());
