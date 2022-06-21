@@ -76,18 +76,19 @@
         <div class="row">
             <div class="col-lg-6 col-sm-12 text-lg-start">
                 <button type="button" class="btn btn-secondary button-margin" th:onclick="|location.href='@{/community/{category}?page=1(category=${selectPostCategory})}'|" th:text="목록"/>
+                <button type="button" class="btn btn-danger button-margin" th:id="${postInfo.getId()}" onclick="deletePost(this.id)" th:if="${user == postInfo.getWriter().getId() and !postInfo.isDeleteTnF()}" th:text="삭제"/>
             </div>
             <div class="col-lg-6 col-sm-12 text-lg-end" id="like-area">
                 <button type="button" class="btn btn-secondary button-margin" th:onclick="|location.href='@{/writing?postId={postId}(postId=${selectPost.id})}'|" th:text="답글"/>
                 <input type="checkbox" class="btn-check" id="likeButton" th:checked="${isSelected == 1}">
-                <label class="btn btn-outline-danger button-margin" for="likeButton" th:text="'♡ ' + ${postLikeInfo.getLikeCount()}"/><br>
+                <label class="btn btn-outline-danger button-margin bi-heart" for="likeButton" th:text="' ' + ${postLikeInfo.getLikeCount()}"/><br>
             </div>
         </div>
         <!--사각 영역-->
         <div class="card card-body body-color body-font-color body-line">
             <!--제목-->
             <div class="row">
-                <div class="post-title col-11" th:utext="'&lt;b&gt;' + ${selectPost.title} + '&lt;/b&gt;'"/>
+                <div class="post-title col-11" th:utext="${postInfo.isDeleteTnF()} ? '삭제 처리된 게시글입니다.' : '&lt;b&gt;' + ${selectPost.title} + '&lt;/b&gt;'"/>
                 <div class="col-1" th:text="|조회수 : ${selectPost.getViews()}|"/>
             </div>
             <!--회원 정보-->
@@ -98,17 +99,17 @@
                         <td rowspan="2" width="50" height="40" style="text-align: center">
                             <img src="/image/test_icon.png" class="rounded-circle" style="width: 35px; height: 35px">
                         </td>
-                        <td th:utext="${selectPost.writer}"/>
+                        <td th:utext="${postInfo.isDeleteTnF()} ? '' : ${selectPost.writer}"/>
                     </tr>
                     <tr>
-                        <td th:text="${#temporals.format(selectPost.localDateTime, 'yyyy-MM-dd HH:mm:ss')}"/>
+                        <td th:text="${postInfo.isDeleteTnF()} ? '' : ${#temporals.format(selectPost.localDateTime, 'yyyy-MM-dd HH:mm:ss')}"/>
                     </tr>
                     </tbody>
                 </table>
             </div>
             <!--게시글 내용 영역-->
             <div class="post-content">
-                <span th:utext="${selectPost.contents}"></span>
+                <span th:utext="${postInfo.isDeleteTnF()} ? '삭제 처리된 게시글입니다.' : ${selectPost.contents}"></span>
             </div>
             <!--댓글 영역-->
             <div id="comment-area">
@@ -197,6 +198,7 @@
 <div th:replace="~{fragments/footer :: footer}"/>
 
 <script src="/js/community/eventsLike.js"></script>
+<script src="/js/community/deletePost.js"></script>
 <script src="/js/community/deleteComment.js"></script>
 <script src="/js/community/createComment.js"></script>
 </body>

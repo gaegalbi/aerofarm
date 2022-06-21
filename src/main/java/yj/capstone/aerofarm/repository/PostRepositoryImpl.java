@@ -49,7 +49,8 @@ public class PostRepositoryImpl extends Querydsl5RepositorySupport implements Po
                                                         .from(postLikeSub)
                                                         .groupBy(postLikeSub.post)
                                                         .having(postLikeSub.post.eq(post)), "likeCount"),
-                                        post.parent.id))
+                                        post.parent.id,
+                                        post.deleteTnF))
                         .from(post)
                         .where(
                                 categoryEq(category),
@@ -90,7 +91,8 @@ public class PostRepositoryImpl extends Querydsl5RepositorySupport implements Po
                                 .from(postLikeSub)
                                 .groupBy(postLikeSub.post)
                                 .having(postLikeSub.post.eq(post)), "likeCount"),
-                post.parent.id))
+                post.parent.id,
+                post.deleteTnF))
                 .from(post)
                 .where(
                         categoryEq(category),

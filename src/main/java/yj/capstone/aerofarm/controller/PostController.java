@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import yj.capstone.aerofarm.config.auth.dto.UserDetailsImpl;
 import yj.capstone.aerofarm.domain.board.PostLike;
-import yj.capstone.aerofarm.domain.member.Member;
 import yj.capstone.aerofarm.dto.*;
 import yj.capstone.aerofarm.form.CommentForm;
 import yj.capstone.aerofarm.form.PostForm;
@@ -36,7 +35,6 @@ public class PostController {
 
         List<PostDto> answerPostInfo = postService.findAnswerInfo(postCategory, searchCategory, keyword);
 
-
         model.addAttribute("pageableList", pageableList);       // 시초 게시글
         model.addAttribute("selectCategory", postCategory);     // 카테고리
         model.addAttribute("answerPostInfo", answerPostInfo);   // 답글 리스트
@@ -45,13 +43,13 @@ public class PostController {
     }
 
     // 게시물 보기 페이지
-    @GetMapping("/community/{category}/{boardId}")
-    public String community_detail(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable String category, @PathVariable Long boardId, Model model, @RequestParam(defaultValue = "1") Integer page) {
+    @GetMapping("/community/{category}/{postId}")
+    public String community_detail(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable String category, @PathVariable Long postId, Model model, @RequestParam(defaultValue = "1") Integer page) {
         if (page < 1) page = 1;
 
-        postService.updateViews(boardId);           // 조회수 업데이트
+        postService.updateViews(postId);           // 조회수 업데이트
 
-        Post post = postService.selectPost(boardId);    // 선택한 게시물 찾기
+        Post post = postService.selectPost(postId);    // 선택한 게시물 찾기
         PostDetailDto result = new PostDetailDto(post); // 선택한 게시물 id로 상세 내용 가져오기
 
         Page<CommentDto> commentInfo = postService.findCommentInfo(post, page); // 게시물 id로 포함 댓글 검색
@@ -60,10 +58,11 @@ public class PostController {
 
         Long userId = null;
         if (userDetails != null) userId = userDetails.getMember().getId();
-        List<PostLike> isSelect = postService.isMemberSelectInfo(userId, boardId);
+        List<PostLike> isSelect = postService.isMemberSelectInfo(userId, postId);
 
         if (postLikeInfo.size() == 0) postLikeInfo.add(new PostLikeDto(post.getId(), 0L));
 
+        model.addAttribute("postInfo", post);
         model.addAttribute("pageableList", pageableList);
         model.addAttribute("selectPost", result);
         model.addAttribute("selectPostCategory", category);
