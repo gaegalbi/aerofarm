@@ -16,16 +16,15 @@
 <br><h2 style="text-align: center; color: #FFFFFF">게시글 작성</h2><br>
     <div class="container">
         <div class="input-group" style="width: 80%; margin: auto">
-            <!--th:disabled="${selectPostId != null}"-->
             <div class="input-group mb-3" style="width: 35%; margin-right: 20px">
                 <label class="input-group-text" for="category">CATEGORY</label>
-                <select class="form-select" id="category">
+                <select class="form-select" id="category" th:disabled="${selectPostId != null}">
                     <option selected>카테고리를 선택해주세요.</option>
-                    <option value="free">자유게시판</option>
-                    <option value="information">정보게시판</option>
-                    <option value="question">질문게시판</option>
-                    <option value="picture">사진게시판</option>
-                    <option value="trade">거래게시판</option>
+                    <option value="free" th:selected="${postCategory=='free'}">자유게시판</option>
+                    <option value="information" th:selected="${postCategory=='information'}">정보게시판</option>
+                    <option value="question" th:selected="${postCategory=='question'}">질문게시판</option>
+                    <option value="picture" th:selected="${postCategory=='picture'}">사진게시판</option>
+                    <option value="trade" th:selected="${postCategory=='trade'}">거래게시판</option>
                 </select>
             </div>
             <div class="input-group mb-3" style="width: 35%; margin-right: 20px">
@@ -42,7 +41,7 @@
         </div>
         <div class="input-group mb-3" style="width: 80%; margin: auto">
             <span class="input-group-text">Title</span>
-            <input id="title" type="text" class="form-control" placeholder="제목" aria-label="Title" aria-describedby="basic-addon1">
+            <input id="title" type="text" class="form-control" placeholder="제목" aria-label="Title" aria-describedby="basic-addon1" th:disabled="${selectPostId != null}" th:value="${selectPostId != null} ? 'Re:' + ${postTitle} : ''">
         </div>
         <div style="width: 80%; margin: auto; background-color: #FFFFFF">
             <form method="post">

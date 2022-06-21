@@ -8,5 +8,6 @@ import yj.capstone.aerofarm.domain.board.PostCategory;
 import java.util.List;
 
 public interface PostRepositoryCustom {
-    Page<PostDto> findPostInfo(PostCategory category, String searchCategory, String keyword, Pageable pageable, boolean tnf);
+    Page<PostDto> findPostInfo(PostCategory category, String searchCategory, String keyword, Pageable pageable);
+    List<PostDto> findAnswerPostInfo(PostCategory category, String searchCategory, String keyword);
 }
