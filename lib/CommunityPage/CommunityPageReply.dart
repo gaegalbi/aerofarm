@@ -20,9 +20,10 @@ class CommunityPageReply extends StatefulWidget {
   final String comments;
   final String realDate;
   final String category;
+  final String before;
   final String communityCategory;
 
-  const CommunityPageReply({Key? key, required this.index, required this.id, required this.writer, required this.title, required this.views, required this.likes, required this.comments, required this.realDate, required this.category, required this.communityCategory,}) : super(key: key);
+  const CommunityPageReply({Key? key, required this.index, required this.id, required this.writer, required this.title, required this.views, required this.likes, required this.comments, required this.realDate, required this.category, required this.communityCategory, required this.before,}) : super(key: key);
 
   @override
   State<CommunityPageReply> createState() => _CommunityPageReplyState();
@@ -99,7 +100,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                             views: widget.views,
                             writer: widget.writer,
                             realDate: widget.realDate,
-                            index: widget.index, category: widget.category,));
+                            index: widget.index, category: widget.category, before: widget.before,));
                     },
                   )),
             ),
@@ -277,7 +278,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                                   commentList.clear();
                                   for (var element in customKeywords) {
                                    commentList.add(AddComment(
-                                      keywords: element,index: widget.index,id: widget.id,writer: widget.writer,title: widget.title,views: widget.views,likes: widget.likes,comments: widget.comments,realDate: widget.realDate, category: widget.category,
+                                      keywords: element,index: widget.index,id: widget.id,writer: widget.writer,title: widget.title,views: widget.views,likes: widget.likes,comments: widget.comments,realDate: widget.realDate, category: widget.category, before: widget.before,
                                     ));
                                   }
                                 });

@@ -1,12 +1,11 @@
 
 import 'package:flutter/material.dart';
 
-import '../themeData.dart';
-
 class TitleButton extends StatelessWidget {
-  const TitleButton({Key? key, required this.title, required this.onPressed}) : super(key: key);
+  const TitleButton({Key? key, required this.title, required this.onPressed, required this.style}) : super(key: key);
   final String title;
   final Function onPressed;
+  final TextStyle style;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +15,7 @@ class TitleButton extends StatelessWidget {
         onPressed: (){
           onPressed();
         },
-        child: Text(title,style: CommunityPageTheme.titleButton,),
+        child: Text(title,style: style),
         style: TextButton.styleFrom(
             padding: EdgeInsets.zero
         ),

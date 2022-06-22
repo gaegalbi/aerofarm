@@ -96,7 +96,6 @@ class MainTheme {
       decoration: TextDecoration.none,
       fontFamily: 'bmPro',
       fontSize: 20);
-
   //MainPage(도시농부)
   static const title = TextStyle(
       color: MainColor.three,
@@ -172,8 +171,13 @@ class CommunityPageTheme {
       decoration: TextDecoration.none,
       fontFamily: 'bmPro',
       fontSize: 25);
-  static const titleButton = TextStyle(
+  static const titleButtonTrue = TextStyle(
       color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 18);
+  static const titleButtonFalse= TextStyle(
+      color: Colors.grey,
       decoration: TextDecoration.none,
       fontFamily: 'bmPro',
       fontSize: 18);

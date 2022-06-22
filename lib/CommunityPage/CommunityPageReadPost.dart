@@ -26,8 +26,9 @@ class CommunityPageReadPost extends StatefulWidget {
   final String comments;
   final String realDate;
   final String category;
+  final String before;
 
-  const CommunityPageReadPost({Key? key,required this.index, required this.id, required this.writer, required this.title, required this.views, required this.likes, required this.comments, required this.realDate, required this.category,}) : super(key: key);
+  const CommunityPageReadPost({Key? key,required this.index, required this.id, required this.writer, required this.title, required this.views, required this.likes, required this.comments, required this.realDate, required this.category, required this.before,}) : super(key: key);
 
   @override
   State<CommunityPageReadPost> createState() => _CommunityPageReadPostState();
@@ -74,7 +75,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
         commentList.clear();
         for (var element in customKeywords) {
           commentList.add(AddComment(
-            keywords: element,index: widget.index,id: widget.id,writer: widget.writer,title: widget.title,views: widget.views,likes: widget.likes,comments: widget.comments,realDate: widget.realDate, category: widget.category,
+            keywords: element,index: widget.index,id: widget.id,writer: widget.writer,title: widget.title,views: widget.views,likes: widget.likes,comments: widget.comments,realDate: widget.realDate, category: widget.category, before: widget.before,
           ));
         }
         content = contents?.outerHtml;
@@ -110,7 +111,6 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
   bool floating = false;
   @override
   Widget build(BuildContext context) {
-    print(content.toString());
     return GestureDetector(
       onDoubleTap: (){
         setState((){
@@ -140,7 +140,11 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                   Icons.chevron_left,
                 ),
                 onPressed: () {
-                  Get.off(()=>CommunityPageForm(category:widget.category));
+                  if(widget.before=="all"||widget.before=='hot'){
+                    Get.off(()=>CommunityPageForm(category: widget.before));
+                  }else{
+                    Get.off(()=>CommunityPageForm(category:widget.category));
+                  }
                 },
               )),
             ),
@@ -160,7 +164,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                       Icons.home,
                     ),
                     onPressed: () {
-                      Get.offAll( const MainPage());
+                      Get.offAll(()=>const MainPage());
                     },
                   ),
                 ),
@@ -342,7 +346,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                     ],
                                   ),
                                   onPressed: () {
-                                      Get.to(() => CommunityPageReply(index: widget.index,id: widget.id,writer: widget.writer,title: widget.title,views: widget.views,likes: widget.likes,comments: widget.comments,realDate: widget.realDate, category: widget.category, communityCategory: widget.category,));
+                                      Get.to(() => CommunityPageReply(index: widget.index,id: widget.id,writer: widget.writer,title: widget.title,views: widget.views,likes: widget.likes,comments: widget.comments,realDate: widget.realDate, category: widget.category, communityCategory: widget.category, before: widget.before,));
                                   },
                                 ),
                                  if (count < 1) Container(
@@ -361,7 +365,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                       ),
                                       TextButton(
                                         onPressed: (){
-                                          Get.to(() => CommunityPageReply(id:widget.id, index: widget.index,likes: widget.likes, comments: widget.comments, title: widget.title, views: widget.views, writer: widget.writer, realDate: widget.realDate, category: widget.category, communityCategory: widget.category,));
+                                          Get.to(() => CommunityPageReply(id:widget.id, index: widget.index,likes: widget.likes, comments: widget.comments, title: widget.title, views: widget.views, writer: widget.writer, realDate: widget.realDate, category: widget.category, communityCategory: widget.category, before: widget.before,));
                                         },
                                         child: const Text(
                                           "첫 댓글을 입력하세요",
@@ -461,7 +465,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                         style: CommunityPageTheme.bottomAppBarReply,
                       ),
                       onPressed: () {
-                        Get.to(() => CommunityPageReply(index: widget.index,id: widget.id,writer: widget.writer,title: widget.title,views: widget.views,likes: widget.likes,comments: widget.comments,realDate: widget.realDate, category: widget.category, communityCategory:widget.category ,));
+                        Get.to(() => CommunityPageReply(index: widget.index,id: widget.id,writer: widget.writer,title: widget.title,views: widget.views,likes: widget.likes,comments: widget.comments,realDate: widget.realDate, category: widget.category, communityCategory:widget.category, before: widget.before ,));
                       },
                     )
                   ],
