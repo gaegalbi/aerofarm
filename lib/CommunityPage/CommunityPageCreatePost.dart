@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:get/get.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
 import '../CommunityPageCustomLib/CustomRadioButton.dart';
@@ -26,47 +25,16 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
     with TickerProviderStateMixin {
   final List<String> value = ["자유 게시판", "질문 게시판", "정보 게시판", "사진 게시판", "거래 게시판"];
 
-  final List<Icon> floatingAlignButton = const [
-    Icon(
-      Icons.format_align_left,
-      color: Colors.white,
-    ),
-    Icon(
-      Icons.format_align_center,
-      color: Colors.white,
-    ),
-    Icon(
-      Icons.format_align_right,
-      color: Colors.white,
-    )
-  ];
   final double floatingBarSize = 60;
   final double contentPadding = 30;
   double contentBottomPadding = 30;
 
   String groupValue = "게시판 선택";
-  bool popupFont = false;
-  bool popupImage = false;
-  bool popupLink = false;
-  bool popupTag = false;
-  bool popup = false;
 
-  //late quill.QuillController _controller;
   late ScrollController _scrollController;
   late ScrollController _scrollController1;
-  // late TextEditingController _contentsController;
   late TextEditingController _titleController;
-  late final FocusNode focusNode;
   late HtmlEditorController _controller;
-
-  quill.OnImagePickCallback? onImagePickCallback;
-  quill.OnVideoPickCallback? onVideoPickCallback;
-  quill.MediaPickSettingSelector? mediaPickSettingSelector;
-  quill.FilePickImpl? filePickImpl;
-  quill.WebImagePickImpl? webImagePickImpl;
-  quill.WebVideoPickImpl? webVideoPickImpl;
-
-  //final GlobalKey<FlutterSummernoteState> _keyEditor = GlobalKey();
 
   var data = <String, dynamic>{};
   final Map<String, String> matchCategory = {
@@ -80,16 +48,9 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
   @override
   void initState() {
     _controller = HtmlEditorController();
-    //_controller = quill.QuillController.basic();
-    /*_controller = quill.QuillController(
-      document: quill.Document(),
-      selection: const TextSelection.collapsed(offset: 0),
-      keepStyleOnNewLine: true, //not working
-    );*/
     _scrollController = ScrollController();
     _scrollController1 = ScrollController();
     _titleController = TextEditingController();
-    focusNode = FocusNode();
     super.initState();
   }
 
@@ -102,43 +63,13 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
     super.dispose();
   }
 
-  double checkKeyBoard() {
-    if (MediaQuery.of(context).viewInsets.bottom >
-        MediaQuery.of(context).size.height * 0.049) {
-      return -MediaQuery.of(context).viewInsets.bottom + 30; //바텀 네비게이션바 높이
-    } else {
-      return 0;
-    }
-  }
-
-  double floatingMargin() {
-    if (MediaQuery.of(context).viewInsets.bottom > floatingBarSize) {
-      return MediaQuery.of(context).viewInsets.bottom +
-          (floatingBarSize + MediaQuery.of(context).size.height) * 0.02;
-    } else {
-      return floatingBarSize;
-    }
-  }
-
   double contentCheckKeyBoard() {
-    if (MediaQuery.of(context).viewInsets.bottom > 0 && focusNode.hasFocus) {
-      if (popup) {
-        return floatingBarSize + MediaQuery.of(context).viewInsets.bottom;
-      } else {
+    if (MediaQuery.of(context).viewInsets.bottom > 0) {
         return MediaQuery.of(context)
             .viewInsets
             .bottom;
-      }
-    } else {
-      if (popup) {
-        if (_scrollController1.position.maxScrollExtent > 0) {
-          return floatingBarSize * 1.5;
-        } else {
-          return floatingBarSize;
-        }
-      } else {
-        return contentPadding;
-      }
+      }else{
+      return 0;
     }
   }
 
@@ -221,7 +152,6 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                           "category":matchCategory[groupValue],
                           "title":_titleController.text,
                           "contents":txt,
-                          //"contents":"<p>"+deltaToHTML(jsonEncode(_controller.document.toDelta().toJson())).toString()+"</p>",
                         };
                         var body = json.encode(data);
                         await http.post(
@@ -233,8 +163,6 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                           encoding: Encoding.getByName('utf-8'),
                           body: body,
                         );
-
-                       // print(deltaToHTML(jsonEncode(_controller.document.toDelta().toJson())).toString());
                         Get.offAll(()=>CommunityPageForm(category: widget.id));
                       }
                     }
@@ -513,177 +441,15 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                     left: contentPadding),
                 child: HtmlEditor(
                   controller: _controller,
-                  htmlToolbarOptions: const HtmlToolbarOptions(
-                    //toolbarPosition: ToolbarPosition.belowEditor,
-
-                  ),
                   otherOptions: OtherOptions(
-                    height:MediaQuery.of(context).size.height*0.7,
+                    height:MediaQuery.of(context).size.height,
                   ),
                 ),
-                /*FlutterSummernote(
-                  key: _keyEditor,
-                  showBottomToolbar: true,
-                  hasAttachment: true,
-
-                )*//*quill.QuillEditor(
-                  keyboardAppearance: Brightness.dark,
-                  textCapitalization: TextCapitalization.none,
-                  focusNode: focusNode,
-                  scrollController: _scrollController,
-                  controller: _controller,
-                  //_editorController,
-                  autoFocus: false,
-                  expands: false,
-                  padding: const EdgeInsets.all(0),
-                  //EdgeInsets.all(20),
-                  scrollable: true,
-                  readOnly: false,
-                  minHeight: MediaQuery.of(context).size.height * 0.59, //0.626,
-                ),*/
               ),
             ),
           ],
         ),
       ),
-     /* floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: Container(
-          decoration: popup ? const BoxDecoration(
-            border: Border(
-              top: BorderSide(width: 1, color: MainColor.one),
-            ),
-          ) : null,
-          width: MediaQuery.of(context).size.width,
-          height: floatingBarSize,
-          margin: EdgeInsets.only(bottom : floatingMargin()),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              popupFont
-                  ? CustomQuillToolbar.basic(
-                    toolbarHeight: 30,
-                    showLink: false,
-                    controller: _controller,
-                    //_toolbarController,
-                    multiRowsDisplay: false,
-                    showImageButton: false,
-                    showVideoButton: false,
-                    iconTheme: const quill.QuillIconTheme(
-                        iconUnselectedFillColor: MainColor.six,
-                        iconUnselectedColor: MainColor.three,
-                        iconSelectedColor: Colors.white,
-                        iconSelectedFillColor: MainColor.one),
-                  )
-                  : const SizedBox.shrink(),
-              popupImage
-                  ? CustomQuillToolbar.basic(
-                  toolbarHeight: 30,
-                  showLink: false,
-                  showUndo: false,
-                  showRedo: false,
-                  showRightAlignment: false,
-                  showCenterAlignment: false,
-                  showLeftAlignment: false,
-                  showListNumbers: false,
-                  showListCheck: false,
-                  showListBullets: false,
-                  showQuote: false,
-                  showJustifyAlignment: false,
-                  showInlineCode: false,
-                  showIndent: false,
-                  showFontSize: false,
-                  showDirection: false,
-                  showBoldButton: false,
-                  showItalicButton: false,
-                  showUnderLineButton: false,
-                  showClearFormat: false,
-                  showColorButton: false,
-                  showHeaderStyle: false,
-                  showBackgroundColorButton: false,
-                  showCodeBlock: false,
-                  showStrikeThrough: false,
-                  controller: _controller,
-                  //_toolbarController,
-                  multiRowsDisplay: false,
-                  showImageButton: true,
-                  showVideoButton: true,
-                  iconTheme: const quill.QuillIconTheme(
-                      iconUnselectedFillColor: MainColor.six,
-                      iconUnselectedColor: MainColor.three,
-                      iconSelectedColor: Colors.white,
-                      iconSelectedFillColor: MainColor.one),
-              )
-                  :  SizedBox.shrink(),
-            ],
-          )),
-      bottomNavigationBar: Transform.translate(
-        offset: Offset(0.0, checkKeyBoard()),
-        child: BottomAppBar(
-            color: MainColor.three,
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.text_fields,
-                        size: 35,
-                        color: popupFont ? MainColor.six : Colors.white),
-                    onPressed: () {
-                      setState(() {
-                        if (popupImage || popupLink) {
-                          popupImage= false;
-                          popupLink = false;
-                        }
-                        if(!popupFont){
-                          popupFont = true;
-                        }else{
-                          popupFont = false;
-                        }
-                        if(popupFont || popupImage || popupLink){
-                          popup = true;
-                        }
-                        if(!popupFont && !popupImage && !popupLink){
-                          popup = false;
-                        }
-                        //팝업후 editor 입력시 바로 포커스 가긴 하는데 입력 전에 바로 가야 매끄러울듯
-                      });
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.camera_alt,
-                        size: 35,
-                        color: popupImage? MainColor.six : Colors.white),
-                    onPressed: () {
-                      setState(() {
-                        if (popupFont || popupLink) {
-                          popupFont = false;
-                          popupLink = false;
-                        }
-                        if(!popupImage){
-                          popupImage = true;
-                        }else{
-                          popupImage = false;
-                        }
-                        if(popupFont || popupImage || popupLink){
-                          popup = true;
-                        }
-                        if(!popupFont && !popupImage && !popupLink){
-                          popup = false;
-                        }
-                        //팝업후 editor 입력시 바로 포커스 가긴 하는데 입력 전에 바로 가야 매끄러울듯
-                      });
-                    },
-                  ),
-                  quill.LinkStyleButton(
-                    controller: _controller,
-                    iconSize: 35,
-                    iconTheme: const quill.QuillIconTheme(
-                        iconUnselectedFillColor: MainColor.three,
-                        iconUnselectedColor: Colors.white,
-                        iconSelectedColor: Colors.white,
-                        iconSelectedFillColor: MainColor.three),
-                  ),
-                ])),
-      ),*/
     );
   }
 }
