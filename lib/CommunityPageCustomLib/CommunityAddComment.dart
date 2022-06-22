@@ -20,7 +20,7 @@ class AddComment extends StatelessWidget {
   Widget build(BuildContext context) {
     return  InkWell(
       onTap: (){
-        Get.to(() => CommunityPageReply(id:id, index: index,likes: likes, comments: comments, title: title, views: views, writer: writer, realDate: realDate, category: category,));
+        Get.to(() => CommunityPageReply(id:id, index: index,likes: likes, comments: comments, title: title, views: views, writer: writer, realDate: realDate, category: category, communityCategory: keywords['communityCategory'],));
       },
       child: Container(
         //margin: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.03),

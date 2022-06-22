@@ -28,7 +28,7 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>naverlogin</string>
-				<string>com.googleusercontent.apps.602521567499-mn0gq5sbkd7o09gqs7v9qe7usvejn2qi</string>
+				<string>com.googleusercontent.apps.620572308231-09d2eooomsk2bn71svt7oro1gn6o7r42</string>
 			</array>
 		</dict>
 	</array>
@@ -101,5 +101,18 @@
 	<string>naverlogin</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>io.flutter.embedded_views_preview</key>
+	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Used to demonstrate image picker plugin</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Used to capture audio for image picker plugin</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Used to demonstrate image picker plugin</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+	    <key>NSAllowsArbitraryLoads</key>
+	    <true/>
+ </dict>
 </dict>
 </plist>

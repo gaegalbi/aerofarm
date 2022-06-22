@@ -39,15 +39,16 @@ dependencies:
   flutter_image_slideshow: 0.1.2
   get: 4.6.1
   flutter_tabler_icons: 1.1.1
-  oauth2_client: 2.4.0
   intl: 0.17.0
   flutter_quill: ^5.0.3
+  delta_to_html: ^0.0.7
   measured_size: ^1.0.0
   url_launcher: ^6.1.2
   flutter_linkify: ^5.0.2
   http: ^0.13.4
   flutter_html: ^2.2.1
-  flutter_speed_dial: ^6.0.0
+  flutter_summernote: ^1.0.0
+  html_editor_enhanced: ^2.5.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -24,7 +24,7 @@ class AddBoard extends StatelessWidget {
           )),
       child: InkWell(
         onTap: () {
-          Get.to(() => CommunityPageReadPost(id:keywords['id'], index: index, likes: keywords['likes'], comments: keywords['comments'], title: keywords['title'], views: keywords['views'], writer: keywords['writer'], realDate: keywords['realDate'], category: category,));
+          Get.to(() => CommunityPageReadPost(id:keywords['id'], index: index, likes: keywords['likes'], comments: keywords['comments'], title: keywords['title'], views: keywords['views'], writer: keywords['writer'], realDate: keywords['realDate'], category: keywords['communityCategory'],));
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

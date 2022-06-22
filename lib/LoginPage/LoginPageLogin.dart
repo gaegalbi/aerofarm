@@ -16,7 +16,7 @@ import 'package:html/dom.dart' as dom;
 
 late String? session;
 late String name;
-late bool isLogin;
+late bool isLogin = false;
 late String? nickname;
 //쿠키 받아두는 변수
 late String? tmp;
@@ -54,10 +54,10 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
     try {
       NaverLoginResult res = await FlutterNaverLogin.logIn();
       setState(() {
-        name = res.account.nickname;
-        isLogin = true;
+        nickname = res.account.nickname;
+        nickname!.isEmpty ? isLogin = false : isLogin = true;
        // print(res.account.email);
-        Get.offAll(()=>const MainPage());
+        nickname!.isEmpty ? null : Get.offAll(()=>const MainPage());
       });
     } catch (error) {
       print(error);
@@ -264,7 +264,6 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                         print('카카오톡으로 로그인 성공');
                       } catch (error) {
                         print('카카오톡으로 로그인 실패 $error');
-
                         // 사용자가 카카오톡 설치 후 디바이스 권한 요청 화면에서 로그인을 취소한 경우,
                         // 의도적인 로그인 취소로 보고 카카오계정으로 로그인 시도 없이 로그인 취소로 처리 (예: 뒤로 가기)
                         if (error is PlatformException &&
@@ -299,6 +298,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                 child: IconButton(
                   padding: EdgeInsets.zero,
                   onPressed: () {
+                    profile = const Image(image: AssetImage("assets/images/profile.png"),);
                     _naverLogin();
                   },
                   icon: Image.asset("assets/naver/btnG_아이콘원형.png"),
@@ -307,15 +307,6 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
               IconButton(
                 padding: EdgeInsets.zero,
                 onPressed: () async {
-                /*  launchUrl(
-                    Uri.parse('http://localhost:8080/oauth2/authorization/google'),
-                  );*/
-                  http.Response _res = await http.get(
-                    Uri.http('172.25.2.57:8080', 'login/oauth2/code/google'),
-                   // Uri.http('172.25.2.57:8080', '/login'),
-                  );
-                  print(_res);
-                  //http://127.0.0.1:8080/login/oauth2/code/google
                   try {
                     GoogleSignIn _googleSignIn = GoogleSignIn();
                     GoogleSignInAccount? _googleUser =

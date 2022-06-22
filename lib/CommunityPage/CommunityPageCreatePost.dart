@@ -4,7 +4,7 @@ import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:get/get.dart';
-import '../CommunityPageCustomLib/CustomQuillToolbar.dart';
+import 'package:html_editor_enhanced/html_editor.dart';
 import '../CommunityPageCustomLib/CustomRadioButton.dart';
 import 'package:http/http.dart' as http;
 
@@ -13,7 +13,9 @@ import 'CommunityPageForm.dart';
 
 class CommunityPageCreatePost extends StatefulWidget {
   final String id;
-  const CommunityPageCreatePost({Key? key, required this.id}) : super(key: key);
+  final String type;
+  final String title;
+  const CommunityPageCreatePost({Key? key, required this.id, required this.type, required this.title}) : super(key: key);
 
   @override
   State<CommunityPageCreatePost> createState() =>
@@ -49,12 +51,13 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
   bool popupTag = false;
   bool popup = false;
 
-  late quill.QuillController _controller;
+  //late quill.QuillController _controller;
   late ScrollController _scrollController;
   late ScrollController _scrollController1;
   // late TextEditingController _contentsController;
   late TextEditingController _titleController;
   late final FocusNode focusNode;
+  late HtmlEditorController _controller;
 
   quill.OnImagePickCallback? onImagePickCallback;
   quill.OnVideoPickCallback? onVideoPickCallback;
@@ -62,6 +65,8 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
   quill.FilePickImpl? filePickImpl;
   quill.WebImagePickImpl? webImagePickImpl;
   quill.WebVideoPickImpl? webVideoPickImpl;
+
+  //final GlobalKey<FlutterSummernoteState> _keyEditor = GlobalKey();
 
   var data = <String, dynamic>{};
   final Map<String, String> matchCategory = {
@@ -74,14 +79,15 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
 
   @override
   void initState() {
-    _controller = quill.QuillController(
+    _controller = HtmlEditorController();
+    //_controller = quill.QuillController.basic();
+    /*_controller = quill.QuillController(
       document: quill.Document(),
       selection: const TextSelection.collapsed(offset: 0),
       keepStyleOnNewLine: true, //not working
-    );
+    );*/
     _scrollController = ScrollController();
     _scrollController1 = ScrollController();
-    // _contentsController = TextEditingController();
     _titleController = TextEditingController();
     focusNode = FocusNode();
     super.initState();
@@ -89,10 +95,9 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller.disable();
     _scrollController.dispose();
     _scrollController1.dispose();
-    // _contentsController.dispose();
     _titleController.dispose();
     super.dispose();
   }
@@ -122,14 +127,14 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
       } else {
         return MediaQuery.of(context)
             .viewInsets
-            .bottom; //MediaQuery.of(context).viewInsets.bottom;
+            .bottom;
       }
     } else {
       if (popup) {
         if (_scrollController1.position.maxScrollExtent > 0) {
           return floatingBarSize * 1.5;
         } else {
-          return floatingBarSize; //floatingBarSize;
+          return floatingBarSize;
         }
       } else {
         return contentPadding;
@@ -137,11 +142,6 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
     }
   }
 
-  /*void addBoard(String content, AssetImage image, String user) {
-    boardList.add(
-       AddBoard()
-    );
-  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -155,9 +155,10 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
           padding: EdgeInsets.zero,
           onPressed: () {
             //화면 전환시 키보드 부드럽게 내려가게
-            focusNode.unfocus();
+            _controller.editorController?.clearFocus();
+            _controller.disable();
             Future.delayed(const Duration(microseconds: 1), () {
-              Get.off(()=>const CommunityPageForm(category:'all'));
+              Get.offAll(()=>const CommunityPageForm(category:'all'));
             });
           },
           icon: const Icon(Icons.close),
@@ -171,49 +172,73 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
             ),
             child: TextButton(
                 onPressed: () async {
-                  if(matchCategory[groupValue]==null || _titleController.text.isEmpty || _controller.document.toPlainText().length==1){
-                    showDialog(context: context, builder: (context){
-                      Future.delayed(const Duration(milliseconds: 900), () {
-                        Navigator.pop(context);
-                      });
-                      return const AlertDialog(
-                        backgroundColor: Colors.transparent,
-                        contentPadding: EdgeInsets.all(5),
-                        content: Text("게시판 종류,제목,내용이\n있어야합니다.",style: TextStyle(fontSize: 28),textAlign: TextAlign.center,),
-                      );
-                    });
-                  }else{
-                    data = {
-                      "category":matchCategory[groupValue],
-                      "title":_titleController.text,
-                      "contents":_controller.document.toPlainText(),
-                    };
-                    var body = json.encode(data);
+                    if(widget.type=="ReadPost"){
+                      if(_controller.getText().toString().length==1){//if(_controller.document.toPlainText().length==1){
+                        showDialog(context: context, builder: (context){
+                          Future.delayed(const Duration(milliseconds: 900), () {
+                            Navigator.pop(context);
+                          });
+                          return const AlertDialog(
+                            backgroundColor: Colors.transparent,
+                            contentPadding: EdgeInsets.all(5),
+                            content: Text("게시판 종류,제목,내용이\n있어야합니다.",style: TextStyle(fontSize: 28),textAlign: TextAlign.center,),
+                          );
+                        });
+                      }else{
+                        data = {
+                          "category":matchCategory[groupValue],
+                          "title":_titleController.text,
+                          "contents":_controller.getText(),/*"contents":_controller.document.toPlainText(),*/
+                          "postId":widget.id,
+                        };
+                        var body = json.encode(data);
+                        await http.post(
+                          Uri.http('127.0.0.1:8080', '/createAnswerPost/${widget.id}'),
+                          headers: {
+                            "Content-Type": "application/json",
+                            "Cookie":"JSESSIONID=$session",
+                          },
+                          encoding: Encoding.getByName('utf-8'),
+                          body: body,
+                        );
+                        Get.offAll(()=>CommunityPageForm(category: widget.id));
+                      }
+                    }else{
+                      if(matchCategory[groupValue]==null || _titleController.text.isEmpty || _controller.getText().toString().length==1){/*_controller.document.toPlainText().length==1){*/
+                        showDialog(context: context, builder: (context){
+                          Future.delayed(const Duration(milliseconds: 900), () {
+                            Navigator.pop(context);
+                          });
+                          return const AlertDialog(
+                            backgroundColor: Colors.transparent,
+                            contentPadding: EdgeInsets.all(5),
+                            content: Text("게시판 종류,제목,내용이\n있어야합니다.",style: TextStyle(fontSize: 28),textAlign: TextAlign.center,),
+                          );
+                        });
+                      }else{
+                        final txt = await _controller.getText();
+                        data = {
+                          "category":matchCategory[groupValue],
+                          "title":_titleController.text,
+                          "contents":txt,
+                          //"contents":"<p>"+deltaToHTML(jsonEncode(_controller.document.toDelta().toJson())).toString()+"</p>",
+                        };
+                        var body = json.encode(data);
+                        await http.post(
+                          Uri.http('127.0.0.1:8080', '/createBasicPost'),
+                          headers: {
+                            "Content-Type": "application/json",
+                            "Cookie":"JSESSIONID=$session",
+                          },
+                          encoding: Encoding.getByName('utf-8'),
+                          body: body,
+                        );
 
-                    await http.post(
-                      Uri.http('127.0.0.1:8080', '/community/createPost'),
-                      headers: {
-                        "Content-Type": "application/json",
-                        "Cookie":"JSESSIONID=$session",
-                      },
-                      encoding: Encoding.getByName('utf-8'),
-                      body: body,
-                    );
-                    Get.offAll(CommunityPageForm(category: widget.id));
-                  }
-
-                /*  Future<http.Response> fetchPost() {
-                    return http.post(
-                      Uri.http('172.25.2.57:8080', '/community/test123'),
-                      // 백엔드에 Authorization 헤더를 보냅니다.
-                      headers: {HttpHeaders.authorizationHeader: "Basic your_api_token_here"},
-                    );
-                  }*/
-                 /* http.Response _res = await http.get(
-                    Uri.http('172.25.2.57:8080', '/login'),
-                  );
-                  print(_res.body);*/
-                },
+                       // print(deltaToHTML(jsonEncode(_controller.document.toDelta().toJson())).toString());
+                        Get.offAll(()=>CommunityPageForm(category: widget.id));
+                      }
+                    }
+                  },
                 child: const Text(
                   "등록",
                   style: CommunityPageTheme.postFont,
@@ -226,8 +251,42 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
         child: CustomScrollView(
           controller: _scrollController1,
           slivers: [
+            widget.type=="ReadPost" ?
             SliverToBoxAdapter(
               child: Column(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    decoration: const BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(width: 2, color: Colors.white),
+                        )),
+                    child: TextField(
+                        controller: _titleController,
+                        textInputAction: TextInputAction.next,
+                        style: const TextStyle(
+                          fontFamily: "bmPro",
+                          fontSize: 25,
+                          color: Colors.white,
+                        ),
+                        decoration: InputDecoration(
+                          enabled: false,
+                          contentPadding: EdgeInsets.zero,
+                          filled: true,
+                          fillColor: Colors.transparent,
+                          enabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          hintText: "Re : "+widget.title,
+                          hintStyle: const TextStyle(
+                              fontFamily: "bmPro",
+                              fontSize: 25,
+                              color: Colors.grey),
+                        )),
+                  ),
+                ],
+              ),
+            ) :
+            SliverToBoxAdapter(child: Column(
                 children: [
                   Builder(
                       builder: (context) => TextButton(
@@ -444,8 +503,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                         )),
                   ),
                 ],
-              ),
-            ),
+              ),),
             SliverFillRemaining(
               child: Container(
                 padding: EdgeInsets.only(
@@ -453,8 +511,22 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                     top: contentPadding,
                     right: contentPadding,
                     left: contentPadding),
-                child: quill.QuillEditor(
+                child: HtmlEditor(
+                  controller: _controller,
+                  htmlToolbarOptions: const HtmlToolbarOptions(
+                    //toolbarPosition: ToolbarPosition.belowEditor,
 
+                  ),
+                  otherOptions: OtherOptions(
+                    height:MediaQuery.of(context).size.height*0.7,
+                  ),
+                ),
+                /*FlutterSummernote(
+                  key: _keyEditor,
+                  showBottomToolbar: true,
+                  hasAttachment: true,
+
+                )*//*quill.QuillEditor(
                   keyboardAppearance: Brightness.dark,
                   textCapitalization: TextCapitalization.none,
                   focusNode: focusNode,
@@ -468,13 +540,13 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                   scrollable: true,
                   readOnly: false,
                   minHeight: MediaQuery.of(context).size.height * 0.59, //0.626,
-                ),
+                ),*/
               ),
             ),
           ],
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+     /* floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Container(
           decoration: popup ? const BoxDecoration(
             border: Border(
@@ -502,7 +574,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                         iconSelectedColor: Colors.white,
                         iconSelectedFillColor: MainColor.one),
                   )
-                  : SizedBox.shrink(),
+                  : const SizedBox.shrink(),
               popupImage
                   ? CustomQuillToolbar.basic(
                   toolbarHeight: 30,
@@ -611,7 +683,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                         iconSelectedFillColor: MainColor.three),
                   ),
                 ])),
-      ),
+      ),*/
     );
   }
 }

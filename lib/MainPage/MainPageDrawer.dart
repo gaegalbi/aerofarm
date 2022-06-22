@@ -13,7 +13,6 @@ class MainPageDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
   double drawerPadding = MediaQuery.of(context).size.height*0.012;
 
   return Container(
@@ -23,7 +22,7 @@ class MainPageDrawer extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: MediaQuery.of(context).size.width*0.25,
-            backgroundImage: profile!.image,
+            backgroundImage: profile?.image ?? const AssetImage("assets/images/profile.png"),
             /*backgroundImage: const AssetImage("assets/images/profile.png"),*/
           ),
           Container(
@@ -91,7 +90,7 @@ class MainPageDrawer extends StatelessWidget {
                 if(isLogin) {
                   FlutterNaverLogin.logOutAndDeleteToken();
                 }
-                Get.offAll(const LoginPage());
+                Get.offAll(()=>const LoginPage());
               },
             ),
           )

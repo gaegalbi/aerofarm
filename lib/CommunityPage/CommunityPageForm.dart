@@ -50,7 +50,6 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
     List<String> boardCategory = ["free","information","question","picture","trade"];
     String current = dateFormat.format(DateTime.now());
     if(widget.category=='all' || widget.category=='hot') {
-
       final List<Map<String, dynamic>> customKeywords = [];
       while(true) {
         final Map<String, String> _queryParameters = <String, String>{
@@ -61,8 +60,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
             _queryParameters));
         if (response.statusCode == 200) {
           dom.Document document = parser.parse(response.body);
-          List<dom.Element> keywordElements =
-          document.querySelectorAll('.post-data');
+          List<dom.Element> keywordElements = document.querySelectorAll('.post-data');
           if (keywordElements.isEmpty) {
             if (categoryIndex < 4) {
               setState(() {
@@ -101,6 +99,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
                     title.text.lastIndexOf('(') + 1,
                     title.text.lastIndexOf(')')),
                 'id': id?.text,
+                'communityCategory':boardCategory[categoryIndex]
               });
 
             }
@@ -137,6 +136,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
           index--;
           throw Exception('Failed to load post');
         } else {
+          /*dom.Element? communityCategory = document.querySelector("community-category");*/
           for (var element in keywordElements) {
             dom.Element? writer = element.querySelector('.writer');
             dom.Element? title = element.querySelector('.title-f-sort');
@@ -159,6 +159,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
               'comments': title?.text.substring(
                   title.text.lastIndexOf('(') + 1, title.text.lastIndexOf(')')),
               'id': id?.text,
+              'communityCategory':widget.category
             });
           }
           setState(() {
@@ -169,8 +170,6 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
               ));
             }
             keywords.clear();
-            print(Uri.http('127.0.0.1:8080', '/community/${widget.category}',
-                _queryParameters));
           });
         }
       }
@@ -237,7 +236,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
           floating = !floating;
         });},
       child: Scaffold(
-        floatingActionButton: floating? CommunityPageFloating(id: widget.category,) : null,
+        floatingActionButton: floating? CommunityPageFloating(id: widget.category, type: 'Form', title: "",) : null,
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: MainColor.six,

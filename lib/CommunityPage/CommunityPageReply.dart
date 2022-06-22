@@ -20,8 +20,9 @@ class CommunityPageReply extends StatefulWidget {
   final String comments;
   final String realDate;
   final String category;
+  final String communityCategory;
 
-  const CommunityPageReply({Key? key, required this.index, required this.id, required this.writer, required this.title, required this.views, required this.likes, required this.comments, required this.realDate, required this.category,}) : super(key: key);
+  const CommunityPageReply({Key? key, required this.index, required this.id, required this.writer, required this.title, required this.views, required this.likes, required this.comments, required this.realDate, required this.category, required this.communityCategory,}) : super(key: key);
 
   @override
   State<CommunityPageReply> createState() => _CommunityPageReplyState();
@@ -235,7 +236,6 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                               style: CommunityPageTheme.bottomAppBarList,
                             ),
                             onPressed: () async{
-                              print(widget.id);
                                 var data = {
                                   "postId":widget.id,
                                   "content":_textEditingController.text,
@@ -243,7 +243,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                                 var body = json.encode(data);
 
                                 await http.post(
-                                  Uri.http('127.0.0.1:8080', '/community/createComment'),
+                                  Uri.http('127.0.0.1:8080', '/createComment'),
                                   headers: {
                                     "Content-Type": "application/json",
                                     "Cookie":"JSESSIONID=$session",
@@ -251,13 +251,15 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                                   encoding: Encoding.getByName('utf-8'),
                                   body: body,
                                 );
+
                               final List<Map<String, dynamic>> customKeywords = [];
                               final Map<String, String> _queryParameters = <String, String>{
                                 'page': "1",
                               };
 
                               final response = await http
-                                  .get(Uri.http('127.0.0.1:8080', '/community/free/${widget.id}',_queryParameters));
+                                  .get(Uri.http('127.0.0.1:8080', '/community/${widget.category}/${widget.id}',_queryParameters));
+                              printWrapped(response.body);
                               if (response.statusCode == 200) {
                                 dom.Document document = parser.parse(response.body);
                                 List<dom.Element> keywordElements = document.querySelectorAll('.comment-user-info');
@@ -282,7 +284,6 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                               }
                                 _textEditingController.text = "";
                                //Get.offAll(CommunityPageForm(category: widget.id));
-
                             }
                         )
                       ],
