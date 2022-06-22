@@ -49,6 +49,40 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
   int i=1;
   late List<Map<String, dynamic>> customKeywords = [];
   List<String> boardCategory = ["free","information","question","picture","trade"];
+  bool loading = true;
+  bool floating= false;
+  List<bool> category= [true,false,false,false,false,false,];
+  String setCategory = "all";
+
+  void categoryClick(int index){
+    for(int i=0;i<category.length;i++){
+      if(i!=index){
+        category[i]=false;
+      }else{
+        category[i]=true;
+        switch(i){
+          case 1:
+            setCategory = "free";
+            break;
+          case 2:
+            setCategory = "picture";
+            break;
+          case 3:
+            setCategory = "information";
+            break;
+          case 4:
+            setCategory = "question";
+            break;
+          case 5:
+            setCategory = "trade";
+            break;
+          default:
+            setCategory = "all";
+            break;
+        }
+      }
+    }
+  }
 
   Future fetch() async {
     String current = dateFormat.format(DateTime.now());
@@ -189,7 +223,19 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
         List<dom.Element> keywordElements =
         document.querySelectorAll('.post-data');
         if (keywordElements.isEmpty) {
-          index--;
+          setState((){
+            index--;
+            loading = false;
+            if(boardList.length ==1){
+              boardList.add(
+                  Container(
+                    margin: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.345),
+                      alignment: Alignment.center,
+                      child:const Text("게시글이 없습니다.",style: CommunityPageTheme.announce,)
+              )
+              );
+            }
+          });
           throw Exception('Failed to load post');
         } else {
           /*dom.Element? communityCategory = document.querySelector("community-category");*/
@@ -259,44 +305,9 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
             loading = false;
           });
         });
-
       }
-
   }
-  bool loading = true;
-  bool floating= false;
-  List<bool> category= [true,false,false,false,false,false,];
-  String setCategory = "all";
 
-  void categoryClick(int index){
-    for(int i=0;i<category.length;i++){
-      if(i!=index){
-        category[i]=false;
-      }else{
-        category[i]=true;
-        switch(i){
-          case 1:
-            setCategory = "free";
-            break;
-          case 2:
-            setCategory = "picture";
-            break;
-          case 3:
-            setCategory = "information";
-            break;
-          case 4:
-            setCategory = "question";
-            break;
-          case 5:
-            setCategory = "trade";
-            break;
-          default:
-            setCategory = "all";
-            break;
-        }
-      }
-    }
-  }
   @override
   void initState() {
     _scrollController = ScrollController();
@@ -471,7 +482,11 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
                             } else {
                               return Container();
                             }
-                          })):const Expanded(child: Center(child: CircularProgressIndicator(color: MainColor.three,))),
+                          })):const Expanded(
+                      child: Center(
+                          child: CircularProgressIndicator(color: MainColor.three,)
+                      )
+                  ),
                 ]),
               ),
             ],

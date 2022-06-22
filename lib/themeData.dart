@@ -30,7 +30,6 @@ class LoginRegisterPageTheme {
       decoration: TextDecoration.none,
       fontFamily: 'bmPro',
       fontSize: 25);
-
   //tabbar unfocus시 스타일
   static const button1 = TextStyle(
       color: MainColor.three,

@@ -141,9 +141,9 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                 ),
                 onPressed: () {
                   if(widget.before=="all"||widget.before=='hot'){
-                    Get.off(()=>CommunityPageForm(category: widget.before));
+                    Get.offAll(()=>CommunityPageForm(category: widget.before));
                   }else{
-                    Get.off(()=>CommunityPageForm(category:widget.category));
+                    Get.offAll(()=>CommunityPageForm(category:widget.category));
                   }
                 },
               )),
