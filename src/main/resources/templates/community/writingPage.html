@@ -22,14 +22,14 @@
                 </select>
             </div>
             <div class="input-group mb-3" style="width: 35%; margin-right: 20px">
-                <label class="input-group-text" for="inputGroupSelect02">CLASSIFICATION</label>
-                <select class="form-select" id="inputGroupSelect02">
+                <label class="input-group-text" for="filter">CLASSIFICATION</label>
+                <select class="form-select" id="filter" th:disabled="${selectPostId != null}">
                     <option selected>분류를 선택해주세요.</option>
-                    <option value="1">일반</option>
-                    <option value="2">취미</option>
-                    <option value="3">게임</option>
-                    <option value="4">일상</option>
-                    <option value="5">여행</option>
+                    <option value="normal" th:selected="${postFilter=='normal'}">일반</option>
+                    <option value="hobby" th:selected="${postFilter=='hobby'}">취미</option>
+                    <option value="game" th:selected="${postFilter=='game'}">게임</option>
+                    <option value="daily" th:selected="${postFilter=='daily'}">일상</option>
+                    <option value="travel" th:selected="${postFilter=='travel'}">여행</option>
                 </select>
             </div>
         </div>

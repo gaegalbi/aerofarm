@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import yj.capstone.aerofarm.domain.board.Post;
 import yj.capstone.aerofarm.domain.board.PostCategory;
+import yj.capstone.aerofarm.domain.board.PostFilter;
 
 import java.time.LocalDateTime;
 
@@ -18,6 +19,7 @@ public class PostDto {
     private String title;
     private String writer;
     private PostCategory category;
+    private PostFilter filter;
     private int views;
     private LocalDateTime createDate;
     private Long commentCount;
@@ -36,11 +38,12 @@ public class PostDto {
     }
 
     @QueryProjection
-    public PostDto(Long id, String title, String writer, PostCategory category, int views, LocalDateTime createDate, Long commentCount, Long likeCount, Long parentId, boolean deleteTnF) {
+    public PostDto(Long id, String title, String writer, PostCategory category, PostFilter filter, int views, LocalDateTime createDate, Long commentCount, Long likeCount, Long parentId, boolean deleteTnF) {
         this.id = id;
         this.title = title;
         this.writer = writer;
         this.category = category;
+        this.filter = filter;
         this.views = views;
         this.createDate = createDate;
         this.commentCount = commentCount;

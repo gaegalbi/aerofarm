@@ -5,15 +5,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import yj.capstone.aerofarm.domain.board.Comment;
-import yj.capstone.aerofarm.domain.board.PostLike;
+import yj.capstone.aerofarm.domain.board.*;
 import yj.capstone.aerofarm.dto.CommentDto;
 import yj.capstone.aerofarm.dto.PostDto;
 import yj.capstone.aerofarm.dto.PostLikeDto;
 import yj.capstone.aerofarm.form.CommentForm;
 import yj.capstone.aerofarm.form.PostForm;
-import yj.capstone.aerofarm.domain.board.Post;
-import yj.capstone.aerofarm.domain.board.PostCategory;
 import yj.capstone.aerofarm.domain.member.Member;
 import yj.capstone.aerofarm.repository.CommentRepository;
 import yj.capstone.aerofarm.repository.PostLikeRepository;
@@ -91,14 +88,14 @@ public class PostService {
     }
 
     // 게시글 검색
-    public Page<PostDto> findPostInfo(PostCategory category, String searchCategory, String keyword, Integer page) {
+    public Page<PostDto> findPostInfo(PostCategory category, String searchCategory, String keyword, PostFilter postFilter, Integer page) {
         PageRequest pageRequest = PageRequest.of(page - 1, 10);
-        return postRepository.findPostInfo(category, searchCategory, keyword, pageRequest);
+        return postRepository.findPostInfo(category, searchCategory, keyword, postFilter, pageRequest);
 
     }
 
-    public List<PostDto> findAnswerInfo(PostCategory category, String searchCategory, String keyword) {
-        return postRepository.findAnswerPostInfo(category, searchCategory, keyword);
+    public List<PostDto> findAnswerInfo(PostCategory category, String searchCategory, String keyword, PostFilter postFilter) {
+        return postRepository.findAnswerPostInfo(category, searchCategory, keyword, postFilter);
     }
 
     // 선택한 게시물 정보
@@ -140,7 +137,5 @@ public class PostService {
         post.updateViews(post.getViews()+1);
         postRepository.save(post);
     }
-
-    //게시글 필터링
 
 }

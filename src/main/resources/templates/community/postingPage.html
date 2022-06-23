@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/header :: header}"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 <style>
     @media (min-width: 768px) {
         .bd-placeholder-img-lg {
@@ -66,6 +67,10 @@
         border-color: #FFFFFF;
         padding-top: 20px;
     }
+
+    .comment-basic {
+        font-size: 0.8em;
+    }
 </style>
 <body class="d-flex flex-column min-vh-100">
 <div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
@@ -88,24 +93,27 @@
         <div class="card card-body body-color body-font-color body-line">
             <!--제목-->
             <div class="row">
-                <div class="post-title col-11" th:utext="${postInfo.isDeleteTnF()} ? '삭제 처리된 게시글입니다.' : '&lt;b&gt;' + ${selectPost.title} + '&lt;/b&gt;'"/>
-                <div class="col-1" th:text="|조회수 : ${selectPost.getViews()}|"/>
+                <div class="post-title col-10" th:utext="${postInfo.isDeleteTnF()} ? '삭제 처리된 게시글입니다.' : '&lt;b&gt;' + ${selectPost.title} + '&lt;/b&gt;'"/>
+                <div class="col-2 text-lg-end">
+                    <i class="fa-regular fa-eye"></i>
+                    <span th:text="${selectPost.getViews()}"></span>
+                    <i class="fa-regular fa-comment fa-flip-horizontal"></i>
+                    <span th:text="${pageableList.getContent().size()}"></span>
+
+                </div>
             </div>
             <!--회원 정보-->
             <div class="user-info-border">
-                <table>
-                    <tbody class="user-info">
-                    <tr>
-                        <td rowspan="2" width="50" height="40" style="text-align: center">
-                            <img src="/image/test_icon.png" class="rounded-circle" style="width: 35px; height: 35px">
-                        </td>
-                        <td th:utext="${postInfo.isDeleteTnF()} ? '' : ${selectPost.writer}"/>
-                    </tr>
-                    <tr>
-                        <td th:text="${postInfo.isDeleteTnF()} ? '' : ${#temporals.format(selectPost.localDateTime, 'yyyy-MM-dd HH:mm:ss')}"/>
-                    </tr>
-                    </tbody>
-                </table>
+                <div class="row">
+                    <div style="width: 40px">
+                        <img src="/image/test_icon.png" class="rounded-circle" style="width: 35px; height: 35px">
+                    </div>
+                    <div class="comment-basic col text-lg-start">
+                        <span th:utext="${postInfo.isDeleteTnF()} ? '' : '&lt;b&gt;' + ${selectPost.writer} + '&lt;/b&gt;'"/>
+                        <br>
+                        <span th:text="${postInfo.isDeleteTnF()} ? '' : ${#temporals.format(selectPost.localDateTime, 'yyyy-MM-dd HH:mm:ss')}" />
+                    </div>
+                </div>
             </div>
             <!--게시글 내용 영역-->
             <div class="post-content">
@@ -119,45 +127,39 @@
                         <textarea class="form-control" aria-label="comment" id="comment"></textarea>
                         <button type="button" class="btn btn-secondary" style="margin-left: 10px" id="btn-createComment" th:text="쓰기"/>
                     </div>
-                    <table>
-                        <tbody class="user-info" th:each="commentDto : ${pageableList.getContent()}">
-                        <tr>
-                            <td rowspan="3" width="50" height="40">
-                                <img src="/image/test_icon.png" class="rounded-circle" style="width: 40px; height: 40px">
-                            </td>
-                            <td th:utext="'&lt;b&gt;' + ${commentDto.getWriter()} + '&lt;/b&gt;'"/>
-                        </tr>
-                        <tr>
-                            <td th:text="${commentDto.isDeleteTnF()} ? '삭제된 댓글입니다.' : ${commentDto.getContent()}"/>
-                        </tr>
-                        <tr>
-                            <td th:text="${#temporals.format(commentDto.getLocalDateTime(), 'yyyy.MM.dd HH:mm')}"/>
-                            <td><a href="#">댓글 달기</a></td>
-                            <td>
-                                <a href="#" th:id="${commentDto.getId()}" onclick="deleteComment(this.id)" th:if="${user == commentDto.getWriterId() and !commentDto.isDeleteTnF()}" th:text="|댓글 삭제|"/>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-
-                    <!--답글 영역--><!--
-                    <table>
-                        <tbody class="user-info">
-                        <tr>
-                            <td rowspan="3" width="50" height="40" style="text-align: center">⤷</td>
-                            <td rowspan="3" width="50" height="40">
-                                <img src="/image/test_icon.png" class="rounded-circle" style="width: 40px; height: 40px">
-                            </td>
-                            <td>닉네임</td>
-                        </tr>
-                        <tr>
-                            <td>이 곳은 답글 내용이 들어갈 자리입니다.</td>
-                        </tr>
-                        <tr>
-                            <td>2022-05-17 10:36</td>
-                        </tr>
-                        </tbody>
-                    </table>-->
+                    <div class="row" th:each="commentDto : ${pageableList.getContent()}">
+                        <div class="col-6 text-lg-start">
+                            <img src="/image/test_icon.png" class="rounded-circle" style="width: 40px; height: 40px">
+                            <span class="comment-basic" th:utext="${commentDto.isDeleteTnF()} ? '( 삭제 )' : '&lt;b&gt;' + ${commentDto.getWriter()} + '&lt;/b&gt; ' + ${#temporals.format(commentDto.getLocalDateTime(), '( yyyy.MM.dd HH:mm )')}"/>
+                        </div>
+                        <div class="col-6 text-lg-end">
+                            <a class="comment-basic" href="#" th:id="${commentDto.getId()}" onclick="deleteComment(this.id)" th:if="${user == commentDto.getWriterId() and !commentDto.isDeleteTnF()}" th:text="|댓글 삭제|"/>
+                            <a class="comment-basic text-lg-end" href="#" th:if="${!commentDto.isDeleteTnF()}">댓글 달기</a>
+                        </div>
+                        <div class="comment-body" style="margin-top: 10px; margin-bottom: 20px;">
+                            <span class="comment-basic" th:utext="${commentDto.isDeleteTnF()} ? '삭제된 댓글입니다.' : ${commentDto.getContent()}"/>
+                        </div>
+                        <div class="row" th:each="commentDto : ${pageableList.getContent()}" style="--bs-gutter-x: 1rem; margin-left: 5px">
+                            <div style="width: 30px">
+                                <i class="fa-solid fa-arrow-turn-up fa-rotate-90"></i>
+                            </div>
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col-6 text-lg-start">
+                                        <img src="/image/test_icon.png" class="rounded-circle" style="width: 40px; height: 40px">
+                                        <span class="comment-basic" th:utext="${commentDto.isDeleteTnF()} ? '( 삭제 )' : '&lt;b&gt;' + ${commentDto.getWriter()} + '&lt;/b&gt; ' + ${#temporals.format(commentDto.getLocalDateTime(), '( yyyy.MM.dd HH:mm )')}"/>
+                                    </div>
+                                    <div class="col-6 text-lg-end">
+                                        <a class="comment-basic" href="#" th:id="${commentDto.getId()}" onclick="deleteComment(this.id)" th:if="${user == commentDto.getWriterId() and !commentDto.isDeleteTnF()}" th:text="|댓글 삭제|"/>
+                                        <a class="comment-basic text-lg-end" href="#" th:if="${!commentDto.isDeleteTnF()}">댓글 달기</a>
+                                    </div>
+                                    <div class="comment-body" style="margin-top: 10px; margin-bottom: 20px;">
+                                        <span class="comment-basic" th:utext="${commentDto.isDeleteTnF()} ? '삭제된 댓글입니다.' : ${commentDto.getContent()}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="container">
