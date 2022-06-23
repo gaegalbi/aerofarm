@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import yj.capstone.aerofarm.config.auth.dto.UserDetailsImpl;
+import yj.capstone.aerofarm.domain.board.PostFilter;
 import yj.capstone.aerofarm.domain.board.PostLike;
 import yj.capstone.aerofarm.dto.*;
 import yj.capstone.aerofarm.form.CommentForm;
@@ -25,15 +26,19 @@ public class PostController {
 
     // 게시판 글 목록
     @GetMapping("/community/{category}")
-    public String community(@PathVariable String category, Model model, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "title") String searchCategory, @RequestParam(defaultValue = "%") String keyword) {
+    public String community(@PathVariable String category, Model model, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "title") String searchCategory, @RequestParam(defaultValue = "%") String keyword, @RequestParam(defaultValue = "all") String filter) {
 
         if (page < 1) page = 1;
 
         PostCategory postCategory = PostCategory.findByLowerCase(category);
-        Page<PostDto> postInfo = postService.findPostInfo(postCategory, searchCategory, keyword, page);
+        PostFilter postFilter = null;
+        if (!filter.equals("all")) {
+            postFilter = PostFilter.findByLowerCase(filter);
+        }
+        Page<PostDto> postInfo = postService.findPostInfo(postCategory, searchCategory, keyword, postFilter, page);
         PageableList<PostDto> pageableList = new PageableList<>(postInfo);
 
-        List<PostDto> answerPostInfo = postService.findAnswerInfo(postCategory, searchCategory, keyword);
+        List<PostDto> answerPostInfo = postService.findAnswerInfo(postCategory, searchCategory, keyword, postFilter);
 
         model.addAttribute("pageableList", pageableList);       // 시초 게시글
         model.addAttribute("selectCategory", postCategory);     // 카테고리
@@ -80,6 +85,7 @@ public class PostController {
 
         if (postId != null) {
             Post post = postService.selectPost(postId);
+            model.addAttribute("postFilter", post.getFilter().getLowerCase());
             model.addAttribute("postCategory", post.getCategory().getLowerCase());
             model.addAttribute("postTitle", post.getTitle());
             model.addAttribute("selectPostId", postId);

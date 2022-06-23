@@ -118,13 +118,14 @@
         <div class="community-category" th:text="${selectCategory.getName()}"/>
         <!--필터링 헤더-->
         <div class="filtering">
-            <a class="p-2 post-header" href="#">전체</a>
-            <a class="p-2 post-header" href="#">일반</a>
-            <a class="p-2 post-header" href="#">취미</a>
-            <a class="p-2 post-header" href="#">게임</a>
-            <a class="p-2 post-header" href="#">일상</a>
-            <a class="p-2 post-header" href="#">여행</a>
+            <a class="p-2 post-header" href="javascript:void(0);" id="all" onclick="select_filter(this.id);">전체</a>
+            <a class="p-2 post-header" href="javascript:void(0);" id="normal" onclick="select_filter(this.id);">일반</a>
+            <a class="p-2 post-header" href="javascript:void(0);" id="hobby" onclick="select_filter(this.id);">취미</a>
+            <a class="p-2 post-header" href="javascript:void(0);" id="game" onclick="select_filter(this.id);">게임</a>
+            <a class="p-2 post-header" href="javascript:void(0);" id="daily" onclick="select_filter(this.id);">일상</a>
+            <a class="p-2 post-header" href="javascript:void(0);" id="travel" onclick="select_filter(this.id);">여행</a>
         </div>
+        <input type="hidden" id="hidden-filter"/>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
             <button type="button" class="btn btn-primary" onclick="location.href='/writing'" th:text="글쓰기"/>
         </div>
@@ -148,7 +149,7 @@
         <li class="list-group-item list-item-backcolor" style="border: none" th:each="postDto : ${pageableList.getContent()}">
             <button type="button" class="list-item-backcolor list-group-item list-group-item-action hover-item" style="padding: 0px; border: none" th:onclick="|location.href='@{/community/{category}/{id}(category=${postDto.category.getLowerCase()}, id=${postDto.id})}'|">
                 <div class="row g-0">
-                    <div class="list-item-1 list-body col-sm-1 list-text-center list-col-1" th:text="일반"/>
+                    <div class="list-item-1 list-body col-sm-1 list-text-center list-col-1" th:text="${postDto.getFilter().getName()}"/>
                     <div class="list-body col-sm-1 list-col-2" style="text-align: left">
                         <span th:text="${postDto.isDeleteTnF()} ? '삭제된 게시글입니다.' : ${#strings.abbreviate(postDto.getTitle(), 25)}"/>
                         <span class="badge bg-secondary bi-messenger" th:text="' ' + ${postDto.getCommentCount()==null ? '0' : postDto.getCommentCount()}"/>

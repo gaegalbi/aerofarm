@@ -38,6 +38,9 @@ public class Post extends BaseEntity {
 
     private String title;
 
+    @Convert(converter = FilterConverter.class)
+    private PostFilter filter;
+
 //    @Enumerated(EnumType.STRING)
     @Convert(converter = CategoryConverter.class)
     private PostCategory category;
@@ -45,6 +48,8 @@ public class Post extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Post parent;
+
+    private int groupId;
 
     @OneToMany(mappedBy = "parent")
     private List<Post> child = new ArrayList<>();
@@ -67,6 +72,7 @@ public class Post extends BaseEntity {
         this.title = postForm.getTitle();
         this.content = PostDetail.createPostDetail(postForm.getContents());
         this.category = PostCategory.findByLowerCase(postForm.getCategory());
+        this.filter = PostFilter.findByLowerCase(postForm.getFilter());
     }
 
     @Builder(builderClassName = "PostParentBuilder", builderMethodName = "postParentBuilder")
@@ -75,6 +81,7 @@ public class Post extends BaseEntity {
         this.title = postForm.getTitle();
         this.content = PostDetail.createPostDetail(postForm.getContents());
         this.category = PostCategory.findByLowerCase(postForm.getCategory());
+        this.filter = PostFilter.findByLowerCase(postForm.getFilter());
         this.parent = parent;
     }
 

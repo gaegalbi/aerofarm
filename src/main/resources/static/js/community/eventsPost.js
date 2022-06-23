@@ -15,6 +15,7 @@ let eventsPost = {
         let header = $("meta[name='_csrf_header']").attr("content");
         let data = {
             category: $('#category').val(),
+            filter: $('#filter').val(),
             title: $('#title').val(),
             contents: $('#summernote').val()
         };
@@ -40,6 +41,7 @@ let eventsPost = {
         let header = $("meta[name='_csrf_header']").attr("content");
         let data = {
             category: $('#category').val(),
+            filter: $('#filter').val(),
             title: $('#title').val(),
             contents: $('#summernote').val(),
             postId: $('#post-id').val()
