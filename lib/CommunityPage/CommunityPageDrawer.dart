@@ -1,3 +1,4 @@
+import 'package:capstone/CommunityPageCustomLib/CommunityNeed.dart';
 import 'package:capstone/LoginPage/LoginPageLogin.dart';
 import 'package:capstone/MainPage/MainPage.dart';
 import 'package:capstone/MainPage/MainPageMyProfile.dart';
@@ -15,16 +16,19 @@ class CommunityPageDrawer extends StatefulWidget {
 
 class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
   late ScrollController _scrollController;
+  late BeforeRouteController _beforeRouteController;
 
   @override
   void initState() {
     _scrollController = ScrollController();
+    _beforeRouteController = BeforeRouteController();
     super.initState();
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
+    _beforeRouteController.dispose();
     super.dispose();
   }
 

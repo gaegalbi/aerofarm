@@ -11,24 +11,17 @@ import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../CommunityPageCustomLib/CommunityAddComment.dart';
+import '../CommunityPageCustomLib/CommunityNeed.dart';
 import '../LoginPage/LoginPageLogin.dart';
 import 'CommunityPageFloating.dart';
 import 'CommunityPageForm.dart';
-final List<Widget> commentList = [];
 
 class CommunityPageReadPost extends StatefulWidget {
   final int index;
-  final String id;
-  final String writer;
-  final String title;
-  final String views;
-  final String likes;
-  final String comments;
-  final String realDate;
-  final String category;
+  final Map<String, dynamic> keywords;
   final String before;
 
-  const CommunityPageReadPost({Key? key,required this.index, required this.id, required this.writer, required this.title, required this.views, required this.likes, required this.comments, required this.realDate, required this.category, required this.before,}) : super(key: key);
+  const CommunityPageReadPost({Key? key,required this.index,required this.keywords, required this.before,}) : super(key: key);
 
   @override
   State<CommunityPageReadPost> createState() => _CommunityPageReadPostState();
@@ -42,15 +35,16 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
   late int count;
   late ScrollController _scrollController;
   int index = 1;
+  bool floating = false;
 
   Future fetch() async {
-    final List<Map<String, dynamic>> customKeywords = [];
+    //final List<Map<String, dynamic>> customKeywords = [];
+    customKeywords.clear();
     final Map<String, String> _queryParameters = <String, String>{
       'page': index.toString(),
     };
-
     final response = await http
-        .get(Uri.http('127.0.0.1:8080', '/community/${widget.category}/${widget.id}',_queryParameters),
+        .get(Uri.http('127.0.0.1:8080', '/community/${widget.keywords['communityCategory']}/${widget.keywords['id']}',_queryParameters),
         headers:{
           "Content-Type": "application/x-www-form-urlencoded",
           "Cookie":"JSESSIONID=$session",
@@ -72,16 +66,16 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
         });
       }
       setState(() {
-        commentList.clear();
         for (var element in customKeywords) {
           commentList.add(AddComment(
-            keywords: element,index: widget.index,id: widget.id,writer: widget.writer,title: widget.title,views: widget.views,likes: widget.likes,comments: widget.comments,realDate: widget.realDate, category: widget.category, before: widget.before,
+            index: widget.index,keywords: element, before: widget.before,
           ));
         }
         content = contents?.outerHtml;
       });
     }else{
-      print(Uri.http('127.0.0.1:8080', '/community/free${widget.id}'));
+      index--;
+      print(Uri.http('127.0.0.1:8080', '/community/free${widget.keywords['id']}'));
       throw Exception('Failed to load post');
     }
   }
@@ -90,7 +84,6 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
     if (_scrollController.offset ==
         _scrollController.position.maxScrollExtent) {
       index++;
-      keywords.clear();
       fetch();
     }
   }
@@ -104,11 +97,17 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
     content = "";
     isLike = "";
     fetch();
-    likes=widget.likes;
-    count = int.parse(widget.comments);
+    likes=widget.keywords['likes'];
+    count = int.parse(widget.keywords['comments']);
     super.initState();
   }
-  bool floating = false;
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -117,7 +116,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
           floating = !floating;
         });},
       child: Scaffold(
-          floatingActionButton: floating? CommunityPageFloating(id: widget.category, type: 'ReadPost', title: widget.title,) : null,
+          floatingActionButton: floating? CommunityPageFloating(id: widget.keywords['communityCategory'], type: 'ReadPost', title: widget.keywords['title'],) : null,
           backgroundColor: MainColor.six,
           appBar: AppBar(
             centerTitle: true,
@@ -143,7 +142,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                   if(widget.before=="all"||widget.before=='hot'){
                     Get.offAll(()=>CommunityPageForm(category: widget.before));
                   }else{
-                    Get.offAll(()=>CommunityPageForm(category:widget.category));
+                    Get.offAll(()=>CommunityPageForm(category:widget.keywords['communityCategory']));
                   }
                 },
               )),
@@ -195,7 +194,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                           Row(
                             children: [
                               Text(
-                                matchCategory[widget.category]!,
+                                matchCategory[widget.keywords['communityCategory']]!,
                                 style: CommunityPageTheme.title,
                               ),
                               IconButton(
@@ -208,7 +207,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                   Icons.chevron_right,
                                 ),
                                 onPressed: () {
-                                  Get.off(()=> CommunityPageForm(category:widget.category));
+                                  Get.off(()=> CommunityPageForm(category:widget.keywords['communityCategory']));
                                 },
                               ),
                             ],
@@ -234,7 +233,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                         right: MediaQuery.of(context).size.width * 0.05,
                         bottom: MediaQuery.of(context).size.height * 0.012),
                     child: Text(
-                      widget.title,
+                      widget.keywords['title'],
                       style: CommunityPageTheme.postTitle,
                     ),
                   ),
@@ -274,7 +273,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                             margin:
                                                 const EdgeInsets.only(right: 20),
                                             child:  Text(
-                                              widget.writer,
+                                              widget.keywords['writer'],
                                               style: CommunityPageTheme.commentWriter,
                                             )),
                                       ],
@@ -284,14 +283,14 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                       children: [
                                         Container(
                                           margin: EdgeInsets.only(right: 10),
-                                          child: Text(widget.realDate,)
+                                          child: Text(widget.keywords['realDate'],)
                                         ),
                                         Container(
                                             margin: EdgeInsets.only(right: 10),
                                             child: Row(
                                               children: [
                                                 const Text("조회 "),
-                                                Text((int.parse(widget.views)+1).toString()),
+                                                Text((int.parse(widget.keywords['views'])+1).toString()),
                                               ],
                                             )
                                         ),
@@ -336,7 +335,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                         ),
                                       ),
                                       Text(
-                                        widget.comments,
+                                        widget.keywords['comments'],
                                         style: CommunityPageTheme.postFont,
                                       ),
                                       const Icon(
@@ -346,7 +345,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                     ],
                                   ),
                                   onPressed: () {
-                                      Get.to(() => CommunityPageReply(index: widget.index,id: widget.id,writer: widget.writer,title: widget.title,views: widget.views,likes: widget.likes,comments: widget.comments,realDate: widget.realDate, category: widget.category, communityCategory: widget.category, before: widget.before,));
+                                      Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before,));
                                   },
                                 ),
                                  if (count < 1) Container(
@@ -365,7 +364,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                       ),
                                       TextButton(
                                         onPressed: (){
-                                          Get.to(() => CommunityPageReply(id:widget.id, index: widget.index,likes: widget.likes, comments: widget.comments, title: widget.title, views: widget.views, writer: widget.writer, realDate: widget.realDate, category: widget.category, communityCategory: widget.category, before: widget.before,));
+                                          Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before,));
                                         },
                                         child: const Text(
                                           "첫 댓글을 입력하세요",
@@ -418,7 +417,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                       ),
                       onPressed: () async {
                         var data = {
-                          "postId":widget.id,
+                          "postId":widget.keywords['id'],
                         };
                         var body = json.encode(data);
                         if(isLike=="1"){
@@ -461,11 +460,11 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                         ),
                       ),
                       text: Text(
-                        widget.comments,
+                        widget.keywords['comments'],
                         style: CommunityPageTheme.bottomAppBarReply,
                       ),
                       onPressed: () {
-                        Get.to(() => CommunityPageReply(index: widget.index,id: widget.id,writer: widget.writer,title: widget.title,views: widget.views,likes: widget.likes,comments: widget.comments,realDate: widget.realDate, category: widget.category, communityCategory:widget.category, before: widget.before ,));
+                        Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before ,));
                       },
                     )
                   ],

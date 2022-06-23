@@ -4,6 +4,7 @@ import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../CommunityPageCustomLib/CommunityAddComment.dart';
+import '../CommunityPageCustomLib/CommunityNeed.dart';
 import '../LoginPage/LoginPageLogin.dart';
 import 'CommunityPageReadPost.dart';
 import 'package:http/http.dart' as http;
@@ -12,18 +13,15 @@ import 'package:html/dom.dart' as dom;
 
 class CommunityPageReply extends StatefulWidget {
   final int index;
-  final String id;
-  final String writer;
-  final String title;
-  final String views;
-  final String likes;
-  final String comments;
-  final String realDate;
-  final String category;
+  final Map<String, dynamic> keywords;
   final String before;
-  final String communityCategory;
 
-  const CommunityPageReply({Key? key, required this.index, required this.id, required this.writer, required this.title, required this.views, required this.likes, required this.comments, required this.realDate, required this.category, required this.communityCategory, required this.before,}) : super(key: key);
+  const CommunityPageReply({
+    Key? key,
+    required this.index,
+    required this.keywords,
+    required this.before,
+  }) : super(key: key);
 
   @override
   State<CommunityPageReply> createState() => _CommunityPageReplyState();
@@ -32,29 +30,84 @@ class CommunityPageReply extends StatefulWidget {
 class _CommunityPageReplyState extends State<CommunityPageReply> {
   late bool sort;
   late TextEditingController _textEditingController;
+  late ScrollController _scrollController;
+  int index = 1;
 
-  //late final List<Widget> _replyList = [];
+  Future fetch() async {
+    //final List<Map<String, dynamic>> customKeywords = [];
+    customKeywords.clear();
+    final Map<String, String> _queryParameters = <String, String>{
+      'page': index.toString(),
+    };
+
+    final response = await http.get(
+        Uri.http(
+            '127.0.0.1:8080',
+            '/community/${widget.keywords['communityCategory']}/${widget.keywords['id']}',
+            _queryParameters),
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Cookie": "JSESSIONID=$session",
+        });
+    if (response.statusCode == 200) {
+      dom.Document document = parser.parse(response.body);
+      List<dom.Element> keywordElements =
+          document.querySelectorAll('.comment-user-info');
+      for (var element in keywordElements) {
+        dom.Element? commentWriter = element.querySelector('.commentWriter');
+        dom.Element? commentContent = element.querySelector('.commentContent');
+        dom.Element? commentDate = element.querySelector('.commentDate');
+        customKeywords.add({
+          'writer': commentWriter?.text,
+          'date': commentDate?.text,
+          'content': commentContent?.text,
+        });
+      }
+      setState(() {
+        for (var element in customKeywords) {
+          commentList.add(AddComment(
+            index: widget.index,
+            keywords: element,
+            before: widget.before,
+          ));
+        }
+      });
+    } else {
+      index--;
+      print(Uri.http(
+          '127.0.0.1:8080', '/community/free${widget.keywords['id']}'));
+      throw Exception('Failed to load post');
+    }
+  }
+
+  void handleScrolling() {
+    //전체게시판은 전체 게시물을 전부 불러올 거라서 전체게시판이나 인기게시판일때는 동작x
+    if (_scrollController.offset ==
+        _scrollController.position.maxScrollExtent) {
+      index++;
+      fetch();
+    }
+  }
 
   @override
   void initState() {
-    //_replyList.clear();
     sort = true;
+    commentList.clear();
+    fetch();
     _textEditingController = TextEditingController();
+    _scrollController = ScrollController();
+    _scrollController.addListener(() {
+      handleScrolling();
+    });
     super.initState();
   }
 
   @override
   void dispose() {
-    //_replyList.clear();
     _textEditingController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
-
-/*  void addReply(String content, AssetImage image, String user) {
-    widget.commentList.add(
-        AddReply(content: content, image: image, user: user)
-    );
-  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -70,58 +123,40 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
             backgroundColor: MainColor.six,
             toolbarHeight: MainSize.toobarHeight,
             elevation: 0,
-            leadingWidth: MediaQuery
-                .of(context)
-                .size
-                .width * 0.2106,
+            leadingWidth: MediaQuery.of(context).size.width * 0.2106,
             leading: Container(
               margin: EdgeInsets.only(
-                  left: MediaQuery
-                      .of(context)
-                      .size
-                      .width * 0.05),
+                  left: MediaQuery.of(context).size.width * 0.05),
               child: FittedBox(
                   child: IconButton(
-                    padding: EdgeInsets.zero,
-                    alignment: Alignment.center,
-                    color: MainColor.three,
-                    iconSize: 50,
-                    // 패딩 설정
-                    constraints: const BoxConstraints(),
-                    icon: const Icon(
-                      Icons.chevron_left,
-                    ),
-                    onPressed: () {
-                      Get.offAll(() =>
-                          CommunityPageReadPost(id: widget.id,
-                            likes: widget.likes,
-                            comments: commentList.length.toString(),
-                            title: widget.title,
-                            views: widget.views,
-                            writer: widget.writer,
-                            realDate: widget.realDate,
-                            index: widget.index, category: widget.category, before: widget.before,));
-                    },
-                  )),
+                padding: EdgeInsets.zero,
+                alignment: Alignment.center,
+                color: MainColor.three,
+                iconSize: 50,
+                // 패딩 설정
+                constraints: const BoxConstraints(),
+                icon: const Icon(
+                  Icons.chevron_left,
+                ),
+                onPressed: () {
+                  Get.offAll(() => CommunityPageReadPost(
+                        index: widget.index,
+                        keywords: widget.keywords,
+                        before: widget.before,
+                      ));
+                },
+              )),
             ),
             title: const Text("도시농부", style: MainTheme.title),
           ),
           body: SingleChildScrollView(
+            controller: _scrollController,
             child: Container(
               padding: EdgeInsets.fromLTRB(
-                MediaQuery
-                    .of(context)
-                    .size
-                    .width * 0.04,
+                MediaQuery.of(context).size.width * 0.04,
                 0,
-                MediaQuery
-                    .of(context)
-                    .size
-                    .width * 0.04,
-                MediaQuery
-                    .of(context)
-                    .size
-                    .width * 0.04,
+                MediaQuery.of(context).size.width * 0.04,
+                MediaQuery.of(context).size.width * 0.04,
               ),
               color: MainColor.six,
               child: Column(
@@ -130,18 +165,12 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                     children: [
                       Container(
                         margin: EdgeInsets.only(
-                            right: MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.02,
-                            left: MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.02),
+                            right: MediaQuery.of(context).size.width * 0.02,
+                            left: MediaQuery.of(context).size.width * 0.02),
                         decoration: const BoxDecoration(
                             border: Border(
-                              bottom: BorderSide(width: 2, color: Colors.white),
-                            )),
+                          bottom: BorderSide(width: 2, color: Colors.white),
+                        )),
                         child: Row(
                           children: [
                             TextButton(
@@ -156,8 +185,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                                 child: Text("등록순",
                                     style: sort
                                         ? CommunityPageTheme.postFont
-                                        : CommunityPageTheme.postFalseFont)
-                            ),
+                                        : CommunityPageTheme.postFalseFont)),
                             TextButton(
                                 onPressed: () {
                                   setState(() {
@@ -168,11 +196,9 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                                     padding: MaterialStateProperty.all(
                                         EdgeInsets.zero)),
                                 child: Text("최신순",
-                                    style: sort ? CommunityPageTheme
-                                        .postFalseFont : CommunityPageTheme
-                                        .postFont)
-
-                            ),
+                                    style: sort
+                                        ? CommunityPageTheme.postFalseFont
+                                        : CommunityPageTheme.postFont)),
                           ],
                         ),
                       ),
@@ -187,10 +213,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
           ),
           bottomNavigationBar: Transform.translate(
             offset:
-            Offset(0.0, -0.9 * MediaQuery
-                .of(context)
-                .viewInsets
-                .bottom),
+                Offset(0.0, -0.9 * MediaQuery.of(context).viewInsets.bottom),
             child: BottomAppBar(
               color: Colors.indigo,
               child: Container(
@@ -202,10 +225,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.5,
+                      width: MediaQuery.of(context).size.width * 0.5,
                       child: TextField(
                         controller: _textEditingController,
                         textInputAction: TextInputAction.next,
@@ -231,62 +251,72 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                         TextButton(
                             style: ButtonStyle(
                                 backgroundColor:
-                                MaterialStateProperty.all(MainColor.one)),
+                                    MaterialStateProperty.all(MainColor.one)),
                             child: const Text(
                               "등록",
                               style: CommunityPageTheme.bottomAppBarList,
                             ),
-                            onPressed: () async{
-                                var data = {
-                                  "postId":widget.id,
-                                  "content":_textEditingController.text,
-                                };
-                                var body = json.encode(data);
+                            onPressed: () async {
+                              var data = {
+                                "postId": widget.keywords['id'],
+                                "content": _textEditingController.text,
+                              };
+                              var body = json.encode(data);
 
-                                await http.post(
-                                  Uri.http('127.0.0.1:8080', '/createComment'),
-                                  headers: {
-                                    "Content-Type": "application/json",
-                                    "Cookie":"JSESSIONID=$session",
-                                  },
-                                  encoding: Encoding.getByName('utf-8'),
-                                  body: body,
-                                );
+                              await http.post(
+                                Uri.http('127.0.0.1:8080', '/createComment'),
+                                headers: {
+                                  "Content-Type": "application/json",
+                                  "Cookie": "JSESSIONID=$session",
+                                },
+                                encoding: Encoding.getByName('utf-8'),
+                                body: body,
+                              );
 
-                              final List<Map<String, dynamic>> customKeywords = [];
-                              final Map<String, String> _queryParameters = <String, String>{
+                             /* final List<Map<String, dynamic>> customKeywords =
+                                  [];*/
+                              final Map<String, String> _queryParameters =
+                                  <String, String>{
                                 'page': "1",
                               };
 
-                              final response = await http
-                                  .get(Uri.http('127.0.0.1:8080', '/community/${widget.category}/${widget.id}',_queryParameters));
+                              final response = await http.get(Uri.http(
+                                  '127.0.0.1:8080',
+                                  '/community/${widget.keywords['communityCategory']}/${widget.keywords['id']}',
+                                  _queryParameters));
                               printWrapped(response.body);
                               if (response.statusCode == 200) {
-                                dom.Document document = parser.parse(response.body);
-                                List<dom.Element> keywordElements = document.querySelectorAll('.comment-user-info');
+                                dom.Document document =
+                                    parser.parse(response.body);
+                                List<dom.Element> keywordElements = document
+                                    .querySelectorAll('.comment-user-info');
                                 for (var element in keywordElements) {
-                                  dom.Element? commentWriter = element.querySelector('.commentWriter');
-                                  dom.Element? commentContent = element.querySelector('.commentContent');
-                                  dom.Element? commentDate = element.querySelector('.commentDate');
+                                  dom.Element? commentWriter =
+                                      element.querySelector('.commentWriter');
+                                  dom.Element? commentContent =
+                                      element.querySelector('.commentContent');
+                                  dom.Element? commentDate =
+                                      element.querySelector('.commentDate');
                                   customKeywords.add({
                                     'writer': commentWriter?.text,
                                     'date': commentDate?.text,
-                                    'content':  commentContent?.text,
+                                    'content': commentContent?.text,
                                   });
                                 }
                                 setState(() {
                                   commentList.clear();
                                   for (var element in customKeywords) {
-                                   commentList.add(AddComment(
-                                      keywords: element,index: widget.index,id: widget.id,writer: widget.writer,title: widget.title,views: widget.views,likes: widget.likes,comments: widget.comments,realDate: widget.realDate, category: widget.category, before: widget.before,
+                                    commentList.add(AddComment(
+                                      index: widget.index,
+                                      keywords: element,
+                                      before: widget.before,
                                     ));
                                   }
                                 });
                               }
-                                _textEditingController.text = "";
-                               //Get.offAll(CommunityPageForm(category: widget.id));
-                            }
-                        )
+                              _textEditingController.text = "";
+                              //Get.offAll(CommunityPageForm(category: widget.id));
+                            })
                       ],
                     ),
                   ],

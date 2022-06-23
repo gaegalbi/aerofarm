@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -6,12 +5,16 @@ import '../CommunityPage/CommunityPageReadPost.dart';
 import '../themeData.dart';
 
 class AddBoard extends StatelessWidget {
-  final Map<String, dynamic> keywords;
   final int index;
-  final String category;
+  final Map<String, dynamic> keywords;
   final String before;
 
-  const AddBoard({Key? key, required this.keywords, required this.index, required this.category, required this.before}) : super(key: key);
+  const AddBoard(
+      {Key? key,
+      required this.index,
+      required this.keywords,
+      required this.before})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +24,15 @@ class AddBoard extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 10),
       decoration: const BoxDecoration(
           border: Border(
-            top: BorderSide(width: 1, color: Colors.white),
-          )),
+        top: BorderSide(width: 1, color: Colors.white),
+      )),
       child: InkWell(
         onTap: () {
-          Get.to(() => CommunityPageReadPost(id:keywords['id'], index: index, likes: keywords['likes'], comments: keywords['comments'], title: keywords['title'], views: keywords['views'], writer: keywords['writer'], realDate: keywords['realDate'], category: keywords['communityCategory'], before: before,));
+          Get.to(() => CommunityPageReadPost(
+                index: index,
+                keywords: keywords,
+                before: before,
+              ));
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -110,7 +117,7 @@ class AddBoard extends StatelessWidget {
               alignment: Alignment.center,
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children:  [
+                  children: [
                     Text(
                       keywords['comments'],
                       style: CommunityPageTheme.sub,
