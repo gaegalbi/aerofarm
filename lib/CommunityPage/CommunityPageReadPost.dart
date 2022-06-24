@@ -10,7 +10,7 @@ import 'package:capstone/MainPage/MainPage.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../CommunityPageCustomLib/CommunityNeed.dart';
+import '../CommunityPageCustomLib/CommunityFetch.dart';
 import '../LoginPage/LoginPageLogin.dart';
 import 'CommunityPageFloating.dart';
 import 'CommunityPageForm.dart';
@@ -59,6 +59,12 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
     //fetch();
     readPostController.setId(widget.keywords['id']);
     fetch(widget.keywords['communityCategory'],true);
+
+    //CommunityPageReply 에서 뒤로가기 아이콘 클릭 시 null 방지
+    //addComment 에 postKeywords 로 post 값 줌
+    postKeywords.clear();
+    postKeywords.addAll(widget.keywords);
+
     likes=widget.keywords['likes'];
     count = int.parse(widget.keywords['comments']);
     super.initState();
@@ -307,6 +313,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                     ],
                                   ),
                                   onPressed: () {
+                                    print(widget.keywords);
                                       Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before,));
                                   },
                                 ),
@@ -326,6 +333,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                       ),
                                       TextButton(
                                         onPressed: (){
+                                          print(widget.keywords);
                                           Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before,));
                                         },
                                         child: const Text(
@@ -445,6 +453,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                         style: CommunityPageTheme.bottomAppBarReply,
                       ),
                       onPressed: () {
+                        print(widget.keywords);
                         Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before ,));
                       },
                     )

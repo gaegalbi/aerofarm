@@ -1,3 +1,4 @@
+import 'package:capstone/CommunityPageCustomLib/CommunityFetch.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../CommunityPage/CommunityPageReply.dart';
@@ -21,7 +22,8 @@ class AddComment extends StatelessWidget {
       onTap: () {
         Get.to(() => CommunityPageReply(
               index: index,
-              keywords: keywords,
+              //keywords: keywords,
+              keywords: postKeywords,
               before: before,
             ));
       },

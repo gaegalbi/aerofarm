@@ -14,6 +14,8 @@ import 'CommunityNotice.dart';
 //final List<Widget> boardList = [];
 final List<Map<String, dynamic>> keywords = [];
 final List<Map<String, dynamic>> customKeywords = [];
+final Map<String, dynamic> postKeywords = {};
+
 final dateFormat = DateFormat('yyyy.MM.dd');
 final Map<String, String> matchCategory = {
   "all": "전체게시판",

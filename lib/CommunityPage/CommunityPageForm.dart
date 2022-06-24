@@ -3,7 +3,7 @@ import 'package:capstone/MainPage/MainPage.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../CommunityPageCustomLib/CommunityNeed.dart';
+import '../CommunityPageCustomLib/CommunityFetch.dart';
 import '../CommunityPageCustomLib/CommunityTitleButton.dart';
 import 'CommunityPageFloating.dart';
 

@@ -4,7 +4,7 @@ import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../CommunityPageCustomLib/CommunityAddComment.dart';
-import '../CommunityPageCustomLib/CommunityNeed.dart';
+import '../CommunityPageCustomLib/CommunityFetch.dart';
 import '../LoginPage/LoginPageLogin.dart';
 import 'CommunityPageReadPost.dart';
 import 'package:http/http.dart' as http;
@@ -33,53 +33,6 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
   late ScrollController _scrollController;
   final commentListController = Get.put(CommentListController());
   final pageIndexController = Get.put(PageIndexController());
-
-/*  Future fetch() async {
-    //final List<Map<String, dynamic>> customKeywords = [];
-    customKeywords.clear();
-    final Map<String, String> _queryParameters = <String, String>{
-      'page': index.toString(),
-    };
-
-    final response = await http.get(
-        Uri.http(
-            '127.0.0.1:8080',
-            '/community/${widget.keywords['communityCategory']}/${widget.keywords['id']}',
-            _queryParameters),
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          "Cookie": "JSESSIONID=$session",
-        });
-    if (response.statusCode == 200) {
-      dom.Document document = parser.parse(response.body);
-      List<dom.Element> keywordElements =
-          document.querySelectorAll('.comment-user-info');
-      for (var element in keywordElements) {
-        dom.Element? commentWriter = element.querySelector('.commentWriter');
-        dom.Element? commentContent = element.querySelector('.commentContent');
-        dom.Element? commentDate = element.querySelector('.commentDate');
-        customKeywords.add({
-          'writer': commentWriter?.text,
-          'date': commentDate?.text,
-          'content': commentContent?.text,
-        });
-      }
-      setState(() {
-        for (var element in customKeywords) {
-          commentListController.commentAdd(AddComment(
-            index: widget.index,
-            keywords: element,
-            before: widget.before,
-          ));
-        }
-      });
-    } else {
-      index--;
-      print(Uri.http(
-          '127.0.0.1:8080', '/community/free${widget.keywords['id']}'));
-      throw Exception('Failed to load post');
-    }
-  }*/
 
   void handleScrolling() {
     //전체게시판은 전체 게시물을 전부 불러올 거라서 전체게시판이나 인기게시판일때는 동작x
