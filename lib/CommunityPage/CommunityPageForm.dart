@@ -2,7 +2,6 @@ import 'package:capstone/CommunityPage/CommunityPageDrawer.dart';
 import 'package:capstone/MainPage/MainPage.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import '../CommunityPageCustomLib/CommunityNeed.dart';
 import '../CommunityPageCustomLib/CommunityTitleButton.dart';
@@ -21,13 +20,15 @@ class CommunityPageForm extends StatefulWidget {
 }
 
 class _CommunityPageFormState extends State<CommunityPageForm> {
-  late ScrollController _scrollController;
-  late ScrollController _categoryController;
   final boardListController = Get.put(BoardListController());
+  final commentListController = Get.put(CommentListController());
   final loadingController = Get.put(LoadingController());
   final pageIndexController = Get.put(PageIndexController());
-  final categoryIndexController = Get.put(CategoryIndexController());
- // bool loading = true;
+  final categoryIndexController  = Get.put(CategoryIndexController());
+  final setCategoryController  = Get.put(SetCategoryController());
+  final beforeRouteController = Get.put(BeforeRouteController());
+  late ScrollController _scrollController;
+  late ScrollController _categoryController;
   bool floating = false;
 
   void handleScrolling() {
@@ -37,7 +38,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
         !(widget.category == 'all' || widget.category == 'hot')) {
       pageIndexController.increment();
       keywords.clear();
-      fetch();
+      fetch(widget.category,false);
     }
     if (_scrollController.offset ==
         _scrollController.position.minScrollExtent) {
@@ -47,7 +48,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
         pageIndexController.setUp();
         categoryIndexController.setUp();
         loadingController.setTrue();
-        fetch();
+        fetch(widget.category,false);
         Future.delayed(const Duration(microseconds: 100), () {
           loadingController.setFalse();
         });
@@ -62,11 +63,11 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
     _scrollController.addListener(() {
       handleScrolling();
     });
-    commentList.clear();
+    commentListController.commentClear();
     boardListController.boardClear();
-    fetch();
+    fetch(widget.category,false);
     loadingController.setTrue();
-    Future.delayed(const Duration(microseconds: 100), () {
+    Future.delayed(const Duration(milliseconds: 300), () {
       loadingController.setFalse();
     });
     super.initState();
@@ -74,6 +75,10 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
 
   @override
   void dispose() {
+    boardListController.dispose();
+    loadingController.dispose();
+    pageIndexController.dispose();
+    categoryIndexController.dispose();
     _scrollController.dispose();
     _categoryController.dispose();
     super.dispose();
@@ -185,66 +190,66 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
                                   title: "전체",
                                   onPressed: () {
                                     setState(() {
-                                      categoryClick(0);
-                                      fetch();
+                                      setCategoryController.categoryClick(0);
+                                      fetch(widget.category,false);
                                     });
                                   },
-                                  style: category[0]
+                                  style: setCategoryController.category[0]
                                       ? CommunityPageTheme.titleButtonTrue
                                       : CommunityPageTheme.titleButtonFalse),
                               TitleButton(
                                   title: "자유",
                                   onPressed: () {
                                     setState(() {
-                                      categoryClick(1);
-                                      fetch();
+                                      setCategoryController.categoryClick(1);
+                                      fetch(widget.category,false);
                                     });
                                   },
-                                  style: category[1]
+                                  style: setCategoryController.category[1]
                                       ? CommunityPageTheme.titleButtonTrue
                                       : CommunityPageTheme.titleButtonFalse),
                               TitleButton(
                                   title: "사진",
                                   onPressed: () {
                                     setState(() {
-                                      categoryClick(2);
-                                      fetch();
+                                      setCategoryController.categoryClick(2);
+                                      fetch(widget.category,false);
                                     });
                                   },
-                                  style: category[2]
+                                  style: setCategoryController.category[2]
                                       ? CommunityPageTheme.titleButtonTrue
                                       : CommunityPageTheme.titleButtonFalse),
                               TitleButton(
                                   title: "정보",
                                   onPressed: () {
                                     setState(() {
-                                      categoryClick(3);
-                                      fetch();
+                                      setCategoryController.categoryClick(3);
+                                      fetch(widget.category,false);
                                     });
                                   },
-                                  style: category[3]
+                                  style: setCategoryController.category[3]
                                       ? CommunityPageTheme.titleButtonTrue
                                       : CommunityPageTheme.titleButtonFalse),
                               TitleButton(
                                   title: "질문",
                                   onPressed: () {
                                     setState(() {
-                                      categoryClick(4);
-                                      fetch();
+                                      setCategoryController.categoryClick(4);
+                                      fetch(widget.category,false);
                                     });
                                   },
-                                  style: category[4]
+                                  style: setCategoryController.category[4]
                                       ? CommunityPageTheme.titleButtonTrue
                                       : CommunityPageTheme.titleButtonFalse),
                               TitleButton(
                                   title: "거래",
                                   onPressed: () {
                                     setState(() {
-                                      categoryClick(5);
-                                      fetch();
+                                      setCategoryController.categoryClick(5);
+                                      fetch(widget.category,false);
                                     });
                                   },
-                                  style: category[5]
+                                  style: setCategoryController.category[5]
                                       ? CommunityPageTheme.titleButtonTrue
                                       : CommunityPageTheme.titleButtonFalse),
                             ],
@@ -258,25 +263,25 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
                   top: MediaQuery.of(context).size.height * 0.014,
                 ),
                 height: MediaQuery.of(context).size.height * 0.69,
-                child: Column(children: [
-                  loadingController.loading.value
+                child: Obx(()=>Column(children: [
+                  !(loadingController.loading.value)
                       ? Expanded(
-                          child: Obx(()=>ListView.builder(
+                          child: ListView.builder(
                               controller: _scrollController,
                               itemCount:   boardListController.boardList.length + 1,
                               itemBuilder: (BuildContext context, int index) {
                                 if (index <  boardListController.boardList.length) {
                                   return  boardListController.boardList[index];
-                                } else {
+                                } else{
                                   return Container();
                                 }
-                              })))
+                              }))
                       : const Expanded(
                           child: Center(
                               child: CircularProgressIndicator(
                           color: MainColor.three,
                         ))),
-                ]),
+                ]),)
               ),
             ],
           ),

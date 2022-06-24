@@ -3,7 +3,6 @@ import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:get/get.dart';
-
 import '../CommunityPage/CommunityPageForm.dart';
 
 class MainPageBottom extends StatefulWidget {
@@ -14,7 +13,7 @@ class MainPageBottom extends StatefulWidget {
 }
 
 class _MainPageBottomState extends State<MainPageBottom> {
-
+  //final beforeRouteController = Get.put(BeforeRouteController());
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -57,7 +56,8 @@ class _MainPageBottomState extends State<MainPageBottom> {
                 color: MainColor.three,
                 child: TextButton(
                   onPressed: () {
-                    Get.off(()=>const CommunityPageForm(category:'all'));
+                    //beforeRouteController.setBefore('all');
+                    Get.off(()=> const CommunityPageForm(category:'all'));//beforeRouteController.before.value));
                   },
                   child: const Text(
                     "커뮤니티",

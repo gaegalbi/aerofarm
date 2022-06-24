@@ -16,19 +16,20 @@ class CommunityPageDrawer extends StatefulWidget {
 
 class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
   late ScrollController _scrollController;
-  late BeforeRouteController _beforeRouteController;
+  //final beforeRouteController = Get.find<BeforeRouteController>();
+  final beforeRouteController = Get.put(BeforeRouteController());
+  //final setCategoryController = Get.put(SetCategoryController());
+  //final setCategoryController = Get.put(SetCategoryController());
 
   @override
   void initState() {
     _scrollController = ScrollController();
-    _beforeRouteController = BeforeRouteController();
     super.initState();
   }
 
   @override
   void dispose() {
     _scrollController.dispose();
-    _beforeRouteController.dispose();
     super.dispose();
   }
 
@@ -105,7 +106,11 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                       ],
                     ),
                     onPressed: () {
-                      Get.offAll(()=>const CommunityPageForm(category:'hot'));
+                      beforeRouteController.setBefore('hot');
+                   /*   print("before work");
+                      print(beforeRouteController.before.value);*/
+                      //setCategoryController.categoryClick(1);
+                      Get.offAll(()=> CommunityPageForm(category:beforeRouteController.before.value));
                     },
                   ),
                 ),
@@ -132,7 +137,8 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                       ],
                     ),
                     onPressed: () {
-                      Get.offAll(()=>const CommunityPageForm(category:'all'));
+                      beforeRouteController.setBefore('all');
+                      Get.offAll(()=>CommunityPageForm(category:   beforeRouteController.before.value));
                     },
                   ),
                 ),
@@ -159,7 +165,8 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                       ],
                     ),
                     onPressed: () {
-                      Get.offAll(()=>const CommunityPageForm(category:'free'));
+                      beforeRouteController.setBefore('free');
+                      Get.offAll(()=>CommunityPageForm(category:   beforeRouteController.before.value));
                     },
                   ),
                 ),
@@ -177,7 +184,8 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                       ],
                     ),
                     onPressed: () {
-                      Get.offAll(()=>const CommunityPageForm(category:'question'));
+                      beforeRouteController.setBefore('question');
+                      Get.offAll(()=>CommunityPageForm(category: beforeRouteController.before.value));
                     },
                   ),
                 ),
@@ -211,7 +219,8 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                       ],
                     ),
                     onPressed: () {
-                        Get.offAll(()=>const CommunityPageForm(category:'information'));
+                      beforeRouteController.setBefore('information');
+                        Get.offAll(()=> CommunityPageForm(category:   beforeRouteController.before.value));
                     },
                   ),
                 ),
@@ -228,7 +237,8 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                       ],
                     ),
                     onPressed: () {
-                      Get.offAll(()=>const CommunityPageForm(category:'picture'));
+                      beforeRouteController.setBefore('picture');
+                      Get.offAll(()=> CommunityPageForm(category:   beforeRouteController.before.value));
                     },
                   ),
                 ),
@@ -247,7 +257,8 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                       ],
                     ),
                     onPressed: () {
-                      Get.offAll(()=>const CommunityPageForm(category:'trade'));
+                      beforeRouteController.setBefore('trade');
+                      Get.offAll(()=>CommunityPageForm(category:   beforeRouteController.before.value));
                     },
                   ),
                 ),

@@ -10,7 +10,6 @@ import 'package:capstone/MainPage/MainPage.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../CommunityPageCustomLib/CommunityAddComment.dart';
 import '../CommunityPageCustomLib/CommunityNeed.dart';
 import '../LoginPage/LoginPageLogin.dart';
 import 'CommunityPageFloating.dart';
@@ -28,75 +27,38 @@ class CommunityPageReadPost extends StatefulWidget {
 }
 
 class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
+  final readPostController = Get.put(ReadPostController());
+  final commentListController = Get.put(CommentListController());
+  final pageIndexController = Get.put(PageIndexController());
+
   late String? content;
   late dom.Element? contents;
-  late String? isLike;
   late String? likes;
   late int count;
   late ScrollController _scrollController;
-  int index = 1;
   bool floating = false;
 
-  Future fetch() async {
-    //final List<Map<String, dynamic>> customKeywords = [];
-    customKeywords.clear();
-    final Map<String, String> _queryParameters = <String, String>{
-      'page': index.toString(),
-    };
-    final response = await http
-        .get(Uri.http('127.0.0.1:8080', '/community/${widget.keywords['communityCategory']}/${widget.keywords['id']}',_queryParameters),
-        headers:{
-          "Content-Type": "application/x-www-form-urlencoded",
-          "Cookie":"JSESSIONID=$session",
-        }
-    );
-    if (response.statusCode == 200) {
-      dom.Document document = parser.parse(response.body);
-      List<dom.Element> keywordElements = document.querySelectorAll('.comment-user-info');
-      contents = document.querySelector('.contents');
-      isLike = document.querySelector('.isSelected')?.text;
-      for (var element in keywordElements) {
-        dom.Element? commentWriter = element.querySelector('.commentWriter');
-        dom.Element? commentContent = element.querySelector('.commentContent');
-        dom.Element? commentDate = element.querySelector('.commentDate');
-        customKeywords.add({
-          'writer': commentWriter?.text,
-          'date': commentDate?.text,
-          'content':  commentContent?.text,
-        });
-      }
-      setState(() {
-        for (var element in customKeywords) {
-          commentList.add(AddComment(
-            index: widget.index,keywords: element, before: widget.before,
-          ));
-        }
-        content = contents?.outerHtml;
-      });
-    }else{
-      index--;
-      print(Uri.http('127.0.0.1:8080', '/community/free${widget.keywords['id']}'));
-      throw Exception('Failed to load post');
-    }
-  }
   void handleScrolling() {
     //전체게시판은 전체 게시물을 전부 불러올 거라서 전체게시판이나 인기게시판일때는 동작x
     if (_scrollController.offset ==
         _scrollController.position.maxScrollExtent) {
-      index++;
-      fetch();
+      pageIndexController.increment();
+      //fetch();
+      fetch(widget.keywords['communityCategory'],true);
     }
   }
   @override
   void initState(){
-    commentList.clear();
+    commentListController.commentClear();
+    pageIndexController.setUp();
     _scrollController = ScrollController();
     _scrollController.addListener(() {
       handleScrolling();
     });
     content = "";
-    isLike = "";
-    fetch();
+    //fetch();
+    readPostController.setId(widget.keywords['id']);
+    fetch(widget.keywords['communityCategory'],true);
     likes=widget.keywords['likes'];
     count = int.parse(widget.keywords['comments']);
     super.initState();
@@ -306,7 +268,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                           //height: MediaQuery.of(context).size.height*0.4,
                           margin: EdgeInsets.only(
                               top: MediaQuery.of(context).size.height * 0.01),
-                          child: Html(data: content),
+                          child: Obx(()=>Html(data: readPostController.content.value)),
                         ),
                         Container(
                             margin: EdgeInsets.only(
@@ -373,8 +335,8 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                       ),
                                     ],
                                   ),
-                                ) else Column(children: commentList
-                                 ,),
+                                ) else Obx(()=>Column(children: commentListController.commentList
+                                 ,),)
                               ],
                             ))
                       ],
@@ -405,22 +367,40 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                     AppBarButton(
                       icon: Container(
                         margin: EdgeInsets.only(right: 5),
-                        child:  Icon(
-                          isLike=="1" ? Icons.favorite : Icons.favorite_outline,
+                        child:  Obx(()=>Icon(
+                          readPostController.isLike.value == true ? Icons.favorite : Icons.favorite_outline,
                           size: 35,
                           color: Colors.red,
-                        ),
+                        ),)
                       ),
                       text: Text(
                         likes!,
                         style: CommunityPageTheme.bottomAppBarFavorite,
                       ),
                       onPressed: () async {
+                        //누를때 한번 더 확인
+                        final Map<String, String> _queryParameters = <String, String>{
+                          'page': pageIndexController.pageIndex.value.toString(),
+                        };
+                        final response = await http
+                            .get(Uri.http('127.0.0.1:8080', '/community/${widget.keywords['communityCategory']}/${widget.keywords['id']}',_queryParameters),
+                            headers:{
+                              "Content-Type": "application/x-www-form-urlencoded",
+                              "Cookie":"JSESSIONID=$session",
+                            }
+                        );
+                        if (response.statusCode == 200) {
+                          dom.Document document = parser.parse(response.body);
+                          readPostController.setContent(
+                              document.querySelector('.contents')!.outerHtml);
+                          readPostController.setIsLike(document.querySelector('.isSelected')!.text);
+                          likes = document.querySelector('.isSelected')!.text;
+                        }
                         var data = {
                           "postId":widget.keywords['id'],
                         };
                         var body = json.encode(data);
-                        if(isLike=="1"){
+                        if(readPostController.isLike.isTrue){
                          await http.post(
                             Uri.http('127.0.0.1:8080', '/deleteLike'),
                             headers: {
@@ -430,8 +410,9 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                             encoding: Encoding.getByName('utf-8'),
                             body: body,
                           );
+                         readPostController.toggleLike();
                           setState((){
-                            isLike="0";
+
                             likes = (int.parse(likes!)-1).toString();
                           });
                         }else{
@@ -444,8 +425,8 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                             encoding: Encoding.getByName('utf-8'),
                             body: body,
                           );
+                          readPostController.toggleLike();
                           setState((){
-                            isLike="1";
                             likes = (int.parse(likes!)+1).toString();
                           });
                         }

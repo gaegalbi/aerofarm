@@ -31,9 +31,10 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
   late bool sort;
   late TextEditingController _textEditingController;
   late ScrollController _scrollController;
-  int index = 1;
+  final commentListController = Get.put(CommentListController());
+  final pageIndexController = Get.put(PageIndexController());
 
-  Future fetch() async {
+/*  Future fetch() async {
     //final List<Map<String, dynamic>> customKeywords = [];
     customKeywords.clear();
     final Map<String, String> _queryParameters = <String, String>{
@@ -65,7 +66,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
       }
       setState(() {
         for (var element in customKeywords) {
-          commentList.add(AddComment(
+          commentListController.commentAdd(AddComment(
             index: widget.index,
             keywords: element,
             before: widget.before,
@@ -78,27 +79,28 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
           '127.0.0.1:8080', '/community/free${widget.keywords['id']}'));
       throw Exception('Failed to load post');
     }
-  }
+  }*/
 
   void handleScrolling() {
     //전체게시판은 전체 게시물을 전부 불러올 거라서 전체게시판이나 인기게시판일때는 동작x
     if (_scrollController.offset ==
         _scrollController.position.maxScrollExtent) {
-      index++;
-      fetch();
+      pageIndexController.increment();
+      //fetch();
+      fetch(widget.keywords['communityCategory'],true);
     }
   }
 
   @override
   void initState() {
     sort = true;
-    commentList.clear();
-    fetch();
+    pageIndexController.setUp();
     _textEditingController = TextEditingController();
     _scrollController = ScrollController();
     _scrollController.addListener(() {
       handleScrolling();
     });
+    fetch(widget.keywords['communityCategory'],true);
     super.initState();
   }
 
@@ -139,6 +141,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                   Icons.chevron_left,
                 ),
                 onPressed: () {
+                 // print(widget.keywords);
                   Get.offAll(() => CommunityPageReadPost(
                         index: widget.index,
                         keywords: widget.keywords,
@@ -202,9 +205,9 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                           ],
                         ),
                       ),
-                      Column(
-                        children: commentList, //_replyList,
-                      ),
+                      Obx(()=>Column(
+                        children: commentListController.commentList, //_replyList,
+                      ),),
                     ],
                   ),
                 ],
@@ -272,47 +275,31 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                                 encoding: Encoding.getByName('utf-8'),
                                 body: body,
                               );
-
-                             /* final List<Map<String, dynamic>> customKeywords =
-                                  [];*/
-                              final Map<String, String> _queryParameters =
-                                  <String, String>{
-                                'page': "1",
-                              };
-
+                              customKeywords.clear();
+                              final Map<String, String> _queryParameters = <String, String>{'page': "1"};
                               final response = await http.get(Uri.http(
                                   '127.0.0.1:8080',
-                                  '/community/${widget.keywords['communityCategory']}/${widget.keywords['id']}',
-                                  _queryParameters));
-                              printWrapped(response.body);
+                                  '/community/${widget.keywords['communityCategory']}/${widget.keywords['id']}', _queryParameters));
                               if (response.statusCode == 200) {
-                                dom.Document document =
-                                    parser.parse(response.body);
+                                dom.Document document = parser.parse(response.body);
                                 List<dom.Element> keywordElements = document
                                     .querySelectorAll('.comment-user-info');
                                 for (var element in keywordElements) {
-                                  dom.Element? commentWriter =
-                                      element.querySelector('.commentWriter');
-                                  dom.Element? commentContent =
-                                      element.querySelector('.commentContent');
-                                  dom.Element? commentDate =
-                                      element.querySelector('.commentDate');
+                                  dom.Element? commentWriter = element.querySelector('.commentWriter');
+                                  dom.Element? commentContent = element.querySelector('.commentContent');
+                                  dom.Element? commentDate = element.querySelector('.commentDate');
                                   customKeywords.add({
                                     'writer': commentWriter?.text,
                                     'date': commentDate?.text,
                                     'content': commentContent?.text,
                                   });
                                 }
-                                setState(() {
-                                  commentList.clear();
+                                  commentListController.commentClear();
                                   for (var element in customKeywords) {
-                                    commentList.add(AddComment(
-                                      index: widget.index,
-                                      keywords: element,
-                                      before: widget.before,
+                                    commentListController.commentAdd(AddComment(
+                                      index: pageIndexController.pageIndex.value ,keywords: element, before: widget.before,
                                     ));
                                   }
-                                });
                               }
                               _textEditingController.text = "";
                               //Get.offAll(CommunityPageForm(category: widget.id));

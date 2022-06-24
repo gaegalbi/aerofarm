@@ -28,6 +28,7 @@ class AddBoard extends StatelessWidget {
       )),
       child: InkWell(
         onTap: () {
+          print(keywords);
           Get.to(() => CommunityPageReadPost(
                 index: index,
                 keywords: keywords,
