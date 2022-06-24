@@ -30,14 +30,12 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
   final double floatingBarSize = 60;
   final double contentPadding = 30;
   double contentBottomPadding = 30;
-
   String groupValue = "게시판 선택";
 
   late ScrollController _scrollController;
   late ScrollController _scrollController1;
   late TextEditingController _titleController;
   late HtmlEditorController _controller;
-
   var data = <String, dynamic>{};
   final Map<String, String> korToEngCategory = {
     "자유 게시판": "free",
@@ -47,8 +45,11 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
     "거래 게시판": "trade"
   };
 
+  late FocusNode titleFocus;
+
   @override
   void initState() {
+    titleFocus = FocusNode();
     _controller = HtmlEditorController();
     _scrollController = ScrollController();
     _scrollController1 = ScrollController();
@@ -88,7 +89,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
             _controller.editorController?.clearFocus();
             _controller.disable();
             Future.delayed(const Duration(microseconds: 1), () {
-              Get.offAll(() => const CommunityPageForm(category: 'all'));
+              Get.offAll(() => CommunityPageForm(category:widget.id));
             });
           },
           icon: const Icon(Icons.close),
@@ -182,6 +183,8 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                         encoding: Encoding.getByName('utf-8'),
                         body: body,
                       );
+                      _controller.editorController?.clearFocus();
+                      _controller.disable();
                       Get.offAll(() => CommunityPageForm(category: widget.id));
                     }
                   }
@@ -210,7 +213,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                           )),
                           child: TextField(
                               controller: _titleController,
-                              textInputAction: TextInputAction.next,
+                              textInputAction: TextInputAction.none,
                               style: const TextStyle(
                                 fontFamily: "bmPro",
                                 fontSize: 25,
@@ -456,6 +459,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                             bottom: BorderSide(width: 2, color: Colors.white),
                           )),
                           child: TextField(
+                              focusNode: titleFocus,
                               controller: _titleController,
                               textInputAction: TextInputAction.next,
                               style: const TextStyle(
@@ -488,6 +492,9 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                     left: contentPadding),
                 child: HtmlEditor(
                   controller: _controller,
+                  callbacks: Callbacks(
+                    onFocus: (){ titleFocus.unfocus();}
+                  ),
                   otherOptions: OtherOptions(
                     height: MediaQuery.of(context).size.height,
                   ),
