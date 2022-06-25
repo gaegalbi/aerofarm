@@ -3,6 +3,8 @@ package yj.capstone.aerofarm.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -14,11 +16,15 @@ import yj.capstone.aerofarm.config.auth.dto.UserDetailsImpl;
 import yj.capstone.aerofarm.domain.member.Member;
 import yj.capstone.aerofarm.domain.order.Order;
 import yj.capstone.aerofarm.dto.*;
+import yj.capstone.aerofarm.dto.request.ProfileEditRequest;
+import yj.capstone.aerofarm.exception.DuplicateValueException;
 import yj.capstone.aerofarm.form.InitPasswordForm;
 import yj.capstone.aerofarm.service.MemberService;
 import yj.capstone.aerofarm.service.OrderService;
 
 import javax.validation.Valid;
+
+import static yj.capstone.aerofarm.dto.Message.createMessage;
 
 @Controller
 @PreAuthorize("hasAnyAuthority('GUEST')")
@@ -70,7 +76,8 @@ public class MemberController {
             return "member/initPasswordPage";
         }
 
-        memberService.changePassword(userDetails.getMember(), initPasswordForm.getPassword());
+        Member member = memberService.changePassword(userDetails.getUsername(), initPasswordForm.getPassword());
+        userDetails.updateMember(member);
         return "redirect:/my-page/info";
     }
 
@@ -140,5 +147,38 @@ public class MemberController {
             return "redirect:/";
         }
         return "member/orderDetailPage";
+    }
+
+    @GetMapping("/my-page/edit")
+    public String editPage(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Member member = userDetails.getMember();
+        MemberDto memberDto = MemberDto.builder()
+                .name(member.getName())
+                .nickname(member.getNickname())
+                .phoneNumber(member.getPhoneNumber())
+                .addressInfo(member.getAddressInfo())
+                .build();
+
+        model.addAttribute("memberDto", memberDto);
+
+        return "member/memberEdit";
+    }
+
+    @PostMapping("/my-page/edit")
+    @ResponseBody
+    public ResponseEntity<Message> editProfile(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody @Valid ProfileEditRequest profileEditRequest) {
+        Member member = memberService.editProfile(userDetails.getUsername(), profileEditRequest);
+        userDetails.updateMember(member);
+        return ResponseEntity.ok()
+                .body(createMessage("정보가 수정 되었습니다."));
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(DuplicateValueException.class)
+    public ErrorResponse duplicateNickname(DuplicateValueException e) {
+        ErrorResponse response = new ErrorResponse(e.getMessage());
+        response.addValidation("nickname","해당 닉네임이 이미 있습니다.");
+        return response;
     }
 }

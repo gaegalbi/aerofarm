@@ -22,6 +22,10 @@ public class UserDetailsImpl implements UserDetails, OAuth2User {
     private Map<String, Object> attributes;
     private Collection<GrantedAuthority> authorities = new ArrayList<>();
 
+    public void updateMember(Member member) {
+        this.member = member;
+    }
+
     public UserDetailsImpl(Member member) {
         this.member = member;
         setAuthorities(member.getRoles());

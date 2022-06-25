@@ -1,24 +1,15 @@
 package yj.capstone.aerofarm.config;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import yj.capstone.aerofarm.domain.member.Role;
 import yj.capstone.aerofarm.service.OAuth2UserServiceImpl;
 import yj.capstone.aerofarm.service.UserDetailsServiceImpl;
 import yj.capstone.aerofarm.service.handler.AuthFailureHandler;
-import yj.capstone.aerofarm.service.handler.AuthSuccessHandler;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -50,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-//                .csrf().disable()
+                .csrf().disable()
                 .headers().frameOptions().disable()
                 .and()
                 .authorizeRequests()
