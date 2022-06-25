@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/header :: header}"/>
+
+<style>
+    .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+
+    @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+        }
+    }
+
+    .form-control {
+        border-color: #131825;
+        background-color: #182030;
+        color: #FFFFFF;
+    }
+
+    .form-control:focus {
+        background-color: #182030;
+        color: #FFFFFF;
+    }
+
+    input[type="text"]:read-only {
+        background-color: #182030;
+    }
+
+    input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 30px #182030 inset;
+        -webkit-text-fill-color: #FFFFFF !important;
+    }
+</style>
+
+<body class="d-flex flex-column min-vh-100">
+
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
+
+<div class="container">
+    <div class="card my-4 bg-transparent">
+        <div class="card-body text-white" style="background-color: #111620">
+            <div class="row">
+                <div class="col gx-4">
+                    <form th:object="${memberDto}" id="edit-form">
+                        <h4 class="m-0">
+                            회원 정보 수정
+                        </h4>
+                        <hr/>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label for="nickname" class="form-label">닉네임</label>
+                                <input type="text" class="form-control" id="nickname" th:field="*{nickname}" placeholder="닉네임" required>
+                                <div class="invalid-feedback" id="nicknameError">
+                                    해당 닉네임이 이미 존재합니다!
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label for="name" class="form-label">이름</label>
+                                <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="이름">
+                            </div>
+                            <div class="col-12">
+                                <label for="phoneNumber" class="form-label">연락처</label>
+                                <input type="text" class="form-control" id="phoneNumber"
+                                       oninput="autoHyphen(this)"
+                                       th:field="*{phoneNumber}"
+                                       maxlength="13"
+                                       placeholder="연락처">
+                            </div>
+                            <div class="col-12">
+                                <label for="zipcode" class="form-label">우편번호</label>
+                            </div>
+                            <div class="col-6 mt-0">
+                                <input type="text" class="form-control" id="zipcode" placeholder="우편번호"
+                                       minlength="5"
+                                       maxlength="7"
+                                       th:field="*{addressInfo.zipcode}"
+                                       readonly
+                                       disabled>
+                                <div class="invalid-feedback">우편번호 오류</div>
+                            </div>
+
+                            <div class="col-6 mt-0 mx-auto">
+                                <a type="button" onclick="findAddress()" class="btn btn-primary d-grid"
+                                   id="address-btn">우편번호 찾기
+                                </a>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="address1" class="form-label">주소</label>
+                                <input type="text" class="form-control" placeholder="주소"
+                                       th:field="*{addressInfo.address1}"
+                                       id="address1" readonly disabled>
+                            </div>
+
+                            <div class="col-6">
+                                <label for="address2" class="form-label">상세주소</label>
+                                <input type="text" class="form-control" placeholder="상세주소"
+                                       th:field="*{addressInfo.address2}"
+                                       id="address2">
+                            </div>
+                            <div class="col-6">
+                                <label for="extraAddress" class="form-label">참고항목</label>
+                                <input type="text" class="form-control"
+                                       th:field="*{addressInfo.extraAddress}"
+                                       placeholder="참고항목" id="extraAddress">
+                                <div class="invalid-feedback">참고항목 오류</div>
+                            </div>
+
+                            <div class="col text-end">
+                                <button type="submit" class="btn btn-primary">변경하기</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"/>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="/js/util/findAddress.js"></script>
+<script src="/js/util/autoHyphen.js"></script>
+<script src="/js/member/memberEdit.js"></script>
+</body>
+</html>

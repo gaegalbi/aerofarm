@@ -1,6 +1,5 @@
 package yj.capstone.aerofarm.repository;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import yj.capstone.aerofarm.domain.product.ProductCategory;
 import yj.capstone.aerofarm.dto.CartDto;
 import yj.capstone.aerofarm.dto.OrderInfoDto;
 import yj.capstone.aerofarm.form.CheckoutForm;
-import yj.capstone.aerofarm.form.SaveMemberForm;
 import yj.capstone.aerofarm.form.SaveProductForm;
 
 import java.util.ArrayList;
@@ -38,11 +36,11 @@ class OrderRepositoryTest {
     @Test
     @DisplayName("주문 생성이 정상적으로 이뤄져야 한다.")
     void create_order_must_success() {
-        SaveMemberForm saveMemberForm = new SaveMemberForm();
-        saveMemberForm.setEmail("abc123@naver.com");
-        saveMemberForm.setPassword("1234");
-        saveMemberForm.setNickname("qqc");
-        Member member = Member.saveMemberFormBuilder().saveMemberForm(saveMemberForm).build();
+        Member member = Member.builder()
+                .email("qqc@qqc.com")
+                .password("1234")
+                .nickname("test")
+                .build();
         memberRepository.save(member);
 
         List<OrderLine> orderLines = new ArrayList<>();
@@ -83,7 +81,7 @@ class OrderRepositoryTest {
         orderRepository.save(order);
 
         PageRequest pageable = PageRequest.of(0, 10);
-        Page<OrderInfoDto> orderInfoDto = orderRepository.findOrderInfoDto(pageable, 1L);
+        Page<OrderInfoDto> orderInfoDto = orderRepository.findOrderInfoDto(pageable, member.getId());
 
         for (OrderInfoDto infoDto : orderInfoDto) {
             System.out.println("infoDto = " + infoDto);

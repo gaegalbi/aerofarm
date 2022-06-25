@@ -1,9 +1,11 @@
 package yj.capstone.aerofarm.domain.member;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 import yj.capstone.aerofarm.domain.AddressInfo;
-import yj.capstone.aerofarm.form.SaveMemberForm;
 import yj.capstone.aerofarm.domain.BaseEntity;
+import yj.capstone.aerofarm.dto.request.ProfileEditRequest;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -49,11 +51,9 @@ public class Member extends BaseEntity {
      * 양방향 연관관계에서 굳이 필요 없는데
      * 연습, 테스트 목적으로 작성
      */
-    @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Address> addresses = new ArrayList<>();
 
-    @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MemberRole> roles = new ArrayList<>();
 
@@ -61,28 +61,41 @@ public class Member extends BaseEntity {
         return MemberBuilder();
     }*/
 
-    @Builder(builderMethodName = "saveMemberFormBuilder", builderClassName = "SaveMemberFormBuilder")
-    public Member(SaveMemberForm saveMemberForm) {
-        this.email = saveMemberForm.getEmail();
-        this.password = saveMemberForm.getPassword();
-        this.nickname = saveMemberForm.getNickname();
+//    @Builder(builderMethodName = "saveMemberFormBuilder", builderClassName = "SaveMemberFormBuilder")
+//    @Builder
+//    public Member(SignupRequest signupRequestDto) {
+//        this.email = signupRequestDto.getEmail();
+//        this.password = signupRequestDto.getPassword();
+//        this.nickname = signupRequestDto.getNickname();
+//        this.roles.add(new MemberRole(Role.GUEST, this));
+//        this.provider = Provider.LOCAL;
+//        this.verify = false; // 로컬 회원가입 시 검증 기본값 false
+//        this.name = signupRequestDto.getName();
+//        this.picture = "/image/default-avatar.png";
+//    }
+
+    @Builder
+    public Member(String email, String password, String nickname, String picture, Provider provider, String name, boolean verify) {
+        this.email = email;
+        this.password = password;
+        this.nickname = nickname;
+        this.picture = picture;
+        this.provider = provider;
+        this.name = name;
+        this.verify = verify;
         this.roles.add(new MemberRole(Role.GUEST, this));
-        this.provider = Provider.LOCAL;
-        this.verify = false; // 로컬 회원가입 시 검증 기본값 false
-        this.name = saveMemberForm.getName();
-        this.picture = "/image/default-avatar.png";
     }
 
-    @Builder(builderClassName = "oAuth2Builder")
-    public Member(String nickname, Provider provider, String picture, String email) {
-        this.nickname = nickname;
-        this.password = "";
-        this.picture = picture;
-        this.email = email;
-        this.provider = provider;
-        this.roles.add(new MemberRole(Role.GUEST, this));
-        this.verify = true; // Oauth2 회원가입 시 검증 기본값 true
-    }
+//    @Builder(builderClassName = "oAuth2Builder")
+//    public Member(String nickname, Provider provider, String picture, String email) {
+//        this.nickname = nickname;
+//        this.password = "";
+//        this.picture = picture;
+//        this.email = email;
+//        this.provider = provider;
+//        this.roles.add(new MemberRole(Role.GUEST, this));
+//        this.verify = true; // Oauth2 회원가입 시 검증 기본값 true
+//    }
 
     /*@Builder(builderMethodName = "oauth2Register", builderClassName = "Oauth2Register")
     public Member(String nickname, String password, String email,String picture, String provider, String providerId, Role role) {
@@ -95,7 +108,8 @@ public class Member extends BaseEntity {
         this.roles.add(new MemberRole(role, this));
     }*/
 
-    protected Member() {} // NoArgsConstructor
+    protected Member() {
+    } // NoArgsConstructor
 
     public Member update(String name, String picture) {
         this.nickname = name;
@@ -113,5 +127,17 @@ public class Member extends BaseEntity {
 
     public void emailVerifiedSuccess() {
         this.verify = true;
+    }
+
+    public void editProfile(ProfileEditRequest profileEditRequest) {
+        this.nickname = profileEditRequest.getNickname();
+        this.name = profileEditRequest.getName();
+        this.phoneNumber = profileEditRequest.getPhoneNumber();
+        this.addressInfo = AddressInfo.builder()
+                .address1(profileEditRequest.getAddress1())
+                .address2(profileEditRequest.getAddress2())
+                .zipcode(profileEditRequest.getZipcode())
+                .extraAddress(profileEditRequest.getExtraAddress())
+                .build();
     }
 }

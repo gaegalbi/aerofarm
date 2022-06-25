@@ -17,7 +17,7 @@ public class CartService {
 
     private final ProductRepository productRepository;
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<ProductCartDto> createProductCartDtos(List<CartDto> cartDtos) {
         List<ProductCartDto> productCartDtos = new ArrayList<>();
         for (CartDto cartDto : cartDtos) {
