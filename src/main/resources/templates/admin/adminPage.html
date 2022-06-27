@@ -23,9 +23,53 @@
 
 <div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
 
-<div class="container">
-    <div class="row">
-        <h2 class="my-3 text-white">어드민 페이지</h2>
+<div class="container text-white">
+    <h3 class="my-3">관리자 메뉴</h3>
+    <div class="row row-cols-1 row-cols-md-4 g-3">
+        <div class="col">
+            <div class="card border-dark" style="background-color: #171D2B; cursor:pointer"
+                 onclick="location.href='/admin/members'">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <h3 class="m-0 me-3"><i class="bi bi-person-fill"></i></h3>
+                        <div>
+                            <p class="m-0">회원목록</p>
+                            <p class="m-0 fw-light text-light">회원 목록 보기</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card border-dark" style="background-color: #171D2B; cursor:pointer"
+                 onclick="location.href='/admin/product/save'">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <h3 class="m-0 me-3"><i class="bi bi-cart-plus"></i></h3>
+                        <div>
+                            <p class="m-0">상품생성</p>
+                            <p class="m-0 fw-light text-light">새로운 상품 생성</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card border-dark" style="background-color: #171D2B; cursor:pointer"
+                 onclick="location.href='#'">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <h3 class="m-0 me-3"><i class="bi bi-card-checklist"></i></h3>
+                        <div>
+                            <p class="m-0">주문목록</p>
+                            <p class="m-0 fw-light text-light">주문 목록 관리</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
