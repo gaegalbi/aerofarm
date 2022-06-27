@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div class="col-md-2 gx-4" th:fragment="adminMenuBar">
+    <div class="list-group text-start list-group-flush pb-4">
+        <a href="/admin/members" id="members"
+           class="rounded-top list-group-item list-group-item-primary list-group-item-action">
+            회원 목록
+        </a>
+        <a href="/admin/product/save" id="productSave"
+           class="rounded-bottom list-group-item list-group-item-primary list-group-item-action">
+            상품 등록
+        </a>
+    </div>
+    <script>
+        const url = window.location.pathname;
+        switch (url) {
+            case '/admin/members':
+                document.getElementById('members').classList.add('active');
+                break;
+            case '/admin/product/save':
+                document.getElementById('productSave').classList.add('active');
+                break;
+        }
+    </script>
+</div>
+</html>

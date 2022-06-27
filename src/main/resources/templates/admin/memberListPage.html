@@ -26,19 +26,7 @@
 <div class="container">
     <div class="row">
         <h3 class="my-3 text-white">관리자 페이지</h3>
-        <div class="col-md-2 gx-4">
-            <div class="list-group text-start list-group-flush pb-4">
-                <a href="/admin/members"
-                   class="rounded-top list-group-item list-group-item-primary list-group-item-action active">
-                    회원 목록
-                </a>
-                <a href="/admin/product/save"
-                   class="rounded-bottom list-group-item list-group-item-primary list-group-item-action">
-                    상품 등록
-                </a>
-            </div>
-        </div>
-
+        <div th:replace="~{fragments/adminMenuBar :: adminMenuBar}" />
         <div class="col-md-10 gx-4">
             <div class="card" style="background-color: #111620">
                 <div class="card-body text-white">
