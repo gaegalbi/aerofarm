@@ -1,4 +1,5 @@
 import 'package:capstone/LoginPage/LoginPage.dart';
+import 'package:capstone/main.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -266,7 +267,7 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                   child: TextButton(
                     onPressed: () async {
                       //회원 가입
-                      await http.post(Uri.http('127.0.0.1:8080', '/signup'),
+                      await http.post(Uri.http(ipv4, '/signup'),
                           body: {
                             "email":_emailController.text,
                             "password":_passwordController.text,

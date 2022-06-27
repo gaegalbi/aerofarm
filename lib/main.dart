@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 
+const String ipv4 = "172.25.4.179:8080";
+
 void main() {
   KakaoSdk.init(nativeAppKey: 'cf0a2321116751cad7b6b470377c39b3');
   runApp(const MyApp());

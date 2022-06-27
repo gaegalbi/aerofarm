@@ -51,12 +51,9 @@ class _MainPageState extends State<MainPage> {
         ),
       ),
       body: Container(
+        height: MediaQuery.of(context).size.height,
         color: MainColor.six,
-        child: Column(
-          children: const [
-            MainPageBottom(),
-          ],
-        ),
+        child: const MainPageBottom(),
       ),
     );
   }

@@ -258,30 +258,32 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
                       : Container(),
                 ],
               ),
-              Container(
-                margin: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.014,
+              Expanded(
+                child: Container(
+                  margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.014,
+                  ),
+                  height: MediaQuery.of(context).size.height * 0.69,
+                  child: Obx(()=>Column(children: [
+                    !(loadingController.loading.value)
+                        ? Expanded(
+                            child: ListView.builder(
+                                controller: _scrollController,
+                                itemCount:   boardListController.boardList.length + 1,
+                                itemBuilder: (BuildContext context, int index) {
+                                  if (index <  boardListController.boardList.length) {
+                                    return  boardListController.boardList[index];
+                                  } else{
+                                    return Container();
+                                  }
+                                }))
+                        : const Expanded(
+                            child: Center(
+                                child: CircularProgressIndicator(
+                            color: MainColor.three,
+                          ))),
+                  ]),)
                 ),
-                height: MediaQuery.of(context).size.height * 0.69,
-                child: Obx(()=>Column(children: [
-                  !(loadingController.loading.value)
-                      ? Expanded(
-                          child: ListView.builder(
-                              controller: _scrollController,
-                              itemCount:   boardListController.boardList.length + 1,
-                              itemBuilder: (BuildContext context, int index) {
-                                if (index <  boardListController.boardList.length) {
-                                  return  boardListController.boardList[index];
-                                } else{
-                                  return Container();
-                                }
-                              }))
-                      : const Expanded(
-                          child: Center(
-                              child: CircularProgressIndicator(
-                          color: MainColor.three,
-                        ))),
-                ]),)
               ),
             ],
           ),

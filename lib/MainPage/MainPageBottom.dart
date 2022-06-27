@@ -20,7 +20,7 @@ class _MainPageBottomState extends State<MainPageBottom> {
       children: [
         ImageSlideshow(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height*0.55,
+            height: MediaQuery.of(context).size.height*0.555,
             initialPage: 0,
             autoPlayInterval: 3000,
             isLoop: true,
@@ -29,39 +29,45 @@ class _MainPageBottomState extends State<MainPageBottom> {
                 Image.asset("assets/images/2.png",fit: BoxFit.cover,),
                 Image.asset("assets/images/3.png",fit: BoxFit.cover,),
         ]),
-        Container(
-          margin: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.018), //15
+        Expanded(
+          //margin: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.018,bottom:  MediaQuery.of(context).size.height*0.018), //15 //MediaQuery.of(context).size.height*0.018
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                //여기에 이미지로 채울꺼임
-                width: MediaQuery.of(context).size.width * 0.45,
-                height: MediaQuery.of(context).size.height * 0.22,
-                color: MainColor.three,
-                child: TextButton(
-                  onPressed: () {
-                    Get.to(()=>const MachinePageList(),);
-                  },
-                  child: const Text(
-                    "기기목록",
-                    style: MainTheme.button,
+              Expanded(
+                child: Container(
+                  //여기에 이미지로 채울꺼임
+                  //width: MediaQuery.of(context).size.width * 0.45,
+                  height: MediaQuery.of(context).size.height,//MediaQuery.of(context).size.height * 0.22,
+                  margin: const EdgeInsets.only(left: 15,right: 5,top: 20,bottom: 20),
+                  color: MainColor.three,
+                  child: TextButton(
+                    onPressed: () {
+                      Get.to(()=>const MachinePageList(),);
+                    },
+                    child: const Text(
+                      "기기목록",
+                      style: MainTheme.button,
+                    ),
                   ),
                 ),
               ),
-              Container(
-                //여기에 이미지로 채울꺼임
-                width: MediaQuery.of(context).size.width * 0.45,
-                height: MediaQuery.of(context).size.height * 0.22,
-                color: MainColor.three,
-                child: TextButton(
-                  onPressed: () {
-                    //beforeRouteController.setBefore('all');
-                    Get.off(()=> const CommunityPageForm(category:'all'));//beforeRouteController.before.value));
-                  },
-                  child: const Text(
-                    "커뮤니티",
-                    style: MainTheme.button,
+              Expanded(
+                child: Container(
+                  //여기에 이미지로 채울꺼임
+                  //width: MediaQuery.of(context).size.width * 0.45,
+                  height: MediaQuery.of(context).size.height,//MediaQuery.of(context).size.height * 0.22,
+                  margin: const EdgeInsets.only(left: 5,right: 15,top: 20,bottom: 20),
+                  color: MainColor.three,
+                  child: TextButton(
+                    onPressed: () {
+                      //beforeRouteController.setBefore('all');
+                      Get.off(()=> const CommunityPageForm(category:'all'));//beforeRouteController.before.value));
+                    },
+                    child: const Text(
+                      "커뮤니티",
+                      style: MainTheme.button,
+                    ),
                   ),
                 ),
               ),

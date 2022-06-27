@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:capstone/main.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' as parser;
@@ -49,7 +50,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
   }
   @override
   void initState(){
-    commentListController.commentClear();
+    //commentListController.commentClear();
     pageIndexController.setUp();
     _scrollController = ScrollController();
     _scrollController.addListener(() {
@@ -66,7 +67,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
     postKeywords.addAll(widget.keywords);
 
     likes=widget.keywords['likes'];
-    count = int.parse(widget.keywords['comments']);
+    //count = int.parse(widget.keywords['comments']);
     super.initState();
   }
 
@@ -302,10 +303,10 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                           style: CommunityPageTheme.postFont,
                                         ),
                                       ),
-                                      Text(
-                                        widget.keywords['comments'],
+                                      Obx(()=>Text(
+                                        commentListController.commentList.length.toString(),//widget.keywords['comments'],
                                         style: CommunityPageTheme.postFont,
-                                      ),
+                                      )),
                                       const Icon(
                                         Icons.chevron_right,
                                         color: Colors.white,
@@ -313,11 +314,10 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                     ],
                                   ),
                                   onPressed: () {
-                                    print(widget.keywords);
                                       Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before,));
                                   },
                                 ),
-                                 if (count < 1) Container(
+                                 Obx(()=> commentListController.commentList.isEmpty? Container(
                                   margin: EdgeInsets.only(top: 5),
                                   child: Row(
                                     children: [
@@ -343,7 +343,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                       ),
                                     ],
                                   ),
-                                ) else Obx(()=>Column(children: commentListController.commentList
+                                ) : Column(children: commentListController.commentList
                                  ,),)
                               ],
                             ))
@@ -391,7 +391,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                           'page': pageIndexController.pageIndex.value.toString(),
                         };
                         final response = await http
-                            .get(Uri.http('127.0.0.1:8080', '/community/${widget.keywords['communityCategory']}/${widget.keywords['id']}',_queryParameters),
+                            .get(Uri.http(ipv4, '/community/${widget.keywords['communityCategory']}/${widget.keywords['id']}',_queryParameters),
                             headers:{
                               "Content-Type": "application/x-www-form-urlencoded",
                               "Cookie":"JSESSIONID=$session",
@@ -410,7 +410,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                         var body = json.encode(data);
                         if(readPostController.isLike.isTrue){
                          await http.post(
-                            Uri.http('127.0.0.1:8080', '/deleteLike'),
+                            Uri.http(ipv4, '/deleteLike'),
                             headers: {
                               "Content-Type": "application/json",
                               "Cookie":"JSESSIONID=$session",
@@ -425,7 +425,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                           });
                         }else{
                           await http.post(
-                            Uri.http('127.0.0.1:8080', '/createLike'),
+                            Uri.http(ipv4, '/createLike'),
                             headers: {
                               "Content-Type": "application/json",
                               "Cookie":"JSESSIONID=$session",
@@ -448,12 +448,11 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                           size: 35,
                         ),
                       ),
-                      text: Text(
-                        widget.keywords['comments'],
+                      text: Obx(()=>Text(
+                        commentListController.commentList.length.toString(),//widget.keywords['comments'],
                         style: CommunityPageTheme.bottomAppBarReply,
-                      ),
+                      )),
                       onPressed: () {
-                        print(widget.keywords);
                         Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before ,));
                       },
                     )

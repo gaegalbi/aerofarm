@@ -30,27 +30,27 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-       <queries>
-           <!-- If your app opens https URLs -->
+     <!--  <queries>
+           &lt;!&ndash; If your app opens https URLs &ndash;&gt;
            <intent>
                <action android:name="android.intent.action.VIEW" />
                <data android:scheme="https" />
            </intent>
-           <!-- If your app makes calls -->
+           &lt;!&ndash; If your app makes calls &ndash;&gt;
            <intent>
                <action android:name="android.intent.action.DIAL" />
                <data android:scheme="tel" />
            </intent>
-           <!-- If your sends SMS messages -->
+           &lt;!&ndash; If your sends SMS messages &ndash;&gt;
            <intent>
                <action android:name="android.intent.action.SENDTO" />
                <data android:scheme="smsto" />
            </intent>
-           <!-- If your app sends emails -->
+           &lt;!&ndash; If your app sends emails &ndash;&gt;
            <intent>
                <action android:name="android.intent.action.SEND" />
                <data android:mimeType="*/*" />
            </intent>
-       </queries>
+       </queries>-->
     </application>
 </manifest>

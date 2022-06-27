@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:capstone/main.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -134,7 +135,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                       var body = json.encode(data);
                       await http.post(
                         Uri.http(
-                            '127.0.0.1:8080', '/createAnswerPost/${widget.id}'),
+                            ipv4, '/createAnswerPost/${widget.id}'),
                         headers: {
                           "Content-Type": "application/json",
                           "Cookie": "JSESSIONID=$session",
@@ -175,7 +176,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                       };
                       var body = json.encode(data);
                       await http.post(
-                        Uri.http('127.0.0.1:8080', '/createBasicPost'),
+                        Uri.http(ipv4, '/createBasicPost'),
                         headers: {
                           "Content-Type": "application/json",
                           "Cookie": "JSESSIONID=$session",

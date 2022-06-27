@@ -1,3 +1,4 @@
+import 'package:capstone/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -183,12 +184,11 @@ Future fetch(String communityCategory, bool readPost) async {
   if(readPost){
     customKeywords.clear();
     //pageIndexController.setUp();
-    //commentListController.commentClear();
     final Map<String, String> _queryParameters = <String, String>{
       'page': pageIndexController.pageIndex.value.toString(),
     };
     final response = await http
-        .get(Uri.http('127.0.0.1:8080', '/community/$communityCategory}/${readPostController.id.value}',_queryParameters),
+        .get(Uri.http(ipv4, '/community/$communityCategory}/${readPostController.id.value}',_queryParameters),
         headers:{
           "Content-Type": "application/x-www-form-urlencoded",
           "Cookie":"JSESSIONID=$session",
@@ -211,7 +211,7 @@ Future fetch(String communityCategory, bool readPost) async {
           'id' : readPostController.id.value
         });
       }
-      commentListController.commentClear();
+      //commentListController.commentClear();
       for (var element in customKeywords) {
         commentListController.commentAdd(AddComment(
           index: pageIndexController.pageIndex.value ,keywords: element, before: beforeRouteController.before.value,
@@ -221,7 +221,6 @@ Future fetch(String communityCategory, bool readPost) async {
       throw Exception('Failed to load post');
     }
   }else{
-
     boardListController.boardList.clear();
     if (communityCategory== 'all' || communityCategory == 'hot') {
       customKeywords.clear();
@@ -233,7 +232,7 @@ Future fetch(String communityCategory, bool readPost) async {
             'page': pageIndexController.pageIndex.value.toString(),
           };
           final response = await http.get(Uri.http(
-              '127.0.0.1:8080', '/community/${setCategoryController.setCategory.value}', _queryParameters));
+              ipv4, '/community/${setCategoryController.setCategory.value}', _queryParameters));
           if (response.statusCode == 200) {
             dom.Document document = parser.parse(response.body);
             List<dom.Element> keywordElements = document.querySelectorAll('.post-data');
@@ -280,7 +279,7 @@ Future fetch(String communityCategory, bool readPost) async {
           final Map<String, String> _queryParameters = <String, String>{
             'page': pageIndexController.pageIndex.value.toString(),
           };
-          final response = await http.get(Uri.http('127.0.0.1:8080',
+          final response = await http.get(Uri.http(ipv4,
               '/community/${boardCategory[categoryIndexController.categoryIndex.value]}', _queryParameters));
           if (response.statusCode == 200) {
             dom.Document document = parser.parse(response.body);
@@ -362,7 +361,7 @@ Future fetch(String communityCategory, bool readPost) async {
         'page': pageIndexController.pageIndex.value.toString(),
       };
       final response = await http.get(Uri.http(
-          '127.0.0.1:8080', '/community/$communityCategory', _queryParameters));
+          ipv4, '/community/$communityCategory', _queryParameters));
       if (response.statusCode == 200) {
         dom.Document document = parser.parse(response.body);
         List<dom.Element> keywordElements = document.querySelectorAll('.post-data');

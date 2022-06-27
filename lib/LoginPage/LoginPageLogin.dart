@@ -14,6 +14,8 @@ import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' as parser;
 import 'package:html/dom.dart' as dom;
 
+import '../main.dart';
+
 late String? session;
 late String name;
 late bool isLogin = false;
@@ -86,8 +88,9 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
             child: TextButton(
               onPressed: () async {
                 try{
-                  final response = await http
-                      .get(Uri.http('127.0.0.1:8080', '/login'));
+                  final response = await http.get(
+                    Uri.http(ipv4, '/login'),// Uri.http('172.25.4.179:8080', '/login'),//Uri.http('127.0.0.1:8080', '/login')
+                  );
                   tmp = response.headers['set-cookie'];
                   session = tmp?.substring(tmp!.lastIndexOf('JSESSIONID')+11,tmp!.lastIndexOf('JSESSIONID')+43);
                   data = {
@@ -96,7 +99,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                     'remember-me' : "true"
                   };
                   final response1 = await http.post(
-                    Uri.http('127.0.0.1:8080', '/login'),
+                    Uri.http(ipv4, '/login'),//Uri.http('172.25.4.179:8080', '/login'),
                     headers: {
                       "Content-Type": "application/x-www-form-urlencoded",
                       "Cookie":"JSESSIONID=$session",
@@ -125,7 +128,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                     session = tmp?.substring(tmp!.lastIndexOf('JSESSIONID')+11,tmp!.lastIndexOf('JSESSIONID')+43);
 
                     final response = await http.get(
-                      Uri.http('127.0.0.1:8080', ''),
+                      Uri.http(ipv4, ''),//Uri.http('172.25.4.179:8080', '')
                       headers: {
                         "Content-Type": "application/x-www-form-urlencoded",
                         "Cookie":"JSESSIONID=$session",
@@ -143,7 +146,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                     );
                     //print(nickname);
                     //printWrapped(document.outerHtml);
-                    profile = Image.network("http://127.0.0.1:8080$src");
+                    profile = Image.network("http://$ipv4$src");
                     Get.offAll(()=>const MainPage());
                   }
                 }catch(error){

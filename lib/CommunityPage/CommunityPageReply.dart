@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:capstone/main.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -33,6 +34,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
   late ScrollController _scrollController;
   final commentListController = Get.put(CommentListController());
   final pageIndexController = Get.put(PageIndexController());
+  late double keyboardOffset;
 
   void handleScrolling() {
     //전체게시판은 전체 게시물을 전부 불러올 거라서 전체게시판이나 인기게시판일때는 동작x
@@ -46,6 +48,11 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
 
   @override
   void initState() {
+    if(GetPlatform.isIOS){
+      keyboardOffset = -0.9;
+    }else {
+      keyboardOffset = -1.0;
+    }
     sort = true;
     pageIndexController.setUp();
     _textEditingController = TextEditingController();
@@ -53,7 +60,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
     _scrollController.addListener(() {
       handleScrolling();
     });
-    fetch(widget.keywords['communityCategory'],true);
+    //fetch(widget.keywords['communityCategory'],true);
     super.initState();
   }
 
@@ -169,7 +176,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
           ),
           bottomNavigationBar: Transform.translate(
             offset:
-                Offset(0.0, -0.9 * MediaQuery.of(context).viewInsets.bottom),
+                Offset(0.0, keyboardOffset * MediaQuery.of(context).viewInsets.bottom),
             child: BottomAppBar(
               color: Colors.indigo,
               child: Container(
@@ -220,7 +227,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                               var body = json.encode(data);
 
                               await http.post(
-                                Uri.http('127.0.0.1:8080', '/createComment'),
+                                Uri.http(ipv4, '/createComment'),
                                 headers: {
                                   "Content-Type": "application/json",
                                   "Cookie": "JSESSIONID=$session",
@@ -231,7 +238,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                               customKeywords.clear();
                               final Map<String, String> _queryParameters = <String, String>{'page': "1"};
                               final response = await http.get(Uri.http(
-                                  '127.0.0.1:8080',
+                                  ipv4,
                                   '/community/${widget.keywords['communityCategory']}/${widget.keywords['id']}', _queryParameters));
                               if (response.statusCode == 200) {
                                 dom.Document document = parser.parse(response.body);
