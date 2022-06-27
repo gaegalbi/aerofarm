@@ -35,6 +35,11 @@
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/my-page/info">내 정보</a>
                         </li>
+                        <th:block sec:authorize="hasAuthority('ADMIN')">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="/admin/members">관리</a>
+                            </li>
+                        </th:block>
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="/logout">로그아웃</a>
                         </li>

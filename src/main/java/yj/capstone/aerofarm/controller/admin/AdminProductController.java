@@ -18,22 +18,21 @@ import javax.validation.Valid;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
+@PreAuthorize("hasAnyAuthority('ADMIN')")
 public class AdminProductController {
 
     private final ProductService productService;
 
     @GetMapping("/admin/product/save")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public String saveProductForm(Model model) {
         model.addAttribute("saveProductForm", new SaveProductForm());
-        return "product/saveProductPage";
+        return "admin/productSavePage";
     }
 
     @PostMapping("/admin/product/save")
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public String saveProduct(@Valid SaveProductForm saveProductForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "product/saveProductPage";
+            return "admin/productSavePage";
         }
         Product product = productService.save(saveProductForm);
         log.info("Product created, id = {}", product.getId());
