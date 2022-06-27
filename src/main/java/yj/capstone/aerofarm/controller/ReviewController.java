@@ -17,7 +17,7 @@ import yj.capstone.aerofarm.service.ProductService;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-public class ProductController {
+public class ReviewController {
 
     private final ProductService productService;
     private final OrderService orderService;
@@ -34,7 +34,7 @@ public class ProductController {
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalArgumentException.class)
-    public ErrorResponse passwordNotMatch(IllegalArgumentException e) {
-        return new ErrorResponse("잘못된 접근입니다.");
+    public ErrorResponse exceptionHandling(IllegalArgumentException e) {
+        return new ErrorResponse(e.getMessage());
     }
 }
