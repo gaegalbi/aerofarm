@@ -35,9 +35,6 @@
 <div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
 
 <div class="container pb-5">
-    <a class="btn btn-outline-light btn-sm my-4 ms-2" href="#" th:href="${previousPage}">
-        &laquo; 이전 항목으로 돌아가기
-    </a>
     <div class="card" th:object="${product}">
         <div class="card-body row gx-4 gx-lg-5 align-items-center">
             <div class="col-md-5">
