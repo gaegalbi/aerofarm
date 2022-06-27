@@ -85,7 +85,7 @@ public class MemberController {
 
     @GetMapping("/my-page/info")
     public String memberInfo(@ModelAttribute("verify") MyPageAuthDto verify, Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        if (!verify.getVerify()) {
+        if (!verify.isVerify()) {
             return "redirect:/my-page/need-auth";
         }
 
@@ -109,7 +109,7 @@ public class MemberController {
             Model model,
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @PageableDefault Pageable pageable) {
-        if (!verify.getVerify()) {
+        if (!verify.isVerify()) {
             return "redirect:/my-page/need-auth";
         }
         Member member = userDetails.getMember();
@@ -128,7 +128,7 @@ public class MemberController {
 
     @GetMapping("/my-page/order-list/{uuid}")
     public String memberInfoOrderDetail(@ModelAttribute("verify") MyPageAuthDto verify, Model model, @PathVariable String uuid) {
-        if (!verify.getVerify()) {
+        if (!verify.isVerify()) {
             return "redirect:/my-page/need-auth";
         }
         try {
