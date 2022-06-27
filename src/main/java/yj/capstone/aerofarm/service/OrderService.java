@@ -2,18 +2,18 @@ package yj.capstone.aerofarm.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import yj.capstone.aerofarm.domain.member.Member;
+import yj.capstone.aerofarm.domain.order.Order;
+import yj.capstone.aerofarm.domain.order.OrderLine;
+import yj.capstone.aerofarm.domain.product.Product;
 import yj.capstone.aerofarm.dto.CartDto;
 import yj.capstone.aerofarm.dto.CheckoutCompleteDto;
 import yj.capstone.aerofarm.dto.OrderInfoDto;
 import yj.capstone.aerofarm.dto.ProductCartDto;
 import yj.capstone.aerofarm.form.CheckoutForm;
-import yj.capstone.aerofarm.domain.member.Member;
-import yj.capstone.aerofarm.domain.order.Order;
-import yj.capstone.aerofarm.domain.order.OrderLine;
-import yj.capstone.aerofarm.domain.product.Product;
 import yj.capstone.aerofarm.repository.OrderRepository;
 
 import java.util.ArrayList;
@@ -59,10 +59,8 @@ public class OrderService {
         return order.getId();
     }
 
-    public Page<OrderInfoDto> findOrderInfoByMemberId(Long memberId, Integer page) {
-        // Page가 0부터 시작하기 때문에 -1 해줌
-        PageRequest pageRequest = PageRequest.of(page - 1, 10);
-        return orderRepository.findOrderInfoDto(pageRequest, memberId);
+    public Page<OrderInfoDto> findOrderInfoByMemberId(Long memberId, Pageable pageable) {
+        return orderRepository.findOrderInfoDto(pageable, memberId);
     }
 
     public Order findByUuid(String uuid) {

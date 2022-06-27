@@ -1,6 +1,7 @@
 package yj.capstone.aerofarm.controller.admin;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,8 +27,9 @@ public class AdminController {
 
     @GetMapping("/admin/members")
     public String memberList(Model model, @PageableDefault Pageable pageable) {
-        PageableList<MemberListResponseDto> members = memberService.findMemberList(pageable);
-        model.addAttribute("pageableList", members);
+        Page<MemberListResponseDto> memberList = memberService.findMemberList(pageable);
+        PageableList<MemberListResponseDto> pageableList = new PageableList<>(memberList);
+        model.addAttribute("pageableList", pageableList);
         return "admin/memberListPage";
     }
 

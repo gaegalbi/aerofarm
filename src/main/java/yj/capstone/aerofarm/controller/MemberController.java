@@ -3,6 +3,8 @@ package yj.capstone.aerofarm.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -106,21 +108,17 @@ public class MemberController {
             @ModelAttribute("verify") MyPageAuthDto verify,
             Model model,
             @AuthenticationPrincipal UserDetailsImpl userDetails,
-            @RequestParam(defaultValue = "1") Integer page) {
+            @PageableDefault Pageable pageable) {
         if (!verify.getVerify()) {
             return "redirect:/my-page/need-auth";
         }
-        if (page < 1) {
-            page = 1;
-        }
-
         Member member = userDetails.getMember();
         MemberDto memberDto = MemberDto.builder()
                 .picture(member.getPicture())
                 .nickname(member.getNickname())
                 .build();
 
-        Page<OrderInfoDto> orderInfo = orderService.findOrderInfoByMemberId(member.getId(), page);
+        Page<OrderInfoDto> orderInfo = orderService.findOrderInfoByMemberId(member.getId(), pageable);
         PageableList<OrderInfoDto> pageableList = new PageableList<>(orderInfo);
 
         model.addAttribute("pageableList", pageableList);
