@@ -92,7 +92,9 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                     Uri.http(ipv4, '/login'),// Uri.http('172.25.4.179:8080', '/login'),//Uri.http('127.0.0.1:8080', '/login')
                   );
                   tmp = response.headers['set-cookie'];
+
                   session = tmp?.substring(tmp!.lastIndexOf('JSESSIONID')+11,tmp!.lastIndexOf('JSESSIONID')+43);
+
                   data = {
                     'email' :_lUserNameController.text,
                     'password' : _lPasswordController.text,
@@ -107,7 +109,6 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                     encoding: Encoding.getByName('utf-8'),
                     body: data,
                   );
-
                   if(response1.statusCode ==200){
                     showDialog(context: context, builder: (context){
                       Future.delayed(const Duration(milliseconds: 1500), () {
@@ -123,10 +124,8 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                     _lPasswordController.text="";
                     //팝업 띄우기
                   }else{
-                    //printWrapped(document.outerHtml);
                     tmp = response1.headers['set-cookie'];
                     session = tmp?.substring(tmp!.lastIndexOf('JSESSIONID')+11,tmp!.lastIndexOf('JSESSIONID')+43);
-
                     final response = await http.get(
                       Uri.http(ipv4, ''),//Uri.http('172.25.4.179:8080', '')
                       headers: {

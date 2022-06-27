@@ -239,8 +239,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                     Row(
                                       children: [
                                         Container(
-                                            margin:
-                                                const EdgeInsets.only(right: 20),
+                                            margin: const EdgeInsets.only(right: 20),
                                             child:  Text(
                                               widget.keywords['writer'],
                                               style: CommunityPageTheme.commentWriter,
@@ -343,8 +342,13 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                       ),
                                     ],
                                   ),
-                                ) : Column(children: commentListController.commentList
-                                 ,),)
+                                ) : InkWell(
+                                   onTap: (){
+                                     Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before,));
+                                   },
+                                  child: Column(children: commentListController.commentList
+                                   ,),
+                                ),)
                               ],
                             ))
                       ],
@@ -399,10 +403,11 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                         );
                         if (response.statusCode == 200) {
                           dom.Document document = parser.parse(response.body);
+                          printWrapped(document.outerHtml);
                           readPostController.setContent(
-                              document.querySelector('.contents')!.outerHtml);
+                              document.querySelector('.post-contents')!.outerHtml);
                           readPostController.setIsLike(document.querySelector('.isSelected')!.text);
-                          likes = document.querySelector('.isSelected')!.text;
+                          likes = document.querySelector('.post-likes')!.text;
                         }
                         var data = {
                           "postId":widget.keywords['id'],
@@ -420,7 +425,6 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                           );
                          readPostController.toggleLike();
                           setState((){
-
                             likes = (int.parse(likes!)-1).toString();
                           });
                         }else{
@@ -435,6 +439,8 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                           );
                           readPostController.toggleLike();
                           setState((){
+                            print("+1");
+                            print(likes);
                             likes = (int.parse(likes!)+1).toString();
                           });
                         }

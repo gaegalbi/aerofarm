@@ -101,7 +101,6 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                   Icons.chevron_left,
                 ),
                 onPressed: () {
-                 // print(widget.keywords);
                   Get.offAll(() => CommunityPageReadPost(
                         index: widget.index,
                         keywords: widget.keywords,
@@ -243,15 +242,16 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                               if (response.statusCode == 200) {
                                 dom.Document document = parser.parse(response.body);
                                 List<dom.Element> keywordElements = document
-                                    .querySelectorAll('.comment-user-info');
+                                    .querySelectorAll('.comment-info');
                                 for (var element in keywordElements) {
-                                  dom.Element? commentWriter = element.querySelector('.commentWriter');
-                                  dom.Element? commentContent = element.querySelector('.commentContent');
-                                  dom.Element? commentDate = element.querySelector('.commentDate');
+                                  dom.Element? commentWriter = element.querySelector('.comment-writer');
+                                  dom.Element? commentContent = element.querySelector('.comment-content');
+                                  dom.Element? commentDate = element.querySelector('.comment-date');
                                   customKeywords.add({
                                     'writer': commentWriter?.text,
                                     'date': commentDate?.text,
-                                    'content': commentContent?.text,
+                                    'content':  commentContent?.text,
+                                    'communityCategory' :widget.before,
                                   });
                                 }
                                   commentListController.commentClear();

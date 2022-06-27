@@ -175,7 +175,6 @@ Future fetch(String communityCategory, bool readPost) async {
   final categoryIndexController = Get.put(CategoryIndexController());
   final pageIndexController = Get.put(PageIndexController());
   final loadingController = Get.put(LoadingController());
-  final beforeRouteController = Get.put(BeforeRouteController());
   final boardListController = Get.put(BoardListController());
   final commentListController = Get.put(CommentListController());
   final setCategoryController = Get.put(SetCategoryController());
@@ -196,13 +195,13 @@ Future fetch(String communityCategory, bool readPost) async {
     );
     if (response.statusCode == 200) {
       dom.Document document = parser.parse(response.body);
-      List<dom.Element> keywordElements = document.querySelectorAll('.comment-user-info');
-      readPostController.setContent(document.querySelector('.contents')!.outerHtml);
+      List<dom.Element> keywordElements = document.querySelectorAll('.comment-info');
+      readPostController.setContent(document.querySelector('.post-contents')!.outerHtml);
       readPostController.setIsLike(document.querySelector('.isSelected')!.text);
       for (var element in keywordElements) {
-        dom.Element? commentWriter = element.querySelector('.commentWriter');
-        dom.Element? commentContent = element.querySelector('.commentContent');
-        dom.Element? commentDate = element.querySelector('.commentDate');
+        dom.Element? commentWriter = element.querySelector('.comment-writer');
+        dom.Element? commentContent = element.querySelector('.comment-content');
+        dom.Element? commentDate = element.querySelector('.comment-date');
         customKeywords.add({
           'writer': commentWriter?.text,
           'date': commentDate?.text,
@@ -214,7 +213,7 @@ Future fetch(String communityCategory, bool readPost) async {
       //commentListController.commentClear();
       for (var element in customKeywords) {
         commentListController.commentAdd(AddComment(
-          index: pageIndexController.pageIndex.value ,keywords: element, before: beforeRouteController.before.value,
+          index: pageIndexController.pageIndex.value ,keywords: element, before: communityCategory,//beforeRouteController.before.value,
         ));
       }
     }else{
@@ -242,18 +241,18 @@ Future fetch(String communityCategory, bool readPost) async {
               break;
             } else {
               for (var element in keywordElements) {
-                dom.Element? writer = element.querySelector('.writer');
-                dom.Element? title = element.querySelector('.title-f-sort');
-                dom.Element? category = element.querySelector('.f-filter-color-b');
-                dom.Element? date = element.querySelector('.date');
-                dom.Element? likes = element.querySelector('.likes');
-                dom.Element? views = element.querySelector('.views');
+                dom.Element? writer = element.querySelector('.post-writer');
+                dom.Element? title = element.querySelector('.post-title');
+                dom.Element? category = element.querySelector('.post-category');
+                dom.Element? date = element.querySelector('.post-date');
+                dom.Element? likes = element.querySelector('.post-likes');
+                dom.Element? views = element.querySelector('.post-views');
                 dom.Element? id = element.querySelector('.post-id');
-                dom.Element? realDate = element.querySelector('.realDate');
+                dom.Element? realDate = element.querySelector('.post-dateSS');
+                dom.Element? comments = element.querySelector('.post-comments');
                 customKeywords.add({
                   'writer': writer?.text,
-                  'title':
-                  title?.text.substring(0, title.text.lastIndexOf('(')),
+                  'title': title?.text,
                   'category': category?.text,
                   'realDate': realDate?.text,
                   'date': current == date?.text.substring(0, 10)
@@ -261,9 +260,7 @@ Future fetch(String communityCategory, bool readPost) async {
                       : date?.text = date.text.substring(2, 10),
                   'likes': likes?.text,
                   'views': views?.text,
-                  'comments': title?.text.substring(
-                      title.text.lastIndexOf('(') + 1,
-                      title.text.lastIndexOf(')')),
+                  'comments': comments?.text.substring(1),
                   'id': id?.text,
                   'communityCategory': setCategoryController.setCategory.value
                 });
@@ -294,18 +291,18 @@ Future fetch(String communityCategory, bool readPost) async {
               }
             } else {
               for (var element in keywordElements) {
-                dom.Element? writer = element.querySelector('.writer');
-                dom.Element? title = element.querySelector('.title-f-sort');
-                dom.Element? category = element.querySelector('.f-filter-color-b');
-                dom.Element? date = element.querySelector('.date');
-                dom.Element? likes = element.querySelector('.likes');
-                dom.Element? views = element.querySelector('.views');
+                dom.Element? writer = element.querySelector('.post-writer');
+                dom.Element? title = element.querySelector('.post-title');
+                dom.Element? category = element.querySelector('.post-category');
+                dom.Element? date = element.querySelector('.post-date');
+                dom.Element? likes = element.querySelector('.post-likes');
+                dom.Element? views = element.querySelector('.post-views');
                 dom.Element? id = element.querySelector('.post-id');
-                dom.Element? realDate = element.querySelector('.realDate');
+                dom.Element? realDate = element.querySelector('.post-dateSS');
+                dom.Element? comments = element.querySelector('.post-comments');
                 customKeywords.add({
                   'writer': writer?.text,
-                  'title':
-                  title?.text.substring(0, title.text.lastIndexOf('(')),
+                  'title': title?.text,
                   'category': category?.text,
                   'realDate': realDate?.text,
                   'date': current == date?.text.substring(0, 10)
@@ -313,9 +310,7 @@ Future fetch(String communityCategory, bool readPost) async {
                       : date?.text = date.text.substring(2, 10),
                   'likes': likes?.text,
                   'views': views?.text,
-                  'comments': title?.text.substring(
-                      title.text.lastIndexOf('(') + 1,
-                      title.text.lastIndexOf(')')),
+                  'comments': comments?.text.substring(1),
                   'id': id?.text,
                   'communityCategory': boardCategory[categoryIndexController.categoryIndex.value]
                 });
@@ -382,17 +377,19 @@ Future fetch(String communityCategory, bool readPost) async {
         } else {
           /*dom.Element? communityCategory = document.querySelector("community-category");*/
           for (var element in keywordElements) {
-            dom.Element? writer = element.querySelector('.writer');
-            dom.Element? title = element.querySelector('.title-f-sort');
-            dom.Element? category = element.querySelector('.f-filter-color-b');
-            dom.Element? date = element.querySelector('.date');
-            dom.Element? likes = element.querySelector('.likes');
-            dom.Element? views = element.querySelector('.views');
+            dom.Element? writer = element.querySelector('.post-writer');
+            dom.Element? title = element.querySelector('.post-title');
+            dom.Element? category = element.querySelector('.post-category');
+            dom.Element? date = element.querySelector('.post-date');
+            dom.Element? likes = element.querySelector('.post-likes');
+            dom.Element? views = element.querySelector('.post-views');
             dom.Element? id = element.querySelector('.post-id');
-            dom.Element? realDate = element.querySelector('.date');
+            dom.Element? realDate = element.querySelector('.post-dateSS');
+            dom.Element? comments = element.querySelector('.post-comments');
+
             keywords.add({
               'writer': writer?.text,
-              'title': title?.text.substring(0, title.text.lastIndexOf('(')),
+              'title': title?.text,
               'category': category?.text,
               'realDate': realDate?.text,
               'date': current == date?.text.substring(0, 10)
@@ -400,8 +397,7 @@ Future fetch(String communityCategory, bool readPost) async {
                   : date?.text = date.text.substring(2, 10),
               'likes': likes?.text,
               'views': views?.text,
-              'comments': title?.text.substring(
-                  title.text.lastIndexOf('(') + 1, title.text.lastIndexOf(')')),
+              'comments': comments?.text.substring(1),
               'id': id?.text,
               'communityCategory': communityCategory
             });
