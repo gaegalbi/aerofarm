@@ -24,7 +24,7 @@ import java.util.List;
 public class PostController {
     private final PostService postService;
 
-    // 게시판 글 목록
+    // 커뮤니티 메인 페이지
     @GetMapping("/community/{category}")
     public String community(@PathVariable String category, Model model, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "title") String searchCategory, @RequestParam(defaultValue = "%") String keyword, @RequestParam(defaultValue = "all") String filter) {
 
@@ -38,7 +38,7 @@ public class PostController {
         Page<PostDto> postInfo = postService.findPostInfo(postCategory, searchCategory, keyword, postFilter, page);
         PageableList<PostDto> pageableList = new PageableList<>(postInfo);
 
-        List<PostDto> answerPostInfo = postService.findAnswerInfo(postCategory, searchCategory, keyword, postFilter);
+        List<PostDto> answerPostInfo = postService.findAnswerPostInfo(postCategory, searchCategory, keyword, postFilter);
 
         model.addAttribute("pageableList", pageableList);       // 시초 게시글
         model.addAttribute("selectCategory", postCategory);     // 카테고리
@@ -47,7 +47,7 @@ public class PostController {
         return "/community/communityPage";
     }
 
-    // 게시물 보기 페이지
+    // 선택된 게시글 페이지
     @GetMapping("/community/{category}/{postId}")
     public String community_detail(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable String category, @PathVariable Long postId, Model model, @RequestParam(defaultValue = "1") Integer page) {
         if (page < 1) page = 1;
@@ -62,10 +62,14 @@ public class PostController {
         List<PostLikeDto> postLikeInfo = postService.findLikeInfo(post.getId());
 
         Long userId = null;
-        if (userDetails != null) userId = userDetails.getMember().getId();
+        if (userDetails != null) {
+            userId = userDetails.getMember().getId();
+        }
         List<PostLike> isSelect = postService.isMemberSelectInfo(userId, postId);
 
-        if (postLikeInfo.size() == 0) postLikeInfo.add(new PostLikeDto(post.getId(), 0L));
+        if (postLikeInfo.size() == 0) {
+            postLikeInfo.add(new PostLikeDto(post.getId(), 0L));
+        }
 
         model.addAttribute("postInfo", post);
         model.addAttribute("pageableList", pageableList);
@@ -81,19 +85,33 @@ public class PostController {
     // 글쓰기 페이지
     @GetMapping("/writing")
     @PreAuthorize("hasAnyAuthority('GUEST')")
-    public String community_writing(@RequestParam(required = false) Long postId, Model model) {
+    public String community_writing(@RequestParam(required = false) Long postId, @RequestParam(required = false) Long id, Model model) {
 
-        if (postId != null) {
-            Post post = postService.selectPost(postId);
-            model.addAttribute("postFilter", post.getFilter().getLowerCase());
-            model.addAttribute("postCategory", post.getCategory().getLowerCase());
-            model.addAttribute("postTitle", post.getTitle());
-            model.addAttribute("selectPostId", postId);
+        PostForm postForm = new PostForm();
+        Post post;
+        if (postId != null) {               // 게시글의 답글
+            post = postService.selectPost(postId);
+            postForm.setPostId(postId);
+            postForm.setCategory(post.getCategory().getLowerCase());
+            postForm.setFilter(post.getFilter().getLowerCase());
+            postForm.setTitle("Re:" + post.getTitle());
+        } else if (id != null) {            // 게시글 수정
+            post = postService.selectPost(id);
+            postForm.setPostId(postId);
+            postForm.setCategory(post.getCategory().getLowerCase());
+            postForm.setFilter(post.getFilter().getLowerCase());
+            postForm.setTitle(post.getTitle());
+            postForm.setContents(post.getContent().getContents());
         }
+        model.addAttribute("myId", id);
+        model.addAttribute("selectPostId", postId);
+        model.addAttribute("savePostForm", postForm);       // 아무 조건도 일치하지 않으면 새 글 작성
         return "/community/writingPage";
     }
 
-    // 글쓰기 로직
+    /*--------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+    // 게시글 등록
     @ResponseBody
     @PostMapping("/createBasicPost")
     @PreAuthorize("hasAnyAuthority('GUEST')")
@@ -101,28 +119,52 @@ public class PostController {
         return postService.createBasicPost(userDetails.getMember(), postForm).getId();
     }
 
-    // 답글 쓰기 로직
+    // 답글 등록
     @ResponseBody
-    @PostMapping("/createAnswerPost/{postId}")
+    @PostMapping("/createAnswerPost")
     @PreAuthorize("hasAnyAuthority('GUEST')")
-    public Long createAnswerPost(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody PostForm postForm, @PathVariable Long postId) {
-        return postService.createAnswerPost(userDetails.getMember(), postForm, postId).getId();
+    public Long createAnswerPost(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody PostForm postForm) {
+        return postService.createAnswerPost(userDetails.getMember(), postForm).getId();
     }
-    
+
+    // 게시글 안에서 댓글 등록
+    @ResponseBody
+    @PostMapping("/createComment")
+    @PreAuthorize("hasAnyAuthority('GUEST')")
+    public Long createComment(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody CommentForm commentForm) {
+        return postService.createComment(userDetails.getMember(), commentForm).getId();
+    }
+
+    // 게시글 안에서 댓글의 답글 등록
+    @ResponseBody
+    @PostMapping("/createAnswerComment")
+    @PreAuthorize("hasAnyAuthority('GUEST')")
+    public Long createAnswerComment(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody CommentForm commentForm) {
+//        return postService.createAnswerComment(userDetails.getMember(), commentForm).getId();
+        return 1L;
+    }
+
+    // 좋아요 등록
+    @ResponseBody
+    @PostMapping("/createLike")
+    @PreAuthorize("hasAnyAuthority('GUEST')")
+    public Long createLike(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody PostLikeDto postLikeDto) {
+        return postService.createLike(userDetails.getMember(), postLikeDto).getId();
+    }
+
+    // 게시글 수정
+    @ResponseBody
+    @PostMapping("/updatePost")
+    public Long updatePost(@RequestBody PostForm postForm) {
+        return postService.updatePost(postForm).getId();
+    }
+
     // 게시글 삭제(soft)
     @ResponseBody
     @PostMapping("/deletePost")
     public Long deletePost(@RequestBody PostDto postDto) {
         postService.deletePost(postDto.getId());
         return postDto.getId();
-    }
-
-    // 게시글 안에서 댓글쓰기
-    @ResponseBody
-    @PostMapping("/createComment")
-    @PreAuthorize("hasAnyAuthority('GUEST')")
-    public Long createComment(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody CommentForm commentForm) {
-        return postService.createComment(userDetails.getMember(), commentForm).getId();
     }
 
     // 댓글 삭제 (soft)
@@ -133,15 +175,7 @@ public class PostController {
         return commentDto.getId();
     }
 
-    // 좋아요 로직
-    @ResponseBody
-    @PostMapping("/createLike")
-    @PreAuthorize("hasAnyAuthority('GUEST')")
-    public Long createLike(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody PostLikeDto postLikeDto) {
-        return postService.createLike(userDetails.getMember(), postLikeDto).getId();
-    }
-
-    // 좋아요 취소 로직
+    // 좋아요 취소
     @ResponseBody
     @PostMapping("/deleteLike")
     @PreAuthorize("hasAnyAuthority('GUEST')")

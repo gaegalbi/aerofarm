@@ -84,6 +84,7 @@
                 <button type="button" class="btn btn-danger button-margin" th:id="${postInfo.getId()}" onclick="deletePost(this.id)" th:if="${user == postInfo.getWriter().getId() and !postInfo.isDeleteTnF()}" th:text="삭제"/>
             </div>
             <div class="col-lg-6 col-sm-12 text-lg-end" id="like-area">
+                <button type="button" class="btn btn-secondary button-margin" th:onclick="|location.href='@{/writing?id={postId}(postId=${selectPost.id})}'|" th:text="수정" th:if="${user == postInfo.getWriter().getId() and !postInfo.isDeleteTnF()}"/>
                 <button type="button" class="btn btn-secondary button-margin" th:onclick="|location.href='@{/writing?postId={postId}(postId=${selectPost.id})}'|" th:text="답글"/>
                 <input type="checkbox" class="btn-check" id="likeButton" th:checked="${isSelected == 1}">
                 <label class="btn btn-outline-danger button-margin bi-heart" for="likeButton" th:text="' ' + ${postLikeInfo.getLikeCount()}"/><br>
@@ -117,7 +118,7 @@
             </div>
             <!--게시글 내용 영역-->
             <div class="post-content">
-                <span th:utext="${postInfo.isDeleteTnF()} ? '삭제 처리된 게시글입니다.' : ${selectPost.contents}"></span>
+                <span th:utext="${postInfo.isDeleteTnF()} ? '삭제 처리된 게시글입니다.' : ${selectPost.contents}"/>
             </div>
             <!--댓글 영역-->
             <div id="comment-area">
@@ -125,7 +126,9 @@
                     <div class="input-group" style="padding-bottom: 20px">
                         <span class="input-group-text">댓글</span>
                         <textarea class="form-control" aria-label="comment" id="comment"></textarea>
-                        <button type="button" class="btn btn-secondary" style="margin-left: 10px" id="btn-createComment" th:text="쓰기"/>
+                        <button type="button" class="btn btn-secondary" style="margin-left: 10px" id="btn-createBasicComment" th:text="쓰기"/>
+<!--                        <button type="button" class="btn btn-secondary" style="margin-left: 10px" id="btn-createAnswerComment" th:utext="'답글<br>쓰기'"/>-->
+<!--                        <button type="button" class="btn btn-secondary" style="margin-left: 10px" onclick="" th:text="취소"/>-->
                     </div>
                     <div class="row" th:each="commentDto : ${pageableList.getContent()}">
                         <div class="col-6 text-lg-start">
@@ -199,9 +202,9 @@
 </div>
 <div th:replace="~{fragments/footer :: footer}"/>
 
+<script src="/js/community/eventsComment.js"></script>
 <script src="/js/community/eventsLike.js"></script>
 <script src="/js/community/deletePost.js"></script>
 <script src="/js/community/deleteComment.js"></script>
-<script src="/js/community/createComment.js"></script>
 </body>
 </html>

@@ -156,7 +156,6 @@
                             <p class="fieldError" th:text="${#request.getAttribute('error')}"> 에러 </p>
                         </div>
                         <form action="/login" method="post" th:object="${loginForm}">
-                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                             <label for="email" class="form-label"><small
                                     class="text-muted">EMAIL ADDRESS</small></label>
                             <div class="mb-3 input-div">
