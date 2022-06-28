@@ -13,6 +13,7 @@ import yj.capstone.aerofarm.dto.CartDto;
 import yj.capstone.aerofarm.dto.CheckoutCompleteDto;
 import yj.capstone.aerofarm.dto.OrderInfoDto;
 import yj.capstone.aerofarm.dto.ProductCartDto;
+import yj.capstone.aerofarm.dto.response.AdminOrderListResponseDto;
 import yj.capstone.aerofarm.form.CheckoutForm;
 import yj.capstone.aerofarm.repository.OrderRepository;
 
@@ -98,5 +99,9 @@ public class OrderService {
         checkoutCompleteDto.getProductCartDtos().addAll(collect);
 
         return checkoutCompleteDto;
+    }
+
+    public Page<AdminOrderListResponseDto> findAdminOrderListDto(Pageable pageable) {
+        return orderRepository.findAdminOrderListDto(pageable);
     }
 }

@@ -18,11 +18,6 @@ public class MemberListResponseDto {
         this.id = id;
         this.email = email;
         this.nickname = nickname;
-
-        this.createdDate = converseDate(createdDate);
-    }
-
-    private String converseDate(LocalDateTime createdDate) {
-        return createdDate.format(DateTimeFormatter.ISO_LOCAL_DATE);
+        this.createdDate = createdDate.format(DateTimeFormatter.ISO_LOCAL_DATE);
     }
 }
