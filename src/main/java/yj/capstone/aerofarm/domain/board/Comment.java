@@ -61,6 +61,14 @@ public class Comment extends BaseEntity {
         this.content = commentForm.getContent();
     }
 
+    @Builder(builderClassName = "CommentAnswerBuilder", builderMethodName = "commentAnswerBuilder")
+    public Comment(CommentForm commentForm, Post selectPost, Member writer, Comment parent) {
+        this.post = selectPost;
+        this.writer = writer;
+        this.content = commentForm.getContent();
+        this.parent = parent;
+    }
+
     public void updateDeleteTnF(boolean deleteTnF) {
         this.deleteTnF = deleteTnF;
     }

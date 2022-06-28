@@ -1,7 +1,5 @@
 function deletePost(postId) {
 
-    let token = $("meta[name='_csrf']").attr("content");
-    let header = $("meta[name='_csrf_header']").attr("content");
     let data = {
         // id: $('#btn-deleteComment').val()
         id: postId
@@ -12,10 +10,6 @@ function deletePost(postId) {
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',
         data: JSON.stringify(data),
-        beforeSend : function(xhr)
-        {
-            xhr.setRequestHeader(header, token); // CSRF
-        },
     }).done(function () {
         alert('게시글이 삭제 처리 되었습니다.');
         window.location.href ='/community/' + $('#post-category').val() + '/' + $('#post-id').val();
