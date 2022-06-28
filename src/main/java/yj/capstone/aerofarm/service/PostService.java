@@ -33,6 +33,7 @@ public class PostService {
         Post post = Post.postBuilder()
                 .postForm(postForm)
                 .writer(writer)
+                .groupId(postRepository.findMaxGroupIdInfo()+1)
                 .build();
 
         postRepository.save(post);
@@ -44,6 +45,7 @@ public class PostService {
         Post post = Post.postParentBuilder()
                 .postForm(postForm)
                 .writer(writer)
+                .groupId(selectPost(postForm.getPostId()).getGroupId())
                 .parent(selectPost(postForm.getPostId()))
                 .build();
 
