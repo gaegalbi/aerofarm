@@ -133,7 +133,6 @@
                         <div class="col-6 text-lg-start">
                             <img src="/image/test_icon.png" class="rounded-circle" style="width: 40px; height: 40px">
                             <span class="comment-basic comment-writer" th:utext="${commentDto.isDeleteTnF()} ? '( 삭제 )' : '&lt;b&gt;' + ${commentDto.getWriter()} + '&lt;/b&gt; ' + ${#temporals.format(commentDto.getLocalDateTime(), '( yyyy.MM.dd HH:mm )')}"/>
-<!--                            <span class="comment-basic" th:utext="${commentDto.isDeleteTnF()} ? ' ' :  ${#temporals.format(commentDto.getLocalDateTime(), '( yyyy.MM.dd HH:mm )')}"/>-->
                             <span class="comment-date" style="display: none" th:utext="${#temporals.format(commentDto.getLocalDateTime(), 'yyyy.MM.dd HH:mm:ss')}"/>
                         </div>
                         <div class="col-6 text-lg-end">
