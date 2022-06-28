@@ -30,10 +30,15 @@ public class PostService {
     // 게시글 등록
     public Post createBasicPost(Member writer, PostForm postForm) {
 
+        int max = 0;
+        if (postRepository.findMaxGroupIdInfo() != null) {
+            max = postRepository.findMaxGroupIdInfo();
+        }
+
         Post post = Post.postBuilder()
                 .postForm(postForm)
                 .writer(writer)
-                .groupId(postRepository.findMaxGroupIdInfo()+1)
+                .groupId(max + 1)
                 .build();
 
         postRepository.save(post);
@@ -57,11 +62,16 @@ public class PostService {
     public Comment createComment(Member writer, CommentForm commentForm) {
         Post post = postRepository.findById(commentForm.getPostId()).orElseThrow(() -> null);
 
+        int max = 0;
+        if (commentRepository.findMaxGroupIdInfo() != null) {
+            max = commentRepository.findMaxGroupIdInfo();
+        }
+
         Comment comment = Comment.commentBuilder()
                 .commentForm(commentForm)
                 .selectPost(post)
                 .writer(writer)
-                .groupId(commentRepository.findMaxGroupIdInfo()+1)
+                .groupId(max + 1)
                 .build();
 
         commentRepository.save(comment);
