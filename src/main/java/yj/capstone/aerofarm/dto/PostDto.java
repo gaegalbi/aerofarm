@@ -25,6 +25,7 @@ public class PostDto {
     private Long commentCount;
     private Long likeCount;
     private Long parentId;
+    private int groupId;
     private boolean deleteTnF;
 
     @Builder
@@ -38,7 +39,7 @@ public class PostDto {
     }
 
     @QueryProjection
-    public PostDto(Long id, String title, String writer, PostCategory category, PostFilter filter, int views, LocalDateTime createDate, Long commentCount, Long likeCount, Long parentId, boolean deleteTnF) {
+    public PostDto(Long id, String title, String writer, PostCategory category, PostFilter filter, int views, LocalDateTime createDate, Long commentCount, Long likeCount, Long parentId, int groupId, boolean deleteTnF) {
         this.id = id;
         this.title = title;
         this.writer = writer;
@@ -49,6 +50,7 @@ public class PostDto {
         this.commentCount = commentCount;
         this.likeCount = likeCount;
         this.parentId = parentId;
+        this.groupId = groupId;
         this.deleteTnF = deleteTnF;
     }
 }

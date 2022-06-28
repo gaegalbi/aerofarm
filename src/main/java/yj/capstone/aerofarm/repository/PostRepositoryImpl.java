@@ -48,6 +48,7 @@ public class PostRepositoryImpl extends Querydsl5RepositorySupport implements Po
                                                         .groupBy(postLikeSub.post)
                                                         .having(postLikeSub.post.eq(post)), "likeCount"),
                                         post.parent.id,
+                                        post.groupId,
                                         post.deleteTnF))
                         .from(post)
                         .where(
@@ -94,6 +95,7 @@ public class PostRepositoryImpl extends Querydsl5RepositorySupport implements Po
                                 .groupBy(postLikeSub.post)
                                 .having(postLikeSub.post.eq(post)), "likeCount"),
                 post.parent.id,
+                post.groupId,
                 post.deleteTnF))
                 .from(post)
                 .where(
@@ -102,7 +104,6 @@ public class PostRepositoryImpl extends Querydsl5RepositorySupport implements Po
                         filterEq(postFilter),
                         post.parent.id.isNotNull()
                 )
-                .orderBy(post.createdDate.desc())
                 .fetch();
     }
 
