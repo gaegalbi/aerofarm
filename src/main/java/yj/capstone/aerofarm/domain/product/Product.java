@@ -33,6 +33,11 @@ public class Product extends BaseEntity {
 
     private String imageUrl;
 
+    // 판매량
+    @Embedded
+    @AttributeOverride(name ="stock", column = @Column(name = "saleCount"))
+    private Stock saleCount;
+
     @Enumerated(EnumType.STRING)
     private ProductCategory category;
 
@@ -50,6 +55,7 @@ public class Product extends BaseEntity {
         stock = new Stock(saveProductForm.getStock());
         contents = new ProductDetail(saveProductForm.getProductDetail());
         category = saveProductForm.getCategory();
+        saleCount = new Stock(0);
     }
 
     public void changeImage(String imageUrl) {
@@ -58,6 +64,7 @@ public class Product extends BaseEntity {
 
     public void increaseStock(int quantity) {
         stock = stock.increaseStock(quantity);
+        saleCount = saleCount.decreaseStock(quantity);
     }
 
     public void decreaseStock(int quantity) {
@@ -66,5 +73,6 @@ public class Product extends BaseEntity {
             throw new NotEnoughStockException("재고가 부족합니다.");
         }
         stock = stock.decreaseStock(quantity);
+        saleCount = saleCount.increaseStock(quantity);
     }
 }

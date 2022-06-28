@@ -17,9 +17,9 @@ values (2, 'GUEST');
 insert into product_detail (contents)
 values ('<p>haha</p>');
 
-insert into product (created_date, modified_date, category, contents_id, image_url, name, price, stock)
+insert into product (created_date, modified_date, category, contents_id, image_url, name, price, stock, sale_count)
 values ('2022-06-25 21:06:24.599072', '2022-06-25 21:06:24.599072', 'DEVICE', 1,
-        'https://via.placeholder.com/400x500', 'qqc', 100, 100);
+        'https://via.placeholder.com/400x500', 'qqc', 100, 100, 0);
 
 -- insert into PRODUCT (NAME, PRICE, STOCK, CATEGORY) values ( 'Apple', 1000, 100, 'ETC');
 -- insert into PRODUCT (NAME, PRICE, STOCK, CATEGORY) values ( 'Pear', 1000, 100, 'ETC');

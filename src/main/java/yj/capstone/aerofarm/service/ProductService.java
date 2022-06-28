@@ -12,6 +12,7 @@ import yj.capstone.aerofarm.domain.product.ProductReview;
 import yj.capstone.aerofarm.dto.ProductReviewDto;
 import yj.capstone.aerofarm.dto.ProductStoreInfoDto;
 import yj.capstone.aerofarm.dto.StoreReviewDto;
+import yj.capstone.aerofarm.dto.response.ProductAdminListResponseDto;
 import yj.capstone.aerofarm.form.SaveProductForm;
 import yj.capstone.aerofarm.repository.ProductRepository;
 
@@ -70,5 +71,9 @@ public class ProductService {
                     .build();
 //            productRepository.save(pro)
         }
+    }
+
+    public Page<ProductAdminListResponseDto> findAdminProductList(Pageable pageable) {
+        return productRepository.findProductAdminList(pageable);
     }
 }

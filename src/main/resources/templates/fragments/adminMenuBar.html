@@ -12,6 +12,10 @@
                class="list-group-item list-group-item-primary list-group-item-action">
                 상품 등록
             </a>
+            <a href="/admin/product" id="productManage"
+               class="list-group-item list-group-item-primary list-group-item-action">
+                상품 목록
+            </a>
             <a href="/admin/order-list" id="orderList"
                class="rounded-bottom list-group-item list-group-item-primary list-group-item-action">
                 주문 목록
@@ -28,6 +32,9 @@
                     break;
                 case '/admin/order-list':
                     document.getElementById('orderList').classList.add('active');
+                    break;
+                case '/admin/product':
+                    document.getElementById('productManage').classList.add('active');
                     break;
             }
         </script>
