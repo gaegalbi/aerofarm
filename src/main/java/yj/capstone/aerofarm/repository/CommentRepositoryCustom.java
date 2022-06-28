@@ -12,4 +12,5 @@ public interface CommentRepositoryCustom {
 
     Page<CommentDto> findCommentInfo(Post post, Pageable pageable);
     List<CommentDto> findAnswerCommentInfo(Post post);
+    Integer findMaxGroupIdInfo();
 }

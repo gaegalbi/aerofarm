@@ -55,18 +55,20 @@ public class Comment extends BaseEntity {
 //    private List<File> files = new ArrayList<>();
 
     @Builder(builderClassName = "CommentBuilder", builderMethodName = "commentBuilder")
-    public Comment(CommentForm commentForm, Post selectPost, Member writer) {
+    public Comment(CommentForm commentForm, Post selectPost, Member writer, int groupId) {
         this.post = selectPost;
         this.writer = writer;
         this.content = commentForm.getContent();
+        this.groupId = groupId;
     }
 
     @Builder(builderClassName = "CommentAnswerBuilder", builderMethodName = "commentAnswerBuilder")
-    public Comment(CommentForm commentForm, Post selectPost, Member writer, Comment parent) {
+    public Comment(CommentForm commentForm, Post selectPost, Member writer, Comment parent, int groupId) {
         this.post = selectPost;
         this.writer = writer;
         this.content = commentForm.getContent();
         this.parent = parent;
+        this.groupId = groupId;
     }
 
     public void updateDeleteTnF(boolean deleteTnF) {

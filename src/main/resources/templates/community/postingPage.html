@@ -121,14 +121,13 @@
                 <span th:utext="${postInfo.isDeleteTnF()} ? '삭제 처리된 게시글입니다.' : ${selectPost.contents}"/>
             </div>
             <!--댓글 영역-->
+            <input type="hidden" id="edit-type" value="0">
             <div id="comment-area">
                 <div class="post-comment">
                     <div class="input-group" style="padding-bottom: 20px">
                         <span class="input-group-text">댓글</span>
                         <textarea class="form-control" aria-label="comment" id="comment"></textarea>
                         <button type="button" class="btn btn-secondary" style="margin-left: 10px" id="btn-createBasicComment" th:text="쓰기"/>
-<!--                        <button type="button" class="btn btn-secondary" style="margin-left: 10px" id="btn-createAnswerComment" th:utext="'답글<br>쓰기'"/>-->
-<!--                        <button type="button" class="btn btn-secondary" style="margin-left: 10px" onclick="" th:text="취소"/>-->
                     </div>
                     <div class="row" th:each="commentDto : ${pageableList.getContent()}">
                         <div class="col-6 text-lg-start">
@@ -201,7 +200,6 @@
     </main>
 </div>
 <div th:replace="~{fragments/footer :: footer}"/>
-
 <script src="/js/community/eventsComment.js"></script>
 <script src="/js/community/eventsLike.js"></script>
 <script src="/js/community/deletePost.js"></script>

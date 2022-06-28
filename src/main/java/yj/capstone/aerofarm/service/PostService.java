@@ -55,12 +55,13 @@ public class PostService {
 
     // 댓글 등록
     public Comment createComment(Member writer, CommentForm commentForm) {
-        Post postId = postRepository.findById(commentForm.getPostId()).orElseThrow(() -> null);
+        Post post = postRepository.findById(commentForm.getPostId()).orElseThrow(() -> null);
 
         Comment comment = Comment.commentBuilder()
                 .commentForm(commentForm)
-                .selectPost(postId)
+                .selectPost(post)
                 .writer(writer)
+                .groupId(commentRepository.findMaxGroupIdInfo()+1)
                 .build();
 
         commentRepository.save(comment);
