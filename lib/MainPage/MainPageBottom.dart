@@ -13,7 +13,6 @@ class MainPageBottom extends StatefulWidget {
 }
 
 class _MainPageBottomState extends State<MainPageBottom> {
-  //final beforeRouteController = Get.put(BeforeRouteController());
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -61,7 +60,6 @@ class _MainPageBottomState extends State<MainPageBottom> {
                   color: MainColor.three,
                   child: TextButton(
                     onPressed: () {
-                      //beforeRouteController.setBefore('all');
                       Get.off(()=> const CommunityPageForm(category:'all'));//beforeRouteController.before.value));
                     },
                     child: const Text(

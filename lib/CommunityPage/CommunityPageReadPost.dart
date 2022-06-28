@@ -343,6 +343,8 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                     ],
                                   ),
                                 ) : InkWell(
+                                   splashColor: Colors.transparent,
+                                   highlightColor: Colors.transparent,
                                    onTap: (){
                                      Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before,));
                                    },

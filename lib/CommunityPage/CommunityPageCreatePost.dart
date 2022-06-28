@@ -26,12 +26,14 @@ class CommunityPageCreatePost extends StatefulWidget {
 
 class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
     with TickerProviderStateMixin {
-  final List<String> value = ["자유 게시판", "질문 게시판", "정보 게시판", "사진 게시판", "거래 게시판"];
+  final List<String> categoryValue = ["자유 게시판", "질문 게시판", "정보 게시판", "사진 게시판", "거래 게시판"];
+  final List<String> classValue = ["일반","취미","게임","일상","여행"];
 
   final double floatingBarSize = 60;
   final double contentPadding = 30;
   double contentBottomPadding = 30;
   String groupValue = "게시판 선택";
+  String classificationValue = "분류 선택";
 
   late ScrollController _scrollController;
   late ScrollController _scrollController1;
@@ -44,6 +46,13 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
     "질문 게시판": "question",
     "사진 게시판": "picture",
     "거래 게시판": "trade"
+  };
+  final Map<String, String> korToEngClass = {
+    "일반": "normal",
+    "취미": "hobby",
+    "게임": "game",
+    "일상": "daily",
+    "여행": "travel"
   };
 
   late FocusNode titleFocus;
@@ -146,7 +155,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                       Get.offAll(() => CommunityPageForm(category: widget.id));
                     }
                   } else {
-                    if (korToEngCategory[groupValue] == null ||
+                    if (korToEngCategory[groupValue] == null ||korToEngClass[classificationValue] == null ||
                         _titleController.text.isEmpty ||
                         _controller.getText().toString().length == 1) {
                       /*_controller.document.toPlainText().length==1){*/
@@ -161,7 +170,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                               backgroundColor: Colors.transparent,
                               contentPadding: EdgeInsets.all(5),
                               content: Text(
-                                "게시판 종류,제목,내용이\n있어야합니다.",
+                                "게시판 종류,분류,제목,내용이\n있어야합니다.",
                                 style: TextStyle(fontSize: 28),
                                 textAlign: TextAlign.center,
                               ),
@@ -171,6 +180,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                       final txt = await _controller.getText();
                       data = {
                         "category": korToEngCategory[groupValue],
+                        "filter":korToEngClass[classificationValue],
                         "title": _titleController.text,
                         "contents": txt,
                       };
@@ -308,8 +318,8 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                                 RadioButton(
                                                   contentPadding:
                                                       contentPadding,
-                                                  description: value[0],
-                                                  value: value[0],
+                                                  description: categoryValue[0],
+                                                  value: categoryValue[0],
                                                   groupValue: groupValue,
                                                   onChanged: (value) =>
                                                       setState(() {
@@ -324,8 +334,8 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                                 RadioButton(
                                                   contentPadding:
                                                       contentPadding,
-                                                  description: value[1],
-                                                  value: value[1],
+                                                  description: categoryValue[1],
+                                                  value: categoryValue[1],
                                                   groupValue: groupValue,
                                                   onChanged: (value) =>
                                                       setState(() {
@@ -340,8 +350,8 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                                 RadioButton(
                                                   contentPadding:
                                                       contentPadding,
-                                                  description: value[2],
-                                                  value: value[2],
+                                                  description: categoryValue[2],
+                                                  value: categoryValue[2],
                                                   groupValue: groupValue,
                                                   onChanged: (value) =>
                                                       setState(() {
@@ -356,8 +366,8 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                                 RadioButton(
                                                   contentPadding:
                                                       contentPadding,
-                                                  description: value[3],
-                                                  value: value[3],
+                                                  description: categoryValue[3],
+                                                  value: categoryValue[3],
                                                   groupValue: groupValue,
                                                   onChanged: (value) =>
                                                       setState(() {
@@ -372,8 +382,8 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                                 RadioButton(
                                                   contentPadding:
                                                       contentPadding,
-                                                  description: value[4],
-                                                  value: value[4],
+                                                  description: categoryValue[4],
+                                                  value: categoryValue[4],
                                                   groupValue: groupValue,
                                                   onChanged: (value) =>
                                                       setState(() {
@@ -453,6 +463,219 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                     );
                                   },
                                 )),
+                        Builder(
+                            builder: (context) => TextButton(
+                              style: const ButtonStyle(
+                                splashFactory: NoSplash.splashFactory,
+                                overlayColor: null,
+                              ),
+                              child: Container(
+                                width:
+                                MediaQuery.of(context).size.width * 0.8,
+                                padding: EdgeInsets.only(
+                                    bottom:
+                                    MediaQuery.of(context).size.height *
+                                        0.006),
+                                decoration: const BoxDecoration(
+                                    border: Border(
+                                      bottom: BorderSide(
+                                          width: 1, color: Colors.white),
+                                    )),
+                                child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      classificationValue,
+                                      style: CommunityPageTheme.boardDrawer,
+                                    ),
+                                    const Icon(
+                                      Icons.arrow_drop_down,
+                                      color: Colors.white,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              onPressed: () {
+                                showModalBottomSheet(
+                                  isScrollControlled: true,
+                                  context: context,
+                                  builder: (_) {
+                                    return Container(
+                                      color: MainColor.six,
+                                      height: MediaQuery.of(context)
+                                          .size
+                                          .height *
+                                          0.9,
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          children: <Widget>[
+                                            const Icon(
+                                              Icons.remove,
+                                              color: Colors.white,
+                                              size: 60,
+                                            ),
+                                            Container(
+                                              alignment:
+                                              Alignment.centerLeft,
+                                              margin: EdgeInsets.only(
+                                                  bottom: 15, left: 30),
+                                              child: const Text(
+                                                "게시판 선택",
+                                                style: TextStyle(
+                                                    fontFamily: "bmPro",
+                                                    fontSize: 30,
+                                                    color: MainColor.three),
+                                              ),
+                                            ),
+                                            RadioButton(
+                                              contentPadding:
+                                              contentPadding,
+                                              description: classValue[0],
+                                              value: classValue[0],
+                                              groupValue:  classificationValue,
+                                              onChanged: (value) =>
+                                                  setState(() {
+                                                    classificationValue =
+                                                    value as String;
+                                                    Get.back();
+                                                  }),
+                                              activeColor: MainColor.three,
+                                              textStyle: CommunityPageTheme
+                                                  .checkBoxFont,
+                                            ),
+                                            RadioButton(
+                                              contentPadding:
+                                              contentPadding,
+                                              description: classValue[1],
+                                              value: classValue[1],
+                                              groupValue:   classificationValue,
+                                              onChanged: (value) =>
+                                                  setState(() {
+                                                    classificationValue =
+                                                    value as String;
+                                                    Get.back();
+                                                  }),
+                                              activeColor: MainColor.three,
+                                              textStyle: CommunityPageTheme
+                                                  .checkBoxFont,
+                                            ),
+                                            RadioButton(
+                                              contentPadding:
+                                              contentPadding,
+                                              description: classValue[2],
+                                              value: classValue[2],
+                                              groupValue:   classificationValue,
+                                              onChanged: (value) =>
+                                                  setState(() {
+                                                    classificationValue =
+                                                    value as String;
+                                                    Get.back();
+                                                  }),
+                                              activeColor: MainColor.three,
+                                              textStyle: CommunityPageTheme
+                                                  .checkBoxFont,
+                                            ),
+                                            RadioButton(
+                                              contentPadding:
+                                              contentPadding,
+                                              description: classValue[3],
+                                              value: classValue[3],
+                                              groupValue:   classificationValue,
+                                              onChanged: (value) =>
+                                                  setState(() {
+                                                    classificationValue =
+                                                    value as String;
+                                                    Get.back();
+                                                  }),
+                                              activeColor: MainColor.three,
+                                              textStyle: CommunityPageTheme
+                                                  .checkBoxFont,
+                                            ),
+                                            RadioButton(
+                                              contentPadding:
+                                              contentPadding,
+                                              description: classValue[4],
+                                              value: classValue[4],
+                                              groupValue:   classificationValue,
+                                              onChanged: (value) =>
+                                                  setState(() {
+                                                    classificationValue =
+                                                    value as String;
+                                                    Get.back();
+                                                  }),
+                                              activeColor: MainColor.three,
+                                              textStyle: CommunityPageTheme
+                                                  .checkBoxFont,
+                                            ),
+                                            RadioButton(
+                                              contentPadding:
+                                              contentPadding,
+                                              description: "===",
+                                              value: "===0",
+                                              groupValue:   classificationValue,
+                                              activeColor: MainColor.three,
+                                              textStyle: CommunityPageTheme
+                                                  .checkBoxDisable,
+                                            ),
+                                            RadioButton(
+                                              contentPadding:
+                                              contentPadding,
+                                              description: "===",
+                                              value: "===1",
+                                              groupValue:   classificationValue,
+                                              activeColor: MainColor.three,
+                                              textStyle: CommunityPageTheme
+                                                  .checkBoxDisable,
+                                            ),
+                                            RadioButton(
+                                              contentPadding:
+                                              contentPadding,
+                                              description: "===",
+                                              value: "===2",
+                                              groupValue:   classificationValue,
+                                              activeColor: MainColor.three,
+                                              textStyle: CommunityPageTheme
+                                                  .checkBoxDisable,
+                                            ),
+                                            RadioButton(
+                                              contentPadding:
+                                              contentPadding,
+                                              description: "===",
+                                              value: "===3",
+                                              groupValue:  classificationValue,
+                                              activeColor: MainColor.three,
+                                              textStyle: CommunityPageTheme
+                                                  .checkBoxDisable,
+                                            ),
+                                            RadioButton(
+                                              contentPadding:
+                                              contentPadding,
+                                              description: "===",
+                                              value: "===4",
+                                              groupValue:   classificationValue,
+                                              activeColor: MainColor.three,
+                                              textStyle: CommunityPageTheme
+                                                  .checkBoxDisable,
+                                            ),
+                                            RadioButton(
+                                              contentPadding:
+                                              contentPadding,
+                                              description: "===",
+                                              value: "===5",
+                                              groupValue:   classificationValue,
+                                              activeColor: MainColor.three,
+                                              textStyle: CommunityPageTheme
+                                                  .checkBoxDisable,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                            )),
                         Container(
                           width: MediaQuery.of(context).size.width * 0.8,
                           decoration: const BoxDecoration(

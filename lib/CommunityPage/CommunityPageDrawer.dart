@@ -16,10 +16,7 @@ class CommunityPageDrawer extends StatefulWidget {
 
 class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
   late ScrollController _scrollController;
-  //final beforeRouteController = Get.find<BeforeRouteController>();
   final beforeRouteController = Get.put(BeforeRouteController());
-  //final setCategoryController = Get.put(SetCategoryController());
-  //final setCategoryController = Get.put(SetCategoryController());
 
   @override
   void initState() {
