@@ -61,6 +61,8 @@ public class PostController {
         PageableList<CommentDto> pageableList = new PageableList<>(commentInfo);    // 페이징
         List<PostLikeDto> postLikeInfo = postService.findLikeInfo(post.getId());
 
+        List<CommentDto> answerCommentInfo = postService.findAnswerCommentInfo(post);
+
         Long userId = null;
         if (userDetails != null) {
             userId = userDetails.getMember().getId();
@@ -71,6 +73,7 @@ public class PostController {
             postLikeInfo.add(new PostLikeDto(post.getId(), 0L));
         }
 
+        model.addAttribute("answerCommentInfo", answerCommentInfo);
         model.addAttribute("postInfo", post);
         model.addAttribute("pageableList", pageableList);
         model.addAttribute("selectPost", result);
