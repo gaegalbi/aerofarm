@@ -26,7 +26,6 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
   final pageIndexController = Get.put(PageIndexController());
   final categoryIndexController  = Get.put(CategoryIndexController());
   final setCategoryController  = Get.put(SetCategoryController());
-  final beforeRouteController = Get.put(BeforeRouteController());
   late ScrollController _scrollController;
   late ScrollController _categoryController;
   bool floating = false;
@@ -97,6 +96,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
             ? CommunityPageFloating(
                 keywords: {"communityCategory":widget.category},
                 type: 'Form',
+                before: widget.category,
               )
             : null,
         appBar: AppBar(

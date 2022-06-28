@@ -85,7 +85,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
           floating = !floating;
         });},
       child: Scaffold(
-          floatingActionButton: floating? CommunityPageFloating(keywords: widget.keywords, type: 'ReadPost',) : null,
+          floatingActionButton: floating? CommunityPageFloating(keywords: widget.keywords, type: 'ReadPost',before: widget.before,) : null,
           backgroundColor: MainColor.six,
           appBar: AppBar(
             centerTitle: true,

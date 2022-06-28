@@ -13,9 +13,10 @@ import 'CommunityPageForm.dart';
 class CommunityPageCreatePost extends StatefulWidget {
   final Map<String,dynamic> keywords;
   final String type;
+  final String before;
 
   const CommunityPageCreatePost(
-      {Key? key, required this.type, required this.keywords})
+      {Key? key, required this.type, required this.keywords, required this.before})
       : super(key: key);
 
   @override
@@ -63,6 +64,10 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
     _scrollController = ScrollController();
     _scrollController1 = ScrollController();
     _titleController = TextEditingController();
+    print(widget.keywords['communityCategory']);
+    print(widget.keywords['category']);
+    print(widget.keywords['title']);
+    print(widget.keywords['id']);
     super.initState();
   }
 
@@ -98,7 +103,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
             _controller.editorController?.clearFocus();
             _controller.disable();
             Future.delayed(const Duration(microseconds: 1), () {
-              Get.offAll(() => CommunityPageForm(category:widget.keywords['communityCategory']));
+              Get.offAll(() => CommunityPageForm(category:widget.before));
             });
           },
           icon: const Icon(Icons.close),
@@ -133,11 +138,12 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                             );
                           });
                     } else {
+                      final txt = await _controller.getText();
                       data = {
-                        "category": korToEngCategory[groupValue],
-                        "filter":korToEngClass[classificationValue],
-                        "title": _titleController.text,
-                        "contents": _controller.getText(),
+                        "category": widget.keywords['communityCategory'],
+                        "filter":korToEngClass[widget.keywords['category']],
+                        "title": widget.keywords['title'],
+                        "contents": txt,
                         "postId": widget.keywords['id'],
                       };
                       var body = json.encode(data);
