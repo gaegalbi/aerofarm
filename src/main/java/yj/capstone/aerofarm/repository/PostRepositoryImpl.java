@@ -106,6 +106,13 @@ public class PostRepositoryImpl extends Querydsl5RepositorySupport implements Po
                 .fetch();
     }
 
+    @Override
+    public Integer findMaxGroupIdInfo() {
+        return select(post.groupId.max())
+                .from(post)
+                .fetchOne();
+    }
+
     private BooleanExpression categoryEq(PostCategory category) {
         return category == null ? null : post.category.eq(category);
     }

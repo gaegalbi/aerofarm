@@ -67,22 +67,24 @@ public class Post extends BaseEntity {
     private boolean deleteTnF;
 
     @Builder(builderClassName = "PostBuilder", builderMethodName = "postBuilder")
-    public Post(PostForm postForm, Member writer) {
+    public Post(PostForm postForm, Member writer, int groupId) {
         this.writer = writer;
         this.title = postForm.getTitle();
         this.content = PostDetail.createPostDetail(postForm.getContents());
         this.category = PostCategory.findByLowerCase(postForm.getCategory());
         this.filter = PostFilter.findByLowerCase(postForm.getFilter());
+        this.groupId = groupId;
     }
 
     @Builder(builderClassName = "PostParentBuilder", builderMethodName = "postParentBuilder")
-    public Post(PostForm postForm, Member writer, Post parent) {
+    public Post(PostForm postForm, Member writer, Post parent, int groupId) {
         this.writer = writer;
         this.title = postForm.getTitle();
         this.content = PostDetail.createPostDetail(postForm.getContents());
         this.category = PostCategory.findByLowerCase(postForm.getCategory());
         this.filter = PostFilter.findByLowerCase(postForm.getFilter());
         this.parent = parent;
+        this.groupId = groupId;
     }
 
     public void updateViews(int views) {
