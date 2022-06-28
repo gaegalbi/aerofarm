@@ -1,27 +1,39 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../themeData.dart';
 import 'CommunityPageCreatePost.dart';
 
 class CommunityPageFloating extends StatelessWidget {
-  final String id;
+  final Map<String,dynamic> keywords;
   final String type;
-  final String title;
 
   const CommunityPageFloating(
-      {Key? key, required this.id, required this.type, required this.title})
+      {Key? key, required this.type, required this.keywords,})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Material(
+    return type == "ReadPost" ?
+    Material(
       shape: const CircleBorder(),
       clipBehavior: Clip.antiAlias,
-      color: Colors.indigo,
+      color: MainColor.three,
       child: IconButton(
           padding: EdgeInsets.zero,
           onPressed: () {
-            Get.to(() => CommunityPageCreatePost(id: id,type: type,title: title,));
+            Get.to(() => CommunityPageCreatePost(keywords:keywords, type: type,));
+          },
+          icon: const Text("답글"),
+    ),)
+     :Material(
+      shape: const CircleBorder(),
+      clipBehavior: Clip.antiAlias,
+      color: MainColor.three,
+      child: IconButton(
+          padding: EdgeInsets.zero,
+          onPressed: () {
+            Get.to(() => CommunityPageCreatePost(keywords:keywords, type: type,));
           },
           icon: Image.asset("assets/images/create.png")),
     );

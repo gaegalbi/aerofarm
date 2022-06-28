@@ -11,12 +11,11 @@ import '../LoginPage/LoginPageLogin.dart';
 import 'CommunityPageForm.dart';
 
 class CommunityPageCreatePost extends StatefulWidget {
-  final String id;
+  final Map<String,dynamic> keywords;
   final String type;
-  final String title;
 
   const CommunityPageCreatePost(
-      {Key? key, required this.id, required this.type, required this.title})
+      {Key? key, required this.type, required this.keywords})
       : super(key: key);
 
   @override
@@ -99,7 +98,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
             _controller.editorController?.clearFocus();
             _controller.disable();
             Future.delayed(const Duration(microseconds: 1), () {
-              Get.offAll(() => CommunityPageForm(category:widget.id));
+              Get.offAll(() => CommunityPageForm(category:widget.keywords['communityCategory']));
             });
           },
           icon: const Icon(Icons.close),
@@ -136,15 +135,15 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                     } else {
                       data = {
                         "category": korToEngCategory[groupValue],
+                        "filter":korToEngClass[classificationValue],
                         "title": _titleController.text,
                         "contents": _controller.getText(),
-                        /*"contents":_controller.document.toPlainText(),*/
-                        "postId": widget.id,
+                        "postId": widget.keywords['id'],
                       };
                       var body = json.encode(data);
                       await http.post(
                         Uri.http(
-                            ipv4, '/createAnswerPost/${widget.id}'),
+                            ipv4, '/createAnswerPost/${widget.keywords['id']}'),
                         headers: {
                           "Content-Type": "application/json",
                           "Cookie": "JSESSIONID=$session",
@@ -152,7 +151,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                         encoding: Encoding.getByName('utf-8'),
                         body: body,
                       );
-                      Get.offAll(() => CommunityPageForm(category: widget.id));
+                      Get.offAll(() => CommunityPageForm(category: widget.keywords['communityCategory']));
                     }
                   } else {
                     if (korToEngCategory[groupValue] == null ||korToEngClass[classificationValue] == null ||
@@ -196,7 +195,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                       );
                       _controller.editorController?.clearFocus();
                       _controller.disable();
-                      Get.offAll(() => CommunityPageForm(category: widget.id));
+                      Get.offAll(() => CommunityPageForm(category: widget.keywords['communityCategory']));
                     }
                   }
                 },
@@ -237,7 +236,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                 fillColor: Colors.transparent,
                                 enabledBorder: InputBorder.none,
                                 focusedBorder: InputBorder.none,
-                                hintText: "Re : " + widget.title,
+                                hintText: "Re : " + widget.keywords['title'],
                                 hintStyle: const TextStyle(
                                     fontFamily: "bmPro",
                                     fontSize: 25,

@@ -95,9 +95,8 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
       child: Scaffold(
         floatingActionButton: floating
             ? CommunityPageFloating(
-                id: widget.category,
+                keywords: {"communityCategory":widget.category},
                 type: 'Form',
-                title: "",
               )
             : null,
         appBar: AppBar(
