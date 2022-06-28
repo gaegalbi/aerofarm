@@ -26,7 +26,8 @@ late Image? profile;
 final checkTimerController  = Get.put(CheckTimer());
 
 class LoginPageLoginRegister extends StatefulWidget {
-  const LoginPageLoginRegister({Key? key}) : super(key: key);
+  final bool reLogin;
+  const LoginPageLoginRegister({Key? key, required this.reLogin}) : super(key: key);
 
   @override
   State<LoginPageLoginRegister> createState() => _LoginPageLoginRegisterState();
@@ -125,6 +126,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                     _lPasswordController.text="";
                     //팝업 띄우기
                   }else{
+                    checkTimerController.timerClear();
                     checkTimerController.timerStart();
                     tmp = response1.headers['set-cookie'];
                     session = tmp?.substring(tmp!.lastIndexOf('JSESSIONID')+11,tmp!.lastIndexOf('JSESSIONID')+43);
@@ -148,6 +150,8 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                     //print(nickname);
                     //printWrapped(document.outerHtml);
                     profile = Image.network("http://$ipv4$src");
+                    widget.reLogin ?
+                    Get.back() :
                     Get.offAll(()=>const MainPage());
                   }
                 }catch(error){

@@ -134,31 +134,34 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                             );
                           });
                     } else {
-                      final txt = await _controller.getText();
-                      data = {
-                        "category": widget.keywords['communityCategory'],
-                        "filter":korToEngClass[widget.keywords['category']],
-                        "title": "Re:"+widget.keywords['title'],
-                        "contents": txt,
-                        "postId": widget.keywords['id'],
-                      };
-                      var body = json.encode(data);
-                      await http.post(
-                        Uri.http(
-                            ipv4, '/createAnswerPost/${widget.keywords['id']}'),
-                        headers: {
-                          "Content-Type": "application/json",
-                          "Cookie": "JSESSIONID=$session",
-                        },
-                        encoding: Encoding.getByName('utf-8'),
-                        body: body,
-                      );
-                      _controller.editorController?.clearFocus();
-                      _controller.disable();
-                      Future.delayed(const Duration(microseconds: 1), () {
-                        Get.offAll(() => CommunityPageForm(category:widget.before));
-                      });
-                      //Get.offAll(() => CommunityPageForm(category: widget.keywords['communityCategory']));
+                      if(checkTimerController.time.value){
+                        checkTimerController.stop(context);
+                      }else{
+                        final txt = await _controller.getText();
+                        data = {
+                          "category": widget.keywords['communityCategory'],
+                          "filter":korToEngClass[widget.keywords['category']],
+                          "title": "Re:"+widget.keywords['title'],
+                          "contents": txt,
+                          "postId": widget.keywords['id'],
+                        };
+                        var body = json.encode(data);
+                        await http.post(
+                          Uri.http(
+                              ipv4, '/createAnswerPost/${widget.keywords['id']}'),
+                          headers: {
+                            "Content-Type": "application/json",
+                            "Cookie": "JSESSIONID=$session",
+                          },
+                          encoding: Encoding.getByName('utf-8'),
+                          body: body,
+                        );
+                        _controller.editorController?.clearFocus();
+                        _controller.disable();
+                        Future.delayed(const Duration(microseconds: 1), () {
+                          Get.offAll(() => CommunityPageForm(category:widget.before));
+                        });
+                      }
                     }
                   } else {
                     if (korToEngCategory[groupValue] == null ||korToEngClass[classificationValue] == null ||
@@ -183,26 +186,26 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                             );
                           });
                     } else {
-                      final txt = await _controller.getText();
-                      data = {
-                        "category": korToEngCategory[groupValue],
-                        "filter":korToEngClass[classificationValue],
-                        "title": _titleController.text,
-                        "contents": txt,
-                      };
-                      var body = json.encode(data);
-                      await http.post(
-                        Uri.http(ipv4, '/createBasicPost'),
-                        headers: {
-                          "Content-Type": "application/json",
-                          "Cookie": "JSESSIONID=$session",
-                        },
-                        encoding: Encoding.getByName('utf-8'),
-                        body: body,
-                      );
-                      if(checkTimerController.checkTimer()){
-                        checkTimerController.stop(context, true);
+                      if(checkTimerController.time.value){
+                        checkTimerController.stop(context);
                       }else{
+                        final txt = await _controller.getText();
+                        data = {
+                          "category": korToEngCategory[groupValue],
+                          "filter":korToEngClass[classificationValue],
+                          "title": _titleController.text,
+                          "contents": txt,
+                        };
+                        var body = json.encode(data);
+                        await http.post(
+                          Uri.http(ipv4, '/createBasicPost'),
+                          headers: {
+                            "Content-Type": "application/json",
+                            "Cookie": "JSESSIONID=$session",
+                          },
+                          encoding: Encoding.getByName('utf-8'),
+                          body: body,
+                        );
                         _controller.editorController?.clearFocus();
                         _controller.disable();
                         //Get.offAll(() => CommunityPageForm(category: widget.keywords['communityCategory']));

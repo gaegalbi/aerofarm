@@ -4,8 +4,8 @@ import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
-  final bool relogin;
-  const LoginPage({Key? key, required this.relogin}) : super(key: key);
+  final bool reLogin;
+  const LoginPage({Key? key, required this.reLogin}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -43,9 +43,9 @@ class _LoginPageState extends State<LoginPage> {
             controller: _scrollController,
             scrollDirection: Axis.vertical,
               child: Column(
-                children: const [
-                  LoginPageTop(),
-                  LoginPageLoginRegister(),
+                children: [
+                  const LoginPageTop(),
+                  LoginPageLoginRegister(reLogin: widget.reLogin,),
                 ],
               ),
           ),

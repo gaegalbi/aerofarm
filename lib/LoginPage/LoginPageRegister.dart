@@ -71,7 +71,7 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                   Icons.chevron_left,
                 ),
                 onPressed: () {
-                  Get.offAll(const LoginPage(relogin: false,));
+                  Get.offAll(const LoginPage(reLogin: false,));
                 },
             )),
           ),
@@ -275,7 +275,7 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                             "name":_nameController.text,
                             "nickname":_nickNameController.text
                           });
-                      Get.offAll(()=>const LoginPage(relogin: false,));
+                      Get.offAll(()=>const LoginPage(reLogin: false,));
                     },
                     child: const Text(
                       "가입",
