@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:capstone/LoginPage/LoginPageRegister.dart';
 import 'package:capstone/LoginPage/LoginPageResetPassword.dart';
 import 'package:capstone/MainPage/MainPage.dart';
@@ -14,6 +13,7 @@ import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' as parser;
 import 'package:html/dom.dart' as dom;
 
+import '../CheckTimer.dart';
 import '../main.dart';
 
 late String? session;
@@ -23,6 +23,7 @@ late String? nickname;
 //쿠키 받아두는 변수
 late String? tmp;
 late Image? profile;
+final checkTimerController  = Get.put(CheckTimer());
 
 class LoginPageLoginRegister extends StatefulWidget {
   const LoginPageLoginRegister({Key? key}) : super(key: key);
@@ -124,6 +125,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                     _lPasswordController.text="";
                     //팝업 띄우기
                   }else{
+                    checkTimerController.timerStart();
                     tmp = response1.headers['set-cookie'];
                     session = tmp?.substring(tmp!.lastIndexOf('JSESSIONID')+11,tmp!.lastIndexOf('JSESSIONID')+43);
                     final response = await http.get(

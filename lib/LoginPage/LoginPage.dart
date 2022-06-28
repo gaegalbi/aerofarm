@@ -4,7 +4,8 @@ import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  final bool relogin;
+  const LoginPage({Key? key, required this.relogin}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();

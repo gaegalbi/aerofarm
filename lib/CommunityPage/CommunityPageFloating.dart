@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../LoginPage/LoginPageLogin.dart';
 import '../themeData.dart';
 import 'CommunityPageCreatePost.dart';
 
@@ -23,6 +24,8 @@ class CommunityPageFloating extends StatelessWidget {
       child: IconButton(
           padding: EdgeInsets.zero,
           onPressed: () {
+            checkTimerController.checkTimer() ?
+            checkTimerController.stop(context,false) :
             Get.to(() => CommunityPageCreatePost(keywords:keywords, type: type,before: before,));
           },
           icon: const Text("답글"),
@@ -34,6 +37,8 @@ class CommunityPageFloating extends StatelessWidget {
       child: IconButton(
           padding: EdgeInsets.zero,
           onPressed: () {
+            checkTimerController.checkTimer() ?
+            checkTimerController.stop(context,false) :
             Get.to(() => CommunityPageCreatePost(keywords:keywords, type: type,before: before,));
           },
           icon: Image.asset("assets/images/create.png")),

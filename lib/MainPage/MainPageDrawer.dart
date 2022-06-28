@@ -90,7 +90,7 @@ class MainPageDrawer extends StatelessWidget {
                 if(isLogin) {
                   FlutterNaverLogin.logOutAndDeleteToken();
                 }
-                Get.offAll(()=>const LoginPage());
+                Get.offAll(()=>const LoginPage(relogin: false,));
               },
             ),
           )

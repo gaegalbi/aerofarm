@@ -64,10 +64,6 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
     _scrollController = ScrollController();
     _scrollController1 = ScrollController();
     _titleController = TextEditingController();
-    print(widget.keywords['communityCategory']);
-    print(widget.keywords['category']);
-    print(widget.keywords['title']);
-    print(widget.keywords['id']);
     super.initState();
   }
 
@@ -204,12 +200,16 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                         encoding: Encoding.getByName('utf-8'),
                         body: body,
                       );
-                      _controller.editorController?.clearFocus();
-                      _controller.disable();
-                      //Get.offAll(() => CommunityPageForm(category: widget.keywords['communityCategory']));
-                      Future.delayed(const Duration(microseconds: 1), () {
-                        Get.offAll(() => CommunityPageForm(category:widget.before));
-                      });
+                      if(checkTimerController.checkTimer()){
+                        checkTimerController.stop(context, true);
+                      }else{
+                        _controller.editorController?.clearFocus();
+                        _controller.disable();
+                        //Get.offAll(() => CommunityPageForm(category: widget.keywords['communityCategory']));
+                        Future.delayed(const Duration(microseconds: 1), () {
+                          Get.offAll(() => CommunityPageForm(category:widget.before));
+                        });
+                      }
                     }
                   }
                 },

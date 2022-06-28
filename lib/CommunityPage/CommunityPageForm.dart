@@ -1,4 +1,5 @@
 import 'package:capstone/CommunityPage/CommunityPageDrawer.dart';
+import 'package:capstone/LoginPage/LoginPageLogin.dart';
 import 'package:capstone/MainPage/MainPage.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
@@ -87,6 +88,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onDoubleTap: () {
+        print(checkTimerController.time.value);
         setState(() {
           floating = !floating;
         });

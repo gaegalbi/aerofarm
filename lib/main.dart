@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
       ),
       title: 'Flutter Demo',
-      home: const LoginPage(),
+      home: const LoginPage(relogin: false,),
     );
   }
 }
