@@ -17,6 +17,14 @@
             font-size: 3.5rem;
         }
     }
+
+    tr {
+        white-space: nowrap;
+    }
+
+    td {
+        white-space: nowrap;
+    }
 </style>
 
 <body class="d-flex flex-column min-vh-100">
@@ -25,7 +33,6 @@
 
 <div class="container">
     <div class="row">
-        <h3 class="my-3 text-white">관리자 페이지</h3>
         <div th:replace="~{fragments/adminMenuBar :: adminMenuBar}" />
         <div class="col-md-10 gx-4">
             <div class="card" style="background-color: #111620">
