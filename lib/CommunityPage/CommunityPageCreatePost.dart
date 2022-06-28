@@ -142,7 +142,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                       data = {
                         "category": widget.keywords['communityCategory'],
                         "filter":korToEngClass[widget.keywords['category']],
-                        "title": widget.keywords['title'],
+                        "title": "Re:"+widget.keywords['title'],
                         "contents": txt,
                         "postId": widget.keywords['id'],
                       };
@@ -157,7 +157,12 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                         encoding: Encoding.getByName('utf-8'),
                         body: body,
                       );
-                      Get.offAll(() => CommunityPageForm(category: widget.keywords['communityCategory']));
+                      _controller.editorController?.clearFocus();
+                      _controller.disable();
+                      Future.delayed(const Duration(microseconds: 1), () {
+                        Get.offAll(() => CommunityPageForm(category:widget.before));
+                      });
+                      //Get.offAll(() => CommunityPageForm(category: widget.keywords['communityCategory']));
                     }
                   } else {
                     if (korToEngCategory[groupValue] == null ||korToEngClass[classificationValue] == null ||
@@ -201,7 +206,10 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                       );
                       _controller.editorController?.clearFocus();
                       _controller.disable();
-                      Get.offAll(() => CommunityPageForm(category: widget.keywords['communityCategory']));
+                      //Get.offAll(() => CommunityPageForm(category: widget.keywords['communityCategory']));
+                      Future.delayed(const Duration(microseconds: 1), () {
+                        Get.offAll(() => CommunityPageForm(category:widget.before));
+                      });
                     }
                   }
                 },

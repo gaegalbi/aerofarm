@@ -14,7 +14,8 @@ import 'CommunityNotice.dart';
 
 //final List<Widget> boardList = [];
 final List<Map<String, dynamic>> keywords = [];
-final List<Map<String, dynamic>> customKeywords = [];
+final List<Map<String, dynamic>> customKeywords = []; //post-data
+final List<Map<String, dynamic>> answerKeywords = []; //answer-data
 final Map<String, dynamic> postKeywords = {};
 
 final dateFormat = DateFormat('yyyy.MM.dd');
@@ -223,6 +224,7 @@ Future fetch(String communityCategory, bool readPost) async {
     boardListController.boardList.clear();
     if (communityCategory== 'all' || communityCategory == 'hot') {
       customKeywords.clear();
+      postKeywords.clear();
       if (setCategoryController.setCategory.value!="all") {
         boardListController.boardClear();
         pageIndexController.setUp();
@@ -280,8 +282,8 @@ Future fetch(String communityCategory, bool readPost) async {
               '/community/${boardCategory[categoryIndexController.categoryIndex.value]}', _queryParameters));
           if (response.statusCode == 200) {
             dom.Document document = parser.parse(response.body);
-            List<dom.Element> keywordElements =
-            document.querySelectorAll('.post-data');
+            List<dom.Element> keywordElements = document.querySelectorAll('.post-data');
+            List<dom.Element> answerKeywordElements = document.querySelectorAll('.answer-data');
             if (keywordElements.isEmpty) {
               if (categoryIndexController.categoryIndex.value < 4) {
                 categoryIndexController.categoryIndex.value++;
@@ -315,6 +317,33 @@ Future fetch(String communityCategory, bool readPost) async {
                   'communityCategory': boardCategory[categoryIndexController.categoryIndex.value]
                 });
               }
+              for(var element in answerKeywordElements){
+                dom.Element? title = element.querySelector('.answer-title');
+                dom.Element? writer = element.querySelector('.answer-writer');
+                dom.Element? date = element.querySelector('.answer-date');
+                dom.Element? realDate = element.querySelector('.answer-dateSS');
+                dom.Element? parentId = element.querySelector('.answer-parentId');
+                dom.Element? id = element.querySelector('.answer-id');
+                dom.Element? likes = element.querySelector('.answer-likes');
+                dom.Element? views = element.querySelector('.answer-views');
+                dom.Element? comments = element.querySelector('.answer-comments');
+                dom.Element? category = element.querySelector('.answer-category');
+                answerKeywords.add({
+                  'parentId' : parentId?.text,
+                  'id' : id?.text,
+                  'title' : title?.text,
+                  'writer' : writer?.text,
+                  'date' :current == date?.text.substring(0, 10)
+                      ? date?.text = date.text.substring(10, date.text.length)
+                      : date?.text = date.text.substring(2, 10),
+                  'realDate' : realDate?.text,
+                  'likes' : likes?.text,
+                  'views' : views?.text,
+                  'comments': comments?.text.substring(1),
+                  'category': category?.text,
+                  'communityCategory': boardCategory[categoryIndexController.categoryIndex.value]
+                });
+              }
               pageIndexController.increment();
             }
           }
@@ -337,6 +366,15 @@ Future fetch(String communityCategory, bool readPost) async {
           index: pageIndexController.pageIndex.value,
           before: communityCategory,//beforeRouteController.before.value,
         ));
+        for(var answerElement in answerKeywords){
+          if(element['id'] == answerElement['parentId']){
+            boardListController.boardAdd(AddBoard(
+                index: pageIndexController.pageIndex.value,
+                keywords: answerElement,
+                before: communityCategory
+            ));
+          }
+        }
       }
       if (boardListController.boardList.length == 1) {
         boardListController.boardAdd(Container(
@@ -349,8 +387,9 @@ Future fetch(String communityCategory, bool readPost) async {
             )));
       }
       customKeywords.clear();
+      answerKeywords.clear();
     } else {
-      //초기화
+      //초기화, 전체, 인기 게시판이 아닐때
       boardListController.boardClear();
       final Map<String, String> _queryParameters = <String, String>{
         'page': pageIndexController.pageIndex.value.toString(),
@@ -360,6 +399,7 @@ Future fetch(String communityCategory, bool readPost) async {
       if (response.statusCode == 200) {
         dom.Document document = parser.parse(response.body);
         List<dom.Element> keywordElements = document.querySelectorAll('.post-data');
+        List<dom.Element> answerKeywordElements = document.querySelectorAll('.answer-data');
         if (keywordElements.isEmpty) {
           pageIndexController.decrement();
           loadingController.setFalse();
@@ -386,7 +426,6 @@ Future fetch(String communityCategory, bool readPost) async {
             dom.Element? id = element.querySelector('.post-id');
             dom.Element? realDate = element.querySelector('.post-dateSS');
             dom.Element? comments = element.querySelector('.post-comments');
-
             keywords.add({
               'writer': writer?.text,
               'title': title?.text,
@@ -402,14 +441,51 @@ Future fetch(String communityCategory, bool readPost) async {
               'communityCategory': communityCategory
             });
           }
+          for(var element in answerKeywordElements){
+            dom.Element? title = element.querySelector('.answer-title');
+            dom.Element? writer = element.querySelector('.answer-writer');
+            dom.Element? date = element.querySelector('.answer-date');
+            dom.Element? realDate = element.querySelector('.answer-dateSS');
+            dom.Element? parentId = element.querySelector('.answer-parentId');
+            dom.Element? id = element.querySelector('.answer-id');
+            dom.Element? likes = element.querySelector('.answer-likes');
+            dom.Element? views = element.querySelector('.answer-views');
+            dom.Element? comments = element.querySelector('.answer-comments');
+            dom.Element? category = element.querySelector('.answer-category');
+            answerKeywords.add({
+              'parentId' : parentId?.text,
+              'id' : id?.text,
+              'title' : title?.text,
+              'writer' : writer?.text,
+              'date' :current == date?.text.substring(0, 10)
+                  ? date?.text = date.text.substring(10, date.text.length)
+                  : date?.text = date.text.substring(2, 10),
+              'realDate' : realDate?.text,
+              'likes' : likes?.text,
+              'views' : views?.text,
+              'comments': comments?.text.substring(1),
+              'category': category?.text,
+              'communityCategory': boardCategory[categoryIndexController.categoryIndex.value]
+            });
+          }
           for (var element in keywords) {
             boardListController.boardAdd(AddBoard(
               keywords: element,
               index: pageIndexController.pageIndex.value,
               before: communityCategory,//beforeRouteController.before.value,
             ));
+            for(var answerElement in answerKeywords){
+              if(element['id'] == answerElement['parentId']){
+                boardListController.boardAdd(AddBoard(
+                    index: pageIndexController.pageIndex.value,
+                    keywords: answerElement,
+                    before: communityCategory
+                ));
+              }
+            }
           }
           keywords.clear();
+          answerKeywords.clear();
         }
       }
   }
