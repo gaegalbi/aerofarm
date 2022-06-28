@@ -11,6 +11,7 @@ import yj.capstone.aerofarm.repository.support.Querydsl5RepositorySupport;
 import java.util.List;
 
 import static yj.capstone.aerofarm.domain.board.QComment.comment;
+import static yj.capstone.aerofarm.domain.board.QPost.post;
 
 public class CommentRepositoryImpl extends Querydsl5RepositorySupport implements CommentRepositoryCustom {
 
@@ -63,5 +64,12 @@ public class CommentRepositoryImpl extends Querydsl5RepositorySupport implements
                 )
                 .orderBy(comment.createdDate.desc())
                 .fetch();
+    }
+
+    @Override
+    public Integer findMaxGroupIdInfo() {
+        return select(comment.groupId.max())
+                .from(comment)
+                .fetchOne();
     }
 }
