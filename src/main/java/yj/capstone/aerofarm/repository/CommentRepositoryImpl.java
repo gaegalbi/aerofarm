@@ -31,7 +31,8 @@ public class CommentRepositoryImpl extends Querydsl5RepositorySupport implements
                                 comment.createdDate,
                                 comment.post,
                                 comment.writer.id,
-                                comment.deleteTnF))
+                                comment.deleteTnF,
+                                comment.groupId))
                         .from(comment)
                         .where(
                                 comment.post.eq(post),
@@ -56,13 +57,13 @@ public class CommentRepositoryImpl extends Querydsl5RepositorySupport implements
                 comment.createdDate,
                 comment.post,
                 comment.writer.id,
-                comment.deleteTnF))
+                comment.deleteTnF,
+                comment.groupId))
                 .from(comment)
                 .where(
                         comment.post.eq(post),
                         comment.parent.isNotNull()
                 )
-                .orderBy(comment.createdDate.desc())
                 .fetch();
     }
 

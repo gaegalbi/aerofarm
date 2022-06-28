@@ -70,13 +70,14 @@ public class PostService {
 
     // 댓글의 댓글 등록
     public Comment createAnswerComment(Member writer, CommentForm commentForm, Long commentId) {
-        Post postId = postRepository.findById(commentForm.getPostId()).orElseThrow(() -> null);
+        Post post = postRepository.findById(commentForm.getPostId()).orElseThrow(() -> null);
 
         Comment comment = Comment.commentAnswerBuilder()
                 .commentForm(commentForm)
-                .selectPost(postId)
+                .selectPost(post)
                 .writer(writer)
                 .parent(selectComment(commentId))
+                .groupId(selectPost(post.getId()).getGroupId())
                 .build();
 
         commentRepository.save(comment);
@@ -138,11 +139,15 @@ public class PostService {
         return commentRepository.findCommentInfo(post, pageRequest);
     }
 
+    // 모든 댓글의 답글 정보 조회
+    public List<CommentDto> findAnswerCommentInfo(Post post) {
+        return commentRepository.findAnswerCommentInfo(post);
+    }
+
     // 모든 게시글 정보 페이지 단위로 조회
     public Page<PostDto> findPostInfo(PostCategory category, String searchCategory, String keyword, PostFilter postFilter, Integer page) {
         PageRequest pageRequest = PageRequest.of(page - 1, 10);
         return postRepository.findPostInfo(category, searchCategory, keyword, postFilter, pageRequest);
-
     }
 
     // 모든 답글 정보 조회
