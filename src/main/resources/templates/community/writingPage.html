@@ -14,14 +14,14 @@
             <div class="input-group" style="width: 80%; margin: auto">
                 <div class="input-group mb-3" style="width: 35%; margin-right: 20px">
                     <label class="input-group-text" for="category">CATEGORY</label>
-                    <select class="form-select" id="category" th:field="*{category}">
+                    <select class="form-select" id="category" th:field="*{category}" th:disabled="${selectPostId != null or myId != null}">
                         <option value="" selected>카테고리를 선택해주세요.</option>
                         <option th:each="allCategory : ${T(yj.capstone.aerofarm.domain.board.PostCategory).values()}" th:value="${allCategory.getLowerCase()}" th:text="${allCategory.getName()}"/>
                     </select>
                 </div>
                 <div class="input-group mb-3" style="width: 35%; margin-right: 20px">
                     <label class="input-group-text" for="filter">CLASSIFICATION</label>
-                    <select class="form-select" id="filter" th:field="*{filter}">
+                    <select class="form-select" id="filter" th:field="*{filter}" th:disabled="${selectPostId != null or myId != null}">
                         <option value="" selected>분류를 선택해주세요.</option>
                         <option th:each="allFilter : ${T(yj.capstone.aerofarm.domain.board.PostFilter).values()}" th:value="${allFilter.getLowerCase()}" th:text="${allFilter.getName()}"/>
                     </select>
