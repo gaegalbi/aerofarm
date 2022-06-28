@@ -3,6 +3,7 @@ package yj.capstone.aerofarm.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import yj.capstone.aerofarm.domain.Deposit;
 import yj.capstone.aerofarm.domain.order.PaymentType;
 
 import java.util.ArrayList;
@@ -20,6 +21,8 @@ public class CheckoutCompleteDto {
     private String address2;
     private String extraAddress;
     private PaymentType paymentType;
+    private Deposit deposit;
+
     private List<ProductCartDto> productCartDtos = new ArrayList<>();
 
     public CheckoutCompleteDto() {

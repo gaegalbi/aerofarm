@@ -33,7 +33,6 @@ public class CheckoutForm {
     @Pattern(regexp = "^[0-9-]*$", message = "올바른 우편번호를 입력해주세요.")
     private String zipcode;
 
-    @NotBlank(message = "입금 계좌를 선택해주세요.")
     private String deposit;
 
     @Builder
@@ -47,10 +46,5 @@ public class CheckoutForm {
         this.extraAddress = extraAddress;
         this.zipcode = zipcode;
         this.deposit = deposit;
-    }
-
-    // radio button 기본값 설정 위함
-    public CheckoutForm(String paymentType) {
-        this.paymentType = paymentType;
     }
 }

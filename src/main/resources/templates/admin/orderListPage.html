@@ -57,7 +57,7 @@
                             <tr th:each="order : ${pageableList.getContent()}">
                                 <td th:text="${order.getId()}">1</td>
                                 <td th:text="${order.getEmail()}">foo@bar.com</td>
-                                <td th:text="${order.getDeliveryStatus().getKorName()}">입금대기</td>
+                                <td th:text="${order.getDeliveryStatus()}">입금대기</td>
                                 <td th:text="${order.getTotalPrice()}">50000</td>
                                 <td th:text="${order.getUuid()}">uuid</td>
                                 <td th:text="${order.getOrderDate()}">2022-06-30</td>

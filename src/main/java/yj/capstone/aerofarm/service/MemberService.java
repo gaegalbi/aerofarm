@@ -14,6 +14,7 @@ import yj.capstone.aerofarm.domain.member.Provider;
 import yj.capstone.aerofarm.dto.request.ProfileEditRequest;
 import yj.capstone.aerofarm.dto.request.SignupRequest;
 import yj.capstone.aerofarm.dto.response.MemberListResponseDto;
+import yj.capstone.aerofarm.dto.response.OrderAddressResponseDto;
 import yj.capstone.aerofarm.exception.DuplicateValueException;
 import yj.capstone.aerofarm.exception.TokenExpiredException;
 import yj.capstone.aerofarm.repository.MemberRepository;
@@ -118,5 +119,9 @@ public class MemberService {
     @Transactional
     public Page<MemberListResponseDto> findMemberList(Pageable pageable) {
         return memberRepository.findMemberList(pageable);
+    }
+
+    public OrderAddressResponseDto findMemberAddress(Long id) {
+        return memberRepository.findMemberAddress(id);
     }
 }

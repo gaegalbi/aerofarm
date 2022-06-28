@@ -5,16 +5,21 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import yj.capstone.aerofarm.domain.Deposit;
 import yj.capstone.aerofarm.domain.member.Member;
+import yj.capstone.aerofarm.domain.order.MooTongJang;
 import yj.capstone.aerofarm.domain.order.Order;
 import yj.capstone.aerofarm.domain.order.OrderLine;
+import yj.capstone.aerofarm.domain.order.PaymentType;
 import yj.capstone.aerofarm.domain.product.Product;
 import yj.capstone.aerofarm.dto.CartDto;
 import yj.capstone.aerofarm.dto.CheckoutCompleteDto;
 import yj.capstone.aerofarm.dto.OrderInfoDto;
 import yj.capstone.aerofarm.dto.ProductCartDto;
 import yj.capstone.aerofarm.dto.response.AdminOrderListResponseDto;
+import yj.capstone.aerofarm.exception.OrderNotFoundException;
 import yj.capstone.aerofarm.form.CheckoutForm;
+import yj.capstone.aerofarm.repository.MooTongJangRepository;
 import yj.capstone.aerofarm.repository.OrderRepository;
 
 import java.util.ArrayList;
@@ -28,9 +33,11 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final ProductService productService;
+    private final MooTongJangRepository mooTongJangRepository;
 
     public Order createOrder(Member orderer, List<CartDto> cartDtos, CheckoutForm checkoutForm) {
         List<OrderLine> orderLines = new ArrayList<>();
+
         for (CartDto cartDto : cartDtos) {
             Product product = productService.findProductById(cartDto.getProductId());
             OrderLine orderLine = OrderLine.createOrderLine(product, cartDto);
@@ -43,11 +50,17 @@ public class OrderService {
                 .orderLines(orderLines)
                 .build();
 
+        // 무통장 거래 생성 로직
+        if (order.getPaymentType() == PaymentType.MOOTONGJANG) {
+            MooTongJang mooTongJang = MooTongJang.createMooTongJang(order, checkoutForm.getDeposit());
+            mooTongJangRepository.save(mooTongJang);
+        }
+
         return orderRepository.save(order);
     }
 
     public Long cancelOrder(String uuid) {
-        Order order = orderRepository.findByUuid(uuid).orElseThrow(() -> new IllegalArgumentException("해당 주문이 없습니다."));
+        Order order = orderRepository.findByUuid(uuid).orElseThrow(() -> new OrderNotFoundException("해당 주문이 없습니다."));
         order.cancel();
 
         List<OrderLine> orderLines = order.getOrderLines();
@@ -65,7 +78,7 @@ public class OrderService {
     }
 
     public Order findByUuid(String uuid) {
-        return orderRepository.findByUuid(uuid).orElseThrow(() -> new IllegalArgumentException("해당 주문이 없습니다."));
+        return orderRepository.findByUuid(uuid).orElseThrow(() -> new OrderNotFoundException("해당 주문이 없습니다."));
     }
 
     private boolean verifyOrderOwner(String uuid, Member member) {
@@ -77,7 +90,7 @@ public class OrderService {
             findByUuid(uuid).reviewed();
             return;
         }
-        throw new IllegalArgumentException("해당 유저의 주문이 없습니다.");
+        throw new OrderNotFoundException("해당 유저의 주문이 없습니다.");
     }
 
     public CheckoutCompleteDto createOrderDetail(Order order) {
@@ -97,6 +110,12 @@ public class OrderService {
                 .collect(Collectors.toList());
 
         checkoutCompleteDto.getProductCartDtos().addAll(collect);
+
+        // 무통장 거래일 경우 해당 주문의 은행 정보를 dto에 set
+        if (order.getPaymentType() == PaymentType.MOOTONGJANG) {
+            Deposit deposit = orderRepository.findDepositByOrderId(order.getId());
+            checkoutCompleteDto.setDeposit(deposit);
+        }
 
         return checkoutCompleteDto;
     }
