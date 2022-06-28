@@ -151,13 +151,15 @@
                 <div class="row g-0">
                     <div class="list-item-1 list-body col-sm-1 list-text-center list-col-1" th:text="${postDto.getFilter().getName()}"/>
                     <div class="list-body col-sm-1 list-col-2" style="text-align: left">
-                        <span th:text="${postDto.isDeleteTnF()} ? '삭제된 게시글입니다.' : ${#strings.abbreviate(postDto.getTitle(), 25)}"/>
-                        <span class="badge bg-secondary bi-messenger" th:text="' ' + ${postDto.getCommentCount()==null ? '0' : postDto.getCommentCount()}"/>
+                        <span class="post-title" th:text="${postDto.isDeleteTnF()} ? '삭제된 게시글입니다.' : ${#strings.abbreviate(postDto.getTitle(), 25)}"/>
+                        <span class="badge bg-secondary bi-messenger post-comments" th:text="' ' + ${postDto.getCommentCount()==null ? '0' : postDto.getCommentCount()}"/>
                     </div>
-                    <div class="list-body col-sm-1 list-text-center list-col-3" th:text="${postDto.getWriter()}"/>
-                    <div class="list-body col-sm-1 list-text-center list-col-4" th:text="${#temporals.format(postDto.getCreateDate(), 'yyyy.MM.dd HH:mm')}"/>
-                    <div class="list-body col-sm-1 list-text-center list-col-5" th:text="${postDto.getLikeCount()==null} ? '0' : ${postDto.getLikeCount()}"/>
-                    <div class="list-body col-sm-1 list-text-center list-col-6" th:text="${postDto.getViews()}"/>
+                    <div class="list-body col-sm-1 list-text-center list-col-3 post-writer" th:text="${postDto.getWriter()}"/>
+                    <div class="list-body col-sm-1 list-text-center list-col-4 post-date" th:text="${#temporals.format(postDto.getCreateDate(), 'yyyy.MM.dd HH:mm')}"/>
+                    <div class="list-body col-sm-1 list-text-center list-col-5 post-likes" th:text="${postDto.getLikeCount()==null} ? '0' : ${postDto.getLikeCount()}"/>
+                    <div class="list-body col-sm-1 list-text-center list-col-6 post-views" th:text="${postDto.getViews()}"/>
+                    <div class="post-id" style="display: none" th:text="${postDto.getId()}"/>   <!--숨김 정보-->
+                    <div class="post-dateSS" style="display: none" th:text="${#temporals.format(postDto.getCreateDate(), 'yyyy.MM.dd HH:mm:ss')}"/>     <!--숨김 정보-->
                 </div>
             </button>
             <ol class="list-group" th:each="answerDto : ${answerPostInfo}" style="border: none">
@@ -166,13 +168,19 @@
                         <div class="row g-0" style="height: 35px">
                             <div class="list-body col-sm-1 list-text-center list-col-1" th:text="'↳'"/>
                             <div class="list-body col-sm-1 list-col-2" style="text-align: left">
-                                <span th:text="${answerDto.isDeleteTnF()} ? '삭제된 게시글입니다.' : ${#strings.abbreviate(answerDto.getTitle(), 25)}"/>
-                                <span class="badge bg-secondary bi-messenger" th:text="' ' + ${answerDto.getCommentCount()==null ? '0' : answerDto.getCommentCount()}"/>
+                                <span class="answer-title" th:text="${answerDto.isDeleteTnF()} ? '삭제된 게시글입니다.' : ${#strings.abbreviate(answerDto.getTitle(), 25)}"/>
+                                <span class="badge bg-secondary bi-messenger answer-comments" th:text="' ' + ${answerDto.getCommentCount()==null ? '0' : answerDto.getCommentCount()}"/>
                             </div>
-                            <div class="list-body col-sm-1 list-text-center list-col-3" th:text="${answerDto.getWriter()}"/>
-                            <div class="list-body col-sm-1 list-text-center list-col-4" th:text="${#temporals.format(answerDto.getCreateDate(), 'yyyy.MM.dd HH:mm')}"/>
-                            <div class="list-body col-sm-1 list-text-center list-col-5" th:text="${answerDto.getLikeCount()==null} ? '0' : ${answerDto.getLikeCount()}"/>
-                            <div class="list-body col-sm-1 list-text-center list-col-6" th:text="${answerDto.getViews()}"/>
+                            <div class="list-body col-sm-1 list-text-center list-col-3 answer-writer" th:text="${answerDto.getWriter()}"/>
+                            <div class="list-body col-sm-1 list-text-center list-col-4 answer-date" th:text="${#temporals.format(answerDto.getCreateDate(), 'yyyy.MM.dd HH:mm')}"/>
+                            <div class="list-body col-sm-1 list-text-center list-col-5 answer-likes" th:text="${answerDto.getLikeCount()==null} ? '0' : ${answerDto.getLikeCount()}"/>
+                            <div class="list-body col-sm-1 list-text-center list-col-6 answer-views" th:text="${answerDto.getViews()}"/>
+
+                            <!--숨김 정보-->
+                            <div style="display: none" class="answer-dateSS" th:text="${#temporals.format(answerDto.getCreateDate(), 'yyyy.MM.dd HH:mm:ss')}"/>
+                            <div style="display: none" class="answer-parentId" th:text="${answerDto.getParentId()}"/>
+                            <div style="display: none" class="answer-id" th:text="${answerDto.getId()}"/>
+                            <div style="display: none" class="answer-category" th:text="${postDto.getFilter()}"/>
                         </div>
                     </button>
                 </li>
