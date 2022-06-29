@@ -7,8 +7,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import yj.capstone.aerofarm.dto.CartDto;
+import yj.capstone.aerofarm.dto.request.SignupRequest;
 import yj.capstone.aerofarm.form.CheckoutForm;
-import yj.capstone.aerofarm.form.SaveMemberForm;
 import yj.capstone.aerofarm.form.SaveProductForm;
 import yj.capstone.aerofarm.domain.member.Member;
 import yj.capstone.aerofarm.domain.order.Order;
@@ -43,11 +43,13 @@ class OrderServiceTest {
     @DisplayName("주문이 생성되면 재고가 줄어들어야 한다")
     void create_order() {
         // given
-        SaveMemberForm saveMemberForm = new SaveMemberForm();
+        SignupRequest saveMemberForm = new SignupRequest();
         saveMemberForm.setEmail("abc123@naver.com");
         saveMemberForm.setPassword("1234");
         saveMemberForm.setNickname("qqc");
-        Member member = Member.saveMemberFormBuilder().saveMemberForm(saveMemberForm).build();
+        Member member = Member.builder()
+                .build();
+//                .saveMemberForm(saveMemberForm).build();
 
         Product product = new Product(new SaveProductForm("Apple", 1000, 100, ProductCategory.ETC, null, null));
         List<CartDto> cartDtos = new ArrayList<>();
@@ -90,7 +92,6 @@ class OrderServiceTest {
         List<CartDto> cartDtos = new ArrayList<>();
         cartDtos.add(new CartDto(1L, 5));
         CheckoutForm checkoutForm = new CheckoutForm(true, "MOOTONGJANG", "jonedoe", "010-1111-1111", "seoul", "seoul", "apt", "12345", "NH");
-
 
         when(orderRepository.save(any(Order.class))).then(returnsFirstArg());
         when(productService.findProductById(any())).thenReturn(product);

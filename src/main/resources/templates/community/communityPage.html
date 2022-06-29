@@ -49,22 +49,14 @@
         margin-top: 15px;
     }
 
-    .f-color-w {
-        color: #FFFFFF;
-        text-align: center;
-    }
-
-    .f-filter-color-b {
-        color: deepskyblue;
-    }
-
-    .title-f-sort {
-        text-align: left;
-    }
-
     #post-events:hover tbody tr:hover td {
       background: lightgray;
       color: black;
+    }
+
+    .hover-item:hover .list-body{
+        background: lightgray;
+        color: black;
     }
 
     td {
@@ -76,6 +68,32 @@
         border-color: #1C273A;
         color: #FFFFFF;
     }
+
+    .list-item-backcolor {
+        background-color: #131825;
+        padding: 0px;
+    }
+    .title-header {
+        color: #FFFFFF;
+        text-align: center;
+        font-weight: bold;
+    }
+    .list-body {
+        color: #FFFFFF;
+        padding: 7px 0px 7px 0px;
+    }
+
+    .list-text-center {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .list-col-1 {width: 5.81%;} .list-item-1 {color: deepskyblue;}
+    .list-col-2 {width: 55.04%;}
+    .list-col-3 {width: 10.85%;}
+    .list-col-4 {width: 14.34%;}
+    .list-col-5 {width: 6.98%;}
+    .list-col-6 {width: 6.98%;}
 </style>
 <body class="d-flex flex-column min-vh-100">
 <div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
@@ -100,13 +118,14 @@
         <div class="community-category" th:text="${selectCategory.getName()}"/>
         <!--필터링 헤더-->
         <div class="filtering">
-            <a class="p-2 post-header" href="#">전체</a>
-            <a class="p-2 post-header" href="#">일반</a>
-            <a class="p-2 post-header" href="#">취미</a>
-            <a class="p-2 post-header" href="#">게임</a>
-            <a class="p-2 post-header" href="#">일상</a>
-            <a class="p-2 post-header" href="#">여행</a>
+            <a class="p-2 post-header" href="javascript:void(0);" id="all" onclick="select_filter(this.id);">전체</a>
+            <a class="p-2 post-header" href="javascript:void(0);" id="normal" onclick="select_filter(this.id);">일반</a>
+            <a class="p-2 post-header" href="javascript:void(0);" id="hobby" onclick="select_filter(this.id);">취미</a>
+            <a class="p-2 post-header" href="javascript:void(0);" id="game" onclick="select_filter(this.id);">게임</a>
+            <a class="p-2 post-header" href="javascript:void(0);" id="daily" onclick="select_filter(this.id);">일상</a>
+            <a class="p-2 post-header" href="javascript:void(0);" id="travel" onclick="select_filter(this.id);">여행</a>
         </div>
+        <input type="hidden" id="hidden-filter"/>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
             <button type="button" class="btn btn-primary" onclick="location.href='/writing'" th:text="글쓰기"/>
         </div>
@@ -114,28 +133,60 @@
 </div>
 <!--목록 표시-->
 <div class="container">
-    <table id="post-events" class="table f-color-w">
-        <thead>
-        <tr>
-            <th th:width="20">분류</th>
-            <th th:width="300">제목</th>
-            <th th:width="30">작성자</th>
-            <th th:width="50">작성일</th>
-            <th th:width="20">추천</th>
-            <th th:width="20">조회</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="postDto : ${pageableList.getContent()}" th:onclick="|location.href='@{/community/{category}/{id}(category=${postDto.category.getLowerCase()}, id=${postDto.id})}'|">
-            <td class="f-filter-color-b">일반</td> <!--추후 변수로 받아오기로 변경 필요-->
-            <td class="title-f-sort" th:text="|${postDto.getTitle()}(${postDto.getCommentCount()==null ? '0' : postDto.getCommentCount()})|"/>
-            <td class="writer" th:text="${postDto.getWriter()}"/>
-            <td class="date" th:text="${#temporals.format(postDto.getCreateDate(), 'yyyy.MM.dd HH:mm')}"/>
-            <td class="likes" th:text="${postDto.getLikeCount()==null} ? '0' : ${postDto.getLikeCount()}"/> <!-- 좋아요 대체 필요-->
-            <td class="views" th:text="${postDto.getViews()}"/>
-        </tr>
-        </tbody>
-    </table>
+    <!--헤더 부분-->
+    <ol class="list-group" style="margin-bottom: 20px">
+        <li class="list-group-item list-item-backcolor" style="border-style: solid; border-width: 0px 0px 2px 0px; border-color: #FFFFFF">
+            <div class="row g-0" style="height: 35px">
+                <div class="title-header col-sm-1 list-text-center list-col-1" th:text="분류"/>    <!--75px-->
+                <div class="title-header col-sm-1 list-text-center list-col-2" th:text="제목"/>   <!--710-->
+                <div class="title-header col-sm-1 list-text-center list-col-3" th:text="작성자"/>   <!--140-->
+                <div class="title-header col-sm-1 list-text-center list-col-4" th:text="작성일"/>    <!--185-->
+                <div class="title-header col-sm-1 list-text-center list-col-5" th:text="추천"/>   <!--90-->
+                <div class="title-header col-sm-1 list-text-center list-col-6" th:text="조회"/>     <!--90-->
+            </div>
+        </li>
+        <!--데이터 부분-->
+        <li class="list-group-item list-item-backcolor" style="border: none" th:each="postDto : ${pageableList.getContent()}">
+            <button type="button" class="list-item-backcolor list-group-item list-group-item-action hover-item" style="padding: 0px; border: none" th:onclick="|location.href='@{/community/{category}/{id}(category=${postDto.category.getLowerCase()}, id=${postDto.id})}'|">
+                <div class="row g-0 post-data">
+                    <div class="list-item-1 list-body col-sm-1 list-text-center list-col-1" th:text="${postDto.getFilter().getName()}"/>
+                    <div class="list-body col-sm-1 list-col-2" style="text-align: left">
+                        <span class="post-title" th:text="${postDto.isDeleteTnF()} ? '삭제된 게시글입니다.' : ${#strings.abbreviate(postDto.getTitle(), 25)}"/>
+                        <span class="badge bg-secondary bi-messenger post-comments" th:text="' ' + ${postDto.getCommentCount()==null ? '0' : postDto.getCommentCount()}"/>
+                    </div>
+                    <div class="list-body col-sm-1 list-text-center list-col-3 post-writer" th:text="${postDto.getWriter()}"/>
+                    <div class="list-body col-sm-1 list-text-center list-col-4 post-date" th:text="${#temporals.format(postDto.getCreateDate(), 'yyyy.MM.dd HH:mm')}"/>
+                    <div class="list-body col-sm-1 list-text-center list-col-5 post-likes" th:text="${postDto.getLikeCount()==null} ? '0' : ${postDto.getLikeCount()}"/>
+                    <div class="list-body col-sm-1 list-text-center list-col-6 post-views" th:text="${postDto.getViews()}"/>
+                    <div class="post-id" style="display: none" th:text="${postDto.getId()}"/>   <!--숨김 정보-->
+                    <div class="post-dateSS" style="display: none" th:text="${#temporals.format(postDto.getCreateDate(), 'yyyy.MM.dd HH:mm:ss')}"/>     <!--숨김 정보-->
+                </div>
+            </button>
+            <ol class="list-group" th:each="answerDto : ${answerPostInfo}" style="border: none">
+                <li class="list-group-item list-item-backcolor" style="border: none" th:if="${postDto.groupId == answerDto.groupId}">
+                    <button type="button" class="list-item-backcolor list-group-item list-group-item-action hover-item" style="padding: 0px; border: none" th:onclick="|location.href='@{/community/{category}/{id}(category=${answerDto.category.getLowerCase()}, id=${answerDto.id})}'|">
+                        <div class="row g-0 answer-data" style="height: 35px">
+                            <div class="list-body col-sm-1 list-text-center list-col-1" th:text="'↳'"/>
+                            <div class="list-body col-sm-1 list-col-2" style="text-align: left">
+                                <span class="answer-title" th:text="${answerDto.isDeleteTnF()} ? '삭제된 게시글입니다.' : ${#strings.abbreviate(answerDto.getTitle(), 25)}"/>
+                                <span class="badge bg-secondary bi-messenger answer-comments" th:text="' ' + ${answerDto.getCommentCount()==null ? '0' : answerDto.getCommentCount()}"/>
+                            </div>
+                            <div class="list-body col-sm-1 list-text-center list-col-3 answer-writer" th:text="${answerDto.getWriter()}"/>
+                            <div class="list-body col-sm-1 list-text-center list-col-4 answer-date" th:text="${#temporals.format(answerDto.getCreateDate(), 'yyyy.MM.dd HH:mm')}"/>
+                            <div class="list-body col-sm-1 list-text-center list-col-5 answer-likes" th:text="${answerDto.getLikeCount()==null} ? '0' : ${answerDto.getLikeCount()}"/>
+                            <div class="list-body col-sm-1 list-text-center list-col-6 answer-views" th:text="${answerDto.getViews()}"/>
+
+                            <!--숨김 정보-->
+                            <div style="display: none" class="answer-dateSS" th:text="${#temporals.format(answerDto.getCreateDate(), 'yyyy.MM.dd HH:mm:ss')}"/>
+                            <div style="display: none" class="answer-parentId" th:text="${answerDto.getParentId()}"/>
+                            <div style="display: none" class="answer-id" th:text="${answerDto.getId()}"/>
+                            <div style="display: none" class="answer-category" th:text="${postDto.getFilter()}"/>
+                        </div>
+                    </button>
+                </li>
+            </ol>
+        </li>
+    </ol>
 </div>
 <!--페이징 번호 표시-->
 <div class="container">

@@ -1,4 +1,4 @@
-package yj.capstone.aerofarm.controller.admin;
+package yj.capstone.aerofarm.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -64,7 +64,7 @@ public class ProductController {
             return ResponseEntity.ok()
                     .body(Message.createMessage("리뷰가 작성되었습니다."));
         } catch (IllegalArgumentException e) {
-            log.info("잘못된 접근이 발생했습니다. by email = {}", userDetails.getUsername(),e);
+            log.info("잘못된 접근이 발생했습니다. by email = {}", userDetails.getUsername(), e);
         }
         return ResponseEntity.badRequest()
                 .body(Message.createMessage("잘못된 접근입니다."));

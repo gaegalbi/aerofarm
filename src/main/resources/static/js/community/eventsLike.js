@@ -12,8 +12,6 @@ let eventsLike = {
     },
     createLike : function () {
 
-        let token = $("meta[name='_csrf']").attr("content");
-        let header = $("meta[name='_csrf_header']").attr("content");
         let data = {
             postId: $('#post-id').val()
         };
@@ -23,10 +21,6 @@ let eventsLike = {
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data),
-            beforeSend : function(xhr)
-            {
-                xhr.setRequestHeader(header, token); // CSRF
-            },
         }).done(function () {
             alert('게시글을 추천합니다.');
             window.location.href ='/community/' + $('#post-category').val() + '/' + $('#post-id').val();
@@ -37,8 +31,6 @@ let eventsLike = {
     },
     deleteLike : function () {
 
-        let token = $("meta[name='_csrf']").attr("content");
-        let header = $("meta[name='_csrf_header']").attr("content");
         let data = {
             postId: $('#post-id').val()
         };
@@ -48,10 +40,6 @@ let eventsLike = {
             dataType: 'json',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data),
-            beforeSend : function(xhr)
-            {
-                xhr.setRequestHeader(header, token); // CSRF
-            },
         }).done(function () {
             alert('게시글 추천을 취소합니다.');
             window.location.href ='/community/' + $('#post-category').val() + '/' + $('#post-id').val();

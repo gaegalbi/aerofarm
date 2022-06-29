@@ -128,7 +128,7 @@
 <body class="d-flex flex-column min-vh-100">
 <header>
     <!--    <meta sec:authorize="isAuthenticated()" http-equiv="refresh" content="0;url=/">-->
-    <nav class="navbar navbar-expand-lg navbar-dark header" aria-label="Eighth navbar example">
+    <nav class="navbar navbar-expand-lg navbar-dark header nav-header" aria-label="Eighth navbar example">
         <div class="container">
             <a class="navbar-brand header-link" href="/"><strong>도시농부&nbsp;&nbsp;|&nbsp;&nbsp;</strong>
                 프로페셔널한 농부들의 공간</a>
@@ -156,7 +156,6 @@
                             <p class="fieldError" th:text="${#request.getAttribute('error')}"> 에러 </p>
                         </div>
                         <form action="/login" method="post" th:object="${loginForm}">
-                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                             <label for="email" class="form-label"><small
                                     class="text-muted">EMAIL ADDRESS</small></label>
                             <div class="mb-3 input-div">
@@ -171,7 +170,7 @@
                                             class="text-muted">PASSWORD</small></label>
                                 </div>
                                 <div class="col-3" style="text-align: right; width: 120px">
-                                    <a href="#"><small class="text-muted">비밀번호 찾기</small></a>
+                                    <a href="/login/reset-password"><small class="text-muted">비밀번호 찾기</small></a>
                                 </div>
                             </div>
                             <div class="mb-3 input-div">

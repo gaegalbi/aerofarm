@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import yj.capstone.aerofarm.config.auth.dto.UserDetailsImpl;
 import yj.capstone.aerofarm.domain.order.Order;
-import yj.capstone.aerofarm.domain.order.PaymentType;
 import yj.capstone.aerofarm.dto.CartDto;
 import yj.capstone.aerofarm.dto.CheckoutCompleteDto;
 import yj.capstone.aerofarm.dto.ProductCartDto;
@@ -21,7 +20,6 @@ import yj.capstone.aerofarm.service.OrderService;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -66,31 +64,22 @@ public class CheckoutController {
             return "redirect:/checkout";
         }
 
-        Order order = orderService.createOrder(userDetails.getMember(), cart, checkoutForm);
-        log.info("order {} create. by {}", order.getId(), userDetails.getUsername());
-        return "redirect:/checkout/" + order.getUuid();
+        try {
+            Order order = orderService.createOrder(userDetails.getMember(), cart, checkoutForm);
+            log.info("Order {} create. by {}", order.getId(), userDetails.getUsername());
+            return "redirect:/checkout/" + order.getUuid();
+        } catch (IllegalArgumentException e) {
+            // TODO 커스텀 예외 고려할 것
+            log.info("Order fail, out of stock. by {}", userDetails.getUsername());
+        }
+        return "redirect:/store";
     }
 
     @GetMapping("/checkout/{uuid}")
     public String checkoutComplete(@PathVariable String uuid, Model model) {
         try {
             Order order = orderService.findByUuid(uuid);
-            CheckoutCompleteDto checkoutCompleteDto = new CheckoutCompleteDto();
-
-            // TODO 조회용 쿼리 따로 만들어 처리할 것
-            List<ProductCartDto> collect = order.getOrderLines().stream()
-                    .map(ProductCartDto::new)
-                    .collect(Collectors.toList());
-            checkoutCompleteDto.getProductCartDtos().addAll(collect);
-
-            checkoutCompleteDto.setOrderId(order.getId());
-            checkoutCompleteDto.setReceiver(order.getReceiver().getReceiver());
-            checkoutCompleteDto.setPhoneNumber(order.getReceiver().getPhoneNumber());
-            checkoutCompleteDto.setPaymentType(order.getPaymentType());
-            checkoutCompleteDto.setAddress1(order.getAddressInfo().getAddress1());
-            checkoutCompleteDto.setAddress2(order.getAddressInfo().getAddress2());
-            checkoutCompleteDto.setExtraAddress(order.getAddressInfo().getExtraAddress());
-            checkoutCompleteDto.setZipcode(order.getAddressInfo().getZipcode());
+            CheckoutCompleteDto checkoutCompleteDto = orderService.createOrderDetail(order);
 
             model.addAttribute("checkoutCompleteDto", checkoutCompleteDto);
             model.addAttribute("totalPrice", order.getTotalPrice().getMoney());

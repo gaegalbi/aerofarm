@@ -8,7 +8,10 @@ import yj.capstone.aerofarm.dto.CommentDto;
 import yj.capstone.aerofarm.dto.QCommentDto;
 import yj.capstone.aerofarm.repository.support.Querydsl5RepositorySupport;
 
+import java.util.List;
+
 import static yj.capstone.aerofarm.domain.board.QComment.comment;
+import static yj.capstone.aerofarm.domain.board.QPost.post;
 
 public class CommentRepositoryImpl extends Querydsl5RepositorySupport implements CommentRepositoryCustom {
 
@@ -28,13 +31,46 @@ public class CommentRepositoryImpl extends Querydsl5RepositorySupport implements
                                 comment.createdDate,
                                 comment.post,
                                 comment.writer.id,
-                                comment.deleteTnF))
+                                comment.deleteTnF,
+                                comment.groupId))
                         .from(comment)
-                        .where(comment.post.eq(post))
+                        .where(
+                                comment.post.eq(post),
+                                comment.parent.isNull()
+                        )
                         .orderBy(comment.createdDate.desc()),
                 query -> query
                         .select(comment.count())
                         .from(comment)
-                        .where(comment.post.eq(post)));
+                        .where(
+                                comment.post.eq(post),
+                                comment.parent.isNull()
+                        ));
+    }
+
+    @Override
+    public List<CommentDto> findAnswerCommentInfo(Post post) {
+        return select(new QCommentDto(
+                comment.id,
+                comment.writer.nickname,
+                comment.content,
+                comment.createdDate,
+                comment.post,
+                comment.writer.id,
+                comment.deleteTnF,
+                comment.groupId))
+                .from(comment)
+                .where(
+                        comment.post.eq(post),
+                        comment.parent.isNotNull()
+                )
+                .fetch();
+    }
+
+    @Override
+    public Integer findMaxGroupIdInfo() {
+        return select(comment.groupId.max())
+                .from(comment)
+                .fetchOne();
     }
 }
