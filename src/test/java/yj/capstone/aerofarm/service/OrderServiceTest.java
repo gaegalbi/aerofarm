@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import yj.capstone.aerofarm.dto.CartDto;
 import yj.capstone.aerofarm.dto.request.SignupRequest;
+import yj.capstone.aerofarm.exception.NotEnoughStockException;
 import yj.capstone.aerofarm.form.CheckoutForm;
 import yj.capstone.aerofarm.form.SaveProductForm;
 import yj.capstone.aerofarm.domain.member.Member;
@@ -83,7 +84,7 @@ class OrderServiceTest {
         when(productService.findProductById(any())).thenReturn(product);
 
         // then
-        assertThatThrownBy(() -> orderService.createOrder(null, cartDtos, checkoutForm)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> orderService.createOrder(null, cartDtos, checkoutForm)).isInstanceOf(NotEnoughStockException.class);
     }
 
     @Test
