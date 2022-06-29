@@ -14,6 +14,7 @@ import yj.capstone.aerofarm.domain.member.Member;
 import yj.capstone.aerofarm.domain.order.Order;
 import yj.capstone.aerofarm.domain.product.Product;
 import yj.capstone.aerofarm.domain.product.ProductCategory;
+import yj.capstone.aerofarm.repository.MooTongJangRepository;
 import yj.capstone.aerofarm.repository.OrderRepository;
 
 import java.util.ArrayList;
@@ -31,12 +32,14 @@ class OrderServiceTest {
     OrderRepository orderRepository;
     @Mock
     ProductService productService;
+    @Mock
+    MooTongJangRepository mooTongJangRepository;
 
     OrderService orderService;
 
     @BeforeEach
     public void before() {
-        orderService = new OrderService(orderRepository, productService);
+        orderService = new OrderService(orderRepository, productService, mooTongJangRepository);
     }
 
     @Test

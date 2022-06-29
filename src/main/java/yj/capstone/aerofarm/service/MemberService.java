@@ -2,15 +2,19 @@ package yj.capstone.aerofarm.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import yj.capstone.aerofarm.domain.member.ConfirmationToken;
+import yj.capstone.aerofarm.domain.member.Member;
 import yj.capstone.aerofarm.domain.member.Provider;
 import yj.capstone.aerofarm.dto.request.ProfileEditRequest;
 import yj.capstone.aerofarm.dto.request.SignupRequest;
-import yj.capstone.aerofarm.domain.member.ConfirmationToken;
-import yj.capstone.aerofarm.domain.member.Member;
+import yj.capstone.aerofarm.dto.response.MemberListResponseDto;
+import yj.capstone.aerofarm.dto.response.OrderAddressResponseDto;
 import yj.capstone.aerofarm.exception.DuplicateValueException;
 import yj.capstone.aerofarm.exception.TokenExpiredException;
 import yj.capstone.aerofarm.repository.MemberRepository;
@@ -110,5 +114,14 @@ public class MemberService {
         }
         member.editProfile(profileEditRequest);
         return member;
+    }
+
+    @Transactional
+    public Page<MemberListResponseDto> findMemberList(Pageable pageable) {
+        return memberRepository.findMemberList(pageable);
+    }
+
+    public OrderAddressResponseDto findMemberAddress(Long id) {
+        return memberRepository.findMemberAddress(id);
     }
 }

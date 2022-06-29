@@ -66,25 +66,7 @@
                                 abc123
                             </h4>
                             <br/>
-                            <div class="list-group text-start list-group-flush pb-4">
-                                <a href="/my-page/info"
-                                   class="rounded-top list-group-item list-group-item-primary list-group-item-action active">
-                                    기본 회원 정보
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-primary list-group-item-action">
-                                    작성 글 조회
-                                </a>
-                                <a href="#" class="list-group-item list-group-item-primary list-group-item-action">
-                                    작성 댓글 조회
-                                </a>
-                                <a href="/my-page/order-list" class="list-group-item list-group-item-primary list-group-item-action">
-                                    구매 내역 조회
-                                </a>
-                                <a href="#"
-                                   class="rounded-bottom list-group-item-primary list-group-item list-group-item-action">
-                                    나의 작물 조회
-                                </a>
-                            </div>
+                            <div th:replace="~{fragments/memberMenuBar :: memberMenuBar}"/>
                         </div>
                     </div>
                 </div>
@@ -115,16 +97,9 @@
                                     </h5>
                                 </div>
                                 <div class="col-md-8">
-                                    <th:block th:if="${memberDto.name != null}">
-                                        <h5 th:text="*{name}">
-                                            홍길동
-                                        </h5>
-                                    </th:block>
-                                    <th:block th:if="${memberDto.name == null}">
-                                        <h5>
-                                            미등록
-                                        </h5>
-                                    </th:block>
+                                    <h5 th:text="${#strings.isEmpty(memberDto.name)} ? '미등록' : *{name}">
+                                        홍길동
+                                    </h5>
                                 </div>
                             </div>
                             <div class="row my-5">
@@ -134,16 +109,9 @@
                                     </h5>
                                 </div>
                                 <div class="col-md-8">
-                                    <th:block th:if="${memberDto.phoneNumber != null}">
-                                        <h5 th:text="*{phoneNumber}">
-                                            010-1234-1234
-                                        </h5>
-                                    </th:block>
-                                    <th:block th:if="${memberDto.phoneNumber == null}">
-                                        <h5>
-                                            미등록
-                                        </h5>
-                                    </th:block>
+                                    <h5 th:text="${#strings.isEmpty(memberDto.phoneNumber)} ? '미등록' : *{phoneNumber}">
+                                        010-1234-1234
+                                    </h5>
                                 </div>
                             </div>
                             <div class="row my-5">
