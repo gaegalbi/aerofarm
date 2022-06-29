@@ -1,9 +1,12 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../LoginPage/LoginPageLogin.dart';
+import '../main.dart';
 import '../themeData.dart';
 import 'CommunityPageCreatePost.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:http/http.dart' as http;
 
 class CommunityPageFloating extends StatelessWidget {
   final Map<String,dynamic> keywords;
@@ -26,8 +29,18 @@ class CommunityPageFloating extends StatelessWidget {
             child: const Text("삭제",style: CommunityPageTheme.floatingButton,),
             backgroundColor: Colors.red,
             foregroundColor: Colors.white,
-            onTap: () {
-
+            onTap: () async {
+               /* var body = jsonEncode(keywords['id']);
+                print(body);
+                await http.post(
+                  Uri.http(ipv4, '/updatePost'),
+                  headers: {
+                    "Content-Type": "application/json",
+                    "Cookie": "JSESSIONID=$session",
+                  },
+                  encoding: Encoding.getByName('utf-8'),
+                  body: body,
+                );*/
             },
           ) : SpeedDialChild(),
           keywords['writer'] == nickname ? SpeedDialChild(

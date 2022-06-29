@@ -188,7 +188,7 @@ Future fetch(String communityCategory, bool readPost) async {
       'page': pageIndexController.pageIndex.value.toString(),
     };
     final response = await http
-        .get(Uri.http(ipv4, '/community/$communityCategory}/${readPostController.id.value}',_queryParameters),
+        .get(Uri.http(ipv4, '/community/detail/${readPostController.id.value}',_queryParameters),
         headers:{
           "Content-Type": "application/x-www-form-urlencoded",
           "Cookie":"JSESSIONID=$session",

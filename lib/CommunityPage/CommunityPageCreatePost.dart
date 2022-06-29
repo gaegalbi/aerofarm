@@ -82,7 +82,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
       //_controller.setText(readPostController.content.value);
     }
     super.initState();
-    Future.delayed(const Duration(milliseconds: 300),()=>_controller.setText(readPostController.content.value));
+    Future.delayed(const Duration(milliseconds: 400),()=>_controller.setText(readPostController.content.value));
   }
 
   @override
