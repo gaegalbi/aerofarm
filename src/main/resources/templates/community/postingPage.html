@@ -132,7 +132,8 @@
                     <div class="row comment-info" th:each="commentDto : ${pageableList.getContent()}">
                         <div class="col-6 text-lg-start">
                             <img src="/image/test_icon.png" class="rounded-circle" style="width: 40px; height: 40px">
-                            <span class="comment-basic comment-writer" th:utext="${commentDto.isDeleteTnF()} ? '( 삭제 )' : '&lt;b&gt;' + ${commentDto.getWriter()} + '&lt;/b&gt; ' + ${#temporals.format(commentDto.getLocalDateTime(), '( yyyy.MM.dd HH:mm )')}"/>
+                            <span class="comment-basic comment-writer" th:utext="${commentDto.isDeleteTnF()} ? '( 삭제 )' : '&lt;b&gt;' + ${commentDto.getWriter()} + '&lt;/b&gt; '"/>
+                            <span class="comment-basic" th:utext="${#temporals.format(commentDto.getLocalDateTime(), '( yyyy.MM.dd HH:mm )')}"/>
                             <span class="comment-date" style="display: none" th:utext="${#temporals.format(commentDto.getLocalDateTime(), 'yyyy.MM.dd HH:mm:ss')}"/>
                         </div>
                         <div class="col-6 text-lg-end">
@@ -150,7 +151,9 @@
                                 <div class="row">
                                     <div class="col-6 text-lg-start">
                                         <img src="/image/test_icon.png" class="rounded-circle" style="width: 40px; height: 40px">
-                                        <span class="comment-basic" th:utext="${answerCommentDto.isDeleteTnF()} ? '( 삭제 )' : '&lt;b&gt;' + ${answerCommentDto.getWriter()} + '&lt;/b&gt; ' + ${#temporals.format(answerCommentDto.getLocalDateTime(), '( yyyy.MM.dd HH:mm )')}"/>
+                                        <span class="comment-basic answer-writer" th:utext="${answerCommentDto.isDeleteTnF()} ? '( 삭제 )' : '&lt;b&gt;' + ${answerCommentDto.getWriter()} + '&lt;/b&gt; '"/>
+                                        <span class="comment-basic" th:utext="${#temporals.format(answerCommentDto.getLocalDateTime(), '( yyyy.MM.dd HH:mm )')}"/>
+                                        <span class="answer-date" style="display: none" th:utext="${#temporals.format(answerCommentDto.getLocalDateTime(), 'yyyy.MM.dd HH:mm:ss')}"/>
                                     </div>
                                     <div class="col-6 text-lg-end">
                                         <a class="comment-basic" href="#" th:id="${answerCommentDto.getId()}" onclick="deleteComment(this.id)" th:if="${user == answerCommentDto.getWriterId() and !answerCommentDto.isDeleteTnF()}" th:text="|댓글 삭제|"/>
