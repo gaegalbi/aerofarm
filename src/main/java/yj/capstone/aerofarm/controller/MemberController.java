@@ -107,6 +107,20 @@ public class MemberController {
         return "member/memberInfo";
     }
 
+    @GetMapping("/api/my-page/info")
+    @ResponseBody
+    public MemberDto memberInfoApi(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Member member = userDetails.getMember();
+        return MemberDto.builder()
+                .email(member.getEmail())
+                .phoneNumber(member.getPhoneNumber())
+                .name(member.getName())
+                .picture(member.getPicture())
+                .nickname(member.getNickname())
+                .addressInfo(member.getAddressInfo())
+                .build();
+    }
+
     @GetMapping("/my-page/order-list")
     public String memberInfoOrderList(
             @ModelAttribute("verify") MyPageAuthDto verify,
