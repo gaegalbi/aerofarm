@@ -30,30 +30,43 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
   late ScrollController _scrollController;
   late ScrollController _categoryController;
   bool floating = false;
+  bool refresh = false;
 
-  void handleScrolling() {
-    //전체게시판은 전체 게시물을 전부 불러올 거라서 전체게시판이나 인기게시판일때는 동작x
-    if (_scrollController.offset ==
-            _scrollController.position.maxScrollExtent &&
-        !(widget.category == 'all' || widget.category == 'hot')) {
-      pageIndexController.increment();
-      keywords.clear();
-      fetch(widget.category,false);
-    }
-    if (_scrollController.offset ==
-        _scrollController.position.minScrollExtent) {
-      //keywords.clear();
-      setState(() {
-        boardListController.boardClear();
-        pageIndexController.setUp();
-        categoryIndexController.setUp();
-        loadingController.setTrue();
+  void handleScrolling(bool expand) {
+    if(expand){
+      //전체게시판은 전체 게시물을 전부 불러올 거라서 전체게시판이나 인기게시판일때는 동작x
+      if (_scrollController.offset ==
+          _scrollController.position.maxScrollExtent &&
+          !(widget.category == 'all' || widget.category == 'hot')) {
+        pageIndexController.increment();
+        keywords.clear();
         fetch(widget.category,false);
-        Future.delayed(const Duration(microseconds: 100), () {
-          loadingController.setFalse();
+      }
+      if (_scrollController.offset ==
+          _scrollController.position.minScrollExtent) {
+        //keywords.clear();
+        setState(() {
+          boardListController.boardClear();
+          pageIndexController.setUp();
+          categoryIndexController.setUp();
+          loadingController.setTrue();
+          fetch(widget.category,false);
+          Future.delayed(const Duration(microseconds: 100), () {
+            loadingController.setFalse();
+          });
         });
+      }
+    }else{
+      print("work");
+      fetch(widget.category,false);
+      loadingController.setTrue();
+      Future.delayed(const Duration(milliseconds: 300), () {
+        loadingController.setFalse();
+        refresh = false;
       });
+
     }
+
   }
 
   @override
@@ -61,7 +74,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
     _scrollController = ScrollController();
     _categoryController = ScrollController();
     _scrollController.addListener(() {
-      handleScrolling();
+      handleScrolling(true);
     });
     commentListController.commentClear();
     boardListController.boardClear();
@@ -260,12 +273,21 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
                       : Container(),
                 ],
               ),
-              Expanded(
+              GestureDetector(
+                onVerticalDragUpdate: (dragUpdateDetails) {
+                  if (dragUpdateDetails.delta.dy > 40 && !refresh) {
+                    setState((){
+                      refresh = true;
+                    });
+                   Future.delayed(Duration(milliseconds: 100),()=>handleScrolling(false));
+                  }
+                },
                 child: Container(
                   margin: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height * 0.014,
                   ),
-                  height: MediaQuery.of(context).size.height * 0.69,
+                  //height: MediaQuery.of(context).size.height * 0.69,
+                  height: MediaQuery.of(context).size.height * 0.75,
                   child: Obx(()=>Column(children: [
                     !(loadingController.loading.value)
                         ? Expanded(

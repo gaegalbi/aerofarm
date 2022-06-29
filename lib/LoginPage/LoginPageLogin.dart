@@ -246,7 +246,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                 ),
                 TextButton(
                   onPressed: () {
-                    Get.to(()=>const LoginPageRegister());
+                    Get.to(()=>LoginPageRegister(reLogin: widget.reLogin,));
                   },
                   child: const Text(
                     "회원이 아니신가요?",

@@ -1,4 +1,3 @@
-import 'package:capstone/LoginPage/LoginPage.dart';
 import 'package:capstone/main.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +5,8 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class LoginPageRegister extends StatefulWidget {
-  const LoginPageRegister({Key? key}) : super(key: key);
+  final bool reLogin;
+  const LoginPageRegister({Key? key, required this.reLogin}) : super(key: key);
 
   @override
   State<LoginPageRegister> createState() => _LoginPageRegisterState();
@@ -71,7 +71,8 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                   Icons.chevron_left,
                 ),
                 onPressed: () {
-                  Get.offAll(const LoginPage(reLogin: false,));
+                  Get.back();
+                 // Get.off(()=> LoginPage(reLogin: widget.reLogin,));
                 },
             )),
           ),
@@ -275,7 +276,8 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                             "name":_nameController.text,
                             "nickname":_nickNameController.text
                           });
-                      Get.offAll(()=>const LoginPage(reLogin: false,));
+                      Get.back();
+                      //Get.off(()=>LoginPage(reLogin: widget.reLogin,));
                     },
                     child: const Text(
                       "가입",
