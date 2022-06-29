@@ -149,7 +149,7 @@
         <li class="list-group-item list-item-backcolor" style="border: none" th:each="postDto : ${pageableList.getContent()}">
             <button type="button" class="list-item-backcolor list-group-item list-group-item-action hover-item" style="padding: 0px; border: none" th:onclick="|location.href='@{/community/{category}/{id}(category=${postDto.category.getLowerCase()}, id=${postDto.id})}'|">
                 <div class="row g-0 post-data">
-                    <div class="list-item-1 list-body col-sm-1 list-text-center list-col-1" th:text="${postDto.getFilter().getName()}"/>
+                    <div class="list-item-1 list-body col-sm-1 list-text-center list-col-1 post-category" th:text="${postDto.getFilter().getName()}"/>
                     <div class="list-body col-sm-1 list-col-2" style="text-align: left">
                         <span class="post-title" th:text="${postDto.isDeleteTnF()} ? '삭제된 게시글입니다.' : ${#strings.abbreviate(postDto.getTitle(), 25)}"/>
                         <span class="badge bg-secondary bi-messenger post-comments" th:text="' ' + ${postDto.getCommentCount()==null ? '0' : postDto.getCommentCount()}"/>
