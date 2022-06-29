@@ -5,6 +5,7 @@ import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
+import '../CommunityPageCustomLib/CommunityFetch.dart';
 import '../CommunityPageCustomLib/CustomRadioButton.dart';
 import 'package:http/http.dart' as http;
 import '../LoginPage/LoginPageLogin.dart';
@@ -39,6 +40,9 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
   late ScrollController _scrollController1;
   late TextEditingController _titleController;
   late HtmlEditorController _controller;
+
+  final readPostController = Get.put(ReadPostController());
+
   var data = <String, dynamic>{};
   final Map<String, String> korToEngCategory = {
     "자유 게시판": "free",
@@ -46,6 +50,13 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
     "질문 게시판": "question",
     "사진 게시판": "picture",
     "거래 게시판": "trade"
+  };
+  final Map<String, String> engToKorCategory = {
+    "free":"자유 게시판",
+    "information": "정보 게시판",
+    "question": "질문 게시판",
+    "picture":"사진 게시판",
+    "trade" : "거래 게시판"
   };
   final Map<String, String> korToEngClass = {
     "일반": "normal",
@@ -64,7 +75,14 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
     _scrollController = ScrollController();
     _scrollController1 = ScrollController();
     _titleController = TextEditingController();
+    if(widget.type =="UpdatePost") {
+      classificationValue = widget.keywords['category'];
+      groupValue = engToKorCategory[widget.keywords['communityCategory']]!;
+      _titleController.text = widget.keywords['title'];
+      //_controller.setText(readPostController.content.value);
+    }
     super.initState();
+    Future.delayed(const Duration(milliseconds: 300),()=>_controller.setText(readPostController.content.value));
   }
 
   @override
@@ -114,6 +132,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
             child: TextButton(
                 onPressed: () async {
                   if (widget.type == "ReadPost") {
+                    //답글 쓰기
                     if (_controller.getText().toString().length == 1) {
                       showDialog(
                           context: context,
@@ -164,7 +183,9 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                         });
                       }
                     }
-                  } else {
+                  }
+                  else {
+                    //그냥 글쓰기
                     if (korToEngCategory[groupValue] == null ||korToEngClass[classificationValue] == null ||
                         _titleController.text.isEmpty ||
                         _controller.getText().toString().length == 1) {
@@ -191,26 +212,50 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                       if(checkTimerController.time.value){
                         checkTimerController.stop(context);
                       }else{
-                        //createBasicPost
                         final txt = await _controller.getText();
-                        data = {
-                          "id":'',
-                          "category": korToEngCategory[groupValue],
-                          "filter":korToEngClass[classificationValue],
-                          "title": _titleController.text,
-                          "contents": txt,
-                          "postId":'',
-                        };
-                        var body = json.encode(data);
-                        await http.post(
-                          Uri.http(ipv4, '/createBasicPost'),
-                          headers: {
-                            "Content-Type": "application/json",
-                            "Cookie": "JSESSIONID=$session",
-                          },
-                          encoding: Encoding.getByName('utf-8'),
-                          body: body,
-                        );
+                        if(widget.type == "UpdatePost"){
+                          data = {
+                            "id":widget.keywords['id'],
+                            "category": korToEngCategory[groupValue],
+                            "filter":korToEngClass[classificationValue],
+                            "title": _titleController.text,
+                            "contents": txt,
+                            "postId":'',
+                          };
+                          var body = json.encode(data);
+
+
+                          await http.post(
+                            Uri.http(ipv4, '/updatePost'),
+                            headers: {
+                              "Content-Type": "application/json",
+                              "Cookie": "JSESSIONID=$session",
+                            },
+                            encoding: Encoding.getByName('utf-8'),
+                            body: body,
+                          );
+                        }else{
+                          //createBasicPost
+                          data = {
+                            "id":'',
+                            "category": korToEngCategory[groupValue],
+                            "filter":korToEngClass[classificationValue],
+                            "title": _titleController.text,
+                            "contents": txt,
+                            "postId":'',
+                          };
+                          var body = json.encode(data);
+
+                          await http.post(
+                            Uri.http(ipv4, '/createBasicPost'),
+                            headers: {
+                              "Content-Type": "application/json",
+                              "Cookie": "JSESSIONID=$session",
+                            },
+                            encoding: Encoding.getByName('utf-8'),
+                            body: body,
+                          );
+                        }
                         _controller.editorController?.clearFocus();
                         _controller.disable();
                         //Get.offAll(() => CommunityPageForm(category: widget.keywords['communityCategory']));

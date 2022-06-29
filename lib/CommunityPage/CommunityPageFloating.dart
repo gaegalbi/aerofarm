@@ -35,7 +35,9 @@ class CommunityPageFloating extends StatelessWidget {
             backgroundColor: MainColor.three,
             foregroundColor: Colors.white,
             onTap: () {
-
+              checkTimerController.time.value ?
+              checkTimerController.stop(context) :
+              Get.to(() => CommunityPageCreatePost(keywords:keywords, type: "UpdatePost",before: before,));
             },
           ) : SpeedDialChild(),
           SpeedDialChild(
