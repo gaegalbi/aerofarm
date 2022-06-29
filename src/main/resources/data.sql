@@ -21,6 +21,21 @@ insert into product (created_date, modified_date, category, contents_id, image_u
 values ('2022-06-25 21:06:24.599072', '2022-06-25 21:06:24.599072', 'DEVICE', 1,
         'https://via.placeholder.com/400x500', 'qqc', 100, 100, 0);
 
+
+
+insert into post_detail (id, created_date, modified_date, contents)
+values (1, '2022-06-29 11:12:38.752227', '2022-06-29 11:12:38.752227', '자유-일반-내용');
+
+insert into post (id, created_date, modified_date, category, delete_tnf, filter, group_id, title, views, post_detail_id, parent_id, member_id)
+values (1, '2022-06-29 11:12:38.752227', '2022-06-29 11:12:38.752227', 'free', 'FALSE', 'normal', 1, '자유-일반', 1, 1, null, 1);
+
+insert into post_detail (id, created_date, modified_date, contents)
+values (2, '2022-06-29 11:12:38.752227', '2022-06-29 11:12:38.752227', '답글-작성');
+
+insert into post (id, created_date, modified_date, category, delete_tnf, filter, group_id, title, views, post_detail_id, parent_id, member_id)
+values (2, '2022-06-29 11:12:38.752227', '2022-06-29 11:12:38.752227', 'free', 'FALSE', 'normal', 1, 'Re:자유-일반', 1, 2, 1, 1);
+
+
 -- insert into PRODUCT (NAME, PRICE, STOCK, CATEGORY) values ( 'Apple', 1000, 100, 'ETC');
 -- insert into PRODUCT (NAME, PRICE, STOCK, CATEGORY) values ( 'Pear', 1000, 100, 'ETC');
 -- insert into PRODUCT (NAME, PRICE, STOCK, CATEGORY) values ( 'Banana', 1000, 100, 'ETC');
