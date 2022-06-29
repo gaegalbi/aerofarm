@@ -6,7 +6,11 @@ import org.springframework.data.domain.Pageable;
 import yj.capstone.aerofarm.domain.board.Post;
 import yj.capstone.aerofarm.dto.CommentDto;
 
+import java.util.List;
+
 public interface CommentRepositoryCustom {
 
     Page<CommentDto> findCommentInfo(Post post, Pageable pageable);
+    List<CommentDto> findAnswerCommentInfo(Post post);
+    Integer findMaxGroupIdInfo();
 }

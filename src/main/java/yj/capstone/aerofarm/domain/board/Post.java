@@ -38,6 +38,9 @@ public class Post extends BaseEntity {
 
     private String title;
 
+    @Convert(converter = FilterConverter.class)
+    private PostFilter filter;
+
 //    @Enumerated(EnumType.STRING)
     @Convert(converter = CategoryConverter.class)
     private PostCategory category;
@@ -45,6 +48,8 @@ public class Post extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Post parent;
+
+    private int groupId;
 
     @OneToMany(mappedBy = "parent")
     private List<Post> child = new ArrayList<>();
@@ -62,23 +67,36 @@ public class Post extends BaseEntity {
     private boolean deleteTnF;
 
     @Builder(builderClassName = "PostBuilder", builderMethodName = "postBuilder")
-    public Post(PostForm postForm, Member writer) {
+    public Post(PostForm postForm, Member writer, int groupId) {
         this.writer = writer;
         this.title = postForm.getTitle();
         this.content = PostDetail.createPostDetail(postForm.getContents());
         this.category = PostCategory.findByLowerCase(postForm.getCategory());
+        this.filter = PostFilter.findByLowerCase(postForm.getFilter());
+        this.groupId = groupId;
     }
 
     @Builder(builderClassName = "PostParentBuilder", builderMethodName = "postParentBuilder")
-    public Post(PostForm postForm, Member writer, Post parent) {
+    public Post(PostForm postForm, Member writer, Post parent, int groupId) {
         this.writer = writer;
         this.title = postForm.getTitle();
         this.content = PostDetail.createPostDetail(postForm.getContents());
         this.category = PostCategory.findByLowerCase(postForm.getCategory());
+        this.filter = PostFilter.findByLowerCase(postForm.getFilter());
         this.parent = parent;
+        this.groupId = groupId;
     }
 
     public void updateViews(int views) {
         this.views = views;
+    }
+    public void updateDeleteTnF(boolean deleteTnF) {
+        this.deleteTnF = deleteTnF;
+    }
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+    public void updateContent(PostDetail postDetail) {
+        this.content = postDetail;
     }
 }
