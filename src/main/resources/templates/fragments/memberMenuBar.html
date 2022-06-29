@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="memberMenuBar">
+    <div class="list-group text-start list-group-flush pb-4">
+        <a href="/my-page/info" id="info"
+           class="rounded-top list-group-item list-group-item-primary list-group-item-action">
+            기본 회원 정보
+        </a>
+        <a href="#"
+           class="list-group-item list-group-item-primary list-group-item-action">
+            작성 글 조회
+        </a>
+        <a href="#" class="list-group-item list-group-item-primary list-group-item-action">
+            작성 댓글 조회
+        </a>
+        <a href="/my-page/order-list" id="orderList"
+           class="list-group-item list-group-item-primary list-group-item-action">
+            구매 내역 조회
+        </a>
+        <a href="#"
+           class="rounded-bottom list-group-item-primary list-group-item list-group-item-action">
+            나의 작물 조회
+        </a>
+        <script>
+            const url = window.location.pathname;
+            switch (url) {
+                case '/my-page/info':
+                    document.getElementById('info').classList.add('active');
+                    break;
+                case '/my-page/order-list':
+                    document.getElementById('orderList').classList.add('active');
+                    break;
+            }
+        </script>
+    </div>
+</th:block>
+</html>
