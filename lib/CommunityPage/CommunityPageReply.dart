@@ -241,7 +241,8 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                                 final Map<String, String> _queryParameters = <String, String>{'page': "1"};
                                 final response = await http.get(Uri.http(
                                     ipv4,
-                                    '/community/${widget.keywords['communityCategory']}/${widget.keywords['id']}', _queryParameters));
+                                    //'/community/${widget.keywords['communityCategory']}/${widget.keywords['id']}', _queryParameters));
+                                    '/community/detail/${widget.keywords['id']}', _queryParameters));
                                 if (response.statusCode == 200) {
                                   dom.Document document = parser.parse(response.body);
                                   List<dom.Element> keywordElements = document

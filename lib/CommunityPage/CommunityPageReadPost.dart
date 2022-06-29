@@ -398,7 +398,8 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                           'page': pageIndexController.pageIndex.value.toString(),
                         };
                         final response = await http
-                            .get(Uri.http(ipv4, '/community/${widget.keywords['communityCategory']}/${widget.keywords['id']}',_queryParameters),
+                            //.get(Uri.http(ipv4, '/community/${widget.keywords['communityCategory']}/${widget.keywords['id']}',_queryParameters),
+                            .get(Uri.http(ipv4, '/community/detail/${widget.keywords['id']}',_queryParameters),
                             headers:{
                               "Content-Type": "application/x-www-form-urlencoded",
                               "Cookie":"JSESSIONID=$session",

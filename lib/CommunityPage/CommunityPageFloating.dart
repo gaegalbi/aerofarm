@@ -30,7 +30,7 @@ class CommunityPageFloating extends StatelessWidget {
             backgroundColor: Colors.red,
             foregroundColor: Colors.white,
             onTap: () async {
-               /* var body = jsonEncode(keywords['id']);
+                var body = jsonEncode(keywords['id']);
                 print(body);
                 await http.post(
                   Uri.http(ipv4, '/updatePost'),
@@ -40,7 +40,7 @@ class CommunityPageFloating extends StatelessWidget {
                   },
                   encoding: Encoding.getByName('utf-8'),
                   body: body,
-                );*/
+                );
             },
           ) : SpeedDialChild(),
           keywords['writer'] == nickname ? SpeedDialChild(
