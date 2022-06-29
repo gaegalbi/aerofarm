@@ -8,6 +8,8 @@ import 'CommunityPageCreatePost.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:http/http.dart' as http;
 
+import 'CommunityPageForm.dart';
+
 class CommunityPageFloating extends StatelessWidget {
   final Map<String,dynamic> keywords;
   final String type;
@@ -30,10 +32,9 @@ class CommunityPageFloating extends StatelessWidget {
             backgroundColor: Colors.red,
             foregroundColor: Colors.white,
             onTap: () async {
-                var body = jsonEncode(keywords['id']);
-                print(body);
+                var body = json.encode({"id" : keywords['id']});
                 await http.post(
-                  Uri.http(ipv4, '/updatePost'),
+                  Uri.http(ipv4, '/deletePost'),
                   headers: {
                     "Content-Type": "application/json",
                     "Cookie": "JSESSIONID=$session",
@@ -41,6 +42,7 @@ class CommunityPageFloating extends StatelessWidget {
                   encoding: Encoding.getByName('utf-8'),
                   body: body,
                 );
+                Get.offAll(()=>CommunityPageForm(category: before));
             },
           ) : SpeedDialChild(),
           keywords['writer'] == nickname ? SpeedDialChild(
