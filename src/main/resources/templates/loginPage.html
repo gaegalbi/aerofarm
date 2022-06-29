@@ -155,7 +155,7 @@
                         <div>
                             <p class="fieldError" th:text="${#request.getAttribute('error')}"> 에러 </p>
                         </div>
-                        <form action="/login" method="post" th:object="${loginForm}">
+                        <form action="/login" method="post" th:object="${loginRequest}">
                             <label for="email" class="form-label"><small
                                     class="text-muted">EMAIL ADDRESS</small></label>
                             <div class="mb-3 input-div">
