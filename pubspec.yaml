@@ -43,6 +43,7 @@ dependencies:
   http: ^0.13.4
   flutter_html: ^2.2.1
   html_editor_enhanced: 2.5.0
+  flutter_speed_dial: ^6.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

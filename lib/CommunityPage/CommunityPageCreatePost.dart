@@ -115,7 +115,6 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                 onPressed: () async {
                   if (widget.type == "ReadPost") {
                     if (_controller.getText().toString().length == 1) {
-                      //if(_controller.document.toPlainText().length==1){
                       showDialog(
                           context: context,
                           builder: (context) {
@@ -134,11 +133,13 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                             );
                           });
                     } else {
+                      //세션 만료 확인
                       if(checkTimerController.time.value){
                         checkTimerController.stop(context);
                       }else{
                         final txt = await _controller.getText();
                         data = {
+                          "id":'',
                           "category": widget.keywords['communityCategory'],
                           "filter":korToEngClass[widget.keywords['category']],
                           "title": "Re:"+widget.keywords['title'],
@@ -148,7 +149,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                         var body = json.encode(data);
                         await http.post(
                           Uri.http(
-                              ipv4, '/createAnswerPost/${widget.keywords['id']}'),
+                              ipv4, '/createAnswerPost'),
                           headers: {
                             "Content-Type": "application/json",
                             "Cookie": "JSESSIONID=$session",
@@ -186,15 +187,19 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                             );
                           });
                     } else {
+                      //세션 만료됬는지 확인
                       if(checkTimerController.time.value){
                         checkTimerController.stop(context);
                       }else{
+                        //createBasicPost
                         final txt = await _controller.getText();
                         data = {
+                          "id":'',
                           "category": korToEngCategory[groupValue],
                           "filter":korToEngClass[classificationValue],
                           "title": _titleController.text,
                           "contents": txt,
+                          "postId":'',
                         };
                         var body = json.encode(data);
                         await http.post(

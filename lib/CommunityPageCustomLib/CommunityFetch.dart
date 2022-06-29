@@ -197,7 +197,7 @@ Future fetch(String communityCategory, bool readPost) async {
     if (response.statusCode == 200) {
       dom.Document document = parser.parse(response.body);
       List<dom.Element> keywordElements = document.querySelectorAll('.comment-info');
-      readPostController.setContent(document.querySelector('.post-contents')!.outerHtml);
+      readPostController.setContent(document.querySelector('.post-content')!.outerHtml);
       readPostController.setIsLike(document.querySelector('.isSelected')!.text);
       for (var element in keywordElements) {
         dom.Element? commentWriter = element.querySelector('.comment-writer');

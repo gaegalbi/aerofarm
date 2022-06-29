@@ -3,6 +3,8 @@ import 'package:capstone/LoginPage/LoginPage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'LoginPage/LoginPageLogin.dart';
+
 class CheckTimer extends GetxController{
   final time =false.obs;
   late Timer timer;
@@ -12,13 +14,14 @@ class CheckTimer extends GetxController{
   }
 
   void timerStart(){
-    timer = Timer.periodic(const Duration(minutes: 30), (timer) {
+    timer = Timer.periodic(const Duration(minutes: 29,seconds: 30), (timer) {
       time.value= true;
     });
   }
 
   void stop(BuildContext context){
       timer.cancel();
+      nickname = "null";
       showDialog(
           context: context,
           barrierDismissible:false,

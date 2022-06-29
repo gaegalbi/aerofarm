@@ -94,6 +94,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
         });
       },
       child: Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
         floatingActionButton: floating
             ? CommunityPageFloating(
                 keywords: {"communityCategory":widget.category},
