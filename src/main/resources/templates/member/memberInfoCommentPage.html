@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/header :: header}"/>
+
+<style>
+    .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+
+    @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+        }
+    }
+
+    .testimonial-card .card-up {
+        height: 120px;
+        overflow: hidden;
+        border-top-left-radius: .25rem;
+        border-top-right-radius: .25rem;
+    }
+
+    .testimonial-card .avatar {
+        width: 100px;
+        height: 100px;
+        margin-top: -100px;
+        overflow: hidden;
+        border: 0;
+        border-radius: 50%;
+    }
+
+    .member-info h5 {
+        margin: 0;
+    }
+
+    .member-info h6 {
+        margin: 0;
+    }
+
+    .member-info p {
+        margin: 0;
+    }
+
+    tr {
+        white-space: nowrap;
+    }
+
+    td {
+        white-space: nowrap;
+    }
+
+</style>
+
+<body class="d-flex flex-column min-vh-100">
+
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
+
+<div class="container">
+    <div class="card m-0 m-md-2 bg-transparent">
+        <div class="card-body text-white">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="fw-normal mb-0 text-white">내 정보</h2>
+            </div>
+            <div class="row" th:object="${memberDto}">
+                <div class="col-md-3 gx-4">
+                    <div class="card testimonial-card mt-2 mb-3" style="background-color: #111620">
+                        <div class="card-up"></div>
+                        <div class="avatar mx-auto white">
+                            <img src="https://via.placeholder.com/400x400"
+                                 th:src="*{picture}"
+                                 class="rounded-circle"
+                                 style="width: 100px; height: 100px"
+                                 alt="avatar">
+                        </div>
+                        <div class="card-body text-center px-4 py-2">
+                            <h4 th:text="*{nickname}">
+                                abc123
+                            </h4>
+                            <br/>
+                            <div th:replace="~{fragments/memberMenuBar :: memberMenuBar}"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-9 gx-4">
+                    <div class="card mt-2 mb-3" style="background-color: #111620">
+                        <div class="card-body member-info px-4">
+                            <h4 class="m-0 text-center">
+                                작성 댓글 조회
+                            </h4>
+                            <hr/>
+                            <div class="table-responsive">
+                                <table class="table table-dark table-sm">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">게시글 번호</th>
+                                        <th scope="col">댓글 내용</th>
+                                        <th scope="col">작성일</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="comment: ${pageableList.getContent()}"
+                                        th:onclick="|location.href='@{/community/detail/{postId}(postId=${comment.getPostId()})}'|"
+                                        style="cursor:pointer;">
+                                        <td th:text="${comment.getPostId()}">1</td>
+                                        <td th:text="${comment.getContent()}">1</td>
+                                        <td th:text="${comment.getCreatedDate()}">1</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <br/>
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination pagination-sm justify-content-center">
+                                <li class="page-item" th:classappend="${pageableList.isFirst()} ? 'disabled' : ''">
+                                    <a class="page-link" href="#" th:href="@{comments(page=${pageableList.getNumber()-1})}"
+                                       aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item" th:classappend="${pageableList.getNumber() == 1} ? 'active' : ''">
+                                    <a class="page-link" th:href="@{comments(page=1)}">1</a>
+                                </li>
+                                <li class="page-item" th:if="${pageableList.isMoreLeft()}"><a class="page-link">...</a>
+                                </li>
+
+                                <li class="page-item"
+                                    th:classappend="${pageableList.getNumber() == num} ? 'active' : ''"
+                                    th:if="${pageableList.getTotalPage()} > 2"
+                                    th:each="num : ${#numbers.sequence(pageableList.getListMin(),pageableList.getListMax())}">
+                                    <a class="page-link" href="#" th:href="@{comments(page=${num})}" th:text="${num}">1</a>
+                                </li>
+
+                                <li class="page-item" th:if="${pageableList.isMoreRight()}"><a class="page-link">...</a>
+                                </li>
+                                <li class="page-item"
+                                    th:classappend="${pageableList.getNumber() == pageableList.getTotalPage()} ? 'active' : ''"
+                                    th:unless="${pageableList.isFirst()} and ${pageableList.isLast()}"><a
+                                        class="page-link" th:href="@{comments(page=${pageableList.getTotalPage()})}"
+                                        th:text="${pageableList.getTotalPage()}">99</a></li>
+
+                                <li class="page-item" th:classappend="${pageableList.isLast()} ? 'disabled' : ''">
+                                    <a class="page-link" href="#"
+                                       th:href="@{comments(page=${pageableList.getNumber()+1})}"
+                                       aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="~{fragments/footer :: footer}"/>
+</body>
+</html>

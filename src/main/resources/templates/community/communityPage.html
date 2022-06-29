@@ -147,7 +147,7 @@
         </li>
         <!--데이터 부분-->
         <li class="list-group-item list-item-backcolor" style="border: none" th:each="postDto : ${pageableList.getContent()}">
-            <button type="button" class="list-item-backcolor list-group-item list-group-item-action hover-item" style="padding: 0px; border: none" th:onclick="|location.href='@{/community/{category}/{id}(category=${postDto.category.getLowerCase()}, id=${postDto.id})}'|">
+            <button type="button" class="list-item-backcolor list-group-item list-group-item-action hover-item" style="padding: 0px; border: none" th:onclick="|location.href='@{/community/detail/{id}(id=${postDto.id})}'|">
                 <div class="row g-0 post-data">
                     <div class="list-item-1 list-body col-sm-1 list-text-center list-col-1 post-category" th:text="${postDto.getFilter().getName()}"/>
                     <div class="list-body col-sm-1 list-col-2" style="text-align: left">
@@ -164,7 +164,7 @@
             </button>
             <ol class="list-group" th:each="answerDto : ${answerPostInfo}" style="border: none">
                 <li class="list-group-item list-item-backcolor" style="border: none" th:if="${postDto.groupId == answerDto.groupId}">
-                    <button type="button" class="list-item-backcolor list-group-item list-group-item-action hover-item" style="padding: 0px; border: none" th:onclick="|location.href='@{/community/{category}/{id}(category=${answerDto.category.getLowerCase()}, id=${answerDto.id})}'|">
+                    <button type="button" class="list-item-backcolor list-group-item list-group-item-action hover-item" style="padding: 0px; border: none" th:onclick="|location.href='@{/community/detail/{id}(id=${answerDto.id})}'|">
                         <div class="row g-0 answer-data" style="height: 35px">
                             <div class="list-body col-sm-1 list-text-center list-col-1" th:text="'↳'"/>
                             <div class="list-body col-sm-1 list-col-2" style="text-align: left">

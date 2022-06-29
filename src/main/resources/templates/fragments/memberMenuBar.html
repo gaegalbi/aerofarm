@@ -6,11 +6,12 @@
            class="rounded-top list-group-item list-group-item-primary list-group-item-action">
             기본 회원 정보
         </a>
-        <a href="#"
+        <a href="/my-page/posts" id="posts"
            class="list-group-item list-group-item-primary list-group-item-action">
             작성 글 조회
         </a>
-        <a href="#" class="list-group-item list-group-item-primary list-group-item-action">
+        <a href="/my-page/comments" id="comments"
+           class="list-group-item list-group-item-primary list-group-item-action">
             작성 댓글 조회
         </a>
         <a href="/my-page/order-list" id="orderList"
@@ -29,6 +30,12 @@
                     break;
                 case '/my-page/order-list':
                     document.getElementById('orderList').classList.add('active');
+                    break;
+                case '/my-page/posts':
+                    document.getElementById('posts').classList.add('active');
+                    break;
+                case '/my-page/comments':
+                    document.getElementById('comments').classList.add('active');
                     break;
             }
         </script>

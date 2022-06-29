@@ -10,7 +10,6 @@ let eventsComment = {
         });
     },
     createBasicComment : function () {
-
         let data = {
             postId: $('#post-id').val(),
             content: $('#comment').val()
@@ -23,7 +22,7 @@ let eventsComment = {
             data: JSON.stringify(data),
         }).done(function () {
             alert('댓글 작성이 완료되었습니다.');
-            window.location.href ='/community/' + $('#post-category').val() + '/' + $('#post-id').val();
+            window.location.href ='/community/detail/' + $('#post-id').val();
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });
@@ -42,7 +41,7 @@ let eventsComment = {
             data: JSON.stringify(data),
         }).done(function () {
             alert('댓글 작성이 완료되었습니다.');
-            window.location.href ='/community/' + $('#post-category').val() + '/' + $('#post-id').val();
+            window.location.href ='/community/detail/' + $('#post-id').val();
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });

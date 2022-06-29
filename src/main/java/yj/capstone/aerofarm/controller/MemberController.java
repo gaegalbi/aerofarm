@@ -19,10 +19,13 @@ import yj.capstone.aerofarm.domain.member.Member;
 import yj.capstone.aerofarm.domain.order.Order;
 import yj.capstone.aerofarm.dto.*;
 import yj.capstone.aerofarm.dto.request.ProfileEditRequest;
+import yj.capstone.aerofarm.dto.response.CommentListResponseDto;
+import yj.capstone.aerofarm.dto.response.PostListResponseDto;
 import yj.capstone.aerofarm.exception.DuplicateValueException;
 import yj.capstone.aerofarm.form.InitPasswordForm;
 import yj.capstone.aerofarm.service.MemberService;
 import yj.capstone.aerofarm.service.OrderService;
+import yj.capstone.aerofarm.service.PostService;
 
 import javax.validation.Valid;
 
@@ -37,6 +40,7 @@ public class MemberController {
 
     private final MemberService memberService;
     private final OrderService orderService;
+    private final PostService postService;
 
     // TODO AOP 사용해서 인증 여부 관련 공통화 필요
     @ModelAttribute("verify")
@@ -112,13 +116,8 @@ public class MemberController {
         if (!verify.isVerify()) {
             return "redirect:/my-page/need-auth";
         }
-        Member member = userDetails.getMember();
-        MemberDto memberDto = MemberDto.builder()
-                .picture(member.getPicture())
-                .nickname(member.getNickname())
-                .build();
-
-        Page<OrderInfoDto> orderInfo = orderService.findOrderInfoByMemberId(member.getId(), pageable);
+        MemberDto memberDto = getMemberDto(userDetails.getMember());
+        Page<OrderInfoDto> orderInfo = orderService.findOrderInfoByMemberId(userDetails.getMember().getId(), pageable);
         PageableList<OrderInfoDto> pageableList = new PageableList<>(orderInfo);
 
         model.addAttribute("pageableList", pageableList);
@@ -149,14 +148,7 @@ public class MemberController {
 
     @GetMapping("/my-page/edit")
     public String editPage(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        Member member = userDetails.getMember();
-        MemberDto memberDto = MemberDto.builder()
-                .name(member.getName())
-                .nickname(member.getNickname())
-                .phoneNumber(member.getPhoneNumber())
-                .addressInfo(member.getAddressInfo())
-                .build();
-
+        MemberDto memberDto = getMemberDto(userDetails.getMember());
         model.addAttribute("memberDto", memberDto);
 
         return "member/memberEdit";
@@ -169,6 +161,35 @@ public class MemberController {
         userDetails.updateMember(member);
         return ResponseEntity.ok()
                 .body(createMessage("정보가 수정 되었습니다."));
+    }
+
+    @GetMapping("/my-page/posts")
+    public String postList(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails, @PageableDefault Pageable pageable) {
+        MemberDto memberDto = getMemberDto(userDetails.getMember());
+        Page<PostListResponseDto> postList = postService.findMyPostList(userDetails.getMember().getId(), pageable);
+        PageableList<PostListResponseDto> pageableList = new PageableList<>(postList);
+
+        model.addAttribute("memberDto", memberDto);
+        model.addAttribute("pageableList", pageableList);
+        return "member/memberInfoPostPage";
+    }
+
+    @GetMapping("/my-page/comments")
+    public String commentList(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails, @PageableDefault Pageable pageable) {
+        MemberDto memberDto = getMemberDto(userDetails.getMember());
+        Page<CommentListResponseDto> commentList = postService.findMyCommentList(userDetails.getMember().getId(), pageable);
+        PageableList<CommentListResponseDto> pageableList = new PageableList<>(commentList);
+
+        model.addAttribute("memberDto", memberDto);
+        model.addAttribute("pageableList", pageableList);
+        return "member/memberInfoCommentPage";
+    }
+
+    private MemberDto getMemberDto(Member member) {
+        return MemberDto.builder()
+                .picture(member.getPicture())
+                .nickname(member.getNickname())
+                .build();
     }
 
     @ResponseBody

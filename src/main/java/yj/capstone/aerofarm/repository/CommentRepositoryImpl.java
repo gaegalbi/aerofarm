@@ -6,12 +6,13 @@ import yj.capstone.aerofarm.domain.board.Comment;
 import yj.capstone.aerofarm.domain.board.Post;
 import yj.capstone.aerofarm.dto.CommentDto;
 import yj.capstone.aerofarm.dto.QCommentDto;
+import yj.capstone.aerofarm.dto.response.CommentListResponseDto;
+import yj.capstone.aerofarm.dto.response.QCommentListResponseDto;
 import yj.capstone.aerofarm.repository.support.Querydsl5RepositorySupport;
 
 import java.util.List;
 
 import static yj.capstone.aerofarm.domain.board.QComment.comment;
-import static yj.capstone.aerofarm.domain.board.QPost.post;
 
 public class CommentRepositoryImpl extends Querydsl5RepositorySupport implements CommentRepositoryCustom {
 
@@ -72,5 +73,23 @@ public class CommentRepositoryImpl extends Querydsl5RepositorySupport implements
         return select(comment.groupId.max())
                 .from(comment)
                 .fetchOne();
+    }
+
+    @Override
+    public Page<CommentListResponseDto> findMyComment(Long memberId, Pageable pageable) {
+        return applyPagination(pageable,
+                query -> query
+                        .select(new QCommentListResponseDto(
+                                comment.post.id,
+                                comment.content,
+                                comment.createdDate
+                        ))
+                        .from(comment)
+                        .where(comment.writer.id.eq(memberId)),
+                query -> query
+                        .select(comment.count())
+                        .from(comment)
+                        .where(comment.writer.id.eq(memberId))
+        );
     }
 }

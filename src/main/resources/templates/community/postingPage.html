@@ -77,18 +77,18 @@
 <div class="container">
     <main>
         <input type="hidden" id="post-id" th:value="${selectPost.id}"/>
-        <input type="hidden" id="post-category" th:value="${selectPostCategory}"/>
+        <input type="hidden" id="post-category" th:value="${postInfo.getCategory().getLowerCase()}"/>
         <div class="row">
             <div class="col-lg-6 col-sm-12 text-lg-start">
-                <button type="button" class="btn btn-secondary button-margin" th:onclick="|location.href='@{/community/{category}?page=1(category=${selectPostCategory})}'|" th:text="목록"/>
+                <button type="button" class="btn btn-secondary button-margin" th:onclick="|location.href='@{/community/{category}?page=1(category=${postInfo.getCategory().getLowerCase()})}'|" th:text="목록"/>
                 <button type="button" class="btn btn-danger button-margin" th:id="${postInfo.getId()}" onclick="deletePost(this.id)" th:if="${user == postInfo.getWriter().getId() and !postInfo.isDeleteTnF()}" th:text="삭제"/>
             </div>
             <div class="col-lg-6 col-sm-12 text-lg-end" id="like-area">
                 <button type="button" class="btn btn-secondary button-margin" th:onclick="|location.href='@{/writing?id={postId}(postId=${selectPost.id})}'|" th:text="수정" th:if="${user == postInfo.getWriter().getId() and !postInfo.isDeleteTnF()}"/>
                 <button type="button" class="btn btn-secondary button-margin" th:onclick="|location.href='@{/writing?postId={postId}(postId=${selectPost.id})}'|" th:text="답글"/>
                 <input type="checkbox" class="btn-check" id="likeButton" th:checked="${isSelected == 1}">
-                <input type="hidden" class="isSelected" th:checked="${isSelected}">
                 <label class="btn btn-outline-danger button-margin bi-heart" for="likeButton" th:text="' ' + ${postLikeInfo.getLikeCount()}"/><br>
+                <label style="display: none" class="isSelected" th:checked="${isSelected}"/>
             </div>
         </div>
         <!--사각 영역-->
@@ -198,7 +198,7 @@
             </div>
         </div>
         <div>
-            <button type="button" class="btn btn-secondary button-margin" th:onclick="|location.href='@{/community/{category}?page=1(category=${selectPostCategory})}'|" th:text="목록"/>
+            <button type="button" class="btn btn-secondary button-margin" th:onclick="|location.href='@{/community/{category}?page=1(category=${postInfo.getCategory().getLowerCase()})}'|" th:text="목록"/>
             <button type="button" class="btn btn-secondary button-margin" onclick="window.scrollTo(0,0);" th:text="TOP"/>
         </div>
     </main>

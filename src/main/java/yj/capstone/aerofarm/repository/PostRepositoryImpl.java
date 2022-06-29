@@ -8,11 +8,14 @@ import org.springframework.data.domain.Pageable;
 import yj.capstone.aerofarm.domain.board.*;
 import yj.capstone.aerofarm.dto.PostDto;
 import yj.capstone.aerofarm.dto.QPostDto;
+import yj.capstone.aerofarm.dto.response.PostListResponseDto;
+import yj.capstone.aerofarm.dto.response.QPostListResponseDto;
 import yj.capstone.aerofarm.repository.support.Querydsl5RepositorySupport;
 
 import java.util.List;
 
 import static yj.capstone.aerofarm.domain.board.QPost.post;
+import static yj.capstone.aerofarm.domain.board.QPostLike.*;
 
 public class PostRepositoryImpl extends Querydsl5RepositorySupport implements PostRepositoryCustom {
 
@@ -112,6 +115,30 @@ public class PostRepositoryImpl extends Querydsl5RepositorySupport implements Po
         return select(post.groupId.max())
                 .from(post)
                 .fetchOne();
+    }
+
+    @Override
+    public Page<PostListResponseDto> findMyPost(Long memberId, Pageable pageable) {
+        return applyPagination(pageable,
+                query -> query
+                        .select(new QPostListResponseDto(
+                                post.id,
+                                post.title,
+                                post.createdDate,
+                                postLike.count(),
+                                post.views,
+                                post.filter,
+                                post.category
+                        ))
+                        .from(postLike)
+                        .rightJoin(postLike.post, post)
+                        .groupBy(post.id)
+                        .where(post.writer.id.eq(memberId)),
+                query -> query
+                        .select(post.count())
+                        .from(post)
+                        .where(post.writer.id.eq(memberId))
+        );
     }
 
     private BooleanExpression categoryEq(PostCategory category) {

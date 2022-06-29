@@ -3,12 +3,15 @@ package yj.capstone.aerofarm.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import yj.capstone.aerofarm.domain.board.*;
 import yj.capstone.aerofarm.dto.CommentDto;
 import yj.capstone.aerofarm.dto.PostDto;
 import yj.capstone.aerofarm.dto.PostLikeDto;
+import yj.capstone.aerofarm.dto.response.CommentListResponseDto;
+import yj.capstone.aerofarm.dto.response.PostListResponseDto;
 import yj.capstone.aerofarm.form.CommentForm;
 import yj.capstone.aerofarm.form.PostForm;
 import yj.capstone.aerofarm.domain.member.Member;
@@ -183,4 +186,11 @@ public class PostService {
         return postLikeRepository.findByMemberIdAndPostId(memberId, postId);
     }
 
+    public Page<PostListResponseDto> findMyPostList(Long memberId, Pageable pageable) {
+        return postRepository.findMyPost(memberId, pageable);
+    }
+
+    public Page<CommentListResponseDto> findMyCommentList(Long memberId, Pageable pageable) {
+        return commentRepository.findMyComment(memberId, pageable);
+    }
 }

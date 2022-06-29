@@ -48,8 +48,8 @@ public class PostController {
     }
 
     // 선택된 게시글 페이지
-    @GetMapping("/community/{category}/{postId}")
-    public String community_detail(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable String category, @PathVariable Long postId, Model model, @RequestParam(defaultValue = "1") Integer page) {
+    @GetMapping("/community/detail/{postId}")
+    public String community_detail(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long postId, Model model, @RequestParam(defaultValue = "1") Integer page) {
         if (page < 1) page = 1;
 
         postService.updateViews(postId);           // 조회수 업데이트
@@ -77,7 +77,7 @@ public class PostController {
         model.addAttribute("postInfo", post);
         model.addAttribute("pageableList", pageableList);
         model.addAttribute("selectPost", result);
-        model.addAttribute("selectPostCategory", category);
+        model.addAttribute("selectPostCategory", post.getCategory().getLowerCase());
         model.addAttribute("postLikeInfo", postLikeInfo.get(0));
         model.addAttribute("isSelected", isSelect.size());
         model.addAttribute("user", userId);
