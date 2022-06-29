@@ -1,4 +1,3 @@
-import 'package:capstone/LoginPage/LoginPage.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -56,7 +55,8 @@ class _LoginPageResetPasswordState extends State<LoginPageResetPassword> {
                     Icons.chevron_left,
                   ),
                   onPressed: () {
-                    Get.offAll(const LoginPage(reLogin: false,));
+                   // Get.offAll(const LoginPage(reLogin: false,));
+                    Get.back();
                   },
                 ),
               )),
@@ -125,6 +125,7 @@ class _LoginPageResetPasswordState extends State<LoginPageResetPassword> {
                     child: TextButton(
                       onPressed: () {
                         //이메일 전송
+                        Get.back();
                       },
                       child: const Text(
                         "전송",
