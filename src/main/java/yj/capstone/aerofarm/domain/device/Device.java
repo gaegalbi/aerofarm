@@ -20,18 +20,6 @@ public class Device extends BaseEntity {
 
     private String nickname;
 
-    private int temperature;
-
-    private int humidity;
-
-    /**
-     * 양액의 경우 ml 단위로 할건지?
-     * float 고려
-     */
-    private int fertilizer;
-
-    private int brightness;
-
     private String deviceImage;
 
     @Enumerated(EnumType.STRING)
