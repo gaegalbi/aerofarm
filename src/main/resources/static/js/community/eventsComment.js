@@ -5,9 +5,9 @@ let eventsComment = {
         $('#btn-createBasicComment').on('click', function () {
             _this.createBasicComment();
         });
-        $('#btn-createAnswerComment').on('click', function () {
-            _this.createAnswerComment();
-        });
+        // $('#btn-createAnswerComment').on('click', function () {
+        //     _this.createAnswerComment($('#btn-createAnswerComment').attr('value'), $('#btn-createAnswerComment').attr('name'));
+        // });
     },
     createBasicComment : function () {
         let data = {
@@ -27,11 +27,15 @@ let eventsComment = {
             alert(JSON.stringify(error));
         });
     },
-    createAnswerComment : function () {
-
+    createAnswerComment : function (commentId, name) {
+        var rname = '';
+        if (name != undefined) {
+            rname = name;
+        }
         let data = {
             postId: $('#post-id').val(),
-            content: $('#comment').val()
+            content: $('#answer-textarea-' + rname + commentId).val(),
+            commentId: commentId
         };
         $.ajax({
             type: 'POST',
@@ -49,3 +53,7 @@ let eventsComment = {
 };
 
 eventsComment.init();
+
+function callAnswerCommentMethod(attValue, attName) {
+    eventsComment.createAnswerComment(attValue, attName);
+}

@@ -2,6 +2,8 @@ package yj.capstone.aerofarm.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -26,16 +28,14 @@ public class PostController {
 
     // 커뮤니티 메인 페이지
     @GetMapping("/community/{category}")
-    public String community(@PathVariable String category, Model model, @RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "title") String searchCategory, @RequestParam(defaultValue = "%") String keyword, @RequestParam(defaultValue = "all") String filter) {
-
-        if (page < 1) page = 1;
+    public String community(@PathVariable String category, Model model, @PageableDefault Pageable pageable, @RequestParam(defaultValue = "title") String searchCategory, @RequestParam(defaultValue = "%") String keyword, @RequestParam(defaultValue = "all") String filter) {
 
         PostCategory postCategory = PostCategory.findByLowerCase(category);
         PostFilter postFilter = null;
         if (!filter.equals("all")) {
             postFilter = PostFilter.findByLowerCase(filter);
         }
-        Page<PostDto> postInfo = postService.findPostInfo(postCategory, searchCategory, keyword, postFilter, page);
+        Page<PostDto> postInfo = postService.findPostInfo(postCategory, searchCategory, keyword, postFilter, pageable);
         PageableList<PostDto> pageableList = new PageableList<>(postInfo);
 
         List<PostDto> answerPostInfo = postService.findAnswerPostInfo(postCategory, searchCategory, keyword, postFilter);
@@ -49,15 +49,13 @@ public class PostController {
 
     // 선택된 게시글 페이지
     @GetMapping("/community/detail/{postId}")
-    public String community_detail(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long postId, Model model, @RequestParam(defaultValue = "1") Integer page) {
-        if (page < 1) page = 1;
-
+    public String community_detail(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long postId, Model model, @PageableDefault Pageable pageable) {
         postService.updateViews(postId);           // 조회수 업데이트
 
         Post post = postService.selectPost(postId);    // 선택한 게시물 찾기
         PostDetailDto result = new PostDetailDto(post); // 선택한 게시물 id로 상세 내용 가져오기
 
-        Page<CommentDto> commentInfo = postService.findCommentInfo(post, page); // 게시물 id로 포함 댓글 검색
+        Page<CommentDto> commentInfo = postService.findCommentInfo(post, pageable); // 게시물 id로 포함 댓글 검색
         PageableList<CommentDto> pageableList = new PageableList<>(commentInfo);    // 페이징
         List<PostLikeDto> postLikeInfo = postService.findLikeInfo(post.getId());
 
@@ -143,8 +141,7 @@ public class PostController {
     @PostMapping("/createAnswerComment")
     @PreAuthorize("hasAnyAuthority('GUEST')")
     public Long createAnswerComment(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody CommentForm commentForm) {
-//        return postService.createAnswerComment(userDetails.getMember(), commentForm).getId();
-        return 1L;
+        return postService.createAnswerComment(userDetails.getMember(), commentForm).getId();
     }
 
     // 좋아요 등록
