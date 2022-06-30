@@ -82,15 +82,15 @@ public class PostService {
     }
 
     // 댓글의 댓글 등록
-    public Comment createAnswerComment(Member writer, CommentForm commentForm, Long commentId) {
+    public Comment createAnswerComment(Member writer, CommentForm commentForm) {
         Post post = postRepository.findById(commentForm.getPostId()).orElseThrow(() -> null);
 
         Comment comment = Comment.commentAnswerBuilder()
                 .commentForm(commentForm)
                 .selectPost(post)
                 .writer(writer)
-                .parent(selectComment(commentId))
-                .groupId(selectPost(post.getId()).getGroupId())
+                .parent(selectComment(commentForm.getCommentId()))
+                .groupId(selectComment(commentForm.getCommentId()).getGroupId())
                 .build();
 
         commentRepository.save(comment);
@@ -147,9 +147,8 @@ public class PostService {
     }
 
     // 모든 댓글 정보 페이지 단위로 조회
-    public Page<CommentDto> findCommentInfo(Post post, Integer page) {
-        PageRequest pageRequest = PageRequest.of(page - 1, 10);
-        return commentRepository.findCommentInfo(post, pageRequest);
+    public Page<CommentDto> findCommentInfo(Post post, Pageable pageable) {
+        return commentRepository.findCommentInfo(post, pageable);
     }
 
     // 모든 댓글의 답글 정보 조회
@@ -158,9 +157,8 @@ public class PostService {
     }
 
     // 모든 게시글 정보 페이지 단위로 조회
-    public Page<PostDto> findPostInfo(PostCategory category, String searchCategory, String keyword, PostFilter postFilter, Integer page) {
-        PageRequest pageRequest = PageRequest.of(page - 1, 10);
-        return postRepository.findPostInfo(category, searchCategory, keyword, postFilter, pageRequest);
+    public Page<PostDto> findPostInfo(PostCategory category, String searchCategory, String keyword, PostFilter postFilter, Pageable pageable) {
+        return postRepository.findPostInfo(category, searchCategory, keyword, postFilter, pageable);
     }
 
     // 모든 답글 정보 조회
