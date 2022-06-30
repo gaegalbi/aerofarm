@@ -92,8 +92,7 @@ public class MemberController {
         if (!verify.isVerify()) {
             return "redirect:/my-page/need-auth";
         }
-
-        Member member = userDetails.getMember();
+        Member member = memberService.findMember(userDetails.getUsername());
         MemberDto memberDto = MemberDto.builder()
                 .email(member.getEmail())
                 .phoneNumber(member.getPhoneNumber())
@@ -110,7 +109,7 @@ public class MemberController {
     @GetMapping("/api/my-page/info")
     @ResponseBody
     public MemberDto memberInfoApi(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        Member member = userDetails.getMember();
+        Member member = memberService.findMember(userDetails.getUsername());
         return MemberDto.builder()
                 .email(member.getEmail())
                 .phoneNumber(member.getPhoneNumber())
@@ -162,7 +161,16 @@ public class MemberController {
 
     @GetMapping("/my-page/edit")
     public String editPage(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        MemberDto memberDto = getMemberDto(userDetails.getMember());
+        Member member = memberService.findMember(userDetails.getUsername());
+        MemberDto memberDto = MemberDto.builder()
+                .email(member.getEmail())
+                .phoneNumber(member.getPhoneNumber())
+                .name(member.getName())
+                .picture(member.getPicture())
+                .nickname(member.getNickname())
+                .addressInfo(member.getAddressInfo())
+                .build();
+
         model.addAttribute("memberDto", memberDto);
 
         return "member/memberEdit";
