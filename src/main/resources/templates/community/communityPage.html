@@ -156,11 +156,11 @@
                         <span class="badge bg-secondary bi-messenger post-comments" th:text="' ' + ${postDto.getCommentCount()==null ? '0' : postDto.getCommentCount()}"/>
                     </div>
                     <div class="list-body col-sm-1 list-text-center list-col-3 post-writer" th:text="${postDto.getWriter()}"/>
-                    <div class="list-body col-sm-1 list-text-center list-col-4 post-date" th:text="${#temporals.format(postDto.getCreateDate(), 'yyyy.MM.dd HH:mm')}"/>
+                    <div class="list-body col-sm-1 list-text-center list-col-4 post-date" th:text="${#temporals.format(postDto.getModifiedDate(), 'yyyy.MM.dd HH:mm')}"/>
                     <div class="list-body col-sm-1 list-text-center list-col-5 post-likes" th:text="${postDto.getLikeCount()==null} ? '0' : ${postDto.getLikeCount()}"/>
                     <div class="list-body col-sm-1 list-text-center list-col-6 post-views" th:text="${postDto.getViews()}"/>
                     <div class="post-id" style="display: none" th:text="${postDto.getId()}"/>   <!--숨김 정보-->
-                    <div class="post-dateSS" style="display: none" th:text="${#temporals.format(postDto.getCreateDate(), 'yyyy.MM.dd HH:mm:ss')}"/>     <!--숨김 정보-->
+                    <div class="post-dateSS" style="display: none" th:text="${#temporals.format(postDto.getModifiedDate(), 'yyyy.MM.dd HH:mm:ss')}"/>     <!--숨김 정보-->
                 </div>
             </button>
             <ol class="list-group" th:each="answerDto : ${answerPostInfo}" style="border: none">
@@ -173,12 +173,12 @@
                                 <span class="badge bg-secondary bi-messenger answer-comments" th:text="' ' + ${answerDto.getCommentCount()==null ? '0' : answerDto.getCommentCount()}"/>
                             </div>
                             <div class="list-body col-sm-1 list-text-center list-col-3 answer-writer" th:text="${answerDto.getWriter()}"/>
-                            <div class="list-body col-sm-1 list-text-center list-col-4 answer-date" th:text="${#temporals.format(answerDto.getCreateDate(), 'yyyy.MM.dd HH:mm')}"/>
+                            <div class="list-body col-sm-1 list-text-center list-col-4 answer-date" th:text="${#temporals.format(answerDto.getModifiedDate(), 'yyyy.MM.dd HH:mm')}"/>
                             <div class="list-body col-sm-1 list-text-center list-col-5 answer-likes" th:text="${answerDto.getLikeCount()==null} ? '0' : ${answerDto.getLikeCount()}"/>
                             <div class="list-body col-sm-1 list-text-center list-col-6 answer-views" th:text="${answerDto.getViews()}"/>
 
                             <!--숨김 정보-->
-                            <div style="display: none" class="answer-dateSS" th:text="${#temporals.format(answerDto.getCreateDate(), 'yyyy.MM.dd HH:mm:ss')}"/>
+                            <div style="display: none" class="answer-dateSS" th:text="${#temporals.format(answerDto.getModifiedDate(), 'yyyy.MM.dd HH:mm:ss')}"/>
                             <div style="display: none" class="answer-parentId" th:text="${answerDto.getParentId()}"/>
                             <div style="display: none" class="answer-id" th:text="${answerDto.getId()}"/>
                             <div style="display: none" class="answer-category" th:text="${postDto.getFilter()}"/>

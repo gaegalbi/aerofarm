@@ -112,7 +112,7 @@
                     <div class="comment-basic col text-lg-start">
                         <span th:utext="${postInfo.isDeleteTnF()} ? '' : '&lt;b&gt;' + ${selectPost.writer} + '&lt;/b&gt;'"/>
                         <br>
-                        <span th:text="${postInfo.isDeleteTnF()} ? '' : ${#temporals.format(selectPost.localDateTime, 'yyyy-MM-dd HH:mm:ss')}" />
+                        <span th:text="${postInfo.isDeleteTnF()} ? '' : ${#temporals.format(selectPost.getModifiedDate(), 'yyyy-MM-dd HH:mm:ss')}" />
                     </div>
                 </div>
             </div>
