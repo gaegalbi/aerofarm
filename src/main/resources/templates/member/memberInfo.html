@@ -121,7 +121,7 @@
                                     </h5>
                                 </div>
                                 <div class="col-md-8 placeholder-glow">
-                                    <th:block th:if="${memberDto.addressInfo != null} or ${!#strings.isEmpty(memberDto.addressInfo.zipcode)}">
+                                    <th:block th:if="${memberDto.addressInfo != null} and ${!#strings.isEmpty(memberDto.addressInfo.zipcode)}">
                                         <h5 th:text="*{addressInfo.getZipcode()}">
                                             12345
                                         </h5>
