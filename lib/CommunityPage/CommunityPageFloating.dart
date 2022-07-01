@@ -3,7 +3,6 @@ import 'package:capstone/MainPage/MainPageDrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../LoginPage/LoginPageLogin.dart';
-import '../MainPage/MainPageMyProfileEdit.dart';
 import '../main.dart';
 import '../themeData.dart';
 import 'CommunityPageCreatePost.dart';
@@ -92,14 +91,26 @@ class CommunityPageFloating extends StatelessWidget {
         );
       case "CommunityProfile":
         return SpeedDial(
-            spaceBetweenChildren: 5,
+          spacing: 8,
+            spaceBetweenChildren: 10,
             icon: Icons.menu,
             backgroundColor: MainColor.three,
+            childrenButtonSize: const Size(150,50),
             foregroundColor: Colors.white,
             children: [
               SpeedDialChild(
-                child: const Text(
-                  "내 정보 수정", style: CommunityPageTheme.floatingButton,),
+                child: Container(
+                  margin: const EdgeInsets.only(left: 30),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: MainColor.three,
+                  ),
+                  width: 100,
+                  height: 50,
+                  alignment: Alignment.center,
+                  child: const Text(
+                      "내 정보 수정", style: CommunityPageTheme.floatingButton),
+                ),
                 backgroundColor: MainColor.three,
                 foregroundColor: Colors.white,
                 onTap: () {
@@ -108,8 +119,18 @@ class CommunityPageFloating extends StatelessWidget {
                 },
               ),
               SpeedDialChild(
-                child: const Text(
-                  "활동 보기", style: CommunityPageTheme.floatingButton,),
+                child: Container(
+                  margin: const EdgeInsets.only(left: 30),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: MainColor.three,
+                  ),
+                  width: 100,
+                  height: 50,
+                  alignment: Alignment.center,
+                  child: const Text(
+                    "활동 보기", style: CommunityPageTheme.floatingButton),
+                ),
                 backgroundColor: MainColor.three,
                 foregroundColor: Colors.white,
                 onTap: () {
