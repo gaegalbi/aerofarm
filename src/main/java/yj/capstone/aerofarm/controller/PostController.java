@@ -50,6 +50,7 @@ public class PostController {
         return "/community/communityPage";
     }
 
+    // 본글 API
     @GetMapping("/api/community/posts")
     @ResponseBody
     public Page<PostDto> findPostApi(@RequestParam(required = false) String category, @RequestParam(defaultValue = "title") String searchCategory, @RequestParam(required = false) String keyword, @RequestParam(required = false) String filter, @PageableDefault Pageable pageable) {
@@ -57,6 +58,16 @@ public class PostController {
         PostFilter postFilter = filter == null ? null : PostFilter.findByLowerCase(filter);
 
         return postService.findPostInfo(postCategory, searchCategory, keyword, postFilter, pageable);
+    }
+
+    // 답글 API
+    @GetMapping("/api/community/answerPosts")
+    @ResponseBody
+    public List<PostDto> findAnswerPostApi(@RequestParam(required = false) String category, @RequestParam(defaultValue = "title") String searchCategory, @RequestParam(required = false) String keyword, @RequestParam(required = false) String filter) {
+        PostCategory postCategory = category == null ? null : PostCategory.findByLowerCase(category);
+        PostFilter postFilter = filter == null ? null : PostFilter.findByLowerCase(filter);
+
+        return postService.findAnswerPostInfo(postCategory, searchCategory, keyword, postFilter);
     }
 
     // 선택된 게시글 페이지
