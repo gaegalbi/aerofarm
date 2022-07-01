@@ -30,7 +30,10 @@ public class PostController {
     @GetMapping("/community/{category}")
     public String community(@PathVariable String category, Model model, @PageableDefault Pageable pageable, @RequestParam(defaultValue = "title") String searchCategory, @RequestParam(defaultValue = "%") String keyword, @RequestParam(defaultValue = "all") String filter) {
 
-        PostCategory postCategory = PostCategory.findByLowerCase(category);
+        PostCategory postCategory = null;
+        if (!category.equals("all")) {
+            postCategory = PostCategory.findByLowerCase(category);     // 선택된 카테고리
+        }
         PostFilter postFilter = null;
         if (!filter.equals("all")) {
             postFilter = PostFilter.findByLowerCase(filter);
@@ -45,6 +48,18 @@ public class PostController {
         model.addAttribute("answerPostInfo", answerPostInfo);   // 답글 리스트
 
         return "/community/communityPage";
+    }
+
+    @GetMapping("/api/community/{category}/posts")
+    public Page<PostDto> findCategoryPostApi(@PathVariable String category, @PageableDefault Pageable pageable) {
+        PostCategory postCategory = PostCategory.findByLowerCase(category);
+        return null;
+    }
+
+    @GetMapping("/api/community/posts")
+    @ResponseBody
+    public Page<PostDto> findPostApi(@PageableDefault Pageable pageable) {
+        return postService.findPostInfo(null, "title", null, null, pageable);
     }
 
     // 선택된 게시글 페이지

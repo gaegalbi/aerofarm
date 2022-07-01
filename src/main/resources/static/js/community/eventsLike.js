@@ -23,8 +23,7 @@ let eventsLike = {
             data: JSON.stringify(data),
         }).done(function () {
             alert('게시글을 추천합니다.');
-            window.location.href ='/community/' + $('#post-category').val() + '/' + $('#post-id').val();
-            // $('#createLike').load(window.location.href + ' #createLike');
+            window.location.href ='/community/detail/' + $('#post-id').val();
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });
@@ -42,8 +41,7 @@ let eventsLike = {
             data: JSON.stringify(data),
         }).done(function () {
             alert('게시글 추천을 취소합니다.');
-            window.location.href ='/community/' + $('#post-category').val() + '/' + $('#post-id').val();
-            // $('#createLike').load(window.location.href + ' #createLike');
+            window.location.href ='/community/detail/' + $('#post-id').val();
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });

@@ -1,8 +1,6 @@
 package yj.capstone.aerofarm.repository;
 
-import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.jpa.JPAExpressions;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import yj.capstone.aerofarm.domain.board.*;
@@ -15,6 +13,7 @@ import yj.capstone.aerofarm.repository.support.Querydsl5RepositorySupport;
 import java.util.List;
 
 import static yj.capstone.aerofarm.domain.board.QPost.post;
+import static yj.capstone.aerofarm.domain.board.QComment.*;
 import static yj.capstone.aerofarm.domain.board.QPostLike.*;
 
 public class PostRepositoryImpl extends Querydsl5RepositorySupport implements PostRepositoryCustom {
@@ -25,8 +24,6 @@ public class PostRepositoryImpl extends Querydsl5RepositorySupport implements Po
 
     @Override
     public Page<PostDto> findPostInfo(PostCategory category, String searchCategory, String keyword, PostFilter postFilter, Pageable pageable) {
-        QComment commentSub = new QComment("commentSub");
-        QPostLike postLikeSub = new QPostLike("likeCount");
 
         return applyPagination(pageable,
                 query -> query
@@ -37,29 +34,22 @@ public class PostRepositoryImpl extends Querydsl5RepositorySupport implements Po
                                         post.category,
                                         post.filter,
                                         post.views,
-                                        post.createdDate,
-                                        ExpressionUtils.as(
-                                                JPAExpressions
-                                                        .select(commentSub.post.count())
-                                                        .from(commentSub)
-                                                        .groupBy(commentSub.post)
-                                                        .having(commentSub.post.eq(post)), "commentCount"),
-                                        ExpressionUtils.as(
-                                                JPAExpressions
-                                                        .select(postLikeSub.post.count())
-                                                        .from(postLikeSub)
-                                                        .groupBy(postLikeSub.post)
-                                                        .having(postLikeSub.post.eq(post)), "likeCount"),
+                                        post.content.modifiedDate,
+                                        comment.id.countDistinct().as("commentCount"),
+                                        postLike.id.countDistinct().as("likeCount"),
                                         post.parent.id,
                                         post.groupId,
                                         post.deleteTnF))
                         .from(post)
+                        .leftJoin(comment).on(post.id.eq(comment.post.id))
+                        .leftJoin(postLike).on(post.id.eq(postLike.post.id))
                         .where(
                                 categoryEq(category),
                                 titleOrWriterEq(searchCategory, keyword),
                                 filterEq(postFilter),
                                 post.parent.id.isNull()
                         )
+                        .groupBy(post.id)
                         .orderBy(post.createdDate.desc()),
                 query -> query
                         .select(post.count())
@@ -74,8 +64,6 @@ public class PostRepositoryImpl extends Querydsl5RepositorySupport implements Po
 
     @Override
     public List<PostDto> findAnswerPostInfo(PostCategory category, String searchCategory, String keyword, PostFilter postFilter) {
-        QComment commentSub = new QComment("commentSub");
-        QPostLike postLikeSub = new QPostLike("likeCount");
 
         return select(new QPostDto(
                 post.id,
@@ -84,29 +72,22 @@ public class PostRepositoryImpl extends Querydsl5RepositorySupport implements Po
                 post.category,
                 post.filter,
                 post.views,
-                post.createdDate,
-                ExpressionUtils.as(
-                        JPAExpressions
-                                .select(commentSub.post.count())
-                                .from(commentSub)
-                                .groupBy(commentSub.post)
-                                .having(commentSub.post.eq(post)), "commentCount"),
-                ExpressionUtils.as(
-                        JPAExpressions
-                                .select(postLikeSub.post.count())
-                                .from(postLikeSub)
-                                .groupBy(postLikeSub.post)
-                                .having(postLikeSub.post.eq(post)), "likeCount"),
+                post.content.modifiedDate,
+                comment.id.countDistinct().as("commentCount"),
+                postLike.id.countDistinct().as("likeCount"),
                 post.parent.id,
                 post.groupId,
                 post.deleteTnF))
                 .from(post)
+                .leftJoin(comment).on(post.id.eq(comment.post.id))
+                .leftJoin(postLike).on(post.id.eq(postLike.post.id))
                 .where(
                         categoryEq(category),
                         titleOrWriterEq(searchCategory, keyword),
                         filterEq(postFilter),
                         post.parent.id.isNotNull()
                 )
+                .groupBy(post.id)
                 .fetch();
     }
 
@@ -124,7 +105,7 @@ public class PostRepositoryImpl extends Querydsl5RepositorySupport implements Po
                         .select(new QPostListResponseDto(
                                 post.id,
                                 post.title,
-                                post.createdDate,
+                                post.modifiedDate,
                                 postLike.count(),
                                 post.views,
                                 post.filter,
