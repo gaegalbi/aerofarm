@@ -21,7 +21,7 @@ class MainColor {
 }
 
 class MainSize {
-  static double toobarHeight = Get.height * 0.1;
+  static double toolbarHeight = Get.height * 0.1;
 }
 
 class LoginRegisterPageTheme {
@@ -81,7 +81,7 @@ class LoginRegisterPageTheme {
       fontSize: 18);
 }
 
-class MainTheme {
+class MainPageTheme {
   //APPBAR , IPHONE 13 mini
   // leadingWidth 79, MediaQuery.of(context).size.width * 0.2106,
   // leading margin:EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.03),
@@ -101,6 +101,11 @@ class MainTheme {
       decoration: TextDecoration.none,
       fontFamily: 'bmPro',
       fontSize: 55);
+  static const subTitle = TextStyle(
+      color: MainColor.three,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 30);
   static const name = TextStyle(
       color: MainColor.three,
       decoration: TextDecoration.none,
@@ -116,6 +121,31 @@ class MainTheme {
       decoration: TextDecoration.none,
       fontFamily: 'bmPro',
       fontSize: 30);
+  static const profileField = TextStyle(
+      color: MainColor.three,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 30);
+  static const profileEditField = TextStyle(
+      color: MainColor.three,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 28);
+  static const profileInfo = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 28);
+  static const profileAddress = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 24);
+  static const profileMapButton = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 18);
 }
 
 class MachinePageTheme {

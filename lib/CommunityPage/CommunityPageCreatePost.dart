@@ -107,7 +107,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        toolbarHeight: MainSize.toobarHeight / 2,
+        toolbarHeight: MainSize.toolbarHeight / 2,
         elevation: 0,
         backgroundColor: MainColor.six,
         leading: IconButton(
@@ -126,7 +126,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
           Container(
             margin: EdgeInsets.only(right: 15),
             decoration: BoxDecoration(
-              color: Colors.indigo,
+              color: MainColor.three,
               borderRadius: BorderRadius.circular(10.0),
             ),
             child: TextButton(

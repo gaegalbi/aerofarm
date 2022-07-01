@@ -1,78 +1,72 @@
-import 'package:capstone/MainPage/MainPage.dart';
-import 'package:capstone/MainPage/MainPageMyProfileAddress.dart';
-import 'package:capstone/MainPage/MainPageMyProfilePhone.dart';
-import 'package:capstone/MainPage/MainPageMyProfileTextField.dart';
-import 'package:capstone/themeData.dart';
+import 'dart:convert';
+
+import 'package:capstone/CommunityPage/CommunityPageFloating.dart';
+import 'package:capstone/LoginPage/LoginPageLogin.dart';
+import 'package:capstone/MainPage/MainPageDrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+
+import '../CommunityPageCustomLib/CommunityFetch.dart';
+import '../main.dart';
+import '../themeData.dart';
+import 'MainPage.dart';
+
 
 class MainPageMyProfile extends StatefulWidget {
-  const MainPageMyProfile({Key? key}) : super(key: key);
+  final Map<String,dynamic> user;
+  const MainPageMyProfile({Key? key, required this.user}) : super(key: key);
 
   @override
   State<MainPageMyProfile> createState() => _MainPageMyProfileState();
 }
 
 class _MainPageMyProfileState extends State<MainPageMyProfile> {
-  late TextEditingController _passController;
-  late TextEditingController _passCheckController;
-  late TextEditingController _phone1Controller;
-  late TextEditingController _phone2Controller;
-  late TextEditingController _phone3Controller;
-  late TextEditingController _emailController;
-  late TextEditingController _add1Controller;
-  late TextEditingController _add2Controller;
-  late TextEditingController _zipCodeController;
-  late ScrollController _scrollController;
 
+  bool floating = false;
+ /* late Map<String,dynamic> user = {
+    "nickname":"",
+    "email":"name@aerofarm.com",
+    "name":"",
+    "phoneNumber":"",
+    "addressInfo":
+      {
+        "address1":"",
+        "address2":"",
+        "zipcode":" ",
+        "extraAddress":" ",
+      }
+    ,
+  };
+*/
   @override
-  void initState() {
-    _passController = TextEditingController();
-    _passCheckController = TextEditingController();
-    _phone1Controller = TextEditingController();
-    _phone2Controller = TextEditingController();
-    _phone3Controller = TextEditingController();
-    _emailController = TextEditingController();
-    _add1Controller = TextEditingController();
-    _add2Controller = TextEditingController();
-    _zipCodeController = TextEditingController();
-    _scrollController = ScrollController();
+  void initState(){
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    _passController.dispose();
-    _passCheckController.dispose();
-    _phone1Controller.dispose();
-    _phone2Controller.dispose();
-    _phone3Controller.dispose();
-    _emailController.dispose();
-    _add1Controller.dispose();
-    _add2Controller.dispose();
-    _zipCodeController.dispose();
-    _scrollController.dispose();
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
+      onDoubleTap: (){
+        setState((){
+          floating =! floating;
+        });
       },
       child: Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+        floatingActionButton: floating? CommunityPageFloating(type: "Profile", keywords: {}, before: "") : null,
+        backgroundColor: MainColor.six,
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: MainColor.six,
-          toolbarHeight: MainSize.toobarHeight,
+          toolbarHeight: MainSize.toolbarHeight,
           elevation: 0,
           leadingWidth: MediaQuery.of(context).size.width * 0.2106,
           leading: Container(
             margin:
-                EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
+            EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
             child: FittedBox(
-                child: IconButton(
+              child: IconButton(
                 padding: EdgeInsets.zero,
                 alignment: Alignment.center,
                 color: MainColor.three,
@@ -83,14 +77,15 @@ class _MainPageMyProfileState extends State<MainPageMyProfile> {
                   Icons.chevron_left,
                 ),
                 onPressed: () {
-                  Get.off(()=>const MainPage());
+                  Get.back();
+                 /* Get.off(()=>const MainPage());*/
                 },
               ),
             ),
           ),
           title: const Text(
             "도시농부",
-            style: MainTheme.title,
+            style: MainPageTheme.title,
           ),
           actions: [
             Container(
@@ -114,116 +109,306 @@ class _MainPageMyProfileState extends State<MainPageMyProfile> {
             )
           ],
         ),
-        body: SingleChildScrollView(
-          controller: _scrollController,
-          scrollDirection: Axis.vertical,
-          child: Container(
-            color: MainColor.six,
-            child: Column(
-              children: [
-                Row(
+        body: Column(
+          children: [
+            CircleAvatar(
+              radius: MediaQuery.of(context).size.width * 0.25,
+              backgroundImage: profile?.image ?? const AssetImage("assets/images/profile.png"),
+            ),
+            Container(
+                margin: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.018,),
+                //bottom: MediaQuery.of(context).size.height * 0.036),
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CircleAvatar(
-                      radius: MediaQuery.of(context).size.width * 0.25,
-                      backgroundImage:
-                          const AssetImage("assets/images/profile.png"),
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            left: MediaQuery.of(context).size.width * 0.35,
-                            top: MediaQuery.of(context).size.width * 0.35),
-                        height: MediaQuery.of(context).size.width * 0.13,
-                        child: MaterialButton(
-                          onPressed: () {
-                            //프로필 이미지 수정
-                          },
-                          color: Colors.white,
-                          padding: EdgeInsets.zero,
-                          child: const Icon(
-                            Icons.camera_alt,
-                            color: Colors.indigo,
-                            size: 35,
-                          ),
-                          shape: const CircleBorder(),
-                        ),
-                      ),
+                    Text(
+                      widget.user['nickname'],
+                      style: ProfilePageTheme.name,
                     ),
                   ],
-                ),
-                Container(
-                    margin: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height * 0.018),
-                    child: Row(
+                )),
+            Container(
+              margin: EdgeInsets.fromLTRB(
+                  MediaQuery.of(context).size.width * 0.04,
+                  MediaQuery.of(context).size.height * 0.024,
+                  MediaQuery.of(context).size.width * 0.04,
+                  0),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        flex: 3,
+                        child: Container(
+                            margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.05),
+                            child: const Text("이메일",style: MainPageTheme.profileField,)),
+                      ),
+                      Expanded(
+                        flex: 5,
+                        child: Container(
+                            margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.05),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  //Text("217wjs",style: MainPageTheme.profileInfo,),
+                                  Text(widget.user['email'].toString().substring(0,widget.user['email'].toString().lastIndexOf('@')),style: MainPageTheme.profileInfo,),
+                                  Text(widget.user['email'].toString().substring(widget.user['email'].toString().lastIndexOf('@')),style: MainPageTheme.profileInfo,),
+                                ])),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        flex: 3,
+                        child: Container(
+                            margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.05),
+                            child: const Text("이름",style: MainPageTheme.profileField,)),
+                      ),
+                      Expanded(
+                        flex: 5,
+                        child: Container(
+                            margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.05),
+                            child:Text(widget.user['name']=="" ? "미등록" : widget.user['name'],style: MainPageTheme.profileInfo,)),
+                      ),
+                    ],
+                  ),
+                  Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
-                          "도시농부1",
-                          style: ProfilePageTheme.name,
+                        Expanded(
+                          flex: 3,
+                          child: Container(
+                              margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.05),
+                              child: const Text("전화번호",style: MainPageTheme.profileField,)),
                         ),
-                        IconButton(
-                            splashRadius: 20,
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.drive_file_rename_outline_rounded,
-                              size: 35,
-                              color: MainColor.three,
-                            ))
-                      ],
-                    )),
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.5,
-                  margin: EdgeInsets.fromLTRB(
-                      MediaQuery.of(context).size.width * 0.04,
-                      MediaQuery.of(context).size.height * 0.024,
-                      MediaQuery.of(context).size.width * 0.04,
-                      0),
-                  child: Column(
+                        Expanded(
+                          flex: 5,
+                          child: Container(
+                              margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.05),
+                              child: Text(widget.user['phoneNumber']=="" ?  "미등록" : widget.user['phoneNumber'],style: MainPageTheme.profileInfo,)),
+                        ),
+                      ]
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      MainPageMyProfileTextField(
-                          type: Type.pass,
-                          leftMargin: 0.168,
-                          controller: _passController,
-                          width: 0.46),
-                      MainPageMyProfileTextField(
-                          type: Type.passCheck,
-                          leftMargin: 0.035,
-                          controller: _passCheckController,
-                          width: 0.46),
-                      MainPageMyProfilePhone(
-                          controller1: _phone1Controller,
-                          controller2: _phone2Controller,
-                          controller3: _phone3Controller),
-                      MainPageMyProfileTextField(
-                          type: Type.email,
-                          leftMargin: 0.135,
-                          controller: _emailController,
-                          width: 0.549),
-                      MainPageMyProfileAddress(
-                          controller1: _add1Controller,
-                          controller2: _add2Controller,
-                          controller3: _zipCodeController),
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.04,
-                        //margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.06),
-                        color: MainColor.three,
-                        child: TextButton(
-                            style: TextButton.styleFrom(
-                              padding: EdgeInsets.zero,
-                            ),
-                            onPressed: () {},
-                            child: const Text(
-                              "수정",
-                              style: ProfilePageTheme.button,
-                            )),
+                      const Expanded(
+                          flex:3,
+                          child: Text("주소",style: MainPageTheme.profileField,)),
+                      Expanded(
+                        flex: 5,
+                        child: (widget.user['addressInfo']==" " || widget.user['addressInfo']['zipcode'] == "")
+                            ? const Text("미등록",style: MainPageTheme.profileInfo,) :
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(widget.user['addressInfo']['zipcode'],style: MainPageTheme.profileAddress, ),
+                            Text(widget.user['addressInfo']['address1'],style: MainPageTheme.profileAddress, ),
+                            Text(widget.user['addressInfo']['extraAddress'].toString().substring(1),style: MainPageTheme.profileAddress, ),
+                            Text(widget.user['addressInfo']['address2'],style: MainPageTheme.profileAddress, ),
+                          ],
+                        ),
                       )
                     ],
                   ),
-                )
-              ],
-            ),
-          ),
+                ],
+              ),
+            )
+          ],
         ),
       ),
     );
   }
 }
+
+/*
+class MainPageMyProfile extends StatelessWidget {
+  final Map<String,dynamic> user;
+  const MainPageMyProfile({Key? key, required this.user}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    bool floating = false;
+
+    return GestureDetector(
+      onDoubleTap: (){
+        floating =! floating;
+      },
+      child: Scaffold(
+        floatingActionButton: floating? CommunityPageFloating(type: "Profile", keywords: {}, before: "") : null,
+        backgroundColor: MainColor.six,
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: MainColor.six,
+          toolbarHeight: MainSize.toobarHeight,
+          elevation: 0,
+          leadingWidth: MediaQuery.of(context).size.width * 0.2106,
+          leading: Container(
+            margin:
+            EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.05),
+            child: FittedBox(
+              child: IconButton(
+                padding: EdgeInsets.zero,
+                alignment: Alignment.center,
+                color: MainColor.three,
+                iconSize: 50,
+                // 패딩 설정
+                constraints: const BoxConstraints(),
+                icon: const Icon(
+                  Icons.chevron_left,
+                ),
+                onPressed: () {
+                  Get.off(()=>const MainPage());
+                },
+              ),
+            ),
+          ),
+          title: const Text(
+            "도시농부",
+            style: MainPageTheme.title,
+          ),
+          actions: [
+            Container(
+              margin: EdgeInsets.only(
+                  right: MediaQuery.of(context).size.width * 0.05),
+              child: Builder(
+                builder: (context) => IconButton(
+                  padding: EdgeInsets.zero,
+                  alignment: Alignment.center,
+                  color: MainColor.three,
+                  iconSize: 50,
+                  constraints: const BoxConstraints(),
+                  icon: const Icon(
+                    Icons.home,
+                  ),
+                  onPressed: () {
+                    Get.off(()=>const MainPage());
+                  },
+                ),
+              ),
+            )
+          ],
+        ),
+        body: Column(
+          children: [
+            Column(
+              children: [
+                CircleAvatar(
+                  radius: MediaQuery.of(context).size.width * 0.25,
+                  backgroundImage: profile?.image ?? const AssetImage("assets/images/profile.png"),
+                ),
+                Container(
+                    margin: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.018,),
+                    //bottom: MediaQuery.of(context).size.height * 0.036),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          user['nickname'],
+                          style: ProfilePageTheme.name,
+                        ),
+                      ],
+                    )),
+              ],
+            ),
+            Container(
+              margin: EdgeInsets.fromLTRB(
+                  MediaQuery.of(context).size.width * 0.04,
+                  MediaQuery.of(context).size.height * 0.024,
+                  MediaQuery.of(context).size.width * 0.04,
+                  0),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        flex: 3,
+                        child: Container(
+                            margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.05),
+                            child: const Text("이메일",style: MainPageTheme.profileField,)),
+                      ),
+                      Expanded(
+                        flex: 5,
+                        child: Container(
+                            margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.05),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  //Text("217wjs",style: MainPageTheme.profileInfo,),
+                                  Text(user['email'].toString().substring(0,user['email'].toString().lastIndexOf('@')),style: MainPageTheme.profileInfo,),
+                                  Text(user['email'].toString().substring(user['email'].toString().lastIndexOf('@')),style: MainPageTheme.profileInfo,),
+                                ])),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        flex: 3,
+                        child: Container(
+                            margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.05),
+                            child: const Text("이름",style: MainPageTheme.profileField,)),
+                      ),
+                      Expanded(
+                        flex: 5,
+                        child: Container(
+                            margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.05),
+                            child:Text(user['name']=="" ? "미등록" : user['name'],style: MainPageTheme.profileInfo,)),
+                      ),
+                    ],
+                  ),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          flex: 3,
+                          child: Container(
+                              margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.05),
+                              child: const Text("전화번호",style: MainPageTheme.profileField,)),
+                        ),
+                        Expanded(
+                          flex: 5,
+                          child: Container(
+                              margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.05),
+                              child: Text(user['phoneNumber']=="" ?  "미등록" : user['phoneNumber'],style: MainPageTheme.profileInfo,)),
+                        ),
+                      ]
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Expanded(
+                          flex:3,
+                          child: Text("주소",style: MainPageTheme.profileField,)),
+                      Expanded(
+                        flex: 5,
+                        child: (user['addressInfo']==" " || user['addressInfo']['zipcode'] == "")
+                            ? const Text("미등록",style: MainPageTheme.profileInfo,) :
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(user['addressInfo']['zipcode'],style: MainPageTheme.profilePhoneNumber, ),
+                            Text(user['addressInfo']['address1'],style: MainPageTheme.profilePhoneNumber, ),
+                            Text(user['addressInfo']['extraAddress'].toString().substring(1),style: MainPageTheme.profilePhoneNumber, ),
+                            Text(user['addressInfo']['address2'],style: MainPageTheme.profilePhoneNumber, ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}*/

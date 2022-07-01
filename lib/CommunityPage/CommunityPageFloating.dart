@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'package:capstone/MainPage/MainPageDrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../LoginPage/LoginPageLogin.dart';
+import '../MainPage/MainPageMyProfileEdit.dart';
 import '../main.dart';
 import '../themeData.dart';
 import 'CommunityPageCreatePost.dart';
@@ -11,7 +13,7 @@ import 'package:http/http.dart' as http;
 import 'CommunityPageForm.dart';
 
 class CommunityPageFloating extends StatelessWidget {
-  final Map<String,dynamic> keywords;
+  final Map<String, dynamic> keywords;
   final String type;
   final String before;
 
@@ -21,64 +23,89 @@ class CommunityPageFloating extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return type == "ReadPost" ? SpeedDial(
-        spaceBetweenChildren: 5,
-        icon: Icons.menu,
-        backgroundColor: MainColor.three,
-        foregroundColor: Colors.white,
-        children: [
-          keywords['writer'] == nickname ? SpeedDialChild(
-            child: const Text("삭제",style: CommunityPageTheme.floatingButton,),
-            backgroundColor: Colors.red,
-            foregroundColor: Colors.white,
-            onTap: () async {
-                var body = json.encode({"id" : keywords['id']});
-                await http.post(
-                  Uri.http(ipv4, '/deletePost'),
-                  headers: {
-                    "Content-Type": "application/json",
-                    "Cookie": "JSESSIONID=$session",
-                  },
-                  encoding: Encoding.getByName('utf-8'),
-                  body: body,
-                );
-                Get.offAll(()=>CommunityPageForm(category: before));
-            },
-          ) : SpeedDialChild(),
-          keywords['writer'] == nickname ? SpeedDialChild(
-            child: const Text("수정",style: CommunityPageTheme.floatingButton,),
+    switch (type) {
+      case "ReadPost":
+        return SpeedDial(
+            spaceBetweenChildren: 5,
+            icon: Icons.menu,
             backgroundColor: MainColor.three,
             foregroundColor: Colors.white,
-            onTap: () {
-              checkTimerController.time.value ?
-              checkTimerController.stop(context) :
-              Get.to(() => CommunityPageCreatePost(keywords:keywords, type: "UpdatePost",before: before,));
-            },
-          ) : SpeedDialChild(),
-          SpeedDialChild(
-            child: const Text("답글",style: CommunityPageTheme.floatingButton,),
-            backgroundColor: MainColor.three,
-            foregroundColor: Colors.white,
-            onTap: () {
-              checkTimerController.time.value ?
-              checkTimerController.stop(context) :
-              Get.to(() => CommunityPageCreatePost(keywords:keywords, type: type,before: before,));
-            },
-          ),
-        ]
-    ) :Material(
-      shape: const CircleBorder(),
-      clipBehavior: Clip.antiAlias,
-      color: MainColor.three,
-      child: IconButton(
-          padding: EdgeInsets.zero,
-          onPressed: () {
-            checkTimerController.time.value ?
-            checkTimerController.stop(context) :
-            Get.to(() => CommunityPageCreatePost(keywords:keywords, type: type,before: before,));
-          },
-          icon: Image.asset("assets/images/create.png")),
-    );
+            children: [
+              keywords['writer'] == nickname ? SpeedDialChild(
+                child: const Text(
+                  "삭제", style: CommunityPageTheme.floatingButton,),
+                backgroundColor: Colors.red,
+                foregroundColor: Colors.white,
+                onTap: () async {
+                  var body = json.encode({"id": keywords['id']});
+                  await http.post(
+                    Uri.http(ipv4, '/deletePost'),
+                    headers: {
+                      "Content-Type": "application/json",
+                      "Cookie": "JSESSIONID=$session",
+                    },
+                    encoding: Encoding.getByName('utf-8'),
+                    body: body,
+                  );
+                  Get.offAll(() => CommunityPageForm(category: before));
+                },
+              ) : SpeedDialChild(),
+              keywords['writer'] == nickname ? SpeedDialChild(
+                child: const Text(
+                  "수정", style: CommunityPageTheme.floatingButton,),
+                backgroundColor: MainColor.three,
+                foregroundColor: Colors.white,
+                onTap: () {
+                  checkTimerController.time.value ?
+                  checkTimerController.stop(context) :
+                  Get.to(() => CommunityPageCreatePost(keywords: keywords,
+                    type: "UpdatePost",
+                    before: before,));
+                },
+              ) : SpeedDialChild(),
+              SpeedDialChild(
+                child: const Text(
+                  "답글", style: CommunityPageTheme.floatingButton,),
+                backgroundColor: MainColor.three,
+                foregroundColor: Colors.white,
+                onTap: () {
+                  checkTimerController.time.value ?
+                  checkTimerController.stop(context) :
+                  Get.to(() => CommunityPageCreatePost(
+                    keywords: keywords, type: type, before: before,));
+                },
+              ),
+            ]
+        );
+      case "Profile":
+        return Material(
+          shape: const CircleBorder(),
+          clipBehavior: Clip.antiAlias,
+          color: MainColor.three,
+          child: IconButton(
+              padding: EdgeInsets.zero,
+              onPressed: () {
+                checkTimerController.time.value ?
+                checkTimerController.stop(context) :getProfile(false);
+              },
+              icon: const Text("수정"),)
+        );
+      default :
+        return Material(
+          shape: const CircleBorder(),
+          clipBehavior: Clip.antiAlias,
+          color: MainColor.three,
+          child: IconButton(
+              padding: EdgeInsets.zero,
+              onPressed: () {
+                checkTimerController.time.value ?
+                checkTimerController.stop(context) :
+                Get.to(() => CommunityPageCreatePost(
+                  keywords: keywords, type: type, before: before,));
+              },
+              icon: Image.asset("assets/images/create.png")),
+        );
+    }
   }
 }
 

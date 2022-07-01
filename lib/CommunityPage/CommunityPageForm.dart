@@ -118,7 +118,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: MainColor.six,
-          toolbarHeight: MainSize.toobarHeight,
+          toolbarHeight: MainSize.toolbarHeight,
           elevation: 0,
           leadingWidth: MediaQuery.of(context).size.width * 0.2106,
           leading: Container(
@@ -141,7 +141,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
           ),
           title: const Text(
             "도시농부",
-            style: MainTheme.title,
+            style: MainPageTheme.title,
           ),
           actions: [
             Container(
@@ -279,7 +279,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
                     setState((){
                       refresh = true;
                     });
-                   Future.delayed(Duration(milliseconds: 100),()=>handleScrolling(false));
+                   Future.delayed(const Duration(milliseconds: 100),()=>handleScrolling(false));
                   }
                 },
                 child: Container(

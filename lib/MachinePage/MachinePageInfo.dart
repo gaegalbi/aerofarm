@@ -22,7 +22,7 @@ class _MachinePageInfoState extends State<MachinePageInfo> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: MainColor.six,
-        toolbarHeight: MainSize.toobarHeight,
+        toolbarHeight: MainSize.toolbarHeight,
         elevation: 0,
         leadingWidth: MediaQuery.of(context).size.width * 0.2106,
         leading: Container(
@@ -46,7 +46,7 @@ class _MachinePageInfoState extends State<MachinePageInfo> {
         ),
         title: const Text(
           "기기1",
-          style: MainTheme.title,
+          style: MainPageTheme.title,
         ),
         actions: [
           Container(

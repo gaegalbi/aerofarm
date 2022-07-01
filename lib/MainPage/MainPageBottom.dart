@@ -46,7 +46,7 @@ class _MainPageBottomState extends State<MainPageBottom> {
                     },
                     child: const Text(
                       "기기목록",
-                      style: MainTheme.button,
+                      style: MainPageTheme.button,
                     ),
                   ),
                 ),
@@ -64,7 +64,7 @@ class _MainPageBottomState extends State<MainPageBottom> {
                     },
                     child: const Text(
                       "커뮤니티",
-                      style: MainTheme.button,
+                      style: MainPageTheme.button,
                     ),
                   ),
                 ),

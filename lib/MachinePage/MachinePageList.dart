@@ -20,7 +20,7 @@ class _MachinePageListState extends State<MachinePageList> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: MainColor.six,
-        toolbarHeight: MainSize.toobarHeight,
+        toolbarHeight: MainSize.toolbarHeight,
         elevation: 0,
         leadingWidth: MediaQuery.of(context).size.width * 0.2106,
         leading: Container(
@@ -45,7 +45,7 @@ class _MachinePageListState extends State<MachinePageList> {
         ),
         title: const Text(
           "도시농부",
-          style: MainTheme.title,
+          style: MainPageTheme.title,
         ),
         actions: [
           Container(

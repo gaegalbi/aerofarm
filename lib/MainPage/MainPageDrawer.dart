@@ -1,15 +1,33 @@
+import 'dart:convert';
+
 import 'package:capstone/LoginPage/LoginPage.dart';
 import 'package:capstone/MachinePage/MachinePageList.dart';
 import 'package:capstone/MainPage/MainPageMyProfile.dart';
+import 'package:capstone/MainPage/MainPageMyProfileEdit.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 import '../LoginPage/LoginPageLogin.dart';
+import '../main.dart';
+
+Future<void> getProfile(bool mainPage) async {
+  final response = await http.get(Uri.http(ipv4,
+      '/api/my-page/info'),
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cookie": "JSESSIONID=$session",
+      }
+  );
+  Map<String, dynamic> _user = jsonDecode(utf8.decode(response.bodyBytes));
+  mainPage ? Get.to(()=> MainPageMyProfile(user:_user)) : Get.to(()=>MainPageMyProfileEdit(user:_user));
+}
 
 class MainPageDrawer extends StatelessWidget {
   const MainPageDrawer({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -32,23 +50,25 @@ class MainPageDrawer extends StatelessWidget {
               children: [
                  Text(
                   nickname!,
-                  style: MainTheme.name,
+                  style: MainPageTheme.name,
                 ),
                 Container(
                     padding:  EdgeInsets.only(top: drawerPadding/2),
                     child: TextButton(
-                        child: const Text("내 정보 수정",
-                            style: MainTheme.modify),
-                        onPressed: () {
-                          Get.off(()=>const MainPageMyProfile(),);
-                        })),
+                        child: const Text("내 정보",
+                            style: MainPageTheme.modify),
+                        onPressed: () async {
+                          checkTimerController.time.value ?
+                          checkTimerController.stop(context) : await getProfile(true);
+                        }
+                        )),
               ],
             ),
           ),
           Container(
             padding: EdgeInsets.all(drawerPadding),
             child: TextButton(
-              child: const Text("소유한 기기 조회", style: MainTheme.drawerButton),
+              child: const Text("소유한 기기 조회", style: MainPageTheme.drawerButton),
               onPressed: () {
                 Get.to(()=>const MachinePageList());
               },
@@ -57,35 +77,35 @@ class MainPageDrawer extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(drawerPadding),
             child: TextButton(
-              child: const Text("작성 글 조회", style: MainTheme.drawerButton),
+              child: const Text("작성 글 조회", style: MainPageTheme.drawerButton),
               onPressed: () {},
             ),
           ),
           Container(
             padding: EdgeInsets.all(drawerPadding),
             child: TextButton(
-              child: const Text("작성 댓글 조회", style: MainTheme.drawerButton),
+              child: const Text("작성 댓글 조회", style: MainPageTheme.drawerButton),
               onPressed: () {},
             ),
           ),
           Container(
             padding: EdgeInsets.all(drawerPadding),
             child: TextButton(
-              child: const Text("기기 구매내역 조회", style: MainTheme.drawerButton),
+              child: const Text("기기 구매내역 조회", style: MainPageTheme.drawerButton),
               onPressed: () {},
             ),
           ),
           Container(
             padding: EdgeInsets.all(drawerPadding),
             child: TextButton(
-              child: const Text("재배한 작물 조회", style: MainTheme.drawerButton),
+              child: const Text("재배한 작물 조회", style: MainPageTheme.drawerButton),
               onPressed: () {},
             ),
           ),
           Container(
             padding: EdgeInsets.all(drawerPadding),
             child: TextButton(
-              child: const Text("로그아웃", style: MainTheme.drawerButton),
+              child: const Text("로그아웃", style: MainPageTheme.drawerButton),
               onPressed: () {
                 if(isLogin) {
                   FlutterNaverLogin.logOutAndDeleteToken();

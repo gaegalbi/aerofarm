@@ -19,7 +19,7 @@ class _MachinePageProfileState extends State<MachinePageProfile> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: MainColor.six,
-        toolbarHeight: MainSize.toobarHeight,
+        toolbarHeight: MainSize.toolbarHeight,
         elevation: 0,
         leadingWidth: MediaQuery.of(context).size.width * 0.2106,
         leading: Container(

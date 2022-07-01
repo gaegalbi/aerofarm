@@ -112,7 +112,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                     body: data,
                   );
                   if(response1.statusCode ==200){
-                    showDialog(context: context, builder: (context){
+                    showDialog(context: context, barrierDismissible:false, builder: (context){
                       Future.delayed(const Duration(milliseconds: 1500), () {
                         Navigator.pop(context);
                       });
@@ -150,20 +150,6 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                     //print(nickname);
                     //printWrapped(document.outerHtml);
                     profile = Image.network("http://$ipv4$src");
-
-                    /*final response4 = await http.get(Uri.http(
-                        ipv4,'/api/my-page/info'),
-                        headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                    "Cookie":"JSESSIONID=$session",
-                    }
-                    );
-                    printWrapped(response4.body);
-
-                    성공 200번대
-                    실패 400번대 post status찍어보기
-                    */
-
                     widget.reLogin ?
                     Get.back() :
                     Get.offAll(()=>const MainPage());

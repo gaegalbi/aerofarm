@@ -14,7 +14,7 @@ class CheckTimer extends GetxController{
   }
 
   void timerStart(){
-    timer = Timer.periodic(const Duration(minutes: 0,seconds: 10), (timer) {
+    timer = Timer.periodic(const Duration(minutes: 29,seconds: 30), (timer) {
       time.value= true;
     });
   }
