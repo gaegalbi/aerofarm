@@ -50,16 +50,13 @@ public class PostController {
         return "/community/communityPage";
     }
 
-    @GetMapping("/api/community/{category}/posts")
-    public Page<PostDto> findCategoryPostApi(@PathVariable String category, @PageableDefault Pageable pageable) {
-        PostCategory postCategory = PostCategory.findByLowerCase(category);
-        return null;
-    }
-
     @GetMapping("/api/community/posts")
     @ResponseBody
-    public Page<PostDto> findPostApi(@PageableDefault Pageable pageable) {
-        return postService.findPostInfo(null, "title", null, null, pageable);
+    public Page<PostDto> findPostApi(@RequestParam(required = false) String category, @RequestParam(defaultValue = "title") String searchCategory, @RequestParam(required = false) String keyword, @RequestParam(required = false) String filter, @PageableDefault Pageable pageable) {
+        PostCategory postCategory = category == null ? null : PostCategory.findByLowerCase(category);
+        PostFilter postFilter = filter == null ? null : PostFilter.findByLowerCase(filter);
+
+        return postService.findPostInfo(postCategory, searchCategory, keyword, postFilter, pageable);
     }
 
     // 선택된 게시글 페이지

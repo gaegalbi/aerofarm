@@ -3,7 +3,7 @@ function searchPost(searchType, filterValue) {
     const urlParam = myUrl.searchParams;
 
     let searchUrl = window.location.href.split('?')[0];
-     searchUrl += $('#hidden_category').val() + "?page=1";
+     searchUrl += "?page=1";
     if (searchType == 'filter') {
         if (urlParam.has('filter')) {
             searchUrl += "&filter=" + urlParam.get('filter');
