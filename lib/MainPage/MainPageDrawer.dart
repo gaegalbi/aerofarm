@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-
 import '../LoginPage/LoginPageLogin.dart';
 import '../main.dart';
 
@@ -27,7 +26,8 @@ Future<void> getProfile(String before) async {
       Get.to(()=>MainPageMyProfileEdit(user:_user));
       break;
     case "MainPageMyProfileEdit":
-      Get.to(()=>MainPageMyProfile(user:_user, before: "MainPage",));
+      Get.back();
+      //Get.off(()=>MainPageMyProfile(user:_user, before: "MainPage",));
       break;
     case "CommunityPage":
       Get.to(()=>MainPageMyProfile(user:_user, before: "CommunityPage",));
@@ -49,6 +49,7 @@ class MainPageDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
   double drawerPadding = MediaQuery.of(context).size.height*0.012;
+  final nicknameController = Get.put(NicknameController());
 
   return Container(
       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.075),
@@ -65,10 +66,10 @@ class MainPageDrawer extends StatelessWidget {
             alignment: Alignment.center,
             child: Column(
               children: [
-                 Text(
-                  nickname!,
+                 Obx(()=>Text(
+                  nicknameController.nickname.value,
                   style: MainPageTheme.name,
-                ),
+                )),
                 Container(
                     padding:  EdgeInsets.only(top: drawerPadding/2),
                     child: TextButton(

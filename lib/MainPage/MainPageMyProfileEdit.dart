@@ -5,12 +5,10 @@ import 'package:capstone/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:kpostal/kpostal.dart';
 import 'package:http/http.dart' as http;
 import '../LoginPage/LoginPageLogin.dart';
 import '../themeData.dart';
-import 'MainPageMyProfile.dart';
 
 class MainPageMyProfileEdit extends StatefulWidget {
   final Map<String,dynamic> user;
@@ -28,26 +26,14 @@ class _MainPageMyProfileEditState extends State<MainPageMyProfileEdit> {
   late TextEditingController _address2Controller; //상세주소 몇호
   late TextEditingController _extraAddressController; //(대명동)
   late TextEditingController _zipCodeController;
+  final nicknameController = Get.put(NicknameController());
   PhoneNumberFormatter formatter = PhoneNumberFormatter();
-  /*late Map<String,dynamic> user = {};*/
- /* String postCode = '-';
-  String address = '-';
-  String bName = '-';*/
 
   @override
   void initState(){
-   /* Future.delayed(Duration.zero,() async {
-      user =  await getProfile();
-    });*/
     _nicknameController = TextEditingController();
     _nameController = TextEditingController();
     _phoneNumberController = TextEditingController();
-  /*  _phoneNumberController.addListener(() {
-      if(_phoneNumberController.text.length==3
-          ||_phoneNumberController.text.length==8){
-        _phoneNumberController.text = _phoneNumberController.text + "-";
-      }
-    });*/
     _address1Controller = TextEditingController();
     _address2Controller = TextEditingController();
     _extraAddressController = TextEditingController();
@@ -133,7 +119,9 @@ class _MainPageMyProfileEditState extends State<MainPageMyProfileEdit> {
                         "address1":_address1Controller.text,
                         "address2":_address2Controller.text,
                         "zipcode":_zipCodeController.text,
-                        "extraAddress":_extraAddressController.text.substring(1,_extraAddressController.text.length-1)
+                        "extraAddress": _extraAddressController.text.isNotEmpty
+                            ? _extraAddressController.text.substring(1,_extraAddressController.text.length-1)
+                            : _extraAddressController.text
                       };
                       var body = jsonEncode(data);
                       final response = await http.post(Uri.http(ipv4, "/my-page/edit"),
@@ -142,24 +130,27 @@ class _MainPageMyProfileEditState extends State<MainPageMyProfileEdit> {
                             "Cookie": "JSESSIONID=$session",
                           },
                           body: body);
-                      Map<String,dynamic> status = jsonDecode(utf8.decode(response.bodyBytes))['validation'];
-                      switch(status.keys.first){
-                        case "nickname":
-                          print("nickname오류");
-                          break;
-                        case "phoneNumber":
-                          print("phoneNumber오류");
-                          break;
-                        case "name":
-                          print("name오류");
-                          break;
-                        default:
-                          print(status.keys.first);
-                          break;
+                      Map<String,dynamic> status;
+                      if(jsonDecode(utf8.decode(response.bodyBytes))['validation'] !=null) {
+                        status = jsonDecode(utf8.decode(response.bodyBytes))['validation'];
+                        switch(status.keys.first){
+                          case "nickname":
+                            print("nickname오류");
+                            break;
+                          case "phoneNumber":
+                            print("phoneNumber오류");
+                            break;
+                          case "name":
+                            print("name오류");
+                            break;
+                          default:
+                            print(status.keys.first);
+                            break;
+                        }
                       }
                       //address1
                       //address2
-
+                      nicknameController.setNickname(_nicknameController.text);
                      getProfile("MainPageMyProfileEdit");
                     }
                   },
@@ -311,7 +302,7 @@ class _MainPageMyProfileEditState extends State<MainPageMyProfileEdit> {
                                           context,
                                           MaterialPageRoute(
                                           builder: (_) => KpostalView(
-                                              useLocalServer: true,
+                                              useLocalServer: false,
                                               localPort: 1024,
                                               callback: (Kpostal result) {
                                                 setState(() {

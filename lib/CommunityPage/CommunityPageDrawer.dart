@@ -17,6 +17,7 @@ class CommunityPageDrawer extends StatefulWidget {
 class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
   late ScrollController _scrollController;
   final beforeRouteController = Get.put(BeforeRouteController());
+  final nicknameController = Get.put(NicknameController());
 
   @override
   void initState() {
@@ -52,10 +53,10 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
             margin: EdgeInsets.only(top: drawerPadding * 2),
             child: Column(
               children: [
-                 Text(
-                  nickname!,
+                 Obx(()=>Text(
+                   nicknameController.nickname.value,
                   style: MainPageTheme.name,
-                ),
+                ),),
                 Container(
                     padding: EdgeInsets.only(top: drawerPadding / 2),
                     child: TextButton(

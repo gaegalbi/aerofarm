@@ -22,6 +22,8 @@ class CommunityPageFloating extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final nicknameController = Get.put(NicknameController());
+
     switch (type) {
       case "ReadPost":
         return SpeedDial(
@@ -30,7 +32,7 @@ class CommunityPageFloating extends StatelessWidget {
             backgroundColor: MainColor.three,
             foregroundColor: Colors.white,
             children: [
-              keywords['writer'] == nickname ? SpeedDialChild(
+              keywords['writer'] == nicknameController.nickname.value ? SpeedDialChild(
                 child: const Text(
                   "삭제", style: CommunityPageTheme.floatingButton,),
                 backgroundColor: Colors.red,
@@ -49,7 +51,7 @@ class CommunityPageFloating extends StatelessWidget {
                   Get.offAll(() => CommunityPageForm(category: before));
                 },
               ) : SpeedDialChild(),
-              keywords['writer'] == nickname ? SpeedDialChild(
+              keywords['writer'] ==  nicknameController.nickname.value ? SpeedDialChild(
                 child: const Text(
                   "수정", style: CommunityPageTheme.floatingButton,),
                 backgroundColor: MainColor.three,

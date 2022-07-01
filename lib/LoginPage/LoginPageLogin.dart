@@ -25,6 +25,13 @@ late String? tmp;
 late Image? profile;
 final checkTimerController  = Get.put(CheckTimer());
 
+class NicknameController extends GetxController{
+  final nickname = "".obs;
+  void setNickname(String input){
+    nickname.value = input;
+  }
+}
+
 class LoginPageLoginRegister extends StatefulWidget {
   final bool reLogin;
   const LoginPageLoginRegister({Key? key, required this.reLogin}) : super(key: key);
@@ -37,6 +44,8 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
   late TextEditingController _lUserNameController;
   late TextEditingController _lPasswordController;
   final String _kakaoNative = 'cf0a2321116751cad7b6b470377c39b3';
+  final nicknameController = Get.put(NicknameController());
+
 
   var data = <String, dynamic>{};
 
@@ -57,11 +66,11 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
   Future<void> _naverLogin() async {
     try {
       NaverLoginResult res = await FlutterNaverLogin.logIn();
+      nicknameController.setNickname(res.account.nickname);
       setState(() {
-        nickname = res.account.nickname;
-        nickname!.isEmpty ? isLogin = false : isLogin = true;
+        nicknameController.nickname.value.isEmpty ? isLogin = false : isLogin = true;
        // print(res.account.email);
-        nickname!.isEmpty ? null : Get.offAll(()=>const MainPage());
+        nicknameController.nickname.value.isEmpty ? null : Get.offAll(()=>const MainPage());
       });
     } catch (error) {
       print(error);
@@ -138,10 +147,14 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                       },
                     );
                     dom.Document document = parser.parse(response.body);
-                    nickname = document
+                    nicknameController.setNickname(document
+                        .querySelector('.nickname')
+                        !.text.substring(0,document.querySelector('.nickname')
+                        !.text.lastIndexOf('님')));
+                   /* nickname = document
                         .querySelector('.nickname')
                         ?.text.substring(0,document.querySelector('.nickname')
-                        ?.text.lastIndexOf('님'));
+                        ?.text.lastIndexOf('님'));*/
                     tmp = document.querySelector('.rounded-circle')?.outerHtml;
                     String? src = tmp!.substring(
                        tmp!.lastIndexOf("src")+5,

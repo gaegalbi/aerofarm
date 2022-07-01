@@ -81,8 +81,15 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
       _titleController.text = widget.keywords['title'];
       //_controller.setText(readPostController.content.value);
     }
+    if(widget.type =="ReadPost"){
+      _titleController.text = "Re : " + widget.keywords['title'];
+    }
     super.initState();
-    Future.delayed(const Duration(milliseconds: 400),()=>_controller.setText(readPostController.content.value));
+    Future.delayed(const Duration(milliseconds: 400),()=> {
+        if(widget.type !="ReadPost"){
+          _controller.setText(readPostController.content.value)
+      }
+    });
   }
 
   @override
@@ -117,7 +124,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
             _controller.editorController?.clearFocus();
             _controller.disable();
             Future.delayed(const Duration(microseconds: 1), () {
-              Get.offAll(() => CommunityPageForm(category:widget.before));
+              widget.type == "UpdatePost" || widget.type=="ReadPost" ? Get.back() : Get.offAll(() => CommunityPageForm(category:widget.before));
             });
           },
           icon: const Icon(Icons.close),
@@ -278,7 +285,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
         child: CustomScrollView(
           controller: _scrollController1,
           slivers: [
-            widget.type == "ReadPost"
+            (widget.type == "ReadPost" || widget.type == "UpdatePost")
                 ? SliverToBoxAdapter(
                     child: Column(
                       children: [
@@ -290,21 +297,19 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                           )),
                           child: TextField(
                               controller: _titleController,
-                              textInputAction: TextInputAction.none,
                               style: const TextStyle(
                                 fontFamily: "bmPro",
                                 fontSize: 25,
                                 color: Colors.white,
                               ),
-                              decoration: InputDecoration(
-                                enabled: false,
+                              decoration: const InputDecoration(
                                 contentPadding: EdgeInsets.zero,
                                 filled: true,
                                 fillColor: Colors.transparent,
                                 enabledBorder: InputBorder.none,
                                 focusedBorder: InputBorder.none,
-                                hintText: "Re : " + widget.keywords['title'],
-                                hintStyle: const TextStyle(
+                                //hintText: "Re : " + widget.keywords['title'],
+                                hintStyle: TextStyle(
                                     fontFamily: "bmPro",
                                     fontSize: 25,
                                     color: Colors.grey),
