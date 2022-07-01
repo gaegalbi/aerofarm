@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{fragments/header :: header}"/>
 <style>
     body {background-color: #1C273A;}
@@ -7,41 +8,42 @@
 </style>
 <body>
 <br><h2 style="text-align: center; color: #FFFFFF">게시글 작성</h2><br>
-    <div class="container" th:object="${savePostForm}">
-        <form>
-            <input class="post-id" type="hidden" id="post-id" th:value="${selectPostId}">
-            <input class="myId" type="hidden" id="myId" th:value="${myId}">
-            <div class="input-group" style="width: 80%; margin: auto">
-                <div class="input-group mb-3" style="width: 35%; margin-right: 20px">
-                    <label class="input-group-text" for="category">CATEGORY</label>
-                    <select class="form-select" id="category" th:field="*{category}" th:disabled="${selectPostId != null or myId != null}">
-                        <option value="" selected>카테고리를 선택해주세요.</option>
-                        <option th:each="allCategory : ${T(yj.capstone.aerofarm.domain.board.PostCategory).values()}" th:value="${allCategory.getLowerCase()}" th:text="${allCategory.getName()}"/>
-                    </select>
-                </div>
-                <div class="input-group mb-3" style="width: 35%; margin-right: 20px">
-                    <label class="input-group-text" for="filter">CLASSIFICATION</label>
-                    <select class="form-select" id="filter" th:field="*{filter}" th:disabled="${selectPostId != null or myId != null}">
-                        <option value="" selected>분류를 선택해주세요.</option>
-                        <option th:each="allFilter : ${T(yj.capstone.aerofarm.domain.board.PostFilter).values()}" th:value="${allFilter.getLowerCase()}" th:text="${allFilter.getName()}"/>
-                    </select>
-                </div>
+<div class="container" th:object="${savePostForm}">
+    <form>
+        <input class="post-id" type="hidden" id="post-id" th:value="${selectPostId}">
+        <input class="myId" type="hidden" id="myId" th:value="${myId}">
+        <div class="input-group" style="width: 80%; margin: auto">
+            <div class="input-group mb-3" style="width: 35%; margin-right: 20px">
+                <label class="input-group-text" for="category">CATEGORY</label>
+                <select class="form-select" id="category" th:field="*{category}" th:disabled="${selectPostId != null or myId != null}">
+                    <option value="" selected>카테고리를 선택해주세요.</option>
+                    <option value="announcement" th:text="공지사항" sec:authorize="hasAuthority('ADMIN')"/>
+                    <option th:each="allCategory : ${T(yj.capstone.aerofarm.domain.board.PostCategory).values()}" th:value="${allCategory.getLowerCase()}" th:text="${allCategory.getName()}" th:if="${!allCategory.getName().equals('공지사항')}"/>
+                </select>
             </div>
-            <div class="input-group mb-3" style="width: 80%; margin: auto">
-                <span class="input-group-text">Title</span>
-                <input id="title" type="text" class="form-control" placeholder="제목" aria-label="Title" aria-describedby="basic-addon1" th:field="*{title}">
+            <div class="input-group mb-3" style="width: 35%; margin-right: 20px">
+                <label class="input-group-text" for="filter">CLASSIFICATION</label>
+                <select class="form-select" id="filter" th:field="*{filter}" th:disabled="${selectPostId != null or myId != null}">
+                    <option value="" selected>분류를 선택해주세요.</option>
+                    <option th:each="allFilter : ${T(yj.capstone.aerofarm.domain.board.PostFilter).values()}" th:value="${allFilter.getLowerCase()}" th:text="${allFilter.getName()}"/>
+                </select>
             </div>
-            <div style="width: 80%; margin: auto; background-color: #FFFFFF">
-                <textarea id="summernote" name="content" th:field="*{contents}"></textarea>
+        </div>
+        <div class="input-group mb-3" style="width: 80%; margin: auto">
+            <span class="input-group-text">Title</span>
+            <input id="title" type="text" class="form-control" placeholder="제목" aria-label="Title" aria-describedby="basic-addon1" th:field="*{title}">
+        </div>
+        <div style="width: 80%; margin: auto; background-color: #FFFFFF">
+            <textarea id="summernote" name="content" th:field="*{contents}"></textarea>
+        </div>
+        <div style="width: 80%; margin: auto">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end form-margin">
+                <button type="button" class="btn btn-secondary" onclick="location.href='/community/free?page=1'">취소</button>
+                <button type="button" class="btn btn-secondary" id="btn-savePostForm">글 작성</button>
             </div>
-            <div style="width: 80%; margin: auto">
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end form-margin">
-                    <button type="button" class="btn btn-secondary" onclick="location.href='/community/free?page=1'">취소</button>
-                    <button type="button" class="btn btn-secondary" id="btn-savePostForm">글 작성</button>
-                </div>
-            </div>
-        </form>
-    </div>
+        </div>
+    </form>
+</div>
 <div th:replace="~{fragments/footer :: footer}"/>
 <script src="/js/community/savePostForm.js"></script>
 
