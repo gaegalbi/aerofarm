@@ -53,16 +53,20 @@ class _MainPageMyProfileEditState extends State<MainPageMyProfileEdit> {
     _extraAddressController = TextEditingController();
     _zipCodeController = TextEditingController();
     _nicknameController.text = widget.user['nickname'];
-    _nameController.text = widget.user['name'];
+    if(widget.user['name']!=null){
+      _nameController.text = widget.user['name'];
+    }
     _phoneNumberController.text = widget.user['phoneNumber'];
 
-    if(widget.user['addressInfo']['extraAddress'] !=""){
-      _extraAddressController.text = "(" + widget.user['addressInfo']['extraAddress'] +")";
+    if(widget.user['addressInfo']!=null){
+      if(widget.user['addressInfo']['extraAddress'] !=""){
+        _extraAddressController.text = "(" + widget.user['addressInfo']['extraAddress'] +")";
+      }
+      _address1Controller.text = widget.user['addressInfo']['address1'];
+      _address2Controller.text = widget.user['addressInfo']['address2'];
+      _zipCodeController.text = widget.user['addressInfo']['zipcode'];
     }
 
-    _address1Controller.text = widget.user['addressInfo']['address1'];
-    _address2Controller.text = widget.user['addressInfo']['address2'];
-    _zipCodeController.text = widget.user['addressInfo']['zipcode'];
 
     super.initState();
   }

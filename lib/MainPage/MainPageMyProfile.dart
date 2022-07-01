@@ -146,7 +146,7 @@ class _MainPageMyProfileState extends State<MainPageMyProfile> {
                         flex: 5,
                         child: Container(
                             margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.05),
-                            child:Text(widget.user['name']==null ? "admin" : (widget.user['name']=="") ? "미등록" : widget.user['name'],style: MainPageTheme.profileInfo,)),
+                            child:Text(widget.user['name']==null ? "미등록" : (widget.user['name']=="") ? "미등록" : widget.user['name'],style: MainPageTheme.profileInfo,)),
                       ),
                     ],
                   ),
@@ -176,7 +176,7 @@ class _MainPageMyProfileState extends State<MainPageMyProfile> {
                       Expanded(
                         flex: 5,
                         child: widget.user['addressInfo']==null ?
-                        const Text("관리자 계정입니다.",style: MainPageTheme.profileInfo)
+                        const Text("미등록",style: MainPageTheme.profileInfo)
                             : (widget.user['addressInfo']==" " || widget.user['addressInfo']['zipcode'] == "")
                             ? const Text("미등록",style: MainPageTheme.profileInfo,)
                             : Column(
