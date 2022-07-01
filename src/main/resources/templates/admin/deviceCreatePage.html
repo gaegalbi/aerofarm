@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"/>
+
+<style>
+    .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+
+    @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+        }
+    }
+</style>
+
+<body class="d-flex flex-column min-vh-100">
+
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
+
+<div class="container">
+    <div class="row">
+        <div th:replace="~{fragments/adminMenuBar :: adminMenuBar}"/>
+
+        <div class="col-md-10 gx-4">
+            <div class="card" style="background-color: #111620">
+                <div class="card-body">
+                    <form method="post" id="createForm">
+                        <!--                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
+                        <h3 class="card-title text-center text-white">기기 생성</h3>
+                        <br/>
+
+                        <div class="mb-3">
+                            <label for="category" class="form-label"><small
+                                    class="text-muted">카테고리</small></label>
+                            <select class="form-select" id="category"
+                                    aria-label="Default select example" required>
+                                <option value="">카테고리 선택</option>
+                                <option th:value="'DS-001'">DS-001</option>
+                                <option th:value="'JK-001'">JK-001</option>
+                                <option th:value="'JK-002'">JK-002</option>
+                            </select>
+                            <br/>
+                        </div>
+                        <br/>
+                        <div class="d-grid gap-2 col-12 mx-auto">
+                            <button type="submit" class="btn btn-primary" id="btn-createProduct">등록</button>
+                        </div>
+                        <br/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"/>
+</body>
+</html>
