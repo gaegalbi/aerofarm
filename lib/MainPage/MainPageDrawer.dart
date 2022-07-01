@@ -13,7 +13,7 @@ import 'package:http/http.dart' as http;
 import '../LoginPage/LoginPageLogin.dart';
 import '../main.dart';
 
-Future<void> getProfile(bool mainPage) async {
+Future<void> getProfile(String before) async {
   final response = await http.get(Uri.http(ipv4,
       '/api/my-page/info'),
       headers: {
@@ -22,7 +22,24 @@ Future<void> getProfile(bool mainPage) async {
       }
   );
   Map<String, dynamic> _user = jsonDecode(utf8.decode(response.bodyBytes));
-  mainPage ? Get.to(()=> MainPageMyProfile(user:_user)) : Get.to(()=>MainPageMyProfileEdit(user:_user));
+  switch(before){
+    case "MainPageMyProfile":
+      Get.to(()=>MainPageMyProfileEdit(user:_user));
+      break;
+    case "MainPageMyProfileEdit":
+      Get.to(()=>MainPageMyProfile(user:_user, before: "MainPage",));
+      break;
+    case "CommunityPage":
+      Get.to(()=>MainPageMyProfile(user:_user, before: "CommunityPage",));
+      break;
+    case "CommunityPageEdit":
+      Get.to(()=>MainPageMyProfileEdit(user:_user,));
+      break;
+    default:
+      Get.to(()=>MainPageMyProfile(user:_user, before: "MainPage",));
+      break;
+  }
+  /*before=="MainPageMyProfile" ? Get.to(()=>MainPageMyProfileEdit(user:_user)) : Get.to(()=> MainPageMyProfile(user:_user));*/
 }
 
 class MainPageDrawer extends StatelessWidget {
@@ -59,7 +76,7 @@ class MainPageDrawer extends StatelessWidget {
                             style: MainPageTheme.modify),
                         onPressed: () async {
                           checkTimerController.time.value ?
-                          checkTimerController.stop(context) : await getProfile(true);
+                          checkTimerController.stop(context) : await getProfile("MainPage");
                         }
                         )),
               ],

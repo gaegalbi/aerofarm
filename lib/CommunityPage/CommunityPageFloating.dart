@@ -86,9 +86,38 @@ class CommunityPageFloating extends StatelessWidget {
               padding: EdgeInsets.zero,
               onPressed: () {
                 checkTimerController.time.value ?
-                checkTimerController.stop(context) :getProfile(false);
+                checkTimerController.stop(context) :getProfile("MainPageMyProfile");
               },
-              icon: const Text("수정"),)
+              icon: const Text("수정", style: CommunityPageTheme.floatingButton,),)
+        );
+      case "CommunityProfile":
+        return SpeedDial(
+            spaceBetweenChildren: 5,
+            icon: Icons.menu,
+            backgroundColor: MainColor.three,
+            foregroundColor: Colors.white,
+            children: [
+              SpeedDialChild(
+                child: const Text(
+                  "내 정보 수정", style: CommunityPageTheme.floatingButton,),
+                backgroundColor: MainColor.three,
+                foregroundColor: Colors.white,
+                onTap: () {
+                  checkTimerController.time.value ?
+                  checkTimerController.stop(context) :getProfile("CommunityPageEdit");
+                },
+              ),
+              SpeedDialChild(
+                child: const Text(
+                  "활동 보기", style: CommunityPageTheme.floatingButton,),
+                backgroundColor: MainColor.three,
+                foregroundColor: Colors.white,
+                onTap: () {
+                  checkTimerController.time.value ?
+                  checkTimerController.stop(context) :getProfile("CommunityPageEdit");
+                },
+              ),
+            ]
         );
       default :
         return Material(

@@ -1,48 +1,22 @@
-import 'dart:convert';
-
 import 'package:capstone/CommunityPage/CommunityPageFloating.dart';
 import 'package:capstone/LoginPage/LoginPageLogin.dart';
-import 'package:capstone/MainPage/MainPageDrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
-
-import '../CommunityPageCustomLib/CommunityFetch.dart';
-import '../main.dart';
 import '../themeData.dart';
 import 'MainPage.dart';
 
 
 class MainPageMyProfile extends StatefulWidget {
   final Map<String,dynamic> user;
-  const MainPageMyProfile({Key? key, required this.user}) : super(key: key);
+  final String before;
+  const MainPageMyProfile({Key? key, required this.user, required this.before}) : super(key: key);
 
   @override
   State<MainPageMyProfile> createState() => _MainPageMyProfileState();
 }
 
 class _MainPageMyProfileState extends State<MainPageMyProfile> {
-
   bool floating = false;
- /* late Map<String,dynamic> user = {
-    "nickname":"",
-    "email":"name@aerofarm.com",
-    "name":"",
-    "phoneNumber":"",
-    "addressInfo":
-      {
-        "address1":"",
-        "address2":"",
-        "zipcode":" ",
-        "extraAddress":" ",
-      }
-    ,
-  };
-*/
-  @override
-  void initState(){
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +28,7 @@ class _MainPageMyProfileState extends State<MainPageMyProfile> {
       },
       child: Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-        floatingActionButton: floating? CommunityPageFloating(type: "Profile", keywords: {}, before: "") : null,
+        floatingActionButton: floating? CommunityPageFloating(type: widget.before =="MainPage" ? "Profile" : "CommunityProfile", keywords: {}, before: "") : null,
         backgroundColor: MainColor.six,
         appBar: AppBar(
           centerTitle: true,
@@ -172,7 +146,7 @@ class _MainPageMyProfileState extends State<MainPageMyProfile> {
                         flex: 5,
                         child: Container(
                             margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.05),
-                            child:Text(widget.user['name']=="" ? "미등록" : widget.user['name'],style: MainPageTheme.profileInfo,)),
+                            child:Text(widget.user['name']==null ? "admin" : (widget.user['name']=="") ? "미등록" : widget.user['name'],style: MainPageTheme.profileInfo,)),
                       ),
                     ],
                   ),
@@ -201,9 +175,11 @@ class _MainPageMyProfileState extends State<MainPageMyProfile> {
                           child: Text("주소",style: MainPageTheme.profileField,)),
                       Expanded(
                         flex: 5,
-                        child: (widget.user['addressInfo']==" " || widget.user['addressInfo']['zipcode'] == "")
-                            ? const Text("미등록",style: MainPageTheme.profileInfo,) :
-                        Column(
+                        child: widget.user['addressInfo']==null ?
+                        const Text("관리자 계정입니다.",style: MainPageTheme.profileInfo)
+                            : (widget.user['addressInfo']==" " || widget.user['addressInfo']['zipcode'] == "")
+                            ? const Text("미등록",style: MainPageTheme.profileInfo,)
+                            : Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(widget.user['addressInfo']['zipcode'],style: MainPageTheme.profileAddress, ),

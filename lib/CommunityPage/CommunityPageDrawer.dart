@@ -62,7 +62,7 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                         child: const Text("내 정보", style: MainPageTheme.modify),
                         onPressed: () async {
                           checkTimerController.time.value ?
-                          checkTimerController.stop(context) : await getProfile(true);
+                          checkTimerController.stop(context) : await getProfile("CommunityPage");
                         })),
               ],
             ),
