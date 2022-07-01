@@ -12,7 +12,41 @@ import 'package:http/http.dart' as http;
 import '../LoginPage/LoginPageLogin.dart';
 import '../main.dart';
 
+class NameController extends GetxController{
+  final name = "".obs;
+  void setName(String input){
+    name.value = input;
+  }
+}
+
+class AddressController extends GetxController{
+  final zipcode = "".obs;
+  final address1 = "".obs;
+  final address2 = "".obs;
+  final extraAddress = "".obs;
+
+  void setAddress(String zip, String add1,String add2, String extraAdd){
+    zipcode.value = zip;
+    address1.value = add1;
+    address2.value = add2;
+    extraAddress.value = extraAdd;
+  }
+}
+
+class PhoneNumberController extends GetxController{
+  final phoneNumber = "".obs;
+  void setPhoneNumber(String input){
+    phoneNumber.value = input;
+  }
+}
+
+
+
 Future<void> getProfile(String before) async {
+  final nameController = Get.put(NameController());
+  final addressController = Get.put(AddressController());
+  final phoneNumberController = Get.put(PhoneNumberController());
+
   final response = await http.get(Uri.http(ipv4,
       '/api/my-page/info'),
       headers: {
@@ -21,6 +55,21 @@ Future<void> getProfile(String before) async {
       }
   );
   Map<String, dynamic> _user = jsonDecode(utf8.decode(response.bodyBytes));
+
+  if(_user['name']!=null){
+    nameController.setName(_user['name']);
+  }
+  if(_user['phoneNumber'] !=null){
+    phoneNumberController.setPhoneNumber(_user['phoneNumber']);
+  }
+  if(_user['addressInfo']!=null){
+    addressController.setAddress(
+        _user['addressInfo']['zipcode'],
+        _user['addressInfo']['address1'],
+        _user['addressInfo']['address2'],
+        _user['addressInfo']['extraAddress']);
+  }
+
   switch(before){
     case "MainPageMyProfile":
       Get.to(()=>MainPageMyProfileEdit(user:_user));

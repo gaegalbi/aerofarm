@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../themeData.dart';
 import 'MainPage.dart';
+import 'MainPageDrawer.dart';
 
 
 class MainPageMyProfile extends StatefulWidget {
@@ -18,6 +19,9 @@ class MainPageMyProfile extends StatefulWidget {
 
 class _MainPageMyProfileState extends State<MainPageMyProfile> {
   final nicknameController = Get.put(NicknameController());
+  final nameController = Get.put(NameController());
+  final phoneNumberController = Get.put(PhoneNumberController());
+  final addressController = Get.put(AddressController());
   bool floating = false;
 
   @override
@@ -166,11 +170,11 @@ class _MainPageMyProfileState extends State<MainPageMyProfile> {
                           ),
                           Expanded(
                             flex: 5,
-                            child: Text(widget.user['name'] == null
+                            child: Obx(()=>Text(widget.user['name'] == null
                                 ? "미등록"
-                                : (widget.user['name'] == "") ? "미등록" : widget
-                                .user['name'], style: MainPageTheme
-                                .profileInfo,),
+                                : (widget.user['name'] == "") ? "미등록" :
+                                nameController.name.value, style: MainPageTheme
+                                .profileInfo,),),
                           ),
                         ],
                       ),
@@ -187,10 +191,10 @@ class _MainPageMyProfileState extends State<MainPageMyProfile> {
                             ),
                             Expanded(
                               flex: 5,
-                              child: Text(widget.user['phoneNumber'] == ""
+                              child: Obx(()=>Text(widget.user['phoneNumber'] == ""
                                   ? "미등록"
-                                  : widget.user['phoneNumber'],
-                                style: MainPageTheme.profileInfo,),
+                                  : phoneNumberController.phoneNumber.value,
+                                style: MainPageTheme.profileInfo,),),
                             ),
                           ]
                       ),
@@ -210,21 +214,21 @@ class _MainPageMyProfileState extends State<MainPageMyProfile> {
                               widget.user['addressInfo']['zipcode'] == "")
                               ? const Text(
                             "미등록", style: MainPageTheme.profileInfo,)
-                              : Column(
+                              : Obx(()=>Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(widget.user['addressInfo']['zipcode'],
+                              Text(addressController.zipcode.value,
                                 style: MainPageTheme.profileAddress,),
-                              Text(widget.user['addressInfo']['address1'],
+                              Text(addressController.address1.value,
                                 style: MainPageTheme.profileAddress,),
-                              Text(widget.user['addressInfo']['extraAddress']
+                              Text(addressController.extraAddress.value
                                   .toString()
                                   .substring(1),
                                 style: MainPageTheme.profileAddress,),
-                              Text(widget.user['addressInfo']['address2'],
+                              Text(addressController.address2.value,
                                 style: MainPageTheme.profileAddress,),
                             ],
-                          ),
+                          ),),
                         )
                       ],
                     ),
