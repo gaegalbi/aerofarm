@@ -10,9 +10,11 @@ let eventsComment = {
         // });
     },
     createBasicComment : function () {
+        let text = $('#comment').val().replaceAll('\n', '<br>');
+
         let data = {
             postId: $('#post-id').val(),
-            content: $('#comment').val()
+            content: text
         };
         $.ajax({
             type: 'POST',
@@ -32,9 +34,11 @@ let eventsComment = {
         if (name != undefined) {
             rname = name;
         }
+        let text = $('#answer-textarea-' + rname + commentId).val().replaceAll('\n', '<br>');
+
         let data = {
             postId: $('#post-id').val(),
-            content: $('#answer-textarea-' + rname + commentId).val(),
+            content: text,
             commentId: commentId
         };
         $.ajax({

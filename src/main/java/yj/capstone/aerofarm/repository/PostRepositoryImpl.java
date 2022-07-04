@@ -4,6 +4,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import yj.capstone.aerofarm.domain.board.*;
+import yj.capstone.aerofarm.domain.member.QMember;
 import yj.capstone.aerofarm.dto.PostDto;
 import yj.capstone.aerofarm.dto.QPostDto;
 import yj.capstone.aerofarm.dto.response.PostListResponseDto;
@@ -15,6 +16,7 @@ import java.util.List;
 import static yj.capstone.aerofarm.domain.board.QPost.post;
 import static yj.capstone.aerofarm.domain.board.QComment.*;
 import static yj.capstone.aerofarm.domain.board.QPostLike.*;
+import static yj.capstone.aerofarm.domain.member.QMember.member;
 
 public class PostRepositoryImpl extends Querydsl5RepositorySupport implements PostRepositoryCustom {
 
@@ -81,6 +83,7 @@ public class PostRepositoryImpl extends Querydsl5RepositorySupport implements Po
                 .from(post)
                 .leftJoin(comment).on(post.id.eq(comment.post.id))
                 .leftJoin(postLike).on(post.id.eq(postLike.post.id))
+                .innerJoin(post.writer, member)
                 .where(
                         categoryEq(category),
                         titleOrWriterEq(searchCategory, keyword),

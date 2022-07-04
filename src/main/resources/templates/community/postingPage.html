@@ -107,7 +107,7 @@
             <div class="user-info-border">
                 <div class="row">
                     <div style="width: 40px">
-                        <img src="/image/test_icon.png" class="rounded-circle" style="width: 35px; height: 35px">
+                        <img src="/image/test_icon.png" th:src="${selectPost.getPicture()}" class="rounded-circle" style="width: 35px; height: 35px">
                     </div>
                     <div class="comment-basic col text-lg-start">
                         <span th:utext="${postInfo.isDeleteTnF()} ? '' : '&lt;b&gt;' + ${selectPost.writer} + '&lt;/b&gt;'"/>
@@ -131,7 +131,7 @@
                     </div>
                     <div class="row comment-info" th:each="commentDto : ${pageableList.getContent()}">
                         <div class="col-6 text-lg-start">
-                            <img src="/image/test_icon.png" class="rounded-circle" style="width: 40px; height: 40px">
+                            <img src="/image/test_icon.png" th:src="${commentDto.getPicture()}" class="rounded-circle" style="width: 40px; height: 40px">
                             <span class="comment-basic comment-writer" th:utext="${commentDto.isDeleteTnF()} ? '( 삭제 )' : '&lt;b&gt;' + ${commentDto.getWriter()} + '&lt;/b&gt; '"/>
                             <span class="comment-basic" th:utext="${commentDto.isDeleteTnF()} ? '' : ${#temporals.format(commentDto.getLocalDateTime(), '( yyyy.MM.dd HH:mm )')}"/>
                             <span class="comment-date" style="display: none" th:utext="${#temporals.format(commentDto.getLocalDateTime(), 'yyyy.MM.dd HH:mm:ss')}"/>
@@ -155,7 +155,7 @@
                             <div class="col">
                                 <div class="row">
                                     <div class="col-6 text-lg-start">
-                                        <img src="/image/test_icon.png" class="rounded-circle" style="width: 40px; height: 40px">
+                                        <img src="/image/test_icon.png" th:src="${answerCommentDto.getPicture()}" class="rounded-circle" style="width: 40px; height: 40px">
                                         <span class="comment-basic answer-writer" th:utext="${answerCommentDto.isDeleteTnF()} ? '( 삭제 )' : '&lt;b&gt;' + ${answerCommentDto.getWriter()} + '&lt;/b&gt; '"/>
                                         <span class="comment-basic" th:utext="${answerCommentDto.isDeleteTnF()} ? '' : ${#temporals.format(answerCommentDto.getLocalDateTime(), '( yyyy.MM.dd HH:mm )')}"/>
                                         <span class="answer-date" style="display: none" th:utext="${#temporals.format(answerCommentDto.getLocalDateTime(), 'yyyy.MM.dd HH:mm:ss')}"/>
