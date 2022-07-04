@@ -227,7 +227,7 @@
             </select>
         </div>
         <div style="margin-left: 10px; width: 300px">
-            <input id="keyword" type="text" class="form-control" placeholder="키워드" aria-label="keywords" aria-describedby="basic-addon1">
+            <input id="keyword" type="text" class="form-control" onkeypress="javascript:if(event.keyCode==13){searchPost('search', '')}" placeholder="키워드" aria-label="keywords" aria-describedby="basic-addon1">
         </div>
         <div style="margin-left: 10px">
             <button type="button" class="btn btn-primary" onclick="searchPost('search', '');" th:text="검색"/>
