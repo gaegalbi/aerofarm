@@ -167,7 +167,9 @@
                 <li class="list-group-item list-item-backcolor" style="border: none" th:if="${postDto.groupId == answerDto.groupId}">
                     <button type="button" class="list-item-backcolor list-group-item list-group-item-action hover-item" style="padding: 0px; border: none" th:onclick="|location.href='@{/community/detail/{id}(id=${answerDto.id})}'|">
                         <div class="row g-0 answer-data" style="height: 35px">
-                            <div class="list-body col-sm-1 list-text-center list-col-1" th:text="'↳'"/>
+                            <div class="list-body col-sm-1 list-text-center list-col-1">
+                                <span class="bi-arrow-return-right"/>
+                            </div>
                             <div class="list-body col-sm-1 list-col-2" style="text-align: left">
                                 <span class="answer-title" th:text="${answerDto.isDeleteTnF()} ? '삭제된 게시글입니다.' : ${#strings.abbreviate(answerDto.getTitle(), 25)}"/>
                                 <span class="badge bg-secondary bi-messenger answer-comments" th:text="' ' + ${answerDto.getCommentCount()==null ? '0' : answerDto.getCommentCount()}"/>

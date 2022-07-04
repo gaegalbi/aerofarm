@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/header :: header}"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 <style>
     @media (min-width: 768px) {
         .bd-placeholder-img-lg {
@@ -97,10 +96,8 @@
             <div class="row">
                 <div class="post-title col-10" th:utext="${postInfo.isDeleteTnF()} ? '삭제 처리된 게시글입니다.' : '&lt;b&gt;' + ${selectPost.title} + '&lt;/b&gt;'"/>
                 <div class="col-2 text-lg-end">
-                    <i class="fa-regular fa-eye"></i>
-                    <span th:text="${selectPost.getViews()}"></span>
-                    <i class="fa-regular fa-comment fa-flip-horizontal"></i>
-                    <span th:text="${pageableList.getContent().size()}"></span>
+                    <span class="bi-eye" th:text="| ${selectPost.getViews()}|"></span>
+                    <span class="bi-chat-square" th:text="| ${pageableList.getContent().size()}|"></span>
                 </div>
             </div>
             <!--회원 정보-->
@@ -134,6 +131,7 @@
                             <img src="/image/test_icon.png" th:src="${commentDto.getPicture()}" class="rounded-circle" style="width: 40px; height: 40px">
                             <span class="comment-basic comment-writer" th:utext="${commentDto.isDeleteTnF()} ? '( 삭제 )' : '&lt;b&gt;' + ${commentDto.getWriter()} + '&lt;/b&gt; '"/>
                             <span class="comment-basic" th:utext="${commentDto.isDeleteTnF()} ? '' : ${#temporals.format(commentDto.getLocalDateTime(), '( yyyy.MM.dd HH:mm )')}"/>
+                            <span class="badge bg-secondary bi-person-fill" th:text="| 글쓴이|" th:if="${selectPost.writer == commentDto.writer}"/>
                             <span class="comment-date" style="display: none" th:utext="${#temporals.format(commentDto.getLocalDateTime(), 'yyyy.MM.dd HH:mm:ss')}"/>
                         </div>
                         <div class="col-6 text-lg-end">
@@ -150,7 +148,7 @@
                         </div>
                         <div class="row" th:each="answerCommentDto : ${answerCommentInfo}" th:if="${commentDto.getGroupId() == answerCommentDto.getGroupId()}" style="--bs-gutter-x: 1rem; margin-left: 5px">
                             <div style="width: 30px">
-                                <i class="fa-solid fa-arrow-turn-up fa-rotate-90"></i>
+                                <span class="bi-arrow-return-right"/>
                             </div>
                             <div class="col">
                                 <div class="row">
