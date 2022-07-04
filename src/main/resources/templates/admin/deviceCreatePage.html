@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"/>
+
+<style>
+    .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+
+    @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+        }
+    }
+
+    .form-select {
+        border-color: #131825;
+        background-color: #182030;
+        color: #FFFFFF;
+    }
+</style>
+
+<body class="d-flex flex-column min-vh-100">
+
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
+
+<div class="container">
+    <div class="row">
+        <div th:replace="~{fragments/adminMenuBar :: adminMenuBar}"/>
+
+        <div class="col-md-10 gx-4">
+            <div class="card" style="background-color: #111620">
+                <div class="card-body">
+                    <form id="create-form">
+                        <!--                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
+                        <h3 class="card-title text-center text-white">기기 생성</h3>
+                        <br/>
+
+                        <div class="mb-3">
+                            <div>
+                                <label for="model" class="form-label"><small
+                                        class="text-muted">모델명</small></label>
+                                <select class="form-select" id="model" required>
+                                    <option value="">모델 선택</option>
+                                    <option th:value="'DS_001'">DS-001</option>
+                                    <option th:value="'JK_001'">JK-001</option>
+                                    <option th:value="'JK_002'">JK-002</option>
+                                    <option th:value="'JK_003'">JK-003</option>
+                                </select>
+                                <div class="invalid-feedback" id="modelError">모델 에러메시지</div>
+                                <br/>
+                            </div>
+                            <div>
+                                <label for="quantity" class="form-label"><small class="text-muted">수량</small></label>
+                                <input type="number" class="form-control input-box" id="quantity" min="1" max="10" required>
+                                <div class="invalid-feedback" id="quantityError">수량 에러메시지</div>
+                                <br/>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="d-grid gap-2 col-12 mx-auto">
+                            <button type="submit" class="btn btn-primary" id="btn-createProduct">등록</button>
+                        </div>
+                        <br/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="createdModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">기기 생성 완료</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modelBody">
+                기기가 정상적으로 생성되었습니다.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"/>
+<script src="/js/admin/deviceCreatePage.js"></script>
+</body>
+</html>

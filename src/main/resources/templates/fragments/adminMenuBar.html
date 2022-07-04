@@ -17,8 +17,12 @@
                 상품 목록
             </a>
             <a href="/admin/order-list" id="orderList"
-               class="rounded-bottom list-group-item list-group-item-primary list-group-item-action">
+               class="list-group-item list-group-item-primary list-group-item-action">
                 주문 목록
+            </a>
+            <a href="/admin/devices/create" id="createDevice"
+               class="rounded-bottom list-group-item list-group-item-primary list-group-item-action">
+                기기 생성
             </a>
         </div>
         <script>
@@ -35,6 +39,9 @@
                     break;
                 case '/admin/product':
                     document.getElementById('productManage').classList.add('active');
+                    break;
+                case '/admin/devices/create':
+                    document.getElementById('createDevice').classList.add('active');
                     break;
             }
         </script>
