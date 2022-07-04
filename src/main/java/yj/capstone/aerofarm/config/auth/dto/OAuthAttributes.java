@@ -81,6 +81,7 @@ public class OAuthAttributes {
         return Member.builder()
                 .email(email)
                 .nickname(name)
+                .password("")
                 .picture(picture)
                 .provider(provider)
                 .verify(true)

@@ -21,7 +21,7 @@ public class PostDto {
     private PostCategory category;
     private PostFilter filter;
     private int views;
-    private LocalDateTime createDate;
+    private LocalDateTime modifiedDate;
     private Long commentCount;
     private Long likeCount;
     private Long parentId;
@@ -35,18 +35,18 @@ public class PostDto {
         this.writer = post.getWriter().getNickname();
         this.category = post.getCategory();
         this.views = post.getViews();
-        this.createDate = post.getCreatedDate();
+        this.modifiedDate = post.getCreatedDate();
     }
 
     @QueryProjection
-    public PostDto(Long id, String title, String writer, PostCategory category, PostFilter filter, int views, LocalDateTime createDate, Long commentCount, Long likeCount, Long parentId, int groupId, boolean deleteTnF) {
+    public PostDto(Long id, String title, String writer, PostCategory category, PostFilter filter, int views, LocalDateTime modifiedDate, Long commentCount, Long likeCount, Long parentId, int groupId, boolean deleteTnF) {
         this.id = id;
         this.title = title;
         this.writer = writer;
         this.category = category;
         this.filter = filter;
         this.views = views;
-        this.createDate = createDate;
+        this.modifiedDate = modifiedDate;
         this.commentCount = commentCount;
         this.likeCount = likeCount;
         this.parentId = parentId;

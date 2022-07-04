@@ -64,6 +64,9 @@
                             <div class="col-12">
                                 <label for="name" class="form-label">이름</label>
                                 <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="이름">
+                                <div class="invalid-feedback" id="nameError">
+                                    이름오류
+                                </div>
                             </div>
                             <div class="col-12">
                                 <label for="phoneNumber" class="form-label">연락처</label>
@@ -72,6 +75,9 @@
                                        th:field="*{phoneNumber}"
                                        maxlength="13"
                                        placeholder="연락처">
+                                <div class="invalid-feedback" id="phoneNumberError">
+                                    전화번호오류
+                                </div>
                             </div>
                             <div class="col-12">
                                 <label for="zipcode" class="form-label">우편번호</label>
@@ -83,7 +89,9 @@
                                        th:field="*{addressInfo.zipcode}"
                                        readonly
                                        disabled>
-                                <div class="invalid-feedback">우편번호 오류</div>
+                                <div class="invalid-feedback" id="zipcodeError">
+                                    우편번호 오류
+                                </div>
                             </div>
 
                             <div class="col-6 mt-0 mx-auto">

@@ -1,6 +1,7 @@
 package yj.capstone.aerofarm.form;
 
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -31,6 +32,7 @@ public class CheckoutForm {
 
     @NotBlank(message = "우편번호를 입력해주세요.")
     @Pattern(regexp = "^[0-9-]*$", message = "올바른 우편번호를 입력해주세요.")
+    @Length(min = 5, max = 6, message = "올바른 우편번호를 입력해주세요.")
     private String zipcode;
 
     private String deposit;
