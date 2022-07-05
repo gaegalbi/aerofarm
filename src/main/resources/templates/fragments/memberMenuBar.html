@@ -18,9 +18,9 @@
            class="list-group-item list-group-item-primary list-group-item-action">
             구매 내역 조회
         </a>
-        <a href="#"
+        <a href="/my-page/devices" id="devices"
            class="rounded-bottom list-group-item-primary list-group-item list-group-item-action">
-            나의 작물 조회
+            기기, 작물 관리
         </a>
         <script>
             const url = window.location.pathname;
@@ -36,6 +36,9 @@
                     break;
                 case '/my-page/comments':
                     document.getElementById('comments').classList.add('active');
+                    break;
+                case '/my-page/devices':
+                    document.getElementById('devices').classList.add('active');
                     break;
             }
         </script>

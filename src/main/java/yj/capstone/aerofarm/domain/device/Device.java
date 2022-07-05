@@ -53,7 +53,7 @@ public class Device extends BaseEntity {
         this.deviceStatus = new DeviceStatus(this);
         this.uuid = uuid;
         this.model = model;
-        this.imageUrl = "/image/default-avatar.png";
+        this.imageUrl = "https://via.placeholder.com/150x150";
     }
 
     // 관리자용
@@ -78,11 +78,8 @@ public class Device extends BaseEntity {
         throw new UuidNotMatchException("기기의 UUID가 맞지 않습니다.");
     }
 
-    public void setOwner(String uuid, Member member) {
-        if (validUuid(uuid)) {
-            this.owner = member;
-        }
-        throw new UuidNotMatchException("기기의 UUID가 맞지 않습니다.");
+    public void setOwner(Member member) {
+        this.owner = member;
     }
 
     public void changeImage(String imageUrl) {
