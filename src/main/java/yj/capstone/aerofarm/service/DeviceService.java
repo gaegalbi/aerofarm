@@ -8,8 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import yj.capstone.aerofarm.domain.device.Device;
 import yj.capstone.aerofarm.domain.device.Model;
+import yj.capstone.aerofarm.domain.member.Member;
 import yj.capstone.aerofarm.dto.request.CreateDeviceRequestDto;
+import yj.capstone.aerofarm.dto.request.DeviceRegisterRequestDto;
 import yj.capstone.aerofarm.dto.response.DeviceAdminListResponseDto;
+import yj.capstone.aerofarm.dto.response.DeviceMemberListResponseDto;
+import yj.capstone.aerofarm.exception.UuidNotMatchException;
 import yj.capstone.aerofarm.repository.DeviceRepository;
 
 import java.util.UUID;
@@ -32,7 +36,21 @@ public class DeviceService {
         }
     }
 
+    @Transactional(readOnly = true)
     public Page<DeviceAdminListResponseDto> findAdminDeviceList(Pageable pageable) {
-        return deviceRepository.findAdminList(pageable);
+        return deviceRepository.findAdminDeviceList(pageable);
     }
+
+    @Transactional
+    public void register(Member member, DeviceRegisterRequestDto deviceRegisterRequestDto) {
+        Device device = deviceRepository.findByUuidAndOwnerIsNull(deviceRegisterRequestDto.getUuid()).orElseThrow(() -> new UuidNotMatchException("해당되는 기기가 없습니다."));
+        device.setOwner(member);
+        device.changeNickname(deviceRegisterRequestDto.getNickname());
+        log.info("Owner of deivce {} is set to {}", device.getUuid(), member.getEmail());
+    }
+
+    public Page<DeviceMemberListResponseDto> findMemberDeviceList(Long memberId, Pageable pageable) {
+        return deviceRepository.findMemberDeviceList(memberId, pageable);
+    }
+
 }

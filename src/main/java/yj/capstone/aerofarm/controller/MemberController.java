@@ -18,11 +18,15 @@ import yj.capstone.aerofarm.config.auth.dto.UserDetailsImpl;
 import yj.capstone.aerofarm.domain.member.Member;
 import yj.capstone.aerofarm.domain.order.Order;
 import yj.capstone.aerofarm.dto.*;
+import yj.capstone.aerofarm.dto.request.DeviceRegisterRequestDto;
 import yj.capstone.aerofarm.dto.request.ProfileEditRequest;
 import yj.capstone.aerofarm.dto.response.CommentListResponseDto;
+import yj.capstone.aerofarm.dto.response.DeviceMemberListResponseDto;
 import yj.capstone.aerofarm.dto.response.PostListResponseDto;
 import yj.capstone.aerofarm.exception.DuplicateValueException;
+import yj.capstone.aerofarm.exception.UuidNotMatchException;
 import yj.capstone.aerofarm.form.InitPasswordForm;
+import yj.capstone.aerofarm.service.DeviceService;
 import yj.capstone.aerofarm.service.MemberService;
 import yj.capstone.aerofarm.service.OrderService;
 import yj.capstone.aerofarm.service.PostService;
@@ -41,6 +45,7 @@ public class MemberController {
     private final MemberService memberService;
     private final OrderService orderService;
     private final PostService postService;
+    private final DeviceService deviceService;
 
     // TODO AOP 사용해서 인증 여부 관련 공통화 필요
     @ModelAttribute("verify")
@@ -207,11 +212,44 @@ public class MemberController {
         return "member/memberInfoCommentPage";
     }
 
+    @GetMapping("/my-page/devices")
+    public String deviceList(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails, @PageableDefault Pageable pageable) {
+        Member member = userDetails.getMember();
+        Page<DeviceMemberListResponseDto> devices = deviceService.findMemberDeviceList(member.getId(), pageable);
+        PageableList<DeviceMemberListResponseDto> pageableList = new PageableList<>(devices);
+        MemberDto memberDto = getMemberDto(member);
+        model.addAttribute("memberDto", memberDto);
+        model.addAttribute("pageableList", pageableList);
+        return "member/memberDeviceListPage";
+    }
+
+    @GetMapping("/my-page/devices/register")
+    public String deviceRegisterPage() {
+        return "member/memberDeviceRegisterPage";
+    }
+
+    @PostMapping("/my-page/devices/register")
+    @ResponseBody
+    public ResponseEntity<Message> registerDevice(@RequestBody DeviceRegisterRequestDto deviceRegisterRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        deviceService.register(userDetails.getMember(), deviceRegisterRequestDto);
+        return ResponseEntity.ok()
+                .body(createMessage("기기가 등록됬습니다."));
+    }
+
     private MemberDto getMemberDto(Member member) {
         return MemberDto.builder()
                 .picture(member.getPicture())
                 .nickname(member.getNickname())
                 .build();
+    }
+
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(UuidNotMatchException.class)
+    public ErrorResponse uuidNotMatch(UuidNotMatchException e) {
+        ErrorResponse response = new ErrorResponse(e.getMessage());
+        response.addValidation("uuid","해당되는 기기가 없습니다.");
+        return response;
     }
 
     @ResponseBody

@@ -4,7 +4,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import yj.capstone.aerofarm.domain.device.Device;
 import yj.capstone.aerofarm.dto.response.DeviceAdminListResponseDto;
+import yj.capstone.aerofarm.dto.response.DeviceMemberListResponseDto;
 import yj.capstone.aerofarm.dto.response.QDeviceAdminListResponseDto;
+import yj.capstone.aerofarm.dto.response.QDeviceMemberListResponseDto;
 import yj.capstone.aerofarm.repository.support.Querydsl5RepositorySupport;
 
 import static yj.capstone.aerofarm.domain.device.QDevice.device;
@@ -18,7 +20,7 @@ public class DeviceRepositoryImpl extends Querydsl5RepositorySupport implements 
     }
 
     @Override
-    public Page<DeviceAdminListResponseDto> findAdminList(Pageable pageable) {
+    public Page<DeviceAdminListResponseDto> findAdminDeviceList(Pageable pageable) {
         return applyPagination(pageable,
                 query -> query
                         .select(new QDeviceAdminListResponseDto(
@@ -37,6 +39,28 @@ public class DeviceRepositoryImpl extends Querydsl5RepositorySupport implements 
                         query -> query
                         .select(device.count())
                         .from(device)
+        );
+    }
+
+    @Override
+    public Page<DeviceMemberListResponseDto> findMemberDeviceList(Long memberId, Pageable pageable) {
+        return applyPagination(pageable,
+                query -> query
+                        .select(new QDeviceMemberListResponseDto(
+                                device.uuid,
+                                device.nickname,
+                                device.imageUrl,
+                                device.model,
+                                plant.name.as("plant")
+                        ))
+                        .from(device)
+                        .leftJoin(device.plant, plant)
+                        .where(device.owner.id.eq(memberId)),
+
+                query -> query
+                        .select(device.count())
+                        .from(device)
+                        .where(device.owner.id.eq(memberId))
         );
     }
 }
