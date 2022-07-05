@@ -105,10 +105,7 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                       ],
                     ),
                     onPressed: () {
-                      beforeRouteController.setBefore('hot');
-                   /*   print("before work");
-                      print(beforeRouteController.before.value);*/
-                      //setCategoryController.categoryClick(1);
+                      beforeRouteController.setBefore("HOT");
                       Get.offAll(()=> CommunityPageForm(category:beforeRouteController.before.value));
                     },
                   ),
@@ -136,8 +133,8 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                       ],
                     ),
                     onPressed: () {
-                      beforeRouteController.setBefore('all');
-                      Get.offAll(()=>CommunityPageForm(category:   beforeRouteController.before.value));
+                      beforeRouteController.setBefore('ALL');
+                      Get.offAll(()=>CommunityPageForm(category: beforeRouteController.before.value));
                     },
                   ),
                 ),
@@ -164,7 +161,7 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                       ],
                     ),
                     onPressed: () {
-                      beforeRouteController.setBefore('free');
+                      beforeRouteController.setBefore('FREE');
                       Get.offAll(()=>CommunityPageForm(category:   beforeRouteController.before.value));
                     },
                   ),
@@ -183,7 +180,7 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                       ],
                     ),
                     onPressed: () {
-                      beforeRouteController.setBefore('question');
+                      beforeRouteController.setBefore('QUESTION');
                       Get.offAll(()=>CommunityPageForm(category: beforeRouteController.before.value));
                     },
                   ),
@@ -218,7 +215,7 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                       ],
                     ),
                     onPressed: () {
-                      beforeRouteController.setBefore('information');
+                      beforeRouteController.setBefore('INFORMATION');
                         Get.offAll(()=> CommunityPageForm(category:   beforeRouteController.before.value));
                     },
                   ),
@@ -236,7 +233,7 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                       ],
                     ),
                     onPressed: () {
-                      beforeRouteController.setBefore('picture');
+                      beforeRouteController.setBefore('PICTURE');
                       Get.offAll(()=> CommunityPageForm(category:   beforeRouteController.before.value));
                     },
                   ),
@@ -256,7 +253,7 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                       ],
                     ),
                     onPressed: () {
-                      beforeRouteController.setBefore('trade');
+                      beforeRouteController.setBefore('TRADE');
                       Get.offAll(()=>CommunityPageForm(category:   beforeRouteController.before.value));
                     },
                   ),

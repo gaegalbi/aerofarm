@@ -222,51 +222,69 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                               if(checkTimerController.time.value){
                                 checkTimerController.stop(context);
                               }else{
-                                var data = {
-                                  "postId": widget.keywords['id'],
-                                  "content": _textEditingController.text,
-                                };
-                                var body = json.encode(data);
-
-                                await http.post(
-                                  Uri.http(ipv4, '/createComment'),
-                                  headers: {
-                                    "Content-Type": "application/json",
-                                    "Cookie": "JSESSIONID=$session",
-                                  },
-                                  encoding: Encoding.getByName('utf-8'),
-                                  body: body,
-                                );
-                                customKeywords.clear();
-                                final Map<String, String> _queryParameters = <String, String>{'page': "1"};
-                                final response = await http.get(Uri.http(
-                                    ipv4,
-                                    //'/community/${widget.keywords['communityCategory']}/${widget.keywords['id']}', _queryParameters));
-                                    '/community/detail/${widget.keywords['id']}', _queryParameters));
-                                if (response.statusCode == 200) {
-                                  dom.Document document = parser.parse(response.body);
-                                  List<dom.Element> keywordElements = document
-                                      .querySelectorAll('.comment-info');
-                                  for (var element in keywordElements) {
-                                    dom.Element? commentWriter = element.querySelector('.comment-writer');
-                                    dom.Element? commentContent = element.querySelector('.comment-content');
-                                    dom.Element? commentDate = element.querySelector('.comment-date');
-                                    customKeywords.add({
-                                      'writer': commentWriter?.text,
-                                      'date': commentDate?.text,
-                                      'content':  commentContent?.text,
-                                      'communityCategory' :widget.before,
-                                    });
+                                if(_textEditingController.text==""){
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        Future.delayed(const Duration(milliseconds: 900),
+                                                () {
+                                              Navigator.pop(context);
+                                            });
+                                        return const AlertDialog(
+                                          backgroundColor: Colors.transparent,
+                                          contentPadding: EdgeInsets.all(5),
+                                          content: Text(
+                                            "댓글 내용이\n있어야합니다.",
+                                            style: TextStyle(fontSize: 28),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        );
+                                      });
+                                }else{
+                                  var data = {
+                                    "postId": widget.keywords['id'],
+                                    "content": _textEditingController.text,
+                                  };
+                                  var body = json.encode(data);
+                                  await http.post(
+                                    Uri.http(ipv4, '/createComment'),
+                                    headers: {
+                                      "Content-Type": "application/json",
+                                      "Cookie": "JSESSIONID=$session",
+                                    },
+                                    encoding: Encoding.getByName('utf-8'),
+                                    body: body,
+                                  );
+                                  customKeywords.clear();
+                                  final Map<String, String> _queryParameters = <String, String>{'page': "1"};
+                                  final response = await http.get(Uri.http(
+                                      ipv4,
+                                      '/community/detail/${widget.keywords['id']}', _queryParameters));
+                                  if (response.statusCode == 200) {
+                                    dom.Document document = parser.parse(response.body);
+                                    List<dom.Element> keywordElements = document
+                                        .querySelectorAll('.comment-info');
+                                    for (var element in keywordElements) {
+                                      dom.Element? commentWriter = element.querySelector('.comment-writer');
+                                      dom.Element? commentContent = element.querySelector('.comment-content');
+                                      dom.Element? commentDate = element.querySelector('.comment-date');
+                                      customKeywords.add({
+                                        'writer': commentWriter?.text,
+                                        'date': commentDate?.text,
+                                        'content':  commentContent?.text,
+                                        'communityCategory' :widget.before,
+                                      });
+                                    }
+                                    commentListController.commentClear();
+                                    for (var element in customKeywords) {
+                                      commentListController.commentAdd(AddComment(
+                                        index: pageIndexController.pageIndex.value ,keywords: element, before: widget.before,
+                                      ));
+                                    }
                                   }
-                                  commentListController.commentClear();
-                                  for (var element in customKeywords) {
-                                    commentListController.commentAdd(AddComment(
-                                      index: pageIndexController.pageIndex.value ,keywords: element, before: widget.before,
-                                    ));
-                                  }
+                                  _textEditingController.text = "";
                                 }
-                                _textEditingController.text = "";
-                              }
+                             }
                             })
                       ],
                     ),

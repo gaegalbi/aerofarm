@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../LoginPage/LoginPageLogin.dart';
 import '../themeData.dart';
 
 class AddComment extends StatelessWidget {
@@ -28,13 +29,13 @@ class AddComment extends StatelessWidget {
             margin: const EdgeInsets.only(right: 15),
             child: CircleAvatar(
               radius: MediaQuery.of(context).size.width * 0.09,
-              backgroundImage: const AssetImage("assets/images/profile.png"),
+              backgroundImage: profile!.image,
             ),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.width*0.6,
                 child: Text(
                   keywords['writer'],

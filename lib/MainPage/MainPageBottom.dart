@@ -61,7 +61,7 @@ class _MainPageBottomState extends State<MainPageBottom> {
                   child: TextButton(
                     onPressed: () {
                      // fetch("all",false);
-                      Get.offAll(()=> const CommunityPageForm(category:'all'));//beforeRouteController.before.value));
+                      Get.offAll(()=> const CommunityPageForm(category:'ALL'));//beforeRouteController.before.value));
                     },
                     child: const Text(
                       "커뮤니티",

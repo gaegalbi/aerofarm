@@ -76,8 +76,8 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
     _scrollController1 = ScrollController();
     _titleController = TextEditingController();
     if(widget.type =="UpdatePost") {
-      classificationValue = widget.keywords['category'];
-      groupValue = engToKorCategory[widget.keywords['communityCategory']]!;
+      classificationValue = widget.keywords['filter'].toString().toLowerCase();
+      groupValue = engToKorCategory[widget.keywords['category'].toString().toLowerCase()]!;
       _titleController.text = widget.keywords['title'];
       //_controller.setText(readPostController.content.value);
     }
@@ -166,9 +166,9 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                         final txt = await _controller.getText();
                         data = {
                           "id":'',
-                          "category": widget.keywords['communityCategory'],
-                          "filter":korToEngClass[widget.keywords['category']],
-                          "title": "Re:"+widget.keywords['title'],
+                          "category": widget.keywords['category'].toString().toLowerCase(),
+                          "filter":widget.keywords['filter'].toString().toLowerCase(),
+                          "title":_titleController.text,
                           "contents": txt,
                           "postId": widget.keywords['id'],
                         };
@@ -230,8 +230,6 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                             "postId":'',
                           };
                           var body = json.encode(data);
-
-
                           await http.post(
                             Uri.http(ipv4, '/updatePost'),
                             headers: {
@@ -296,6 +294,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                             bottom: BorderSide(width: 2, color: Colors.white),
                           )),
                           child: TextField(
+                              focusNode: titleFocus,
                               controller: _titleController,
                               style: const TextStyle(
                                 fontFamily: "bmPro",

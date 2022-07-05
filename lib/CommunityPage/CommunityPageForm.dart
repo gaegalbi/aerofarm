@@ -34,31 +34,28 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
 
   void handleScrolling(bool expand) {
     if(expand){
-      //전체게시판은 전체 게시물을 전부 불러올 거라서 전체게시판이나 인기게시판일때는 동작x
-      if (_scrollController.offset ==
-          _scrollController.position.maxScrollExtent &&
-          !(widget.category == 'all' || widget.category == 'hot')) {
-        pageIndexController.increment();
+      if (_scrollController.offset == _scrollController.position.maxScrollExtent) {
         keywords.clear();
-        fetch(widget.category,false);
+        loadFetch(widget.category).then((value) => answerFetch(widget.category));
+ /*       loadFetch(widget.category);
+        answerFetch(widget.category);*/
+
       }
       if (_scrollController.offset ==
           _scrollController.position.minScrollExtent) {
-        //keywords.clear();
-        setState(() {
           boardListController.boardClear();
           pageIndexController.setUp();
           categoryIndexController.setUp();
           loadingController.setTrue();
-          fetch(widget.category,false);
-          Future.delayed(const Duration(microseconds: 100), () {
+          startFetch(widget.category).then((value)=>answerFetch(widget.category));
+          //새로고침 할때만 초기화
+          boardListController.answerList.clear();
+          Future.delayed(const Duration(microseconds: 1000), () {
             loadingController.setFalse();
           });
-        });
       }
     }else{
-      print("work");
-      fetch(widget.category,false);
+      //fetch(widget.category,false);
       loadingController.setTrue();
       Future.delayed(const Duration(milliseconds: 300), () {
         loadingController.setFalse();
@@ -78,7 +75,9 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
     });
     commentListController.commentClear();
     boardListController.boardClear();
-    fetch(widget.category,false);
+    //fetch(widget.category,false);
+    startFetch(widget.category).then((value) => answerFetch(widget.category));
+
     loadingController.setTrue();
     Future.delayed(const Duration(milliseconds: 300), () {
       loadingController.setFalse();
@@ -101,7 +100,6 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onDoubleTap: () {
-        print(checkTimerController.time.value);
         setState(() {
           floating = !floating;
         });
@@ -187,10 +185,10 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    matchCategory[widget.category]!,
+                    matchCategory[widget.category.toString()]!,
                     style: CommunityPageTheme.title,
                   ),
-                  widget.category == "hot"
+                  widget.category == "HOT"
                       ? Container(
                           height: MediaQuery.of(context).size.height * 0.039,
                           width: MediaQuery.of(context).size.width * 0.6,

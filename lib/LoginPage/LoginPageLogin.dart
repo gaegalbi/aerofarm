@@ -22,7 +22,8 @@ late bool isLogin = false;
 late String? nickname;
 //쿠키 받아두는 변수
 late String? tmp;
-late Image? profile;
+late Image? profile = const Image(image: AssetImage("assets/images/profile.png"),);
+
 final checkTimerController  = Get.put(CheckTimer());
 
 class NicknameController extends GetxController{
@@ -319,7 +320,6 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                 child: IconButton(
                   padding: EdgeInsets.zero,
                   onPressed: () {
-                    profile = const Image(image: AssetImage("assets/images/profile.png"),);
                     _naverLogin();
                   },
                   icon: Image.asset("assets/naver/btnG_아이콘원형.png"),

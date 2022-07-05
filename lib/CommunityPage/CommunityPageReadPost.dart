@@ -38,6 +38,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
   late int count;
   late ScrollController _scrollController;
   bool floating = false;
+  String date = "";
 
   void handleScrolling() {
     //전체게시판은 전체 게시물을 전부 불러올 거라서 전체게시판이나 인기게시판일때는 동작x
@@ -45,7 +46,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
         _scrollController.position.maxScrollExtent) {
       pageIndexController.increment();
       //fetch();
-      fetch(widget.keywords['communityCategory'],true);
+      //fetch(widget.keywords['communityCategory'],true);
     }
   }
   @override
@@ -56,18 +57,33 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
     _scrollController.addListener(() {
       handleScrolling();
     });
+    //게시글 내용 불러오기
+    readPostContent(widget.keywords['id'].toString(), widget.keywords['category']);
     content = "";
+    print(widget.keywords);
+
+    likes = widget.keywords['likeCount'].toString();
     //fetch();
-    readPostController.setId(widget.keywords['id']);
-    fetch(widget.keywords['communityCategory'],true);
+    //readPostController.setId(widget.keywords['id']);
+    //fetch(widget.keywords['communityCategory'],true);
 
     //CommunityPageReply 에서 뒤로가기 아이콘 클릭 시 null 방지
     //addComment 에 postKeywords 로 post 값 줌
     postKeywords.clear();
     postKeywords.addAll(widget.keywords);
 
-    likes=widget.keywords['likes'];
+    //likes=widget.keywords['likes'];
     //count = int.parse(widget.keywords['comments']);
+
+
+    String current = dateFormat.format(DateTime.now());
+    date = dateFormat.format(DateTime.parse(widget.keywords['modifiedDate']));
+    if(current == date.substring(0, 10)) {
+      date = widget.keywords['modifiedDate'].substring(11,16);
+    }else{
+      date = date.substring(2,10);
+    }
+
     super.initState();
   }
 
@@ -112,7 +128,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                   if(widget.before=="all"||widget.before=='hot'){
                     Get.offAll(()=>CommunityPageForm(category: widget.before));
                   }else{
-                    Get.offAll(()=>CommunityPageForm(category:widget.keywords['communityCategory']));
+                    Get.offAll(()=>CommunityPageForm(category:widget.keywords['category']));
                   }
                 },
               )),
@@ -164,7 +180,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                           Row(
                             children: [
                               Text(
-                                matchCategory[widget.keywords['communityCategory']]!,
+                                matchCategory[widget.keywords['category']]!,
                                 style: CommunityPageTheme.title,
                               ),
                               IconButton(
@@ -177,7 +193,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                   Icons.chevron_right,
                                 ),
                                 onPressed: () {
-                                  Get.off(()=> CommunityPageForm(category:widget.keywords['communityCategory']));
+                                  Get.off(()=> CommunityPageForm(category:widget.keywords['category']));
                                 },
                               ),
                             ],
@@ -225,8 +241,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                               //프로필
                               CircleAvatar(
                                 radius: MediaQuery.of(context).size.width * 0.08,
-                                backgroundImage:
-                                    const AssetImage("assets/images/profile.png"),
+                                backgroundImage:profile!.image,
                               ),
                               Container(
                                 padding: EdgeInsets.only(
@@ -252,14 +267,14 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                       children: [
                                         Container(
                                           margin: EdgeInsets.only(right: 10),
-                                          child: Text(widget.keywords['realDate'],)
+                                          child: Text(date,)
                                         ),
                                         Container(
                                             margin: EdgeInsets.only(right: 10),
                                             child: Row(
                                               children: [
                                                 const Text("조회 "),
-                                                Text((int.parse(widget.keywords['views'])+1).toString()),
+                                                Text((int.parse(widget.keywords['views'].toString())+1).toString()),
                                               ],
                                             )
                                         ),
@@ -327,8 +342,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                           radius:
                                               MediaQuery.of(context).size.width *
                                                   0.08,
-                                          backgroundImage: const AssetImage(
-                                              "assets/images/profile.png"),
+                                          backgroundImage: profile!.image,
                                         ),
                                       ),
                                       TextButton(
@@ -394,12 +408,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                       ),
                       onPressed: () async {
                         //누를때 한번 더 확인
-                        final Map<String, String> _queryParameters = <String, String>{
-                          'page': pageIndexController.pageIndex.value.toString(),
-                        };
-                        final response = await http
-                            //.get(Uri.http(ipv4, '/community/${widget.keywords['communityCategory']}/${widget.keywords['id']}',_queryParameters),
-                            .get(Uri.http(ipv4, '/community/detail/${widget.keywords['id']}',_queryParameters),
+                        final response = await http.get(Uri.http(ipv4, '/community/detail/${widget.keywords['id']}'),
                             headers:{
                               "Content-Type": "application/x-www-form-urlencoded",
                               "Cookie":"JSESSIONID=$session",
@@ -407,9 +416,6 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                         );
                         if (response.statusCode == 200) {
                           dom.Document document = parser.parse(response.body);
-                          printWrapped(document.outerHtml);
-                          readPostController.setContent(
-                              document.querySelector('.post-contents')!.outerHtml);
                           readPostController.setIsLike(document.querySelector('.isSelected')!.text);
                           likes = document.querySelector('.post-likes')!.text;
                         }
@@ -417,37 +423,28 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                           "postId":widget.keywords['id'],
                         };
                         var body = json.encode(data);
+                        String work = "";
                         if(readPostController.isLike.isTrue){
-                         await http.post(
-                            Uri.http(ipv4, '/deleteLike'),
-                            headers: {
-                              "Content-Type": "application/json",
-                              "Cookie":"JSESSIONID=$session",
-                            },
-                            encoding: Encoding.getByName('utf-8'),
-                            body: body,
-                          );
-                         readPostController.toggleLike();
+                          work = "/deleteLike";
                           setState((){
                             likes = (int.parse(likes!)-1).toString();
                           });
                         }else{
-                          await http.post(
-                            Uri.http(ipv4, '/createLike'),
-                            headers: {
-                              "Content-Type": "application/json",
-                              "Cookie":"JSESSIONID=$session",
-                            },
-                            encoding: Encoding.getByName('utf-8'),
-                            body: body,
-                          );
-                          readPostController.toggleLike();
+                          work = "/createLike";
                           setState((){
-                            print("+1");
-                            print(likes);
                             likes = (int.parse(likes!)+1).toString();
                           });
                         }
+                        await http.post(
+                          Uri.http(ipv4, work),
+                          headers: {
+                            "Content-Type": "application/json",
+                            "Cookie":"JSESSIONID=$session",
+                          },
+                          encoding: Encoding.getByName('utf-8'),
+                          body: body,
+                        );
+                        readPostController.toggleLike();
                       },
                     ),
                     AppBarButton(
