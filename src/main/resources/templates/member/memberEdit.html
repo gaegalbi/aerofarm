@@ -68,9 +68,12 @@
                                     이름오류
                                 </div>
                             </div>
+
                             <div class="col-12">
                                 <label for="phoneNumber" class="form-label">연락처</label>
-                                <input type="text" class="form-control" id="phoneNumber"
+                            </div>
+                            <div class="col-6 mt-0">
+                                <input type="text" class="form-control" id="phoneNumber" name="phoneNumber"
                                        oninput="autoHyphen(this)"
                                        th:field="*{phoneNumber}"
                                        maxlength="13"
@@ -79,6 +82,13 @@
                                     전화번호오류
                                 </div>
                             </div>
+
+                            <div class="col-6 mt-0 mx-auto">
+                                <a type="button" onclick="AuthNuber" class="btn btn-primary d-grid" href="/my-page/edit/send-message">
+                                    휴대전화 인증
+                                </a>
+                            </div>
+
                             <div class="col-12">
                                 <label for="zipcode" class="form-label">우편번호</label>
                             </div>
