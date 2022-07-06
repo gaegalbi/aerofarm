@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/header :: header}"/>
+
+<style>
+    .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+
+    @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+        }
+    }
+
+    tr {
+        white-space: nowrap;
+    }
+
+    td {
+        white-space: nowrap;
+    }
+</style>
+
+<body class="d-flex flex-column min-vh-100">
+
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
+
+<div class="container">
+    <div class="row">
+        <div th:replace="~{fragments/adminMenuBar :: adminMenuBar}" />
+        <div class="col-md-10 gx-4">
+            <div class="card" style="background-color: #111620">
+                <div class="card-body text-white">
+                    <h4 class="m-0">
+                        회원 목록
+                    </h4>
+                    <hr/>
+                    <div class="table-responsive">
+                        <table class="table table-dark">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>닉네임</th>
+                                <th>이메일</th>
+                                <th>가입일</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="member: ${pageableList.getContent()}">
+                                <td th:text="${member.getId()}">1</td>
+                                <td th:text="${member.getNickname()}">QQC</td>
+                                <td th:text="${member.getEmail()}">qqc@naver.com</td>
+                                <td th:text="${member.getCreatedDate()}">2022-06-30</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div>
+                    <ul class="pagination pagination-sm justify-content-center">
+                        <li class="page-item" th:classappend="${pageableList.isFirst()} ? 'disabled' : ''">
+                            <a class="page-link" href="#" th:href="@{members(page=${pageableList.getNumber()-1})}"
+                               aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item" th:classappend="${pageableList.getNumber() == 1} ? 'active' : ''">
+                            <a class="page-link" th:href="@{members(page=1)}">1</a>
+                        </li>
+                        <li class="page-item" th:if="${pageableList.isMoreLeft()}"><a class="page-link">...</a></li>
+
+                        <li class="page-item" th:classappend="${pageableList.getNumber() == num} ? 'active' : ''"
+                            th:if="${pageableList.getTotalPage()} > 2"
+                            th:each="num : ${#numbers.sequence(pageableList.getListMin(),pageableList.getListMax())}">
+                            <a class="page-link" href="#" th:href="@{members(page=${num})}" th:text="${num}">1</a>
+                        </li>
+
+                        <li class="page-item" th:if="${pageableList.isMoreRight()}"><a class="page-link">...</a></li>
+                        <li class="page-item"
+                            th:classappend="${pageableList.getNumber() == pageableList.getTotalPage()} ? 'active' : ''"
+                            th:unless="${pageableList.isFirst()} and ${pageableList.isLast()}">
+                            <a class="page-link"
+                               th:href="@{members(page=${pageableList.getTotalPage()})}"
+                               th:text="${pageableList.getTotalPage()}">99</a>
+                        </li>
+
+                        <li class="page-item" th:classappend="${pageableList.isLast()} ? 'disabled' : ''">
+                            <a class="page-link" href="#" th:href="@{members(page=${pageableList.getNumber()+1})}"
+                               aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"/>
+</body>
+</html>

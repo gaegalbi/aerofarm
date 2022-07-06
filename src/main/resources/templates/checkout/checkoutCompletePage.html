@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"/>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
+
+    .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+
+    @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+        }
+    }
+
+    @media screen and (max-width: 570px) {
+
+    }
+
+    .form-control {
+        border-color: #131825;
+        background-color: #182030;
+        color: #FFFFFF;
+    }
+
+    .form-select {
+        border-color: #131825;
+        background-color: #182030;
+        color: #FFFFFF;
+    }
+
+    .form-control:focus {
+        background-color: #182030;
+        color: #FFFFFF;
+    }
+
+    .list-group-item {
+        background-color: #182030;
+        color: #FFFFFF;
+    }
+
+    input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 30px #182030 inset;
+        -webkit-text-fill-color: #FFFFFF !important;
+    }
+
+    input[type="text"]:disabled {
+        background-color: #182030;
+    }
+
+</style>
+
+<body class="d-flex flex-column min-vh-100">
+
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
+
+<div class="container">
+    <main>
+        <div class="card m-4" style="background-color: #111620">
+            <div class="card-body text-white">
+                <div class="py-5 text-center">
+                    <h1><i class="bi bi-box2-heart"></i></h1>
+                    <h2>주문 완료</h2>
+                </div>
+
+                <div class="row g-5">
+                    <div class="col-md-5 col-lg-4 order-md-last">
+                        <h4 class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="text-white">주문 목록</span>
+                            <span class="badge bg-primary rounded-pill" th:text="${checkoutCompleteDto.getProductCartDtos().size()}">3</span>
+                        </h4>
+                        <ul class="list-group mb-3">
+                            <th:block th:each="cartDto: ${checkoutCompleteDto.getProductCartDtos()}">
+                                <li class="list-group-item lh-sm">
+                                    <div class="row justify-content-between">
+                                        <div class="d-flex align-items-center">
+                                            <div class="col-auto me-auto">
+                                                <h6 class="mb-1" th:text="${cartDto.getName()}">수경 재배기 Model-2</h6>
+                                                <div class="d-flex">
+                                                    <h6 class="text-muted m-0">수량:&nbsp;</h6>
+                                                    <h6 class="m-0" th:text="${cartDto.getQuantity()}">5</h6>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class="d-flex">
+                                                    <h6 class="mt-2" th:text="${cartDto.getPrice()}">50,000</h6>
+                                                    <h6 class="mt-2">원</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </th:block>
+                            <li class="list-group-item lh-sm">
+                                <div class="row justify-content-between">
+                                    <div class="d-flex align-items-center">
+                                        <div class="col-auto me-auto">
+                                            <h6 class="m-0">배송비</h6>
+                                        </div>
+                                        <div class="col-auto d-flex">
+                                            <h6 class="mt-2" th:text="${deliveryPrice}">2500</h6>
+                                            <h6 class="mt-2">원</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <h5>총합</h5>
+                                <div class="d-flex">
+                                    <h5 th:text="${totalPrice} + ${deliveryPrice}">50,000</h5>
+                                    <h5>원</h5>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-7 col-lg-8">
+                        <h4 class="mb-3">배송 정보</h4>
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <label for="name" class="form-label">받는사람</label>
+                                <input type="text" class="form-control" id="name" placeholder="홍길동" disabled
+                                       required th:field="${checkoutCompleteDto.receiver}">
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label for="phoneNumber" class="form-label">전화번호</label>
+                                <input type="text" class="form-control" id="phoneNumber" disabled
+                                       placeholder="010-0000-0000"
+                                       th:field="${checkoutCompleteDto.phoneNumber}"
+                                       required>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="zipcode" class="form-label">우편번호</label>
+                            </div>
+                            <div class="col-6 mt-0">
+                                <input type="text" class="form-control" id="zipcode" placeholder="우편번호"
+                                       th:field="${checkoutCompleteDto.zipcode}" disabled
+                                       required>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="address1" class="form-label">주소</label>
+                                <input type="text" th:field="${checkoutCompleteDto.address1}"
+                                       class="form-control" placeholder="주소" disabled
+                                       id="address1">
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <label for="address2" class="form-label">상세주소</label>
+                                <input type="text" th:field="${checkoutCompleteDto.address2}"
+                                       class="form-control" placeholder="상세주소" disabled
+                                       id="address2">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label for="extraAddress" class="form-label">참고항목</label>
+                                <input type="text" th:field="${checkoutCompleteDto.extraAddress}"
+                                       class="form-control" disabled
+                                       placeholder="참고항목" id="extraAddress">
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <h4 class="mb-3">결제 방법</h4>
+
+                        <div class="my-3">
+                            <div class="col-6">
+                                <h4 th:text="${checkoutCompleteDto.paymentType}">
+                                    무통장입급
+                                </h4>
+                                <th:block th:if="${checkoutCompleteDto.deposit != null}">
+                                    <div class="d-flex">
+                                        <h5>은행:&nbsp;</h5>
+                                        <h5 th:text="${checkoutCompleteDto.deposit.getBank()}"></h5>
+                                    </div>
+                                    <div class="d-flex">
+                                        <h5>입금자명:&nbsp;</h5>
+                                        <h5 th:text="${checkoutCompleteDto.deposit.getDepositor()}"></h5>
+                                    </div>
+                                    <div class="d-flex">
+                                        <h5>계좌번호:&nbsp;</h5>
+                                        <h5 th:text="${checkoutCompleteDto.deposit.getAccountNumber()}"></h5>
+                                    </div>
+                                </th:block>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"/>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="/js/util/findAddress.js"></script>
+<script src="/js/util/autoHyphen.js"></script>
+<script src="/js/checkout/checkoutComplete.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="adminMenuBar">
+    <h3 class="my-3 text-white"><a href="/admin" style="color: white">관리자 페이지</a></h3>
+    <div class="col-md-2 gx-4">
+        <div class="list-group text-start list-group-flush pb-4">
+            <a href="/admin/members" id="members"
+               class="rounded-top list-group-item list-group-item-primary list-group-item-action">
+                회원 목록
+            </a>
+            <a href="/admin/product/save" id="productSave"
+               class="list-group-item list-group-item-primary list-group-item-action">
+                상품 등록
+            </a>
+            <a href="/admin/product" id="productManage"
+               class="list-group-item list-group-item-primary list-group-item-action">
+                상품 목록
+            </a>
+            <a href="/admin/order-list" id="orderList"
+               class="list-group-item list-group-item-primary list-group-item-action">
+                주문 목록
+            </a>
+            <a href="/admin/devices/create" id="createDevice"
+               class="rounded-bottom list-group-item list-group-item-primary list-group-item-action">
+                기기 생성
+            </a>
+        </div>
+        <script>
+            const url = window.location.pathname;
+            switch (url) {
+                case '/admin/members':
+                    document.getElementById('members').classList.add('active');
+                    break;
+                case '/admin/product/save':
+                    document.getElementById('productSave').classList.add('active');
+                    break;
+                case '/admin/order-list':
+                    document.getElementById('orderList').classList.add('active');
+                    break;
+                case '/admin/product':
+                    document.getElementById('productManage').classList.add('active');
+                    break;
+                case '/admin/devices/create':
+                    document.getElementById('createDevice').classList.add('active');
+                    break;
+            }
+        </script>
+    </div>
+</th:block>
+</html>

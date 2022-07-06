@@ -4,7 +4,6 @@ import lombok.Builder;
 import lombok.Getter;
 import yj.capstone.aerofarm.domain.member.Member;
 import yj.capstone.aerofarm.domain.member.Provider;
-import yj.capstone.aerofarm.domain.member.Role;
 
 import java.util.Map;
 
@@ -80,11 +79,12 @@ public class OAuthAttributes {
 
     public Member toEntity() {
         return Member.builder()
-                .nickname(name)
                 .email(email)
+                .nickname(name)
+                .password("")
                 .picture(picture)
-//                .role(Role.GUEST)
                 .provider(provider)
+                .verify(true)
                 .build();
     }
 }

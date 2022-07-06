@@ -67,10 +67,12 @@
             height: 100px;
             font-size: 2rem;
         }
-        .link-button-left{
+
+        .link-button-left {
             font-size: 1.8rem;
         }
-        .link-button-right{
+
+        .link-button-right {
             font-size: 1.8rem;
         }
     }
@@ -82,27 +84,29 @@
 
 <div class="container">
     <!-- 회원 정보 -->
-    <div class="d-flex flex-row bd-highlight mb-3" th:object="${memberDto}">
-        <div class="p-2 bd-highlight">
-            <img src="image/test_icon.png" th:src="*{picture}" th:if="*{picture != null}" class="rounded-circle" style="width: 75px; height: 75px">
-            <img src="image/test_icon.png" th:if="*{picture == null}" class="rounded-circle" style="width: 75px; height: 75px">
-        </div>
-        <div class="py-1">
-            <div sec:authorize="isAnonymous()" class="p-2 bd-highlight" style="color: #FFFFFF">
-                <p style="margin-bottom: 5px">익명의 사용자님 안녕하세요</p>
-                <p>도시농부에 오신것을 환영합니다.</p>
+    <div class="d-flex align-items-center text-white my-3">
+        <th:block sec:authorize="isAuthenticated()" th:object="${memberDto}">
+            <img src="image/test_icon.png" th:src="*{picture}" class="rounded-circle"
+                 style="width: 80px; height: 80px">
+            <div class="ms-3">
+                <p class="m-0 nickname" th:text="|*{nickname}님 안녕하세요|">홍길동님 안녕하세요</p>
+                <p class="m-0">도시농부에 오신것을 환영합니다.</p>
             </div>
-        </div>
-        <div sec:authorize="isAuthenticated()" class="p-2 bd-highlight" style="color: #FFFFFF">
-            <p style="margin-bottom: 5px" th:text="|*{nickname}님 안녕하세요|">홍길동님 안녕하세요</p>
-            <p>도시농부에 오신것을 환영합니다.</p>
-        </div>
+        </th:block>
+        <th:block sec:authorize="isAnonymous()">
+            <img src="image/test_icon.png" class="rounded-circle"
+                 style="width: 80px; height: auto">
+            <div class="ms-3">
+                <p class="m-0">익명의 농부님 안녕하세요</p>
+                <p class="m-0">도시농부에 오신것을 환영합니다.</p>
+            </div>
+        </th:block>
     </div>
     <!-- 페이지 이동 카드 -->
     <div class="row">
         <div class="col-sm-7" style="margin-bottom: 16px">
             <div class="d-grid gap-0">
-                <button class="btn btn-primary link-button link-button-big" type="button" onclick="location.href='/community'">
+                <button class="btn btn-primary link-button link-button-big" type="button" onclick="location.href='/community/free?page=1'">
                     커뮤니티 이동하기&nbsp;&nbsp;&nbsp;&nbsp;<i class="bi bi-people-fill"></i>
                 </button>
             </div>
@@ -112,8 +116,9 @@
                 <button class="btn btn-primary link-button link-button-left" type="button" style="height: 100px">
                     &nbsp;&nbsp;&nbsp;<i class="bi bi-check2-square"></i>&nbsp;&nbsp;&nbsp;&nbsp;기기 상태 확인하기
                 </button>
-                <button class="btn btn-primary link-button link-button-right" type="button" style="height: 100px">
-                    &nbsp;&nbsp;&nbsp;<i class="bi bi-cart3"></i>&nbsp;&nbsp;&nbsp;&nbsp;새로운 기기 구매하기
+                <button class="btn btn-primary link-button link-button-right" type="button"
+                        onclick="location.href='/store'" style="height: 100px">
+                    &nbsp;&nbsp;&nbsp;<i class="bi bi-cart3"></i>&nbsp;&nbsp;&nbsp;&nbsp;상점으로 이동하기
                 </button>
             </div>
         </div>

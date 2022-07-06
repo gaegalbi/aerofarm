@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"/>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
+
+    .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+
+    @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+        }
+    }
+
+    @media screen and (max-width: 570px) {
+
+    }
+
+    .form-input {
+        border-color: #131825;
+        background-color: #182030;
+        color: #FFFFFF;
+    }
+
+
+    .form-input:focus {
+        background-color: #182030;
+        color: #FFFFFF;
+    }
+
+    .list-group-item {
+        background-color: #182030;
+        color: #FFFFFF;
+    }
+
+    input[type="text"]:disabled {
+        background-color: #182030;
+    }
+
+</style>
+
+<body class="d-flex flex-column min-vh-100">
+
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
+
+<div class="container">
+    <main>
+        <div class="card m-4" style="background-color: #111620">
+            <div class="card-body text-white">
+                <div class="py-5 text-center">
+                    <h1><i class="bi bi-box-seam"></i></h1>
+                    <h2>주문 정보</h2>
+                </div>
+
+                <div class="row g-5">
+                    <div class="col-md-5 col-lg-4 order-md-last">
+                        <h4 class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="text-white">주문 정보</span>
+                            <span class="badge bg-primary rounded-pill" th:text="${checkoutCompleteDto.getProductCartDtos().size()}">3</span>
+                        </h4>
+                        <ul class="list-group mb-3">
+                            <th:block th:each="cartDto: ${checkoutCompleteDto.getProductCartDtos()}">
+                                <li class="list-group-item lh-sm">
+                                    <div class="row justify-content-between">
+                                        <div class="d-flex align-items-center">
+                                            <div class="col-auto me-auto">
+                                                <h6 class="mb-1" th:text="${cartDto.getName()}">수경 재배기 Model-2</h6>
+                                                <div class="d-flex">
+                                                    <h6 class="text-muted m-0">수량:&nbsp;</h6>
+                                                    <h6 class="m-0" th:text="${cartDto.getQuantity()}">5</h6>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <div class="d-flex">
+                                                    <h6 class="mt-2" th:text="${cartDto.getPrice()}">50,000</h6>
+                                                    <h6 class="mt-2">원</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </th:block>
+                            <li class="list-group-item lh-sm">
+                                <div class="row justify-content-between">
+                                    <div class="d-flex align-items-center">
+                                        <div class="col-auto me-auto">
+                                            <h6 class="m-0">배송비</h6>
+                                        </div>
+                                        <div class="col-auto d-flex">
+                                            <h6 class="mt-2" th:text="${deliveryPrice}">2500</h6>
+                                            <h6 class="mt-2">원</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <h5>총합</h5>
+                                <div class="d-flex">
+                                    <h5 th:text="${totalPrice} + ${deliveryPrice}">50,000</h5>
+                                    <h5>원</h5>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="d-grid">
+                            <th:block th:if="${!reviewd}">
+                                <button id="review-btn" class="btn btn-outline-light" type="button" data-bs-toggle="modal"
+                                        data-bs-target="#reviewModal">리뷰 남기기
+                                </button>
+                            </th:block>
+                            <th:block th:if="${reviewd}">
+                                <button class="btn btn-outline-light" type="button" disabled>이미 리뷰 했습니다</button>
+                            </th:block>
+                        </div>
+                    </div>
+                    <div class="col-md-7 col-lg-8">
+                        <h4 class="mb-3">배송 정보</h4>
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <label for="name" class="form-label">받는사람</label>
+                                <input type="text" class="form-control form-input" id="name" placeholder="홍길동" disabled
+                                       required th:field="${checkoutCompleteDto.receiver}">
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label for="phoneNumber" class="form-label">전화번호</label>
+                                <input type="text" class="form-control form-input" id="phoneNumber" disabled
+                                       placeholder="010-0000-0000"
+                                       th:field="${checkoutCompleteDto.phoneNumber}"
+                                       required>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="zipcode" class="form-label">우편번호</label>
+                            </div>
+                            <div class="col-6 mt-0">
+                                <input type="text" class="form-control form-input" id="zipcode" placeholder="우편번호"
+                                       th:field="${checkoutCompleteDto.zipcode}" disabled
+                                       required>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="address1" class="form-label">주소</label>
+                                <input type="text" th:field="${checkoutCompleteDto.address1}"
+                                       class="form-control form-input" placeholder="주소" disabled
+                                       id="address1">
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <label for="address2" class="form-label">상세주소</label>
+                                <input type="text" th:field="${checkoutCompleteDto.address2}"
+                                       class="form-control form-input" placeholder="상세주소" disabled
+                                       id="address2">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label for="extraAddress" class="form-label">참고항목</label>
+                                <input type="text" th:field="${checkoutCompleteDto.extraAddress}"
+                                       class="form-control form-input" disabled
+                                       placeholder="참고항목" id="extraAddress">
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <h4 class="mb-3">결제 방법</h4>
+
+                        <div class="my-3">
+                            <div class="col-6">
+                                <h4 th:text="${checkoutCompleteDto.paymentType}">
+                                    무통장입급
+                                </h4>
+                                <th:block th:if="${checkoutCompleteDto.deposit != null}">
+                                    <div class="d-flex">
+                                        <h5>은행:&nbsp;</h5>
+                                        <h5 th:text="${checkoutCompleteDto.deposit.getBank()}"></h5>
+                                    </div>
+                                    <div class="d-flex">
+                                        <h5>입금자명:&nbsp;</h5>
+                                        <h5 th:text="${checkoutCompleteDto.deposit.getDepositor()}"></h5>
+                                    </div>
+                                    <div class="d-flex">
+                                        <h5>계좌번호:&nbsp;</h5>
+                                        <h5 th:text="${checkoutCompleteDto.deposit.getAccountNumber()}"></h5>
+                                    </div>
+                                </th:block>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<div class="modal fade" id="reviewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="reviewModalLabel">리뷰 작성</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="reviewForm" action="">
+                <input type="hidden" name="orderUuid" th:value="${uuid}">
+                <div class="modal-body">
+                    <th:block th:each="productCartDto: ${checkoutCompleteDto.getProductCartDtos()}">
+                        <div>
+                            <label th:text="${productCartDto.getName()}"></label>
+                            <input type="hidden" th:name="|reviews[${productCartDtoStat.index}][productId]|"
+                                   th:value="${productCartDto.getProductId()}">
+                            <input type="text" th:name="|reviews[${productCartDtoStat.index}][review]|"
+                                   class="form-control my-2" placeholder="리뷰내용" required>
+                            <input type="number" th:name="|reviews[${productCartDtoStat.index}][score]|"
+                                   class="form-control mb-4" placeholder="별점" required>
+                        </div>
+                    </th:block>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    <button type="button" id="review-commit-btn" class="btn btn-primary" >등록</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="successModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="successModalLabel">리뷰 작성 완료</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                리뷰의 작성이 완료되었습니다 감사합니다!
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"/>
+<script src="/js/util/jquery.serialize-object.min.js"></script>
+<script src="/js/member/orderDetail.js"></script>
+
+</body>
+</html>

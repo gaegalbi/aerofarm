@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/header :: header}"/>
+
+<style>
+    .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+
+    @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+        }
+    }
+</style>
+
+<body class="d-flex flex-column min-vh-100">
+
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
+
+<div class="container">
+    <div class="row">
+        <div th:replace="~{fragments/adminMenuBar :: adminMenuBar}" />
+
+        <div class="col-md-10 gx-4">
+            <div class="card" style="background-color: #111620">
+                <div class="card-body" th:object="${saveProductForm}">
+                    <form method="post" action="/admin/product/save" id="uploadForm" enctype="multipart/form-data">
+                        <!--                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
+                        <h3 class="card-title text-center text-white">상품 등록</h3>
+                        <br/>
+
+                        <div class="mb-3">
+                            <label for="name" th:for="name" class="form-label"><small
+                                    class="text-muted">이름</small></label>
+                            <input type="text" th:field="*{name}" class="form-control input-box" id="name"
+                                   th:errorclass="fieldError" required>
+                            <p class="fieldError" th:errors="*{name}">이름 오류</p>
+                            <br/>
+                            <label for="money" th:for="money" class="form-label"><small
+                                    class="text-muted">가격</small></label>
+                            <input type="text" th:field="*{money}" class="form-control input-box" id="money"
+                                   th:errorclass="fieldError" required>
+                            <p class="fieldError" th:errors="*{money}">가격 오류</p>
+                            <br/>
+                            <label for="stock" th:for="stock" class="form-label"><small
+                                    class="text-muted">재고</small></label>
+                            <input type="text" th:field="*{stock}" class="form-control input-box" id="stock"
+                                   th:errorclass="fieldError" required>
+                            <p class="fieldError" th:errors="*{stock}">재고 오류</p>
+                            <br/>
+                            <label for="category" class="form-label"><small
+                                    class="text-muted">카테고리</small></label>
+                            <select class="form-select" th:field="*{category}" id="category"
+                                    aria-label="Default select example" required>
+                                <option value="">카테고리 선택</option>
+                                <option th:value="'DEVICE'">Device</option>
+                                <option th:value="'SEED'">Seed</option>
+                                <option th:value="'FERTILIZER'">Fertilizer</option>
+                                <option th:value="'ETC'">ETC</option>
+                            </select>
+                            <br/>
+                            <label for="image" class="form-label text-muted">상품 이미지 업로드</label>
+                            <input type="file" th:field="*{image}" class="form-control" id="image" name="image">
+                            <br/>
+                            <label for="tiny" class="form-label"><small
+                                    class="text-muted">상품 정보</small></label>
+                            <div>
+                                <textarea id="tiny" th:field="*{productDetail}"></textarea>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="d-grid gap-2 col-12 mx-auto">
+                            <button type="submit" class="btn btn-primary" id="btn-createProduct">등록</button>
+                        </div>
+                        <br/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+     tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">상품 생성 완료</h5>
+                <button type="button" onclick="location.href='/admin/product/save'"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                상품이 생성되었습니다!
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="location.href='/admin/product/save'"
+                        class="btn btn-primary">확인
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"/>
+<script src="/js/lib/tinymce/tinymce.min.js"></script>
+<script src="/js/product/createProduct.js"></script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"/>
+<style>
+    @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+        }
+    }
+
+    body {
+        background-color: #131825;
+    }
+
+    a {
+        text-decoration: none;
+        color: #FFFFFF
+    }
+
+    .post-header {
+        margin-right: 10px;
+    }
+
+    /*게시판 표시 속성*/
+    .community-category {
+        .container;
+        text-align: center;
+        color: #FFFFFF;
+
+        /*밑줄 그리기*/
+        border-style: solid;
+        border-width: 0px 0px 2px 0px;
+        border-color: #1C273A;
+
+        /*여백*/
+        margin-top: 15px;
+        padding-bottom: 15px;
+
+        /*글자 설정*/
+        font-size: 1.3rem;
+    }
+
+    .filtering {
+        .container;
+        margin-top: 15px;
+    }
+
+    .f-color-w {
+        color: #FFFFFF;
+        text-align: center;
+    }
+
+    .f-filter-color-b {
+        color: deepskyblue;
+    }
+
+    .title-f-sort {
+        text-align: left;
+    }
+
+    #post-events:hover tbody tr:hover td {
+      background: lightgray;
+      color: black;
+    }
+
+    td {
+        border: none;
+    }
+
+    .page-link {
+        background-color: #1C273A;
+        border-color: #1C273A;
+        color: #FFFFFF;
+    }
+</style>
+<body class="d-flex flex-column min-vh-100">
+<div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
+<nav style="background-color: #1C273A">
+    <div class="container">
+        <div class="py-1">
+            <nav class="d-flex justify-content-start">
+                <a class="p-2 post-header" href="/store">전체상품</a>
+                <a class="p-2 post-header" href="/store/device">기기</a>
+                <a class="p-2 post-header" href="/store/seed">씨앗</a>
+                <a class="p-2 post-header" href="/store/fertilizer">양액</a>
+                <a class="p-2 post-header" href="/store/etc">기타</a>
+            </nav>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div class="community-category">
+        <a th:text="${category}">전체상품</a>
+    </div>
+    <br/>
+    <div class="row row-cols-2 row-cols-md-5 g-2">
+        <div class="col px-2 pb-2" th:each="product: ${pageableList.getContent()}">
+            <div class="card text-center" th:onclick="|location.href='@{/store/detail/{id}(id=${product.getProductId()})}'|" style="cursor:pointer;">
+                <img src="/image/test_icon.png" th:src="${product.getImageUrl()}" class="card-img-top" alt="...">
+                <div class="card-body p-2">
+                    <h5 class="card-title" th:text="${product.getName()}">상품 이름</h5>
+                    <p class="card-text" th:text="|${product.getPrice()}원|">상품 가격</p>
+                    <div class="d-flex align-items-center">
+
+                    </div>
+                    <p class="card-text"
+                       th:text="|리뷰 ${product.getReviewCnt()} - 평점 ${#numbers.formatDecimal(product.getScoreAvg(),1,1)} / 5.0|">
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!--<div class="col">
+            <div class="card h-100">
+                <img src="/image/test_icon.png" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                </div>
+            </div>
+        </div>-->
+    </div>
+    <br/>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${pageableList.isFirst()} ? 'disabled' : ''">
+                <a class="page-link" href="#" th:href="@{store(page=${pageableList.getNumber()-1})}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item" th:classappend="${pageableList.getNumber() == 1} ? 'active' : ''">
+                <a class="page-link" th:href="@{store(page=1)}">1</a>
+            </li>
+            <li class="page-item" th:if="${pageableList.isMoreLeft()}"><a class="page-link">...</a></li>
+
+            <li class="page-item" th:classappend="${pageableList.getNumber() == num} ? 'active' : ''" th:if="${pageableList.getTotalPage()} > 2" th:each="num : ${#numbers.sequence(pageableList.getListMin(),pageableList.getListMax())}">
+                <a class="page-link" href="#" th:href="@{store(page=${num})}" th:text="${num}">1</a>
+            </li>
+
+            <li class="page-item" th:if="${pageableList.isMoreRight()}"><a class="page-link">...</a></li>
+            <li class="page-item" th:classappend="${pageableList.getNumber() == pageableList.getTotalPage()} ? 'active' : ''" th:unless="${pageableList.isFirst()} and ${pageableList.isLast()}"><a class="page-link" th:href="@{store(page=${pageableList.getTotalPage()})}" th:text="${pageableList.getTotalPage()}">99</a></li>
+
+            <li class="page-item" th:classappend="${pageableList.isLast()} ? 'disabled' : ''">
+                <a class="page-link" href="#" th:href="@{store(page=${pageableList.getNumber()+1})}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+
+<div th:replace="~{fragments/footer :: footer}"/>
+</body>
+</html>

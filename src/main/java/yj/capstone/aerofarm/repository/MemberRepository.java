@@ -5,7 +5,7 @@ import yj.capstone.aerofarm.domain.member.Member;
 
 import java.util.Optional;
 
-public interface MemberRepository extends JpaRepository<Member, Long> {
+public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryCustom {
 
 //    boolean existsByEmailAndPwd(String email, String pwd);
 

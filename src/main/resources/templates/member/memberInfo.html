@@ -18,8 +18,24 @@
         }
     }
 
-    .blog-footer p:last-child {
-        margin-bottom: 0;
+    .testimonial-card .card-up {
+        height: 120px;
+        overflow: hidden;
+        border-top-left-radius: .25rem;
+        border-top-right-radius: .25rem;
+    }
+
+    .testimonial-card .avatar {
+        width: 100px;
+        height: 100px;
+        margin-top: -100px;
+        overflow: hidden;
+        border: 0;
+        border-radius: 50%;
+    }
+
+    .member-info h5 {
+        margin: 0;
     }
 
 </style>
@@ -28,9 +44,113 @@
 
 <div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
 
-<div class="container" style="color: #FFFFFF">
-    <h1>회원 이메일</h1>
-    <h1>회원 별명</h1>
+<div class="container">
+    <div class="card m-0 m-md-2 bg-transparent">
+        <div class="card-body text-white">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="fw-normal mb-0 text-white">내 정보</h2>
+            </div>
+            <div class="row" th:object="${memberDto}">
+                <div class="col-md-3 gx-4">
+                    <div class="card testimonial-card mt-2 mb-3" style="background-color: #111620">
+                        <div class="card-up"></div>
+                        <div class="avatar mx-auto white">
+                            <img src="https://via.placeholder.com/400x400"
+                                 th:src="*{picture}"
+                                 class="rounded-circle"
+                                 style="width: 100px; height: 100px"
+                                 alt="avatar">
+                        </div>
+                        <div class="card-body text-center px-4 py-2">
+                            <h4 th:text="*{nickname}">
+                                abc123
+                            </h4>
+                            <br/>
+                            <div th:replace="~{fragments/memberMenuBar :: memberMenuBar}"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-9 gx-4">
+                    <div class="card mt-2 mb-3" style="background-color: #111620">
+                        <div class="card-body member-info px-4">
+                            <h4 class="m-0">
+                                기본 회원 정보
+                            </h4>
+                            <hr/>
+                            <div class="row my-5">
+                                <div class="col-md-4">
+                                    <h5>
+                                        이메일
+                                    </h5>
+                                </div>
+                                <div class="col-md-8">
+                                    <h5 th:text="*{email}">
+                                        abc123@naver.com
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="row my-5">
+                                <div class="col-md-4">
+                                    <h5>
+                                        이름
+                                    </h5>
+                                </div>
+                                <div class="col-md-8">
+                                    <h5 th:text="${#strings.isEmpty(memberDto.name)} ? '미등록' : *{name}">
+                                        홍길동
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="row my-5">
+                                <div class="col-md-4">
+                                    <h5>
+                                        전화번호
+                                    </h5>
+                                </div>
+                                <div class="col-md-8">
+                                    <h5 th:text="${#strings.isEmpty(memberDto.phoneNumber)} ? '미등록' : *{phoneNumber}">
+                                        010-1234-1234
+                                    </h5>
+                                </div>
+                            </div>
+                            <div class="row my-5">
+                                <div class="col-md-4">
+                                    <h5>
+                                        주소
+                                    </h5>
+                                </div>
+                                <div class="col-md-8 placeholder-glow">
+                                    <th:block th:if="${memberDto.addressInfo != null} and ${!#strings.isEmpty(memberDto.addressInfo.zipcode)}">
+                                        <h5 th:text="*{addressInfo.getZipcode()}">
+                                            12345
+                                        </h5>
+                                        <h5 th:text="*{addressInfo.getAddress1()}">
+                                            서울특별시 강남구 테헤란로
+                                        </h5>
+                                        <h5 th:text="*{addressInfo.getExtraAddress()}">
+                                            아파트
+                                        </h5>
+                                        <h5 th:text="*{addressInfo.getAddress2()}">
+                                            101동 101호
+                                        </h5>
+                                    </th:block>
+                                    <th:block th:if="${memberDto.addressInfo == null} or ${#strings.isEmpty(memberDto.addressInfo.zipcode)}">
+                                        <h5>
+                                            미등록
+                                        </h5>
+                                    </th:block>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col text-end">
+                        <a class="btn btn-primary" href="/my-page/edit">변경하기</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div th:replace="~{fragments/footer :: footer}"/>

@@ -1,8 +1,10 @@
 package yj.capstone.aerofarm.domain.board;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import yj.capstone.aerofarm.form.PostForm;
 import yj.capstone.aerofarm.domain.BaseEntity;
 import yj.capstone.aerofarm.domain.member.Member;
 
@@ -27,7 +29,7 @@ public class Post extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member writer;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "post_detail_id")
     private PostDetail content;
 
@@ -36,12 +38,18 @@ public class Post extends BaseEntity {
 
     private String title;
 
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = FilterConverter.class)
+    private PostFilter filter;
+
+//    @Enumerated(EnumType.STRING)
+    @Convert(converter = CategoryConverter.class)
     private PostCategory category;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     private Post parent;
+
+    private int groupId;
 
     @OneToMany(mappedBy = "parent")
     private List<Post> child = new ArrayList<>();
@@ -55,7 +63,40 @@ public class Post extends BaseEntity {
     // 조회수
     private int views;
 
-    // 추천수
-    private int likes;
+    // 삭제 여부
+    private boolean deleteTnF;
 
+    @Builder(builderClassName = "PostBuilder", builderMethodName = "postBuilder")
+    public Post(PostForm postForm, Member writer, int groupId) {
+        this.writer = writer;
+        this.title = postForm.getTitle();
+        this.content = PostDetail.createPostDetail(postForm.getContents());
+        this.category = PostCategory.findByLowerCase(postForm.getCategory());
+        this.filter = PostFilter.findByLowerCase(postForm.getFilter());
+        this.groupId = groupId;
+    }
+
+    @Builder(builderClassName = "PostParentBuilder", builderMethodName = "postParentBuilder")
+    public Post(PostForm postForm, Member writer, Post parent, int groupId) {
+        this.writer = writer;
+        this.title = postForm.getTitle();
+        this.content = PostDetail.createPostDetail(postForm.getContents());
+        this.category = PostCategory.findByLowerCase(postForm.getCategory());
+        this.filter = PostFilter.findByLowerCase(postForm.getFilter());
+        this.parent = parent;
+        this.groupId = groupId;
+    }
+
+    public void updateViews(int views) {
+        this.views = views;
+    }
+    public void updateDeleteTnF(boolean deleteTnF) {
+        this.deleteTnF = deleteTnF;
+    }
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+    public void updateContent(PostDetail postDetail) {
+        this.content = postDetail;
+    }
 }

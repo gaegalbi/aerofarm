@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import yj.capstone.aerofarm.controller.form.LoginForm;
-import yj.capstone.aerofarm.controller.form.SaveMemberForm;
+import yj.capstone.aerofarm.dto.request.LoginRequest;
+import yj.capstone.aerofarm.dto.request.SignupRequest;
 import yj.capstone.aerofarm.exception.TokenExpiredException;
 import yj.capstone.aerofarm.service.ConfirmationTokenService;
 import yj.capstone.aerofarm.service.MemberService;
@@ -31,13 +31,13 @@ public class LoginController {
         if (principal != null) {
             return "redirect:/";
         }
-        model.addAttribute("loginForm", new LoginForm());
-        return "/loginPage";
+        model.addAttribute("loginRequest", new LoginRequest());
+        return "loginPage";
     }
 
     @PostMapping("/login")
-    public String loginSumit(@Valid LoginForm loginForm, BindingResult bindingResult) {
-        return "/loginPage";
+    public String loginSumit(LoginRequest loginRequest) {
+        return "loginPage";
     }
 
     @GetMapping("/login/confirm-email")
@@ -45,8 +45,6 @@ public class LoginController {
         try {
             memberService.confirmEmail(token);
         } catch (TokenExpiredException e) {
-//            confirmationTokenService.deleteById(token);
-            log.debug("{}",e.getMessage(),e);
             rttr.addFlashAttribute("error", e.getMessage());
         }
         return "redirect:/login";
@@ -57,41 +55,37 @@ public class LoginController {
         if (principal != null) {
             return "redirect:/";
         }
-        model.addAttribute("saveMemberForm", new SaveMemberForm());
-        return "/signupPage";
+        model.addAttribute("signupRequest", new SignupRequest());
+        return "signupPage";
     }
 
     @PostMapping("/signup")
-    public String signupSubmit(@Valid SaveMemberForm saveMemberForm, BindingResult bindingResult) {
-        signupValidate(saveMemberForm, bindingResult);
+    public String signupSubmit(@Valid SignupRequest signupRequest, BindingResult bindingResult) {
+        signupValidate(signupRequest, bindingResult);
         if (bindingResult.hasErrors()) {
-            log.debug("errors={} ", bindingResult);
-            return "/signupPage";
+            return "signupPage";
         }
-        memberService.signup(saveMemberForm);
-        log.info("New member created. Email: {}",saveMemberForm.getEmail());
+        memberService.signup(signupRequest);
         return "redirect:/login";
     }
 
-    private void signupValidate(SaveMemberForm saveMemberForm, BindingResult bindingResult) {
-        log.debug("Duplicate member check. Email: {}", saveMemberForm.getEmail());
-        if (!saveMemberForm.getPassword().equals(saveMemberForm.getConfirmPassword())) {
-            bindingResult.rejectValue("password","notMatch");
+    private void signupValidate(SignupRequest signupRequest, BindingResult bindingResult) {
+        log.debug("Duplicate member check. email = {}", signupRequest.getEmail());
+        if (!signupRequest.isPasswordMatch()) {
+            bindingResult.rejectValue("password", "notMatch");
         }
-        if (memberService.duplicateEmailCheck(saveMemberForm.getEmail())) {
-            if (memberService.isNotVerified(saveMemberForm.getEmail())) {
-                log.debug("Member is already exist but not verified. Email: {}", saveMemberForm.getEmail());
-                confirmationTokenService.deleteByEmail(saveMemberForm.getEmail());
-                memberService.deleteByEmail(saveMemberForm.getEmail());
+        if (memberService.duplicateEmailCheck(signupRequest.getEmail())) {
+            if (memberService.isNotVerified(signupRequest.getEmail())) {
+                // 이미 가입했지만 이메일 인증을 하지 않았을 때
+                log.info("Member is already exist but not verified. email = {}", signupRequest.getEmail());
+                confirmationTokenService.deleteByEmail(signupRequest.getEmail());
+                memberService.deleteByEmail(signupRequest.getEmail());
                 return;
             }
             bindingResult.rejectValue("email", "duplicate");
         }
-        if (memberService.duplicateNicknameCheck(saveMemberForm.getNickname())) {
+        if (memberService.duplicateNicknameCheck(signupRequest.getNickname())) {
             bindingResult.rejectValue("nickname", "duplicate");
-        }
-        if (memberService.duplicatePhoneNumberCheck(saveMemberForm.getPhoneNumber())) {
-            bindingResult.rejectValue("phoneNumber", "duplicate");
         }
     }
 }
