@@ -78,6 +78,14 @@ public class CommentRepositoryImpl extends Querydsl5RepositorySupport implements
     }
 
     @Override
+    public Long findAllCommentCount(Post post) {
+        return select(comment.id.count())
+                .from(comment)
+                .where(comment.post.eq(post))
+                .fetchOne();
+    }
+
+    @Override
     public Page<CommentListResponseDto> findMyComment(Long memberId, Pageable pageable) {
         return applyPagination(pageable,
                 query -> query

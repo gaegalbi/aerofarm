@@ -12,6 +12,7 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommentForm {
+    private Long id;
     private Long postId;
 
     @NotBlank(message = "내용을 입력해주세요.")

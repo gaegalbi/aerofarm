@@ -31,6 +31,10 @@ public class CommentDto {
         this.localDateTime = comment.getCreatedDate();
         this.content = comment.getContent();
         this.postId = comment.getPost().getId();
+        this.writerId = comment.getWriter().getId();
+        this.deleteTnF = comment.isDeleteTnF();
+        this.groupId = comment.getGroupId();
+        this.picture = comment.getWriter().getPicture();
     }
 
     @QueryProjection

@@ -10,13 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import yj.capstone.aerofarm.config.auth.dto.UserDetailsImpl;
-import yj.capstone.aerofarm.domain.board.PostFilter;
-import yj.capstone.aerofarm.domain.board.PostLike;
+import yj.capstone.aerofarm.domain.board.*;
 import yj.capstone.aerofarm.dto.*;
 import yj.capstone.aerofarm.form.CommentForm;
 import yj.capstone.aerofarm.form.PostForm;
-import yj.capstone.aerofarm.domain.board.Post;
-import yj.capstone.aerofarm.domain.board.PostCategory;
 import yj.capstone.aerofarm.service.PostService;
 
 import java.util.List;
@@ -70,6 +67,15 @@ public class PostController {
         return postService.findAnswerPostInfo(postCategory, searchCategory, keyword, postFilter);
     }
 
+    // 댓글 정보 API
+    @GetMapping("/api/community/commentInfo")
+    @ResponseBody
+    public CommentDto findCommentInfo(@RequestParam Long commentId) {
+        Comment comment = postService.selectComment(commentId);
+        CommentDto commentDto = new CommentDto(comment);
+        return commentDto;
+    }
+
     // 선택된 게시글 페이지
     @GetMapping("/community/detail/{postId}")
     public String community_detail(@AuthenticationPrincipal UserDetailsImpl userDetails, @PathVariable Long postId, Model model, @PageableDefault Pageable pageable) {
@@ -94,6 +100,7 @@ public class PostController {
             postLikeInfo.add(new PostLikeDto(post.getId(), 0L));
         }
 
+        model.addAttribute("commentCount", postService.commentCount(post));
         model.addAttribute("answerCommentInfo", answerCommentInfo);
         model.addAttribute("postInfo", post);
         model.addAttribute("pageableList", pageableList);
@@ -180,6 +187,13 @@ public class PostController {
     @PostMapping("/updatePost")
     public Long updatePost(@RequestBody PostForm postForm) {
         return postService.updatePost(postForm).getId();
+    }
+
+    // 댓글 수정
+    @ResponseBody
+    @PostMapping("/updateComment")
+    public Long updateComment(@RequestBody CommentForm commentForm) {
+        return postService.updateComment(commentForm).getId();
     }
 
     // 게시글 삭제(soft)

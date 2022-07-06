@@ -74,4 +74,5 @@ public class Comment extends BaseEntity {
     public void updateDeleteTnF(boolean deleteTnF) {
         this.deleteTnF = deleteTnF;
     }
+    public void updateContent(String content) { this.content = content; }
 }

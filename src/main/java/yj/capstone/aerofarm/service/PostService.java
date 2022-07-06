@@ -110,6 +110,7 @@ public class PostService {
         return postLike;
     }
 
+    // 게시글 수정
     public Post updatePost(PostForm postForm) {
         Post post = postRepository.findById(postForm.getId()).orElseThrow(() -> null);
         post.updateTitle(postForm.getTitle());
@@ -117,6 +118,15 @@ public class PostService {
 
         postRepository.save(post);
         return post;
+    }
+
+    // 댓글 수정
+    public Comment updateComment(CommentForm commentForm) {
+        Comment comment = commentRepository.findById(commentForm.getId()).orElseThrow(() -> null);
+        comment.updateContent(commentForm.getContent());
+
+        commentRepository.save(comment);
+        return comment;
     }
 
     // 조회수 업데이트
@@ -173,6 +183,9 @@ public class PostService {
 
     // 해당 댓글 정보 조회
     public Comment selectComment(Long commentId) { return commentRepository.findById(commentId).orElseThrow(() -> null); }
+
+    // 해당 게시글에 포함된 모든 댓글 개수
+    public Long commentCount(Post post) { return commentRepository.findAllCommentCount(post); }
 
     // 좋아요 개수 조회
     public List<PostLikeDto> findLikeInfo(Long postId) {
