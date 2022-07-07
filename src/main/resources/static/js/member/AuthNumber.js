@@ -1,47 +1,17 @@
 function AuthNuber() {
 
-    //const phoneNumber = document.getElementById("phoneNumber").value
-    const phoneNumber = $('#phoneNumber').val();
-
+    let data = {
+        phoneNumber: $('#phoneNumber').val()
+    };
     $.ajax({
-        url: "/my-page/edit/send-message",
-        type: 'get',
-        data: {
-            "phoneNumber": phoneNumber
-        },
-        success: function (data) {
-            $.ajax({
-                url: "/my-page/edit/get-auth",
-                type: 'get',
-                data: {},
-                success: function (data) {
-                    const authNumber = data
-                    const userNumber = prompt('인증번호를 입력하세요')
-                    if (authNumber == userNumber)
-                        alert('인증에 성공하였습니다.')
-                    else
-                        alert('인증에 실패하였습니다.')
-                }
-            })
-        }
+        url: "/api/auth/sms",
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(data)
+    }).done(function (data) {
+        alert("실행 성공")
+    }).fail(function () {
+        alert('실행 실패');
     })
-
-    /*
-    }).then((arg) => {
-
-        $.ajax({
-            url: "/my-page/edit/get-auth",
-            type: 'get',
-            data: {},
-            success:function (data) {
-                const authNumber = data
-                const userNumber = prompt('인증번호를 입력하세요')
-                if (authNumber == userNumber)
-                    alert('인증에 성공하였습니다.')
-                else
-                    alert('인증에 실패하였습니다.')
-            }
-        })
-    })
-    */
 }

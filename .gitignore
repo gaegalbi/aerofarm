@@ -37,5 +37,6 @@ out/
 .vscode/
 application-dev.properties
 application-aws.properties
+application-sms.properties
 src/main/resources/application-oauth.properties
 src/main/resources/application-mail.properties

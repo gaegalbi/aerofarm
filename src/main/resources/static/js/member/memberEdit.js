@@ -5,6 +5,9 @@ let memberEdit = {
             event.preventDefault();
             _this.profileEdit();
         });
+        $('#sms-btn').on('click', function (){
+            _this.sendSms();
+        })
     },
     profileEdit: function () {
         let data = {
@@ -35,6 +38,31 @@ let memberEdit = {
                 $('#' + key).addClass('is-invalid')
                 $('#' + key + "Error").text(value)
             });
+        })
+    },
+    sendSms: function () {
+        const inputNumber = prompt("전화번호 입력:")
+
+        let data = {
+            phoneNumber: inputNumber
+        };
+
+        $.ajax({
+            url: "/api/auth/sms",
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data)
+        }).done(function (data) {
+            const authNumber = prompt("휴대전화로 전송된 인증번호를 입력해주세요.")
+            if(data == authNumber) {
+                $("phoneNumber").attr("readonly", true)
+                alert("인증 성공")
+            }
+            else
+                alert("인증 실패")
+        }).fail(function () {
+            alert('실행 실패');
         })
     }
 };
