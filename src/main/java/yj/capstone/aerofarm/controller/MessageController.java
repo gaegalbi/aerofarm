@@ -26,4 +26,11 @@ public class MessageController {
     public String sendOne(@RequestBody PhoneNumberRequestDto request) {
         return messageService.sendSms(request);
     }
+
+    @PostMapping("/api/auth/get-token")
+    public String getToken(@RequestBody PhoneNumberRequestDto request) {
+        String token = messageService.getToken(request).getAuthNumber();
+        System.out.println(token);
+        return token;
+    }
 }

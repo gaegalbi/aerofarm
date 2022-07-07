@@ -7,7 +7,10 @@ let memberEdit = {
         });
         $('#sms-btn').on('click', function (){
             _this.sendSms();
-        })
+        });
+        $('#auth-btn').on('click', function (){
+            _this.validateSms();
+        });
     },
     profileEdit: function () {
         let data = {
@@ -41,11 +44,10 @@ let memberEdit = {
         })
     },
     sendSms: function () {
-        const inputNumber = prompt("전화번호 입력:")
 
         let data = {
-            phoneNumber: inputNumber
-        };
+            phoneNumber: $('#phoneNumber').val()
+        }
 
         $.ajax({
             url: "/api/auth/sms",
@@ -54,15 +56,38 @@ let memberEdit = {
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify(data)
         }).done(function (data) {
-            const authNumber = prompt("휴대전화로 전송된 인증번호를 입력해주세요.")
-            if(data == authNumber) {
-                $("phoneNumber").attr("readonly", true)
-                alert("인증 성공")
-            }
-            else
-                alert("인증 실패")
+            alert('인증번호를 전송하였습니다')
         }).fail(function () {
             alert('실행 실패');
+        })
+    },
+    validateSms: function () {
+
+        const authNumber = $('#authNumber').val();
+        let data = {
+            phoneNumber: $('#phoneNumber').val()
+        }
+
+        $.ajax({
+            url: "/api/auth/get-token",
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify(data)
+        }).done(function (data) {
+            if(authNumber==data) {
+                const inputNumber = document.getElementById("inputNumber");
+
+                inputNumber.removeAttribute("readonly");
+                inputNumber.value = $('#phoneNumber').val();
+                inputNumber.readOnly = true;
+
+                alert('인증 성공')
+            }
+            else
+                alert('인증 실패')
+        }).fail(function () {
+            alert('실행 실패')
         })
     }
 };

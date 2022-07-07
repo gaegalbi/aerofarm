@@ -70,10 +70,11 @@
                             </div>
 
                             <div class="col-12">
-                                <label for="phoneNumber" class="form-label">연락처</label>
+                                <label for="inputNumber" class="form-label">연락처</label>
                             </div>
                             <div class="col-6 mt-0">
-                                <input type="text" class="form-control" id="phoneNumber" name="phoneNumber"
+                                <input readonly class="form-control" id="inputNumber" name="inputNumber"
+                                       style="background-color: #182030"
                                        oninput="autoHyphen(this)"
                                        th:field="*{phoneNumber}"
                                        maxlength="13"
@@ -84,9 +85,55 @@
                             </div>
 
                             <div class="col-6 mt-0 mx-auto">
-                                <a type="button" id="sms-btn" class="btn btn-primary d-grid">
+                                <a type="button" class="btn btn-primary d-grid" data-bs-toggle="modal" data-bs-target="#MessageAuthModal">
                                     휴대전화 인증
                                 </a>
+                            </div>
+
+                            <div class="modal fade" id="MessageAuthModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content" style="background-color: #0e131e">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="staticBackdropLabel">휴대전화 인증</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="background-color: #FFFFFF"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="col-12">
+                                                <label class="form-label">전화번호 입력</label>
+                                            </div>
+                                            <div class="row my-2">
+                                                <div class="col-6 mx-auto">
+                                                    <input type="text" class="form-control" id="phoneNumber" name="phoneNumber"
+                                                           oninput="autoHyphen(this)"
+                                                           maxlength="13"
+                                                           placeholder="전화번호">
+                                                </div>
+                                                <div class="col-6 mx-auto">
+                                                    <a type="button" id="sms-btn" class="btn btn-primary d-grid">전송</a>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <label class="form-label">인증번호 입력</label>
+                                            </div>
+                                            <div class="row my-2">
+                                                <div class="col-6 mt-0 mx-auto">
+                                                    <input type="text" class="form-control" id="authNumber" name="inputNumber" placeholder="인증번호">
+                                                </div>
+                                                <div class="col-6 mt-0 mx-auto">
+                                                    <a type="button" id="auth-btn" class="btn btn-primary d-grid">인증</a>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <!--
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary">Understood</button>
+                                        </div>
+                                        -->
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="col-12">

@@ -20,7 +20,7 @@ public class MessageAuthToken {
 
     private String authNumber;
 
-    private LocalDateTime expirationDate;
+    //private LocalDateTime expirationDate;
 
     public static MessageAuthToken createMessageAuthToken(String phoneNumber) {
         MessageAuthToken token = new MessageAuthToken();
@@ -30,7 +30,7 @@ public class MessageAuthToken {
         for(int i=0;i<6;i++)
             authNumber += ((int) (Math.random() * 10));
 
-        token.expirationDate = LocalDateTime.now().plusMinutes(3);
+        //token.expirationDate = LocalDateTime.now().plusMinutes(3);
         token.phoneNumber = phoneNumber;
         token.authNumber = authNumber;
         return token;
