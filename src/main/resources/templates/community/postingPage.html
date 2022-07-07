@@ -79,12 +79,12 @@
         <input type="hidden" id="post-category" th:value="${postInfo.getCategory().getLowerCase()}"/>
         <div class="row">
             <div class="col-lg-6 col-sm-12 text-lg-start">
-                <button type="button" class="btn btn-secondary button-margin" th:onclick="|location.href='@{/community/{category}?page=1(category=${postInfo.getCategory().getLowerCase()})}'|" th:text="목록"/>
-                <button type="button" class="btn btn-danger button-margin" th:id="|post-delete-${postInfo.getId()}|" onclick="deletePost(this.id)" th:if="${user == postInfo.getWriter().getId() and !postInfo.isDeleteTnF()}" th:text="삭제"/>
+                <button type="button" class="btn btn-secondary button-margin  bi-list-columns-reverse" th:onclick="|location.href='@{/community/{category}?page=1(category=${postInfo.getCategory().getLowerCase()})}'|" th:text="| 목록|"/>
+                <button type="button" class="btn btn-danger button-margin bi-trash" th:id="|post-delete-${postInfo.getId()}|" onclick="deletePost(this.id)" th:if="${user == postInfo.getWriter().getId() and !postInfo.isDeleteTnF()}" th:text="삭제"/>
             </div>
             <div class="col-lg-6 col-sm-12 text-lg-end" id="like-area">
-                <button type="button" class="btn btn-secondary button-margin" th:onclick="|location.href='@{/writing?id={postId}(postId=${selectPost.id})}'|" th:text="수정" th:if="${user == postInfo.getWriter().getId() and !postInfo.isDeleteTnF()}"/>
-                <button type="button" class="btn btn-secondary button-margin" th:onclick="|location.href='@{/writing?postId={postId}(postId=${selectPost.id})}'|" th:text="답글" th:if="${!postInfo.isDeleteTnF()}"/>
+                <button type="button" class="btn btn-secondary button-margin bi-upload" th:onclick="|location.href='@{/writing?id={postId}(postId=${selectPost.id})}'|" th:text="| 수정|" th:if="${user == postInfo.getWriter().getId() and !postInfo.isDeleteTnF()}"/>
+                <button type="button" class="btn btn-secondary button-margin bi-pencil-square" th:onclick="|location.href='@{/writing?postId={postId}(postId=${selectPost.id})}'|" th:text="| 답글|" th:if="${!postInfo.isDeleteTnF()}"/>
                 <input type="checkbox" class="btn-check" id="likeButton" th:checked="${isSelected == 1}" th:disabled="${postInfo.isDeleteTnF()}">
                 <label class="btn btn-outline-danger button-margin bi-heart" for="likeButton" th:text="' ' + ${postLikeInfo.getLikeCount()}"/><br>
                 <label style="display: none" class="isSelected" th:checked="${isSelected}"/>
@@ -137,7 +137,7 @@
                         <div class="col-6 text-lg-end">
                             <button type="button" style="padding:0.3em" class="comment-basic btn btn-secondary text-lg-end" th:name="parent" th:id="|update-parent${commentDto.getId()}|" onclick="updateButtonChange(this.id, this.name)" th:value="normal" th:if="${user == commentDto.getWriterId() and !commentDto.isDeleteTnF()}" th:text="수정"/>
                             <button type="button" style="padding:0.3em" class="comment-basic btn btn-secondary text-lg-end" th:name="parent" th:id="|answer-parent${commentDto.getId()}|" onclick="buttonChange(this.id, this.name)" th:value="normal" th:if="${!commentDto.isDeleteTnF()}" th:text="답글"/>
-                            <button type="button" style="padding:0.3em" class="comment-basic btn btn-danger" th:id="|delete-${commentDto.getId()}|" onclick="deleteComment(this.id)" th:if="${user == commentDto.getWriterId() and !commentDto.isDeleteTnF()}" th:text="삭제"/>
+                            <button type="button" style="padding:0.3em" class="comment-basic btn btn-danger bi-trash" th:id="|delete-${commentDto.getId()}|" onclick="deleteComment(this.id)" th:if="${user == commentDto.getWriterId() and !commentDto.isDeleteTnF()}" th:text="삭제"/>
                         </div>
                         <div class="comment-body" style="margin-top: 10px; margin-bottom: 20px;">
                             <span class="comment-basic comment-content" th:utext="${commentDto.isDeleteTnF()} ? '삭제된 댓글입니다.' : ${commentDto.getContent()}"/>
@@ -209,7 +209,7 @@
             </div>
         </div>
         <div>
-            <button type="button" class="btn btn-secondary button-margin" th:onclick="|location.href='@{/community/{category}?page=1(category=${postInfo.getCategory().getLowerCase()})}'|" th:text="목록"/>
+            <button type="button" class="btn btn-secondary button-margin bi-list-columns-reverse" th:onclick="|location.href='@{/community/{category}?page=1(category=${postInfo.getCategory().getLowerCase()})}'|" th:text="| 목록|"/>
             <button type="button" class="btn btn-secondary button-margin" onclick="window.scrollTo(0,0);" th:text="TOP"/>
         </div>
     </main>
