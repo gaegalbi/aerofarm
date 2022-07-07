@@ -47,43 +47,28 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
       pageIndexController.increment();
       //fetch();
       //fetch(widget.keywords['communityCategory'],true);
+      loadReadPostContent(widget.keywords['id'], widget.keywords['category']);
     }
   }
   @override
   void initState(){
-    //commentListController.commentClear();
     pageIndexController.setUp();
     _scrollController = ScrollController();
     _scrollController.addListener(() {
       handleScrolling();
     });
     //게시글 내용 불러오기
-    readPostContent(widget.keywords['id'].toString(), widget.keywords['category']);
+    readPostContent(widget.keywords['id'], widget.keywords['category']);
+    //null 방지
     content = "";
-    print(widget.keywords);
-
     likes = widget.keywords['likeCount'].toString();
-    //fetch();
-    //readPostController.setId(widget.keywords['id']);
-    //fetch(widget.keywords['communityCategory'],true);
 
     //CommunityPageReply 에서 뒤로가기 아이콘 클릭 시 null 방지
     //addComment 에 postKeywords 로 post 값 줌
     postKeywords.clear();
     postKeywords.addAll(widget.keywords);
-
-    //likes=widget.keywords['likes'];
-    //count = int.parse(widget.keywords['comments']);
-
-
-    String current = dateFormat.format(DateTime.now());
-    date = dateFormat.format(DateTime.parse(widget.keywords['modifiedDate']));
-    if(current == date.substring(0, 10)) {
-      date = widget.keywords['modifiedDate'].substring(11,16);
-    }else{
-      date = date.substring(2,10);
-    }
-
+    //날짜 변경
+    date = dateInfoFormat.format(DateTime.parse(widget.keywords['modifiedDate']));
     super.initState();
   }
 
@@ -125,7 +110,9 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                   Icons.chevron_left,
                 ),
                 onPressed: () {
-                  if(widget.before=="all"||widget.before=='hot'){
+                  replyDetail.clear();
+                  replyDetailList.clear();
+                  if(widget.before=="ALL"||widget.before=='HOT'){
                     Get.offAll(()=>CommunityPageForm(category: widget.before));
                   }else{
                     Get.offAll(()=>CommunityPageForm(category:widget.keywords['category']));
@@ -225,8 +212,8 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                   ),
                   Container(
                     margin: EdgeInsets.only(
-                        right: MediaQuery.of(context).size.width * 0.03,
-                        left: MediaQuery.of(context).size.width * 0.03),
+                        right: MediaQuery.of(context).size.width * 0.02,
+                        left: MediaQuery.of(context).size.width * 0.02),
                     child: Column(
                       children: [
                         Container(
@@ -347,7 +334,6 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                       ),
                                       TextButton(
                                         onPressed: (){
-                                          print(widget.keywords);
                                           Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before,));
                                         },
                                         child: const Text(
@@ -389,7 +375,9 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                     "목록으로",
                     style: CommunityPageTheme.bottomAppBarList,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.offAll(()=>CommunityPageForm(category: widget.before));
+                  },
                 ),
                 Row(
                   children: [
@@ -417,7 +405,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                         if (response.statusCode == 200) {
                           dom.Document document = parser.parse(response.body);
                           readPostController.setIsLike(document.querySelector('.isSelected')!.text);
-                          likes = document.querySelector('.post-likes')!.text;
+                         // likes = document.querySelector('.post-likes')!.text;
                         }
                         var data = {
                           "postId":widget.keywords['id'],

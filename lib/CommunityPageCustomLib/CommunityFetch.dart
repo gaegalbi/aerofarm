@@ -20,6 +20,7 @@ final List<Map<String, dynamic>> customKeywords = []; //post-data
 final List<Map<String, dynamic>> answerKeywords = []; //answer-data
 final Map<String, dynamic> postKeywords = {};
 final dateFormat = DateFormat('yyyy.MM.dd');
+final dateInfoFormat = DateFormat('yyyy.MM.dd hh:mm');
 /*final Map<String, String> matchCategory = {
   "all": "전체게시판",
   "hot": "인기게시판",
@@ -99,23 +100,37 @@ class BeforeRouteController extends GetxController{
 class BoardListController extends GetxController{
   final boardList = <Widget>[].obs;
   final boardIdList = <int>[].obs;
-  final answerList = <int>[].obs;
+  final boardParentList = <int>[].obs;
 
+  //게시글
   void boardAdd(Widget widget){
     boardList.add(widget);
   }
 
+  //답글
   void boardInsert(int index, Widget widget){
     boardList.insert(index, widget);
   }
 
+  //답글
+  void boardIdInsert(int index, int id){
+    boardIdList.insert(index, id);
+  }
+
+  //중복방지
   void boardIdAdd(int index){
     boardIdList.add(index);
+  }
+
+  //중복방지
+  void boardParentAdd(int index){
+    boardParentList.add(index);
   }
 
   void boardIdClear(){
     boardIdList.clear();
     boardIdList.add(-1);
+    boardParentList.clear();
   }
 
   void boardClear(){
@@ -194,6 +209,7 @@ class ReadPostController extends GetxController{
     id.value = inputId;
   }
 }
+
 //initState에서 해당 페이지 불러오기
 Future startFetch(String communityCategory) async {
   final pageIndexController = Get.put(PageIndexController());
@@ -219,6 +235,7 @@ Future startFetch(String communityCategory) async {
       if(data['content'].length!=0) {
         for (int i = 0; i < data['content'].length; i++) {
           boardListController.boardIdAdd(data['content'][i]['id']);
+          boardListController.boardParentList.add(data['content'][i]['id']);
           boardListController.boardAdd(AddBoard(
               index: pageIndexController.pageIndex.value,
               keywords: data['content'][i],
@@ -246,6 +263,251 @@ Future startFetch(String communityCategory) async {
             for (int i = 0; i < data['content'].length; i++) {
               if (data['content'][i]['category'] == communityCategory) {
                 boardListController.boardIdAdd(data['content'][i]['id']);
+                boardListController.boardParentList.add(data['content'][i]['id']);
+                boardListController.boardAdd(AddBoard(
+                    index: pageIndexController.pageIndex.value,
+                    keywords: data['content'][i],
+                    before: communityCategory)
+                );
+                count++;
+                //for문
+                if(count==10){
+                  break;
+                }
+              }
+            }
+            //while
+            if(count==10){
+              break;
+            }
+            //같은 카테고리 게시글이 없을때 다음 페이지로
+            if (count >= 0) {
+              pageIndexController.increment();
+            }
+          }else{
+            break;
+            throw Exception("무한 루프 종료");
+          }
+        } else {
+          throw Exception("각 게시판 받아오기 오류");
+        }
+      }
+    }
+    if (boardListController.boardList.length == 1) {
+      boardListController.boardAdd(Container(
+          margin: EdgeInsets.only(
+              top: Get.height * 0.345),
+          alignment: Alignment.center,
+          child: const Text(
+            "게시글이 없습니다.",
+            style: CommunityPageTheme.announce,
+          )));
+    }
+  } else {
+    throw Exception("startFetch Error");
+  }
+}
+//불러오기 (스크롤 내릴때)
+Future loadFetch(String communityCategory) async{
+  final pageIndexController = Get.put(PageIndexController());
+  final boardListController = Get.put(BoardListController());
+  pageIndexController.increment();
+  final Map<String, String> _queryParameters = <String, String>{
+    'page': pageIndexController.pageIndex.value.toString(),
+  };
+  final response = await http
+      .get(Uri.http(ipv4, '/api/community/posts',_queryParameters),
+      headers:{
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cookie":"JSESSIONID=$session",
+      }
+  );
+  if(response.statusCode == 200) {
+    Map<String, dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
+    if (communityCategory == 'ALL' || communityCategory == 'HOT') {
+      if (data['content'].length != 0) {
+        for (int i = 0; i < data['content'].length; i++) {
+          boardListController.boardIdAdd(data['content'][i]['id']);
+          boardListController.boardParentList.add(data['content'][i]['id']);
+          boardListController.boardAdd(AddBoard(
+              index: pageIndexController.pageIndex.value,
+              keywords: data['content'][i],
+              before: communityCategory)
+          );
+        }
+      } else {
+        pageIndexController.decrement();
+      }
+    }
+    else {
+      pageIndexController.setUp();
+      pageIndexController.increment();
+      int count = 0;
+      while (true) {
+        Map<String, String> _queryParameters = <String, String>{
+          'page': pageIndexController.pageIndex.value.toString(),
+        };
+        final response = await http
+            .get(Uri.http(ipv4, '/api/community/posts', _queryParameters),
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+              "Cookie": "JSESSIONID=$session",
+            }
+        );
+        if (response.statusCode == 200) {
+          Map<String, dynamic> data = jsonDecode(
+              utf8.decode(response.bodyBytes));
+          if (data['content'].length != 0) {
+            for (int i = 0; i < data['content'].length; i++) {
+              if (data['content'][i]['category'] == communityCategory &&
+                  !boardListController.boardIdList.contains(data['content'][i]['id'])) {
+                boardListController.boardIdAdd(data['content'][i]['id']);
+                boardListController.boardParentList.add(data['content'][i]['id']);
+                boardListController.boardAdd(AddBoard(
+                    index: pageIndexController.pageIndex.value,
+                    keywords: data['content'][i],
+                    before: communityCategory)
+                );
+                count++;
+              }
+            }
+            //같은 카테고리 게시글이 없을때 다음 페이지로
+            if (count >= 0) {
+              pageIndexController.increment();
+            }
+          } else {
+            break;
+          }
+        } else {
+          throw Exception("각 게시판 받아오기 오류");
+        }
+      }
+    }
+  }
+}
+//답글 불러오기
+Future answerFetch(String communityCategory) async {
+  final pageIndexController = Get.put(PageIndexController());
+  final boardListController = Get.put(BoardListController());
+  //전체 게시판, 인기 게시판이 아닐때만 setUp (분류 게시판은 pageIndex가 무한루프를 돌아서 높음)
+  if(communityCategory != 'ALL' && communityCategory !='HOT'){
+    pageIndexController.setUp();
+  }
+  Map<int,dynamic> answer = {};
+
+  int pageIndex = (pageIndexController.pageIndex.value-1) * 10;
+  if(pageIndex>0){
+    pageIndex--;
+  }
+  final answerResponse = await http
+      .get(Uri.http(ipv4, '/api/community/answerPosts'),
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cookie": "JSESSIONID=$session",
+      }
+  );
+  if (answerResponse.statusCode == 200) {
+    List<dynamic> data = jsonDecode(utf8.decode(answerResponse.bodyBytes));
+    for (int i = 0; i < data.length ; i++) {
+      if(communityCategory != "ALL" && communityCategory!="HOT"){
+        if(data[i]['category'] == communityCategory){
+          if(!answer.keys.contains(int.parse("${data[i]['parentId']}"))){
+            answer[int.parse("${data[i]['parentId']}")] = [];
+            answer[int.parse("${data[i]['parentId']}")].add(data[i]);
+          }else{
+            answer[int.parse("${data[i]['parentId']}")].add(data[i]);
+          }
+        }
+      }else{
+        if(!answer.keys.contains(int.parse("${data[i]['parentId']}"))){
+          answer[int.parse("${data[i]['parentId']}")] = [];
+          answer[int.parse("${data[i]['parentId']}")].add(data[i]);
+        }else{
+          answer[int.parse("${data[i]['parentId']}")].add(data[i]);
+        }
+      }
+    }
+    var answerCheck= answer.keys.toList();
+    //낮은 id가 가장 뒤에있음
+    for(int i=0;i<answerCheck.length;i++){
+      answerCheck.sort((a, b) => b.compareTo(a));
+    }
+    for(int i=0;i<answer.length;i++){
+      for(int j=1;j<boardListController.boardList.length;j++){
+        if(boardListController.boardIdList[j] == answer.keys.elementAt(i)){
+          for(int k =0; k<answer[answer.keys.elementAt(i)].length;k++){
+            if(!boardListController.boardIdList.contains(answer[answer.keys.elementAt(i)][k]['id'])){
+               if(answer.keys.elementAt(i) == answerCheck[answerCheck.length-1] && answer.length != 1 && boardListController.boardParentList.last == answer[answer.keys.elementAt(i)][k]['parentId']){
+                boardListController.boardAdd(AddBoard(index: pageIndexController.pageIndex.value, keywords: answer[answer.keys.elementAt(i)][k], before: communityCategory));
+              }else{
+                boardListController.boardInsert(
+                    boardListController.boardIdList.indexOf(answer.keys.elementAt(i))+1 + k,
+                    AddBoard(index: pageIndexController.pageIndex.value, keywords: answer[answer.keys.elementAt(i)][k], before: communityCategory));
+              }
+              boardListController.boardIdInsert(boardListController.boardIdList.indexOf(answer.keys.elementAt(i))+1 + k, answer[answer.keys.elementAt(i)][k]['id']);
+            }
+          }
+        }
+      }
+    }
+    } else {
+      throw Exception("startAnswerFetch Error");
+    }
+}
+
+Future categoryFetch(String communityCategory) async {
+  final pageIndexController = Get.put(PageIndexController());
+  final boardListController = Get.put(BoardListController());
+
+  pageIndexController.setUp();
+  boardListController.boardClear();
+  boardListController.boardIdClear();
+
+  Map<String, String> _queryParameters = <String, String>{
+    'page': pageIndexController.pageIndex.value.toString(),
+  };
+  final response = await http
+      .get(Uri.http(ipv4, '/api/community/posts', _queryParameters),
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cookie": "JSESSIONID=$session",
+      }
+  );
+  Map<String, dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
+  if (response.statusCode == 200) {
+    if(communityCategory=='ALL' || communityCategory =='HOT'){
+      if(data['content'].length!=0) {
+        for (int i = 0; i < data['content'].length; i++) {
+          boardListController.boardIdAdd(data['content'][i]['id']);
+          boardListController.boardParentList.add(data['content'][i]['id']);
+          boardListController.boardAdd(AddBoard(
+              index: pageIndexController.pageIndex.value,
+              keywords: data['content'][i],
+              before: communityCategory)
+          );
+        }
+      }
+    }
+    else{
+      int count=0;
+      while (true) {
+        Map<String, String> _queryParameters = <String, String>{
+          'page': pageIndexController.pageIndex.value.toString(),
+        };
+        final response = await http
+            .get(Uri.http(ipv4, '/api/community/posts', _queryParameters),
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+              "Cookie": "JSESSIONID=$session",
+            }
+        );
+        if (response.statusCode == 200) {
+          Map<String, dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
+          if (data['content'].length != 0) {
+            for (int i = 0; i < data['content'].length; i++) {
+              if (data['content'][i]['category'] == communityCategory) {
+                boardListController.boardIdAdd(data['content'][i]['id']);
+                boardListController.boardParentList.add(data['content'][i]['id']);
                 boardListController.boardAdd(AddBoard(
                     index: pageIndexController.pageIndex.value,
                     keywords: data['content'][i],
@@ -290,212 +552,11 @@ Future startFetch(String communityCategory) async {
   }
 }
 
-/*Future loadFetch(String communityCategory) async {
-  final pageIndexController = Get.put(PageIndexController());
-  final boardListController = Get.put(BoardListController());
-  pageIndexController.increment();
+Map<String,List<Widget>> replyDetail = {};
+List<String> replyDetailList = [];
 
-  Map<String, String> _queryParameters = <String, String>{
-    'page': pageIndexController.pageIndex.value.toString(),
-  };
-  final response = await http
-      .get(Uri.http(ipv4, '/api/community/posts', _queryParameters),
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": "JSESSIONID=$session",
-      }
-  );
-  Map<String, dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
-  if (response.statusCode == 200) {
-    if(communityCategory=='ALL' || communityCategory =='HOT'){
-      if(data['content'].length!=0) {
-        for (int i = 0; i < data['content'].length; i++) {
-          boardListController.boardIdAdd(data['content'][i]['id']);
-          boardListController.boardAdd(AddBoard(
-              index: pageIndexController.pageIndex.value,
-              keywords: data['content'][i],
-              before: communityCategory)
-          );
-        }
-      }
-    }
-    else{
-      while (true) {
-        Map<String, String> _queryParameters = <String, String>{
-          'page': pageIndexController.pageIndex.value.toString(),
-        };
-        final response = await http
-            .get(Uri.http(ipv4, '/api/community/posts', _queryParameters),
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-              "Cookie": "JSESSIONID=$session",
-            }
-        );
-        if (response.statusCode == 200) {
-          Map<String, dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
-          if (data['content'].length != 0) {
-            for (int i = 0; i < data['content'].length; i++) {
-              if (data['content'][i]['category'] == communityCategory) {
-                boardListController.boardIdAdd(data['content'][i]['id']);
-                boardListController.boardAdd(AddBoard(
-                    index: pageIndexController.pageIndex.value,
-                    keywords: data['content'][i],
-                    before: communityCategory)
-                );
-              }
-            }
-            //같은 카테고리 게시글이 없을때 다음 페이지로
-          }else{
-            break;
-            throw Exception("무한 루프 종료");
-          }
-        } else {
-          throw Exception("각 게시판 받아오기 오류");
-        }
-      }
-    }
-  } else {
-    throw Exception("startFetch Error");
-  }
-}*/
-
-//불러오기 (스크롤 내릴때)
-Future loadFetch(String communityCategory) async{
-  final pageIndexController = Get.put(PageIndexController());
-  final boardListController = Get.put(BoardListController());
-  pageIndexController.increment();
-  final Map<String, String> _queryParameters = <String, String>{
-    'page': pageIndexController.pageIndex.value.toString(),
-  };
-  final response = await http
-      .get(Uri.http(ipv4, '/api/community/posts',_queryParameters),
-      headers:{
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie":"JSESSIONID=$session",
-      }
-  );
-  if(response.statusCode == 200) {
-    Map<String, dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
-    if (communityCategory == 'ALL' || communityCategory == 'HOT') {
-      if (data['content'].length != 0) {
-      for (int i = 0; i < data['content'].length; i++) {
-          boardListController.boardIdAdd(data['content'][i]['id']);
-          boardListController.boardAdd(AddBoard(
-              index: pageIndexController.pageIndex.value,
-              keywords: data['content'][i],
-              before: communityCategory)
-          );
-        }
-      }else{
-        pageIndexController.decrement();
-      }
-    }
-    else {
-      pageIndexController.setUp();
-      pageIndexController.increment();
-      int count = 0;
-      while (true) {
-        Map<String, String> _queryParameters = <String, String>{
-          'page': pageIndexController.pageIndex.value.toString(),
-        };
-        final response = await http
-            .get(Uri.http(ipv4, '/api/community/posts', _queryParameters),
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-              "Cookie": "JSESSIONID=$session",
-            }
-        );
-        if (response.statusCode == 200) {
-          Map<String, dynamic> data = jsonDecode(
-              utf8.decode(response.bodyBytes));
-          if (data['content'].length != 0) {
-            for (int i = 0; i < data['content'].length; i++) {
-              if (data['content'][i]['category'] == communityCategory &&
-                  !boardListController.boardIdList.contains(data['content'][i]['id'])) {
-                boardListController.boardIdAdd(data['content'][i]['id']);
-                boardListController.boardAdd(AddBoard(
-                    index: pageIndexController.pageIndex.value,
-                    keywords: data['content'][i],
-                    before: communityCategory)
-                );
-                count++;
-              }
-            }
-            //같은 카테고리 게시글이 없을때 다음 페이지로
-            if (count >= 0) {
-              pageIndexController.increment();
-            }
-          }else{
-            break;
-          }
-        } else {
-          throw Exception("각 게시판 받아오기 오류");
-        }
-      }
-    }
-  }
-}
-
-Future answerFetch(String communityCategory) async {
-  final pageIndexController = Get.put(PageIndexController());
-  final boardListController = Get.put(BoardListController());
-  //전체 게시판, 인기 게시판이 아닐때만 setUp (분류 게시판은 pageIndex가 무한루프를 돌아서 높음)
-  if(communityCategory != 'ALL' && communityCategory !='HOT'){
-    pageIndexController.setUp();
-  }
-  int old = -1;
-  List<int> answerCount=[];
-
-  for(int i=0;i<boardListController.boardList.length;i++){
-    answerCount.add(0);
-  }
-  int pageIndex = (pageIndexController.pageIndex.value-1) * 10;
-  if(pageIndex>0){
-    pageIndex--;
-  }
-  final answerResponse = await http
-      .get(Uri.http(ipv4, '/api/community/answerPosts'),
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": "JSESSIONID=$session",
-      }
-  );
-  if (answerResponse.statusCode == 200) {
-    List<dynamic> data = jsonDecode(utf8.decode(answerResponse.bodyBytes));
-    for (int i = 0; i < data.length ; i++) {
-      if(boardListController.boardIdList.contains(data[i]['parentId']) &&
-          !boardListController.answerList.contains(data[i]['id'])){
-/*        print("data title : ${data[i]['title']}");
-        print("pageIndex : $pageIndex");
-        print("parentId : ${(data[i]['parentId'])}");*/
-        if(pageIndex <= boardListController.boardIdList.indexOf(data[i]['parentId'])){
-          old = boardListController.boardIdList.indexOf(data[i]['parentId']);
-          answerCount[old]++;
- /*         print("old : ${answerCount[old]}");
-          print("title : ${data[i]['title']}");*/
-          //print("answerCount[old] : ${answerCount[old]}");
-          boardListController.boardInsert(old+answerCount[old],
-              AddBoard(
-                  index: pageIndexController.pageIndex.value,
-                  keywords: data[i],
-                  before: communityCategory));
-          answerCount.add(0);
-          boardListController.answerList.add(data[i]['id']);
-          boardListController.boardIdAdd(data[i]['id']);
-        //  print(boardListController.boardIdList.indexOf(data[i]['parentId']));
-   /*       print(boardListController.boardIdList);
-          print(old);
-          print(pageIndexController.pageIndex.value);*/
-        }
-        }
-    }
-    } else {
-      throw Exception("startAnswerFetch Error");
-    }
-}
-
-//게시글 내용 불러오기, 추천 유무
-Future readPostContent(String postId, String communityCategory) async{
+//readPost 게시글 내용 불러오기, 추천 유무
+Future readPostContent(int postId, String communityCategory) async{
   final readPostController = Get.put(ReadPostController());
   final commentListController = Get.put(CommentListController());
   final pageIndexController = Get.put(PageIndexController());
@@ -513,6 +574,102 @@ Future readPostContent(String postId, String communityCategory) async{
     readPostController.setContent(document.querySelector('.post-content')!.outerHtml);
     readPostController.setIsLike(document.querySelector('.isSelected')!.text);
     List<dom.Element> keywordElements = document.querySelectorAll('.comment-info');
+    List<dom.Element> answerKeywordElements = document.querySelectorAll('.answer-comment-info');
+    for (var element in keywordElements) {
+      dom.Element? commentWriter = element.querySelector('.comment-writer');
+      dom.Element? commentContent = element.querySelector('.comment-content');
+      dom.Element? commentDate = element.querySelector('.comment-date');
+      dom.Element? commentDelete = element.querySelector('.comment-delete');
+      dom.Element? commentId = element.querySelector('.comment-id');
+      dom.Element? commentGroupId = element.querySelector('.comment-group-id');
+      customKeywords.add({
+        'writer': commentWriter?.text,
+        'date': commentDate?.text,
+        'content':  commentContent?.text,
+        'communityCategory' : communityCategory,
+        'id' : postId,
+        "delete" : commentDelete?.text,
+        "commentId" : commentId?.text,
+        "commentGroupId" : commentGroupId?.text,
+      });
+    }
+    for (var element in answerKeywordElements) {
+      dom.Element? commentWriter = element.querySelector('.answer-comment-writer');
+      dom.Element? commentContent = element.querySelector('.answer-comment-content');
+      dom.Element? commentDate = element.querySelector('.answer-comment-date');
+      dom.Element? commentDelete = element.querySelector('.answer-comment-delete');
+      dom.Element? commentId = element.querySelector('.answer-comment-id');
+      dom.Element? commentGroupId = element.querySelector('.answer-comment-group-id');
+      answerKeywords.add({
+        'writer': commentWriter?.text,
+        'date': commentDate?.text,
+        'content':  commentContent?.text,
+        'communityCategory' : communityCategory,
+        'id' : postId,
+        "delete" : commentDelete?.text,
+        "commentId" : commentId?.text,
+        "commentGroupId" : commentGroupId?.text,
+      });
+    }
+    for (var element in customKeywords) {
+      if(!replyDetail.keys.contains(element['commentGroupId']) && !replyDetailList.contains(element['commentId'])
+      ){
+        replyDetail[element['commentGroupId']] = [];
+        replyDetail[element['commentGroupId']]!.add(AddComment(
+          index: pageIndexController.pageIndex.value ,keywords: element, before: "ReadPost",//beforeRouteController.before.value,
+        ));
+        replyDetailList.add(element['commentId']);
+      }
+      commentListController.commentAdd(AddComment(
+        index: pageIndexController.pageIndex.value ,keywords: element, before: communityCategory,//beforeRouteController.before.value,
+      ));
+      for(var answerElement in answerKeywords){
+        if(answerElement['commentGroupId'] == element['commentId']){
+          //if(replyDetail[element['commentGroupId']].)
+          if(!replyDetailList.contains(answerElement['commentId'])){
+            replyDetail[element['commentGroupId']]!.add(AddComment(
+              index: pageIndexController.pageIndex.value ,keywords: answerElement, before: "ReadPost",//beforeRouteController.before.value,
+            ));
+          }
+          commentListController.commentAdd(AddComment(
+            index: pageIndexController.pageIndex.value ,keywords: answerElement, before: communityCategory,//beforeRouteController.before.value,
+          ));
+        }
+      }
+    }
+    answerKeywords.clear();
+
+  }else{
+    throw Exception("readPostContent Error");
+  }
+}
+
+//readPost내에서 불러오기
+Future loadReadPostContent(int postId, String communityCategory) async{
+  final readPostController = Get.put(ReadPostController());
+  final commentListController = Get.put(CommentListController());
+  final pageIndexController = Get.put(PageIndexController());
+
+  customKeywords.clear();
+
+  final Map<String, String> _queryParameters = <String, String>{
+    'page': pageIndexController.pageIndex.value.toString(),
+  };
+  final response = await http
+      .get(Uri.http(ipv4, '/community/detail/$postId',_queryParameters),
+      headers:{
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cookie":"JSESSIONID=$session",
+      }
+  );
+  if (response.statusCode == 200) {
+    dom.Document document = parser.parse(response.body);
+    readPostController.setContent(document.querySelector('.post-content')!.outerHtml);
+    readPostController.setIsLike(document.querySelector('.isSelected')!.text);
+    List<dom.Element> keywordElements = document.querySelectorAll('.comment-info');
+    if(keywordElements.isEmpty){
+      pageIndexController.decrement();
+    }
     for (var element in keywordElements) {
       dom.Element? commentWriter = element.querySelector('.comment-writer');
       dom.Element? commentContent = element.querySelector('.comment-content');
@@ -531,7 +688,7 @@ Future readPostContent(String postId, String communityCategory) async{
       ));
     }
   }else{
-    throw Exception("readPostContent Error");
+    throw Exception("loadReadPostContent Error");
   }
 }
 

@@ -12,12 +12,12 @@ import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' as parser;
 import 'package:html/dom.dart' as dom;
 
-class CommunityPageReply extends StatefulWidget {
+class CommunityPageReplyDetail extends StatefulWidget {
   final int index;
   final Map<String, dynamic> keywords;
   final String before;
 
-  const CommunityPageReply({
+  const CommunityPageReplyDetail({
     Key? key,
     required this.index,
     required this.keywords,
@@ -25,10 +25,10 @@ class CommunityPageReply extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<CommunityPageReply> createState() => _CommunityPageReplyState();
+  State<CommunityPageReplyDetail> createState() => _CommunityPageReplyDetailState();
 }
 
-class _CommunityPageReplyState extends State<CommunityPageReply> {
+class _CommunityPageReplyDetailState extends State<CommunityPageReplyDetail> {
   late bool sort;
   late TextEditingController _textEditingController;
   late ScrollController _scrollController;
@@ -41,9 +41,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
     if (_scrollController.offset ==
         _scrollController.position.maxScrollExtent) {
       pageIndexController.increment();
-      //fetch();
       loadFetch(widget.keywords['communityCategory']);
-     // fetch(widget.keywords['communityCategory'],true);
     }
   }
 
@@ -61,7 +59,6 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
     _scrollController.addListener(() {
       handleScrolling();
     });
-    //fetch(widget.keywords['communityCategory'],true);
     super.initState();
   }
 
@@ -92,25 +89,21 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                   left: MediaQuery.of(context).size.width * 0.05),
               child: FittedBox(
                   child: IconButton(
-                padding: EdgeInsets.zero,
-                alignment: Alignment.center,
-                color: MainColor.three,
-                iconSize: 50,
-                // 패딩 설정
-                constraints: const BoxConstraints(),
-                icon: const Icon(
-                  Icons.chevron_left,
-                ),
-                onPressed: () {
-                  Get.offAll(() => CommunityPageReadPost(
-                        index: widget.index,
-                        keywords: widget.keywords,
-                        before: widget.before,
-                      ));
-                },
-              )),
+                    padding: EdgeInsets.zero,
+                    alignment: Alignment.center,
+                    color: MainColor.three,
+                    iconSize: 50,
+                    // 패딩 설정
+                    constraints: const BoxConstraints(),
+                    icon: const Icon(
+                      Icons.chevron_left,
+                    ),
+                    onPressed: () {
+                      Get.back();
+                    },
+                  )),
             ),
-            title: const Text("도시농부", style: MainPageTheme.title),
+            title: const Text("답글쓰기", style: MainPageTheme.title),
           ),
           body: SingleChildScrollView(
             controller: _scrollController,
@@ -130,43 +123,8 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                         margin: EdgeInsets.only(
                             right: MediaQuery.of(context).size.width * 0.02,
                             left: MediaQuery.of(context).size.width * 0.02),
-                        decoration: const BoxDecoration(
-                            border: Border(
-                          bottom: BorderSide(width: 2, color: Colors.white),
-                        )),
-                        child: Row(
-                          children: [
-                            TextButton(
-                                onPressed: () {
-                                  setState(() {
-                                    if (!sort) sort = !sort;
-                                  });
-                                },
-                                style: ButtonStyle(
-                                    padding: MaterialStateProperty.all(
-                                        EdgeInsets.zero)),
-                                child: Text("등록순",
-                                    style: sort
-                                        ? CommunityPageTheme.postFont
-                                        : CommunityPageTheme.postFalseFont)),
-                            TextButton(
-                                onPressed: () {
-                                  setState(() {
-                                    if (sort) sort = !sort;
-                                  });
-                                },
-                                style: ButtonStyle(
-                                    padding: MaterialStateProperty.all(
-                                        EdgeInsets.zero)),
-                                child: Text("최신순",
-                                    style: sort
-                                        ? CommunityPageTheme.postFalseFont
-                                        : CommunityPageTheme.postFont)),
-                          ],
-                        ),
-                      ),
-                      Obx(()=>Column(
-                        children: commentListController.commentList, //_replyList,
+                        child: Column(
+                        children: replyDetail[widget.keywords['commentGroupId']]!, //_replyList,
                       ),),
                     ],
                   ),
@@ -176,7 +134,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
           ),
           bottomNavigationBar: Transform.translate(
             offset:
-                Offset(0.0, keyboardOffset * MediaQuery.of(context).viewInsets.bottom),
+            Offset(0.0, keyboardOffset * MediaQuery.of(context).viewInsets.bottom),
             child: BottomAppBar(
               color: Colors.indigo,
               child: Container(
@@ -214,7 +172,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                         TextButton(
                             style: ButtonStyle(
                                 backgroundColor:
-                                    MaterialStateProperty.all(MainColor.one)),
+                                MaterialStateProperty.all(MainColor.one)),
                             child: const Text(
                               "등록",
                               style: CommunityPageTheme.bottomAppBarList,
@@ -285,7 +243,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                                   }
                                   _textEditingController.text = "";
                                 }
-                             }
+                              }
                             })
                       ],
                     ),

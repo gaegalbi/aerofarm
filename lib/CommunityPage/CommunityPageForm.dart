@@ -49,7 +49,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
           loadingController.setTrue();
           startFetch(widget.category).then((value)=>answerFetch(widget.category));
           //새로고침 할때만 초기화
-          boardListController.answerList.clear();
+
           Future.delayed(const Duration(microseconds: 1000), () {
             loadingController.setFalse();
           });

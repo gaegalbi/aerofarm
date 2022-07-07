@@ -275,6 +275,16 @@ class CommunityPageTheme {
       decoration: TextDecoration.none,
       fontFamily: 'bmAir',
       fontSize: 15);
+  static const commentReply = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmAir',
+      fontSize: 15);
+  static const commentDelete = TextStyle(
+      color: Colors.red,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmAir',
+      fontSize: 15);
   static const postFalseFont = TextStyle(
       color: Colors.grey,
       decoration: TextDecoration.none,

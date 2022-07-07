@@ -1,4 +1,6 @@
+import 'package:capstone/CommunityPage/CommunityPageReplyDetail.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import '../LoginPage/LoginPageLogin.dart';
 import '../themeData.dart';
 
@@ -16,8 +18,8 @@ class AddComment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final nicknameController = Get.put(NicknameController());
     return Container(
-      //margin: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.03),
       padding: EdgeInsets.only(
           top: MediaQuery.of(context).size.height * 0.02,
           bottom: MediaQuery.of(context).size.height * 0.02),
@@ -28,20 +30,17 @@ class AddComment extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(right: 15),
             child: CircleAvatar(
-              radius: MediaQuery.of(context).size.width * 0.09,
+              radius: keywords['commentGroupId'] == keywords['commentId'] ? MediaQuery.of(context).size.width * 0.09 : MediaQuery.of(context).size.width * 0.08,
               backgroundImage: profile!.image,
             ),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width*0.6,
-                child: Text(
-                  keywords['writer'],
-                  style: CommunityPageTheme.commentWriter,
-                  overflow: TextOverflow.ellipsis,
-                ),
+              Text(
+                keywords['writer'],
+                style: CommunityPageTheme.commentWriter,
+                overflow: TextOverflow.ellipsis,
               ),
               Container(
                   margin: EdgeInsets.only(top: 10, bottom: 10),
@@ -58,27 +57,53 @@ class AddComment extends StatelessWidget {
                       )),
                     ],
                   )),
-              Row(
-                children: [
-                  Text(
-                    keywords['date'],
-                    style: CommunityPageTheme.commentDate,
-                  ),
-                  Container(
-                      margin: EdgeInsets.only(
-                          left: MediaQuery.of(context).size.width * 0.053),
-                      height: MediaQuery.of(context).size.height * 0.025,
-                      child: TextButton(
-                        style: ButtonStyle(
-                            padding:
-                                MaterialStateProperty.all(EdgeInsets.zero)),
-                        onPressed: () {},
-                        child: const Text(
-                          "답글 쓰기",
-                          style: CommunityPageTheme.commentDate,
-                        ),
-                      ))
-                ],
+              SizedBox(
+                width: MediaQuery.of(context).size.width*0.65,
+                height: MediaQuery.of(context).size.height * 0.025,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        keywords['date'],
+                        style: CommunityPageTheme.commentDate,
+                      ),
+                    ),
+                    before !="ReadPost" ? Expanded(
+                      child: Row(
+                        children: [
+                          Container(
+                              margin: EdgeInsets.only(
+                                  left: MediaQuery.of(context).size.width * 0.03),
+                              child: TextButton(
+                                style: ButtonStyle(
+                                    padding:
+                                        MaterialStateProperty.all(EdgeInsets.zero)),
+                                onPressed: () {
+                                  print(keywords['commentGroupId']);
+                                  Get.to(()=>CommunityPageReplyDetail(index: index, keywords: keywords, before: before));
+                                },
+                                child: const Text(
+                                  "답글 쓰기",
+                                  style: CommunityPageTheme.commentReply,
+                                ),
+                              )),
+                          keywords['writer'] == nicknameController.nickname.value ? SizedBox(
+                              width: MediaQuery.of(context).size.width*0.1,
+                              height: MediaQuery.of(context).size.height * 0.025,
+                              child: TextButton(
+                                style: ButtonStyle(
+                                    padding: MaterialStateProperty.all(EdgeInsets.zero)),
+                                onPressed: () {},
+                                child: const Text(
+                                  "삭제",
+                                  style: CommunityPageTheme.commentDelete,
+                                ),
+                              )):Container()
+                        ],
+                      ),
+                    ):Container(),
+                  ],
+                ),
               )
             ],
           ),
