@@ -31,10 +31,10 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
   late ScrollController _scrollController;
   late ScrollController _categoryController;
   bool floating = false;
-  bool refresh = false;
+  double initial = 0;
+  double distance = 0;
 
-  void handleScrolling(bool expand) {
-    if(expand){
+  void handleScrolling() {
       if (_scrollController.offset == _scrollController.position.maxScrollExtent) {
         keywords.clear();
         loadFetch(widget.category).then((value) => answerFetch(widget.category));
@@ -50,7 +50,6 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
             loadingController.setFalse();
           });
       }
-    }
   }
 
   @override
@@ -59,7 +58,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
     _scrollController = ScrollController();
     _categoryController = ScrollController();
     _scrollController.addListener(() {
-      handleScrolling(true);
+      handleScrolling();
     });
 
     commentListController.commentClear();
@@ -260,13 +259,22 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
                 ],
               ),
               GestureDetector(
-                onVerticalDragUpdate: (dragUpdateDetails) {
-                  if (dragUpdateDetails.delta.dy > 40 && !refresh) {
-                    setState((){
-                      refresh = true;
-                    });
-                   Future.delayed(const Duration(milliseconds: 100),()=>handleScrolling(false));
-                  }
+                  onVerticalDragStart: (dragStartDetails){
+                    initial = dragStartDetails.globalPosition.dy;
+                  },
+                  onVerticalDragUpdate: (dragUpdateDetails) {
+                    distance = dragUpdateDetails.globalPosition.dy - initial;
+                  },
+                onVerticalDragEnd: (dragEndDetails){
+                    //print(distance);
+                    if(boardListController.boardList.length<10 && distance>=200){
+                      loadingController.setTrue();
+                      startFetch(widget.category).then((value)=>answerFetch(widget.category));
+                      //새로고침 할때만 초기화
+                      Future.delayed(const Duration(microseconds: 1000), () {
+                        loadingController.setFalse();
+                      });
+                    }
                 },
                 child: Container(
                   margin: EdgeInsets.only(
@@ -278,13 +286,10 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
                         ? Expanded(
                             child: ListView.builder(
                                 controller: _scrollController,
-                                itemCount:   boardListController.boardList.length + 1,
+                                itemCount:   boardListController.boardList.length,
+                                //itemCount:   boardListController.boardList.length + 1,
                                 itemBuilder: (BuildContext context, int index) {
-                                  if (index <  boardListController.boardList.length) {
                                     return  boardListController.boardList[index];
-                                  } else{
-                                    return Container();
-                                  }
                                 }))
                         : const Expanded(
                             child: Center(
