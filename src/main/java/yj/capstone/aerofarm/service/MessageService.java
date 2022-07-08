@@ -6,6 +6,7 @@ import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
 import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 import net.nurigo.sdk.message.service.DefaultMessageService;
 import org.apache.tomcat.jni.Local;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import yj.capstone.aerofarm.domain.member.MessageAuthToken;
@@ -23,6 +24,7 @@ public class MessageService {
     private final DefaultMessageService defaultMessageService;
 
     private final MessageAuthRepository messageAuthRepository;
+
 
     public String sendSms(PhoneNumberRequestDto request) {
         Message message = new Message();
