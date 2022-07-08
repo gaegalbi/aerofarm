@@ -31,6 +31,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
   final readPostController = Get.put(ReadPostController());
   final commentListController = Get.put(CommentListController());
   final pageIndexController = Get.put(PageIndexController());
+  final replyDetailController = Get.put(ReplyDetailListController());
 
   late String? content;
   late dom.Element? contents;
@@ -45,8 +46,6 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
     if (_scrollController.offset ==
         _scrollController.position.maxScrollExtent) {
       pageIndexController.increment();
-      //fetch();
-      //fetch(widget.keywords['communityCategory'],true);
       loadReadPostContent(widget.keywords['id'], widget.keywords['category']);
     }
   }
@@ -59,6 +58,9 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
     });
     //게시글 내용 불러오기
     readPostContent(widget.keywords['id'], widget.keywords['category']);
+
+    replyDetailController.replyDetailSetUpBefore("ReadPost");
+
     //null 방지
     content = "";
     likes = widget.keywords['likeCount'].toString();
@@ -69,6 +71,8 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
     postKeywords.addAll(widget.keywords);
     //날짜 변경
     date = dateInfoFormat.format(DateTime.parse(widget.keywords['modifiedDate']));
+
+
     super.initState();
   }
 
@@ -110,8 +114,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                   Icons.chevron_left,
                 ),
                 onPressed: () {
-                  replyDetail.clear();
-                  replyDetailList.clear();
+                  replyDetailController.replyDetailSetUp();
                   if(widget.before=="ALL"||widget.before=='HOT'){
                     Get.offAll(()=>CommunityPageForm(category: widget.before));
                   }else{
@@ -185,19 +188,6 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                               ),
                             ],
                           ),
-                   /*       Container(
-                            decoration: BoxDecoration(
-                              color: MainColor.three,
-                              borderRadius: BorderRadius.circular(10.0),
-                            ),
-                            child: TextButton(onPressed: (){},
-                              child: const Text(
-                                "답글",
-                                style: CommunityPageTheme.postFont,
-                              ),
-                              style: ButtonStyle(
-                                  padding: MaterialStateProperty.all(EdgeInsets.zero),),),
-                          )*/
                         ],
                       )),
                   Container(

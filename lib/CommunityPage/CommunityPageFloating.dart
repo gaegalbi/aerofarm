@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:capstone/CommunityPageCustomLib/CommunityFetch.dart';
 import 'package:capstone/MainPage/MainPageDrawer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,6 +11,29 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:http/http.dart' as http;
 
 import 'CommunityPageForm.dart';
+
+class SelectSearchController extends GetxController{
+  final List<String> searchList = ["title","writer"];
+  final searchTitle = true.obs;
+  final searchWriter = false.obs;
+  void setSearch(int index){
+    if(index==0){
+      searchTitle.value = true;
+      searchWriter.value = false;
+    }else{
+      searchWriter.value = true;
+      searchTitle.value = false;
+    }
+  }
+
+  String getSearch(){
+    if(searchTitle.value){
+      return searchList[0];
+    }else{
+      return searchList[1];
+    }
+  }
+}
 
 class CommunityPageFloating extends StatelessWidget {
   final Map<String, dynamic> keywords;
@@ -23,7 +47,8 @@ class CommunityPageFloating extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final nicknameController = Get.put(NicknameController());
-
+    final selectSearchController = Get.put(SelectSearchController());
+    final textEditingController =  TextEditingController();
     switch (type) {
       case "ReadPost":
         return SpeedDial(
@@ -165,7 +190,58 @@ class CommunityPageFloating extends StatelessWidget {
                 backgroundColor: MainColor.three,
                 foregroundColor: Colors.white,
                 onTap: () {
-                  //overlay띄우기
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        selectSearchController.setSearch(0);
+                        return AlertDialog(
+                          contentPadding: const EdgeInsets.only(right: 10,left: 10,top: 10),
+                          backgroundColor: MainColor.six,
+                          content: Container(
+                            height: MediaQuery.of(context).size.height*0.2,
+                            width: MediaQuery.of(context).size.width*0.5,
+                            child: Column(
+                              children: [
+                                Obx(()=>ToggleButtons(
+                                  borderColor: Colors.transparent,
+                                  selectedBorderColor: Colors.transparent,
+                                  highlightColor: MainColor.six,
+                                  children: <Widget>[
+                                   SizedBox(
+                                       width: MediaQuery.of(context).size.width*0.25,
+                                       child: Text("제목",style:selectSearchController.searchTitle.value ? CommunityPageTheme.searchTextTrue : CommunityPageTheme.searchTextFalse,textAlign: TextAlign.center,)),
+                                    SizedBox(
+                                        width: MediaQuery.of(context).size.width*0.25,
+                                        child: Text("작성자",style:selectSearchController.searchWriter.value ? CommunityPageTheme.searchTextTrue : CommunityPageTheme.searchTextFalse,textAlign: TextAlign.center,)),
+                                  ],
+                                  onPressed: (int index) {
+                                      selectSearchController.setSearch(index);
+                                  },
+                                  isSelected: [selectSearchController.searchTitle.value
+                                  ,selectSearchController.searchWriter.value ],
+                                ),),
+                                  TextField(
+                                   controller:textEditingController,
+                                  decoration: const InputDecoration(
+                                      enabledBorder: InputBorder.none,
+                                      focusedBorder: InputBorder.none,
+                                      hintText: "검색어를 입력하세요",
+                                      hintStyle: LoginRegisterPageTheme.hint),
+                                ),
+                                Container(
+                                  color:MainColor.three,
+                                  child: TextButton(onPressed: (){
+                                    if(textEditingController.text.isNotEmpty){
+                                      searchFetch(keywords['category'], selectSearchController.getSearch(), textEditingController.text).then((value) => answerFetch(keywords['category']));
+                                      Get.back();
+                                    }
+                                  }, child: const Text("검색",style:CommunityPageTheme.searchButton,textAlign: TextAlign.center,)),
+                                )
+                              ],
+                            ),
+                          )
+                        );
+                      });
                 },
               ),
             ]

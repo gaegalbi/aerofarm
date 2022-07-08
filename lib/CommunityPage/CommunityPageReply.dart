@@ -4,13 +4,9 @@ import 'package:capstone/main.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../CommunityPageCustomLib/CommunityAddComment.dart';
 import '../CommunityPageCustomLib/CommunityFetch.dart';
 import '../LoginPage/LoginPageLogin.dart';
-import 'CommunityPageReadPost.dart';
 import 'package:http/http.dart' as http;
-import 'package:html/parser.dart' as parser;
-import 'package:html/dom.dart' as dom;
 
 class CommunityPageReply extends StatefulWidget {
   final int index;
@@ -34,6 +30,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
   late ScrollController _scrollController;
   final commentListController = Get.put(CommentListController());
   final pageIndexController = Get.put(PageIndexController());
+  final replyDetailController = Get.put(ReplyDetailListController());
   late double keyboardOffset;
 
   void handleScrolling() {
@@ -42,7 +39,8 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
         _scrollController.position.maxScrollExtent) {
       pageIndexController.increment();
       //fetch();
-      loadFetch(widget.keywords['communityCategory']);
+      //print(widget.keywords);
+      loadFetch(widget.keywords['category']);
      // fetch(widget.keywords['communityCategory'],true);
     }
   }
@@ -61,7 +59,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
     _scrollController.addListener(() {
       handleScrolling();
     });
-    //fetch(widget.keywords['communityCategory'],true);
+    replyDetailController.replyDetailSetUpBefore("Reply");
     super.initState();
   }
 
@@ -102,11 +100,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                   Icons.chevron_left,
                 ),
                 onPressed: () {
-                  Get.offAll(() => CommunityPageReadPost(
-                        index: widget.index,
-                        keywords: widget.keywords,
-                        before: widget.before,
-                      ));
+                  Get.back();
                 },
               )),
             ),
@@ -180,10 +174,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
             child: BottomAppBar(
               color: Colors.indigo,
               child: Container(
-                padding: EdgeInsets.only(
-                  right: 15,
-                  left: 15,
-                ),
+                padding: EdgeInsets.only(right: 15, left: 15,),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -235,7 +226,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                                           backgroundColor: Colors.transparent,
                                           contentPadding: EdgeInsets.all(5),
                                           content: Text(
-                                            "댓글 내용이\n있어야합니다.",
+                                            "댓글 내용이\n있어야합니다깇.",
                                             style: TextStyle(fontSize: 28),
                                             textAlign: TextAlign.center,
                                           ),
@@ -256,37 +247,12 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                                     encoding: Encoding.getByName('utf-8'),
                                     body: body,
                                   );
-                                  customKeywords.clear();
-                                  final Map<String, String> _queryParameters = <String, String>{'page': "1"};
-                                  final response = await http.get(Uri.http(
-                                      ipv4,
-                                      '/community/detail/${widget.keywords['id']}', _queryParameters));
-                                  if (response.statusCode == 200) {
-                                    dom.Document document = parser.parse(response.body);
-                                    List<dom.Element> keywordElements = document
-                                        .querySelectorAll('.comment-info');
-                                    for (var element in keywordElements) {
-                                      dom.Element? commentWriter = element.querySelector('.comment-writer');
-                                      dom.Element? commentContent = element.querySelector('.comment-content');
-                                      dom.Element? commentDate = element.querySelector('.comment-date');
-                                      customKeywords.add({
-                                        'writer': commentWriter?.text,
-                                        'date': commentDate?.text,
-                                        'content':  commentContent?.text,
-                                        'communityCategory' :widget.before,
-                                      });
-                                    }
-                                    commentListController.commentClear();
-                                    for (var element in customKeywords) {
-                                      commentListController.commentAdd(AddComment(
-                                        index: pageIndexController.pageIndex.value ,keywords: element, before: widget.before,
-                                      ));
-                                    }
                                   }
+                                readPostContent(widget.keywords['id'], widget.keywords['category']);
                                   _textEditingController.text = "";
                                 }
                              }
-                            })
+                            )
                       ],
                     ),
                   ],

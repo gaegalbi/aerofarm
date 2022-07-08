@@ -471,6 +471,10 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                                   description: "===",
                                                   value: "===0",
                                                   groupValue: groupValue,
+                                                  onChanged: (value) =>
+                                                      setState(() {
+                                                        Get.back();
+                                                      }),
                                                   activeColor: MainColor.three,
                                                   textStyle: CommunityPageTheme
                                                       .checkBoxDisable,
@@ -480,6 +484,10 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                                       contentPadding,
                                                   description: "===",
                                                   value: "===1",
+                                                  onChanged: (value) =>
+                                                      setState(() {
+                                                        Get.back();
+                                                      }),
                                                   groupValue: groupValue,
                                                   activeColor: MainColor.three,
                                                   textStyle: CommunityPageTheme
@@ -490,6 +498,10 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                                       contentPadding,
                                                   description: "===",
                                                   value: "===2",
+                                                  onChanged: (value) =>
+                                                      setState(() {
+                                                        Get.back();
+                                                      }),
                                                   groupValue: groupValue,
                                                   activeColor: MainColor.three,
                                                   textStyle: CommunityPageTheme
@@ -500,6 +512,10 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                                       contentPadding,
                                                   description: "===",
                                                   value: "===3",
+                                                  onChanged: (value) =>
+                                                      setState(() {
+                                                        Get.back();
+                                                      }),
                                                   groupValue: groupValue,
                                                   activeColor: MainColor.three,
                                                   textStyle: CommunityPageTheme
@@ -510,6 +526,10 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                                       contentPadding,
                                                   description: "===",
                                                   value: "===4",
+                                                  onChanged: (value) =>
+                                                      setState(() {
+                                                        Get.back();
+                                                      }),
                                                   groupValue: groupValue,
                                                   activeColor: MainColor.three,
                                                   textStyle: CommunityPageTheme
@@ -520,6 +540,10 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                                       contentPadding,
                                                   description: "===",
                                                   value: "===5",
+                                                  onChanged: (value) =>
+                                                      setState(() {
+                                                        Get.back();
+                                                      }),
                                                   groupValue: groupValue,
                                                   activeColor: MainColor.three,
                                                   textStyle: CommunityPageTheme

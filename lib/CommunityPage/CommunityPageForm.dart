@@ -1,5 +1,4 @@
 import 'package:capstone/CommunityPage/CommunityPageDrawer.dart';
-import 'package:capstone/LoginPage/LoginPageLogin.dart';
 import 'package:capstone/MainPage/MainPage.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +26,8 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
   final pageIndexController = Get.put(PageIndexController());
   final categoryIndexController  = Get.put(CategoryIndexController());
   final setCategoryController  = Get.put(SetCategoryController());
+  final replyDetailController  = Get.put(ReplyDetailListController());
+
   late ScrollController _scrollController;
   late ScrollController _categoryController;
   bool floating = false;
@@ -37,45 +38,32 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
       if (_scrollController.offset == _scrollController.position.maxScrollExtent) {
         keywords.clear();
         loadFetch(widget.category).then((value) => answerFetch(widget.category));
- /*       loadFetch(widget.category);
-        answerFetch(widget.category);*/
-
       }
-      if (_scrollController.offset ==
-          _scrollController.position.minScrollExtent) {
+      if (_scrollController.offset == _scrollController.position.minScrollExtent) {
           boardListController.boardClear();
           pageIndexController.setUp();
           categoryIndexController.setUp();
           loadingController.setTrue();
           startFetch(widget.category).then((value)=>answerFetch(widget.category));
           //새로고침 할때만 초기화
-
           Future.delayed(const Duration(microseconds: 1000), () {
             loadingController.setFalse();
           });
       }
-    }else{
-      //fetch(widget.category,false);
-      loadingController.setTrue();
-      Future.delayed(const Duration(milliseconds: 300), () {
-        loadingController.setFalse();
-        refresh = false;
-      });
-
     }
-
   }
 
   @override
   void initState() {
+    replyDetailController.replyDetailSetUp();
     _scrollController = ScrollController();
     _categoryController = ScrollController();
     _scrollController.addListener(() {
       handleScrolling(true);
     });
+
     commentListController.commentClear();
     boardListController.boardClear();
-    //fetch(widget.category,false);
     startFetch(widget.category).then((value) => answerFetch(widget.category));
 
     loadingController.setTrue();
@@ -108,7 +96,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
         floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
         floatingActionButton: floating
             ? CommunityPageFloating(
-                keywords: {"communityCategory":widget.category},
+                keywords: {"category":widget.category},
                 type: 'Form',
                 before: widget.category,
               )
@@ -151,7 +139,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
                   alignment: Alignment.center,
                   color: MainColor.three,
                   iconSize: 50,
-                  constraints: const BoxConstraints(),
+                  /*constraints: const BoxConstraints(),*/
                   icon: const Icon(
                     Icons.home,
                   ),
@@ -284,7 +272,6 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
                   margin: EdgeInsets.only(
                     top: MediaQuery.of(context).size.height * 0.014,
                   ),
-                  //height: MediaQuery.of(context).size.height * 0.69,
                   height: MediaQuery.of(context).size.height * 0.75,
                   child: Obx(()=>Column(children: [
                     !(loadingController.loading.value)

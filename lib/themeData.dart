@@ -12,6 +12,8 @@ class MainColor {
   static const sixty = Color.fromRGBO(255, 255, 255, 100);*/
   static const six =
   Color.fromRGBO(18, 24, 36, 1);
+  static const sixChange =
+  Color.fromRGBO(42, 48, 60, 1);
       //Color.fromRGBO(30, 36, 55, 1); //Color.fromRGBO(18, 24, 36, 100);
   static const one =
   Color.fromRGBO(64, 78, 105, 1);
@@ -334,5 +336,21 @@ class CommunityPageTheme {
       color: Colors.white,
       decoration: TextDecoration.none,
       fontFamily: 'bmPro',
-      fontSize: 22);
+      fontSize: 20);
+  static const searchTextTrue = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 20);
+  static const searchTextFalse = TextStyle(
+      color: MainColor.one,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 20);
+  static const searchButton = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 20);
+
 }

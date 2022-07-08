@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:capstone/CommunityPage/CommunityPageReply.dart';
 import 'package:capstone/main.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
@@ -7,10 +8,7 @@ import 'package:get/get.dart';
 import '../CommunityPageCustomLib/CommunityAddComment.dart';
 import '../CommunityPageCustomLib/CommunityFetch.dart';
 import '../LoginPage/LoginPageLogin.dart';
-import 'CommunityPageReadPost.dart';
 import 'package:http/http.dart' as http;
-import 'package:html/parser.dart' as parser;
-import 'package:html/dom.dart' as dom;
 
 class CommunityPageReplyDetail extends StatefulWidget {
   final int index;
@@ -34,6 +32,8 @@ class _CommunityPageReplyDetailState extends State<CommunityPageReplyDetail> {
   late ScrollController _scrollController;
   final commentListController = Get.put(CommentListController());
   final pageIndexController = Get.put(PageIndexController());
+  final selectController = Get.put(SelectReplyController());
+  final replyDetailController = Get.put(ReplyDetailListController());
   late double keyboardOffset;
 
   void handleScrolling() {
@@ -41,7 +41,7 @@ class _CommunityPageReplyDetailState extends State<CommunityPageReplyDetail> {
     if (_scrollController.offset ==
         _scrollController.position.maxScrollExtent) {
       pageIndexController.increment();
-      loadFetch(widget.keywords['communityCategory']);
+      loadFetch(widget.keywords['category']);
     }
   }
 
@@ -99,7 +99,10 @@ class _CommunityPageReplyDetailState extends State<CommunityPageReplyDetail> {
                       Icons.chevron_left,
                     ),
                     onPressed: () {
-                      Get.back();
+                      selectController.clearId();
+                      replyDetailController.before =="ReadPost" ?
+                      Get.off(()=>CommunityPageReply(index: widget.index, keywords: widget.keywords, before: widget.before))
+                          : Get.back();
                     },
                   )),
             ),
@@ -108,28 +111,10 @@ class _CommunityPageReplyDetailState extends State<CommunityPageReplyDetail> {
           body: SingleChildScrollView(
             controller: _scrollController,
             child: Container(
-              padding: EdgeInsets.fromLTRB(
-                MediaQuery.of(context).size.width * 0.04,
-                0,
-                MediaQuery.of(context).size.width * 0.04,
-                MediaQuery.of(context).size.width * 0.04,
-              ),
               color: MainColor.six,
-              child: Column(
-                children: [
-                  Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(
-                            right: MediaQuery.of(context).size.width * 0.02,
-                            left: MediaQuery.of(context).size.width * 0.02),
-                        child: Column(
-                        children: replyDetail[widget.keywords['commentGroupId']]!, //_replyList,
-                      ),),
-                    ],
-                  ),
-                ],
-              ),
+              child: Obx(()=>Column(
+                children: replyDetailController.replyDetail[widget.keywords['commentGroupId']]!, //_replyList,
+              ),)
             ),
           ),
           bottomNavigationBar: Transform.translate(
@@ -138,10 +123,7 @@ class _CommunityPageReplyDetailState extends State<CommunityPageReplyDetail> {
             child: BottomAppBar(
               color: Colors.indigo,
               child: Container(
-                padding: EdgeInsets.only(
-                  right: 15,
-                  left: 15,
-                ),
+                padding: EdgeInsets.only(right: 15, left: 15,),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -154,7 +136,7 @@ class _CommunityPageReplyDetailState extends State<CommunityPageReplyDetail> {
                         decoration: const InputDecoration(
                             enabledBorder: InputBorder.none,
                             focusedBorder: InputBorder.none,
-                            hintText: "댓글을 남겨보세요",
+                            hintText: "답글을 남겨보세요",
                             hintStyle: LoginRegisterPageTheme.hint),
                       ),
                     ),
@@ -185,10 +167,7 @@ class _CommunityPageReplyDetailState extends State<CommunityPageReplyDetail> {
                                   showDialog(
                                       context: context,
                                       builder: (context) {
-                                        Future.delayed(const Duration(milliseconds: 900),
-                                                () {
-                                              Navigator.pop(context);
-                                            });
+                                        Future.delayed(const Duration(milliseconds: 900), () {Navigator.pop(context);});
                                         return const AlertDialog(
                                           backgroundColor: Colors.transparent,
                                           contentPadding: EdgeInsets.all(5),
@@ -203,10 +182,11 @@ class _CommunityPageReplyDetailState extends State<CommunityPageReplyDetail> {
                                   var data = {
                                     "postId": widget.keywords['id'],
                                     "content": _textEditingController.text,
+                                    "commentId" : widget.keywords['commentId']
                                   };
                                   var body = json.encode(data);
                                   await http.post(
-                                    Uri.http(ipv4, '/createComment'),
+                                    Uri.http(ipv4, '/createAnswerComment'),
                                     headers: {
                                       "Content-Type": "application/json",
                                       "Cookie": "JSESSIONID=$session",
@@ -214,34 +194,11 @@ class _CommunityPageReplyDetailState extends State<CommunityPageReplyDetail> {
                                     encoding: Encoding.getByName('utf-8'),
                                     body: body,
                                   );
-                                  customKeywords.clear();
-                                  final Map<String, String> _queryParameters = <String, String>{'page': "1"};
-                                  final response = await http.get(Uri.http(
-                                      ipv4,
-                                      '/community/detail/${widget.keywords['id']}', _queryParameters));
-                                  if (response.statusCode == 200) {
-                                    dom.Document document = parser.parse(response.body);
-                                    List<dom.Element> keywordElements = document
-                                        .querySelectorAll('.comment-info');
-                                    for (var element in keywordElements) {
-                                      dom.Element? commentWriter = element.querySelector('.comment-writer');
-                                      dom.Element? commentContent = element.querySelector('.comment-content');
-                                      dom.Element? commentDate = element.querySelector('.comment-date');
-                                      customKeywords.add({
-                                        'writer': commentWriter?.text,
-                                        'date': commentDate?.text,
-                                        'content':  commentContent?.text,
-                                        'communityCategory' :widget.before,
-                                      });
-                                    }
-                                    commentListController.commentClear();
-                                    for (var element in customKeywords) {
-                                      commentListController.commentAdd(AddComment(
-                                        index: pageIndexController.pageIndex.value ,keywords: element, before: widget.before,
-                                      ));
-                                    }
-                                  }
+                                  readPostContent(widget.keywords['id'], widget.keywords['category']);
                                   _textEditingController.text = "";
+                                  replyDetailController.before =="ReadPost" ?
+                                  Get.off(()=>CommunityPageReply(index: widget.index, keywords: widget.keywords, before: widget.before))
+                                      : Get.back();
                                 }
                               }
                             })
