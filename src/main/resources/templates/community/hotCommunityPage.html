@@ -27,7 +27,7 @@
 
     /*게시판 표시 속성*/
     .community-category {
-        .container;
+    .container;
         text-align: center;
         color: #FFFFFF;
 
@@ -45,13 +45,13 @@
     }
 
     .filtering {
-        .container;
+    .container;
         margin-top: 15px;
     }
 
     #post-events:hover tbody tr:hover td {
-      background: lightgray;
-      color: black;
+        background: lightgray;
+        color: black;
     }
 
     .hover-item:hover .list-body{
@@ -117,15 +117,14 @@
 <div class="container">
     <main>
         <!--카테고리 표시-->
-        <div class="community-category" th:text="${selectCategory == null} ? '전체게시판' : ${selectCategory.getName()}"/>
+        <div class="community-category" th:text="인기게시판"/>
         <!--필터링 헤더-->
         <div class="filtering">
-            <a class="p-2 post-header" href="javascript:void(0);" id="all" onclick="searchPost('filter', this.id);">전체</a>
-            <a class="p-2 post-header" href="javascript:void(0);" id="normal" onclick="searchPost('filter', this.id);">일반</a>
-            <a class="p-2 post-header" href="javascript:void(0);" id="hobby" onclick="searchPost('filter', this.id);">취미</a>
-            <a class="p-2 post-header" href="javascript:void(0);" id="game" onclick="searchPost('filter', this.id);">게임</a>
-            <a class="p-2 post-header" href="javascript:void(0);" id="daily" onclick="searchPost('filter', this.id);">일상</a>
-            <a class="p-2 post-header" href="javascript:void(0);" id="travel" onclick="searchPost('filter', this.id);">여행</a>
+            <a class="p-2 post-header" href="free?page=1" id="free">자유</a>
+            <a class="p-2 post-header" href="information?page=1" id="information">정보</a>
+            <a class="p-2 post-header" href="question?page=1" id="question">질문</a>
+            <a class="p-2 post-header" href="picture?page=1" id="picture">사진</a>
+            <a class="p-2 post-header" href="trade?page=1" id="trade">거래</a>
         </div>
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
             <button type="button" class="btn btn-primary bi-pencil-square" onclick="location.href='/writing'" th:text="| 글쓰기|"/>
@@ -150,7 +149,7 @@
         <li class="list-group-item list-item-backcolor" style="border: none" th:each="postDto : ${pageableList.getContent()}">
             <button type="button" class="list-item-backcolor list-group-item list-group-item-action hover-item" style="padding: 0px; border: none" th:onclick="|location.href='@{/community/detail/{id}(id=${postDto.id})}'|">
                 <div class="row g-0 post-data">
-                    <div class="list-item-1 list-body col-sm-1 list-text-center list-col-1 post-category" th:text="${postDto.getFilter().getName()}"/>
+                    <div class="list-item-1 list-body col-sm-1 list-text-center list-col-1 post-category" th:text="${postDto.getCategory().getName().substring(0, 2)}"/>
                     <div class="list-body col-sm-1 list-col-2" style="text-align: left">
                         <span class="post-title" th:text="${postDto.isDeleteTnF()} ? '삭제된 게시글입니다.' : ${#strings.abbreviate(postDto.getTitle(), 25)}"/>
                         <span class="badge bg-secondary bi-messenger post-comments" th:text="' ' + ${postDto.getCommentCount()==null ? '0' : postDto.getCommentCount()}"/>
@@ -163,31 +162,6 @@
                     <div class="post-dateSS" style="display: none" th:text="${#temporals.format(postDto.getModifiedDate(), 'yyyy.MM.dd HH:mm:ss')}"/>     <!--숨김 정보-->
                 </div>
             </button>
-            <ol class="list-group" th:each="answerDto : ${answerPostInfo}" style="border: none">
-                <li class="list-group-item list-item-backcolor" style="border: none" th:if="${postDto.groupId == answerDto.groupId}">
-                    <button type="button" class="list-item-backcolor list-group-item list-group-item-action hover-item" style="padding: 0px; border: none" th:onclick="|location.href='@{/community/detail/{id}(id=${answerDto.id})}'|">
-                        <div class="row g-0 answer-data" style="height: 35px">
-                            <div class="list-body col-sm-1 list-text-center list-col-1">
-                                <span class="bi-arrow-return-right"/>
-                            </div>
-                            <div class="list-body col-sm-1 list-col-2" style="text-align: left">
-                                <span class="answer-title" th:text="${answerDto.isDeleteTnF()} ? '삭제된 게시글입니다.' : ${#strings.abbreviate(answerDto.getTitle(), 25)}"/>
-                                <span class="badge bg-secondary bi-messenger answer-comments" th:text="' ' + ${answerDto.getCommentCount()==null ? '0' : answerDto.getCommentCount()}"/>
-                            </div>
-                            <div class="list-body col-sm-1 list-text-center list-col-3 answer-writer" th:text="${answerDto.getWriter()}"/>
-                            <div class="list-body col-sm-1 list-text-center list-col-4 answer-date" th:text="${#temporals.format(answerDto.getModifiedDate(), 'yyyy.MM.dd HH:mm')}"/>
-                            <div class="list-body col-sm-1 list-text-center list-col-5 answer-likes" th:text="${answerDto.getLikeCount()==null} ? '0' : ${answerDto.getLikeCount()}"/>
-                            <div class="list-body col-sm-1 list-text-center list-col-6 answer-views" th:text="${answerDto.getViews()}"/>
-
-                            <!--숨김 정보-->
-                            <div style="display: none" class="answer-dateSS" th:text="${#temporals.format(answerDto.getModifiedDate(), 'yyyy.MM.dd HH:mm:ss')}"/>
-                            <div style="display: none" class="answer-parentId" th:text="${answerDto.getParentId()}"/>
-                            <div style="display: none" class="answer-id" th:text="${answerDto.getId()}"/>
-                            <div style="display: none" class="answer-category" th:text="${postDto.getFilter()}"/>
-                        </div>
-                    </button>
-                </li>
-            </ol>
         </li>
     </ol>
 </div>

@@ -163,7 +163,7 @@
                                     <div class="col-6 text-lg-end">
                                         <button type="button" style="padding:0.3em" class="comment-basic btn btn-secondary text-lg-end" th:id="|update-${answerCommentDto.getId()}|" onclick="updateButtonChange(this.id, this.name)" th:value="normal" th:if="${user == answerCommentDto.getWriterId() and !answerCommentDto.isDeleteTnF()}" th:text="수정"/>
                                         <button type="button" style="padding:0.3em" class="comment-basic btn btn-secondary text-lg-end" th:id="|answer-${answerCommentDto.getId()}|" onclick="buttonChange(this.id, this.name)" th:value="normal" th:if="${!answerCommentDto.isDeleteTnF()}" th:text="답글"/>
-                                        <button type="button" style="padding:0.3em" class="comment-basic btn btn-danger" th:id="|delete-${answerCommentDto.getId()}|" onclick="deleteComment(this.id)" th:if="${user == answerCommentDto.getWriterId() and !answerCommentDto.isDeleteTnF()}" th:text="삭제"/>
+                                        <button type="button" style="padding:0.3em" class="comment-basic btn btn-danger bi-trash" th:id="|delete-${answerCommentDto.getId()}|" onclick="deleteComment(this.id)" th:if="${user == answerCommentDto.getWriterId() and !answerCommentDto.isDeleteTnF()}" th:text="삭제"/>
                                     </div>
                                     <div class="comment-body" style="margin-top: 10px; margin-bottom: 20px;">
                                         <span class="comment-basic" th:utext="${answerCommentDto.isDeleteTnF()} ? '삭제된 댓글입니다.' : ${answerCommentDto.getContent()}"/>

@@ -47,6 +47,26 @@ public class PostController {
         return "/community/communityPage";
     }
 
+    // 인기 게시판 페이지
+    @GetMapping("/hotcommunity/{category}")
+    public String hotCommunity(@PathVariable String category, Model model, @PageableDefault Pageable pageable, @RequestParam(defaultValue = "title") String searchCategory, @RequestParam(defaultValue = "%") String keyword, @RequestParam(defaultValue = "all") String filter) {
+        PostCategory postCategory = null;
+        if (!category.equals("all")) {
+            postCategory = PostCategory.findByLowerCase(category);     // 선택된 카테고리
+        }
+        PostFilter postFilter = null;
+        if (!filter.equals("all")) {
+            postFilter = PostFilter.findByLowerCase(filter);
+        }
+        Page<PostDto> hotPostInfo = postService.findHotPostInfo(postCategory, searchCategory, keyword, postFilter, pageable);
+        PageableList<PostDto> pageableList = new PageableList<>(hotPostInfo);
+
+        model.addAttribute("pageableList", pageableList);       // 시초 게시글
+        model.addAttribute("selectCategory", postCategory);     // 카테고리
+
+        return "/community/hotCommunityPage";
+    }
+
     // 본글 API
     @GetMapping("/api/community/posts")
     @ResponseBody

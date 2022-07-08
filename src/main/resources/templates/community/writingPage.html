@@ -2,14 +2,20 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{fragments/header :: header}"/>
+
 <style>
     body {background-color: #1C273A;}
     .form-margin {margin-top: 10px;}
 </style>
+
 <body>
-<br><h2 style="text-align: center; color: #FFFFFF">게시글 작성</h2><br>
-<div class="container" th:object="${savePostForm}">
-    <form>
+
+<br>
+<h2 style="text-align: center; color: #FFFFFF">게시글 작성</h2>
+<br>
+
+<div class="container">
+    <form th:object="${savePostForm}">
         <input class="post-id" type="hidden" id="post-id" th:value="${selectPostId}">
         <input class="myId" type="hidden" id="myId" th:value="${myId}">
         <div class="input-group" style="width: 80%; margin: auto">

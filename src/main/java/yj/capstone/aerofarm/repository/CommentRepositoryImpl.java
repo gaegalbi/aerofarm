@@ -34,7 +34,8 @@ public class CommentRepositoryImpl extends Querydsl5RepositorySupport implements
                                 comment.writer.id,
                                 comment.deleteTnF,
                                 comment.groupId,
-                                comment.writer.picture))
+                                comment.writer.picture,
+                                comment.parent.id))
                         .from(comment)
                         .where(
                                 comment.post.eq(post),
@@ -61,7 +62,8 @@ public class CommentRepositoryImpl extends Querydsl5RepositorySupport implements
                 comment.writer.id,
                 comment.deleteTnF,
                 comment.groupId,
-                comment.writer.picture))
+                comment.writer.picture,
+                comment.parent.id))
                 .from(comment)
                 .where(
                         comment.post.eq(post),

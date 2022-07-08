@@ -12,6 +12,7 @@ import java.util.List;
 public interface PostRepositoryCustom {
     Page<PostDto> findPostInfo(PostCategory category, String searchCategory, String keyword, PostFilter postFilter, Pageable pageable);
     List<PostDto> findAnswerPostInfo(PostCategory category, String searchCategory, String keyword, PostFilter postFilter);
+    Page<PostDto> findHotPostInfo(PostCategory category, String searchCategory, String keyword, PostFilter postFilter, Pageable pageable);
     Integer findMaxGroupIdInfo();
 
     Page<PostListResponseDto> findMyPost(Long memberId, Pageable pageable);

@@ -181,6 +181,11 @@ public class PostService {
         return postRepository.findById(postId).orElseThrow(() -> null);
     }
 
+    // 인기 게시글 조회
+    public Page<PostDto> findHotPostInfo(PostCategory category, String searchCategory, String keyword, PostFilter postFilter, Pageable pageable) {
+        return postRepository.findHotPostInfo(category, searchCategory, keyword, postFilter, pageable);
+    }
+
     // 해당 댓글 정보 조회
     public Comment selectComment(Long commentId) { return commentRepository.findById(commentId).orElseThrow(() -> null); }
 
