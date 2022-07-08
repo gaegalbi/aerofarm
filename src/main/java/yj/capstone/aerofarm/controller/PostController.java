@@ -78,7 +78,7 @@ public class PostController {
     }
 
     // 답글 API
-    @GetMapping("/api/community/answerPosts")
+    @GetMapping("/api/community/answerposts")
     @ResponseBody
     public List<PostDto> findAnswerPostApi(@RequestParam(required = false) String category, @RequestParam(defaultValue = "title") String searchCategory, @RequestParam(required = false) String keyword, @RequestParam(required = false) String filter) {
         PostCategory postCategory = category == null ? null : PostCategory.findByLowerCase(category);
@@ -87,8 +87,22 @@ public class PostController {
         return postService.findAnswerPostInfo(postCategory, searchCategory, keyword, postFilter);
     }
 
+    // 본댓글 정보 API
+    @GetMapping("/api/detail/comments")
+    @ResponseBody
+    public Page<CommentDto> findCommentApi(@RequestParam Long postId, @PageableDefault Pageable pageable) {
+        return postService.findCommentInfo(postService.selectPost(postId), pageable);
+    }
+
+    // 댓글의 답글 정보 API
+    @GetMapping("/api/detail/answercomments")
+    @ResponseBody
+    public List<CommentDto> findAnswerCommentApi(@RequestParam Long postId) {
+        return postService.findAnswerCommentInfo(postService.selectPost(postId));
+    }
+
     // 댓글 정보 API
-    @GetMapping("/api/community/commentInfo")
+    @GetMapping("/api/community/commentinfo")
     @ResponseBody
     public CommentDto findCommentInfo(@RequestParam Long commentId) {
         Comment comment = postService.selectComment(commentId);
