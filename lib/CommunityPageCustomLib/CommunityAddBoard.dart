@@ -1,3 +1,4 @@
+import 'package:capstone/CommunityPageCustomLib/CommunityFetch.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -19,6 +20,7 @@ class AddBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loadingController = Get.put(LoadingController());
     String current = dateFormat.format(DateTime.now());
     String date = dateFormat.format(DateTime.parse(keywords['modifiedDate']));
     if(current == date.substring(0, 10)) {
@@ -40,6 +42,7 @@ class AddBoard extends StatelessWidget {
           )),
       child: InkWell(
         onTap: () {
+          loadingController.setTrue();
           Get.to(() => CommunityPageReadPost(
             index: index,
             keywords: keywords,

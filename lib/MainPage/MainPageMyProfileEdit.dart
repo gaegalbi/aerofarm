@@ -42,7 +42,9 @@ class _MainPageMyProfileEditState extends State<MainPageMyProfileEdit> {
     if(widget.user['name']!=null){
       _nameController.text = widget.user['name'];
     }
-    _phoneNumberController.text = widget.user['phoneNumber'];
+    if(widget.user['phoneNumber']!=null){
+      _phoneNumberController.text = widget.user['phoneNumber'];
+    }
 
     if(widget.user['addressInfo']!=null){
       if(widget.user['addressInfo']['extraAddress'] !=""){

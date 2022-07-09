@@ -40,15 +40,9 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
         loadFetch(widget.category).then((value) => answerFetch(widget.category));
       }
       if (_scrollController.offset == _scrollController.position.minScrollExtent) {
-          boardListController.boardClear();
-          pageIndexController.setUp();
           categoryIndexController.setUp();
           loadingController.setTrue();
-          startFetch(widget.category).then((value)=>answerFetch(widget.category));
-          //새로고침 할때만 초기화
-          Future.delayed(const Duration(microseconds: 1000), () {
-            loadingController.setFalse();
-          });
+          startFetch(widget.category).then((value)=>answerFetch(widget.category)).then((value)=>loadingController.setFalse());
       }
   }
 
@@ -269,11 +263,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
                     //print(distance);
                     if(boardListController.boardList.length<10 && distance>=200){
                       loadingController.setTrue();
-                      startFetch(widget.category).then((value)=>answerFetch(widget.category));
-                      //새로고침 할때만 초기화
-                      Future.delayed(const Duration(microseconds: 1000), () {
-                        loadingController.setFalse();
-                      });
+                      startFetch(widget.category).then((value)=>answerFetch(widget.category)).then((value)=>loadingController.setFalse());
                     }
                 },
                 child: Container(

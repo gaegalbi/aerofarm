@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' as parser;
 import 'package:html/dom.dart' as dom;
 
+import '../CurrentTime.dart';
 import '../LoginPage/LoginPageLogin.dart';
 import '../themeData.dart';
 import 'CommunityAddBoard.dart';
@@ -20,7 +21,7 @@ final List<Map<String, dynamic>> customKeywords = []; //post-data
 final List<Map<String, dynamic>> answerKeywords = []; //answer-data
 final Map<String, dynamic> postKeywords = {};
 List<String> replyDetailList = [];
-final dateFormat = DateFormat('yyyy.MM.dd');
+
 final dateInfoFormat = DateFormat('yyyy.MM.dd hh:mm');
 /*final Map<String, String> matchCategory = {
   "all": "전체게시판",
@@ -503,7 +504,7 @@ Future answerFetch(String communityCategory) async {
     pageIndex--;
   }
   final answerResponse = await http
-      .get(Uri.http(ipv4, '/api/community/answerPosts'),
+      .get(Uri.http(ipv4, '/api/community/answerposts'),
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
         "Cookie": "JSESSIONID=$session",

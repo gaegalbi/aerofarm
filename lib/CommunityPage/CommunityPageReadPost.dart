@@ -32,6 +32,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
   final commentListController = Get.put(CommentListController());
   final pageIndexController = Get.put(PageIndexController());
   final replyDetailController = Get.put(ReplyDetailListController());
+  final loadingController = Get.put(LoadingController());
 
   late String? content;
   late dom.Element? contents;
@@ -57,7 +58,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
       handleScrolling();
     });
     //게시글 내용 불러오기
-    readPostContent(widget.keywords['id'], widget.keywords['category']);
+    readPostContent(widget.keywords['id'], widget.keywords['category']).then((value) => loadingController.setFalse());
 
     replyDetailController.replyDetailSetUpBefore("ReadPost");
 
@@ -149,13 +150,14 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
           body: SingleChildScrollView(
             controller: _scrollController,
             child: Container(
+              height: MediaQuery.of(context).size.height,
               padding: EdgeInsets.fromLTRB(
                 MediaQuery.of(context).size.width * 0.04,
                 0,
                 MediaQuery.of(context).size.width * 0.04,
                 MediaQuery.of(context).size.width * 0.04,
               ),
-              child: Column(
+              child: Obx(()=>!loadingController.loading.value ? Column(
                 children: [
                   Container(
                       alignment: Alignment.topLeft,
@@ -164,7 +166,6 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                       margin: EdgeInsets.only(
                           bottom: MediaQuery.of(context).size.height * 0.005),
                       child: Row(
-                        //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Row(
@@ -270,8 +271,6 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                           child: Obx(()=>Html(data: readPostController.content.value)),
                         ),
                         Container(
-                            margin: EdgeInsets.only(
-                                top: MediaQuery.of(context).size.height * 0.01),
                             decoration: const BoxDecoration(
                                 border: Border(
                               top: BorderSide(width: 2, color: Colors.white),
@@ -286,7 +285,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                       padding: MaterialStateProperty.all(
                                           EdgeInsets.zero)),
                                   child: Row(
-                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Container(
                                         margin: EdgeInsets.only(right: 5),
@@ -309,46 +308,50 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                       Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before,));
                                   },
                                 ),
-                                 Obx(()=> commentListController.commentList.isEmpty? Container(
-                                  margin: EdgeInsets.only(top: 5),
-                                  child: Row(
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.only(right: 15),
-                                        child: CircleAvatar(
-                                          radius:
-                                              MediaQuery.of(context).size.width *
-                                                  0.08,
-                                          backgroundImage: profile!.image,
-                                        ),
-                                      ),
-                                      TextButton(
-                                        onPressed: (){
-                                          Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before,));
-                                        },
-                                        child: const Text(
-                                          "첫 댓글을 입력하세요",
-                                          style: CommunityPageTheme.postFont,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ) : InkWell(
-                                   splashColor: Colors.transparent,
-                                   highlightColor: Colors.transparent,
-                                   onTap: (){
-                                     Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before,));
-                                   },
-                                  child: Column(children: commentListController.commentList
-                                   ,),
-                                ),)
                               ],
-                            ))
+                            )),
+                        Obx(()=> commentListController.commentList.isEmpty? Container(
+                          margin: EdgeInsets.only(top: 5),
+                          child: Row(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(right: 15),
+                                child: CircleAvatar(
+                                  radius:
+                                  MediaQuery.of(context).size.width *
+                                      0.08,
+                                  backgroundImage: profile!.image,
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: (){
+                                  Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before,));
+                                },
+                                child: const Text(
+                                  "첫 댓글을 입력하세요",
+                                  style: CommunityPageTheme.postFont,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ) : InkWell(
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onTap: (){
+                            Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before,));
+                          },
+                          child: Column(children: commentListController.commentList
+                            ,),
+                        ),)
                       ],
                     ),
                   ),
                 ],
-              ),
+              ):
+              const Center(
+                  child: CircularProgressIndicator(
+                    color: MainColor.three,
+                  )),),
             ),
           ),
           bottomNavigationBar: BottomAppBar(

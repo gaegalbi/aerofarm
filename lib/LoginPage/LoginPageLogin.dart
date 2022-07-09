@@ -164,6 +164,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                     //print(nickname);
                     //printWrapped(document.outerHtml);
                     profile = Image.network("http://$ipv4$src");
+                    print(profile);
                     widget.reLogin ?
                     Get.back() :
                     Get.offAll(()=>const MainPage());

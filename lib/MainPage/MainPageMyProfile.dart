@@ -62,7 +62,7 @@ class _MainPageMyProfileState extends State<MainPageMyProfile> {
                   Icons.chevron_left,
                 ),
                 onPressed: () {
-                  widget.before == "CommunityPage" ? Get.offAll(()=>const CommunityPageForm(category: "all")):Get.back();
+                  widget.before == "CommunityPage" ? Get.offAll(()=>const CommunityPageForm(category: "ALL")):Get.back();
                   /* Get.off(()=>const MainPage());*/
                 },
               ),

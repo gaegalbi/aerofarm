@@ -32,11 +32,6 @@ class AddComment extends StatelessWidget {
   Widget build(BuildContext context) {
     final nicknameController = Get.put(NicknameController());
     final selectController = Get.put(SelectReplyController());
-  /*  print('commentGroupId ${keywords['commentGroupId']}');
-    print('commentId ${keywords['commentId']}');
-    if(keywords['commentGroupId']=="5"){
-      print(replyDetail["${keywords['commentGroupId']}"]!.length);
-    }*/
 
     return Container(
       padding: EdgeInsets.only(
