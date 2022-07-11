@@ -113,7 +113,15 @@ class _CommunityPageReplyDetailState extends State<CommunityPageReplyDetail> {
             child: Container(
               color: MainColor.six,
               child: Obx(()=>Column(
-                children: replyDetailController.replyDetail[widget.keywords['commentGroupId']]!, //_replyList,
+                children: replyDetailController.replyDetail[widget.keywords['groupId']] !=null
+                    ?  replyDetailController.replyDetail[widget.keywords['groupId']]!
+                : [
+                  const Center(
+                    child: CircularProgressIndicator(
+                    color: MainColor.three,
+                    ),
+                  ),
+                  ], //_replyList,
               ),)
             ),
           ),
@@ -179,14 +187,16 @@ class _CommunityPageReplyDetailState extends State<CommunityPageReplyDetail> {
                                         );
                                       });
                                 }else{
+                                  print(widget.keywords);
                                   var data = {
-                                    "postId": widget.keywords['id'],
+                                    "id":widget.keywords['id'],
+                                    "postId": widget.keywords['postId'],
                                     "content": _textEditingController.text,
-                                    "commentId" : widget.keywords['commentId']
+                                    "commentId" : widget.keywords['id']
                                   };
                                   var body = json.encode(data);
                                   await http.post(
-                                    Uri.http(ipv4, '/createAnswerComment'),
+                                    Uri.http(serverIP, '/createAnswerComment'),
                                     headers: {
                                       "Content-Type": "application/json",
                                       "Cookie": "JSESSIONID=$session",
@@ -194,7 +204,7 @@ class _CommunityPageReplyDetailState extends State<CommunityPageReplyDetail> {
                                     encoding: Encoding.getByName('utf-8'),
                                     body: body,
                                   );
-                                  readPostContent(widget.keywords['id'], widget.keywords['category']);
+                                  readPostContent(widget.keywords['postId'], widget.keywords['category']);
                                   _textEditingController.text = "";
                                   replyDetailController.before =="ReadPost" ?
                                   Get.off(()=>CommunityPageReply(index: widget.index, keywords: widget.keywords, before: widget.before))

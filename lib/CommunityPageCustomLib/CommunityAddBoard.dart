@@ -53,7 +53,7 @@ class AddBoard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: MediaQuery.of(context).size.width * 0.7,
+              width: MediaQuery.of(context).size.width * 0.8,
               margin: EdgeInsets.only(
                   right: MediaQuery.of(context).size.width * 0.01),
               child: Column(
@@ -68,59 +68,59 @@ class AddBoard extends StatelessWidget {
                         style: CommunityPageTheme.main,
                       )),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible(
-                        flex: 3,
+                        flex: 8,
                         child: Text(
                           keywords['writer'],
                           overflow: TextOverflow.ellipsis,
-                          style: CommunityPageTheme.sub,
+                          style: CommunityPageTheme.subEtc,
                         ),
                       ),
                       Flexible(
-                        flex: 4,
-                        child: Text(
-                          date,
-                          style: CommunityPageTheme.sub,
+                        flex: date.length ==5 ? 4 : 7,
+                        child: Container(
+                          alignment: Alignment.center,
+                          child: Text(
+                            date,
+                            style: CommunityPageTheme.subEtc,
+                          ),
                         ),
                       ),
                       Flexible(
-                          flex: 7,
-                          child: Row(
-                            children: [
-                              Flexible(
-                                flex: 1,
-                                child: Row(
-                                  children: [
-                                    const Text(
-                                      "조회 ",
-                                      style: CommunityPageTheme.sub,
-                                    ),
-                                    Text(
-                                      keywords['views'].toString(),
-                                      style: CommunityPageTheme.sub,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Flexible(
-                                flex: 1,
-                                child: Row(
-                                  children: [
-                                    const Text(
-                                      "추천 ",
-                                      style: CommunityPageTheme.sub,
-                                    ),
-                                    Text(
-                                      keywords['likeCount'].toString(),
-                                      style: CommunityPageTheme.sub1,
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ))
+                        flex: 8,
+                        child: Row(
+                         mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              "조회 ",
+                              style: CommunityPageTheme.subEtc,
+                            ),
+                            Text(
+                              keywords['views'].toString(),
+                              style: CommunityPageTheme.subEtc,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Flexible(
+                        flex: 8,
+                        child: Row(
+                         // mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text(
+                              "추천 ",
+                              style: CommunityPageTheme.subEtc,
+                            ),
+                            Text(
+                             keywords['likeCount'].toString(),
+                              style: CommunityPageTheme.sub1,
+                            ),
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 ],
@@ -135,12 +135,12 @@ class AddBoard extends StatelessWidget {
                   children: [
                     Text(
                       keywords['commentCount'].toString(),
-                      style: CommunityPageTheme.sub,
+                      style: CommunityPageTheme.subCommentCount,
                       textAlign: TextAlign.center,
                     ),
                     const Text(
                       "댓글",
-                      style: CommunityPageTheme.sub,
+                      style: CommunityPageTheme.subEtc,
                       textAlign: TextAlign.center,
                     ),
                   ]),

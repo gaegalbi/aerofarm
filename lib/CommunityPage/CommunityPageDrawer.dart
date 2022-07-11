@@ -55,7 +55,7 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
               children: [
                  Obx(()=>Text(
                    nicknameController.nickname.value,
-                  style: MainPageTheme.name,
+                  style: nicknameController.nickname.value.length > 7 ? MainPageTheme.nameSub :MainPageTheme.name ,
                 ),),
                 Container(
                     padding: EdgeInsets.only(top: drawerPadding / 2),

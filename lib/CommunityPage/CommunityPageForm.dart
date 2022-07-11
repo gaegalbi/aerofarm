@@ -154,9 +154,9 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
         ),
         body: Container(
           padding: EdgeInsets.fromLTRB(
-            MediaQuery.of(context).size.width * 0.04,
+            MediaQuery.of(context).size.width * 0.03,
             0,
-            MediaQuery.of(context).size.width * 0.04,
+            MediaQuery.of(context).size.width * 0.03,
             MediaQuery.of(context).size.width * 0.04,
           ),
           color: MainColor.six,

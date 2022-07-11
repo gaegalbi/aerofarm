@@ -97,7 +97,7 @@ class _MainPageMyProfileEditState extends State<MainPageMyProfileEdit> {
             Container(
               margin: EdgeInsets.only(right: 15),
               decoration: BoxDecoration(
-                color: Colors.indigo,
+                color: MainColor.three,
                 borderRadius: BorderRadius.circular(10.0),
               ),
               child: TextButton(
@@ -126,7 +126,7 @@ class _MainPageMyProfileEditState extends State<MainPageMyProfileEdit> {
                             : _extraAddressController.text
                       };
                       var body = jsonEncode(data);
-                      final response = await http.post(Uri.http(ipv4, "/my-page/edit"),
+                      final response = await http.post(Uri.http(serverIP, "/my-page/edit"),
                           headers:{
                             "Content-Type": "application/json",
                             "Cookie": "JSESSIONID=$session",
@@ -143,6 +143,7 @@ class _MainPageMyProfileEditState extends State<MainPageMyProfileEdit> {
                             print("phoneNumber오류");
                             break;
                           case "name":
+                            //이름 다섯글자
                             print("name오류");
                             break;
                           default:
@@ -153,7 +154,7 @@ class _MainPageMyProfileEditState extends State<MainPageMyProfileEdit> {
                       //address1
                       //address2
                       nicknameController.setNickname(_nicknameController.text);
-                     getProfile("MainPageMyProfileEdit");
+                      getProfile("MainPageMyProfileEdit");
                     }
                   },
                   child: const Text(

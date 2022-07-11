@@ -268,7 +268,7 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                   child: TextButton(
                     onPressed: () async {
                       //회원 가입
-                      await http.post(Uri.http(ipv4, '/signup'),
+                      await http.post(Uri.http(serverIP, '/signup'),
                           body: {
                             "email":_emailController.text,
                             "password":_passwordController.text,

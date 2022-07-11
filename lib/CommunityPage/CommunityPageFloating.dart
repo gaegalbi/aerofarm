@@ -65,7 +65,7 @@ class CommunityPageFloating extends StatelessWidget {
                 onTap: () async {
                   var body = json.encode({"id": keywords['id']});
                   await http.post(
-                    Uri.http(ipv4, '/deletePost'),
+                    Uri.http(serverIP, '/deletePost'),
                     headers: {
                       "Content-Type": "application/json",
                       "Cookie": "JSESSIONID=$session",

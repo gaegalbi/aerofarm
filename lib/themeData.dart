@@ -113,6 +113,11 @@ class MainPageTheme {
       decoration: TextDecoration.none,
       fontFamily: 'bmPro',
       fontSize: 45);
+  static const nameSub = TextStyle(
+      color: MainColor.three,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 30);
   static const modify = TextStyle(
       color: MainColor.one,
       decoration: TextDecoration.none,
@@ -222,16 +227,22 @@ class CommunityPageTheme {
       decoration: TextDecoration.none,
       fontFamily: 'bmAir',
       fontSize: 20);
-  static const sub = TextStyle(
+  static const subCommentCount = TextStyle(
       color: Colors.white,
       decoration: TextDecoration.none,
       fontFamily: 'bmAir',
       fontSize: 17);
+  static const subEtc = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmAir',
+      fontSize: 14);
   static const sub1 = TextStyle(
       color: Colors.red,
       decoration: TextDecoration.none,
       fontFamily: 'bmAir',
-      fontSize: 13);
+      fontSize: 14);
+
   static const free = TextStyle(
       color: Colors.white,
       decoration: TextDecoration.none,
@@ -337,6 +348,16 @@ class CommunityPageTheme {
       decoration: TextDecoration.none,
       fontFamily: 'bmPro',
       fontSize: 20);
+  static const commentOwner = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 13);
+  static const commentWriterOver = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 16);
   static const searchTextTrue = TextStyle(
       color: Colors.white,
       decoration: TextDecoration.none,

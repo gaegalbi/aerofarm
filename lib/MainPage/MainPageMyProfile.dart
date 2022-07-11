@@ -191,9 +191,7 @@ class _MainPageMyProfileState extends State<MainPageMyProfile> {
                             ),
                             Expanded(
                               flex: 5,
-                              child: Obx(()=>Text(widget.user['phoneNumber'] == ""
-                                  ? "미등록"
-                                  : phoneNumberController.phoneNumber.value,
+                              child: Obx(()=>Text( phoneNumberController.phoneNumber.value,
                                 style: MainPageTheme.profileInfo,),),
                             ),
                           ]

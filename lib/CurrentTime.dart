@@ -58,16 +58,16 @@ class _CurrentTimeState extends State<CurrentTime> {
      }
    } else if (widget.style=="sub"){
      if(widget.type) {
-       return Text(nowDate,style: CommunityPageTheme.sub);
+       return Text(nowDate,style: CommunityPageTheme.subCommentCount);
      } else {
-       return Text(nowTime,style:CommunityPageTheme.sub);
+       return Text(nowTime,style:CommunityPageTheme.subCommentCount);
      }
    }
    else if (widget.style=="korean") {
      if (widget.type) {
-       return Text(koreanTime, style: CommunityPageTheme.sub);
+       return Text(koreanTime, style: CommunityPageTheme.subCommentCount);
      } else {
-       return Text(koreanTime, style: CommunityPageTheme.sub);
+       return Text(koreanTime, style: CommunityPageTheme.subCommentCount);
      }
    }
   else{

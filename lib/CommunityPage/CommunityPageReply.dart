@@ -109,18 +109,18 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
           body: SingleChildScrollView(
             controller: _scrollController,
             child: Container(
-              padding: EdgeInsets.fromLTRB(
-                MediaQuery.of(context).size.width * 0.04,
-                0,
-                MediaQuery.of(context).size.width * 0.04,
-                MediaQuery.of(context).size.width * 0.04,
-              ),
               color: MainColor.six,
               child: Column(
                 children: [
                   Column(
                     children: [
                       Container(
+                        padding: EdgeInsets.fromLTRB(
+                          MediaQuery.of(context).size.width * 0.04,
+                          0,
+                          MediaQuery.of(context).size.width * 0.04,
+                          0,
+                        ),
                         margin: EdgeInsets.only(
                             right: MediaQuery.of(context).size.width * 0.02,
                             left: MediaQuery.of(context).size.width * 0.02),
@@ -239,7 +239,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply> {
                                   };
                                   var body = json.encode(data);
                                   await http.post(
-                                    Uri.http(ipv4, '/createComment'),
+                                    Uri.http(serverIP, '/createComment'),
                                     headers: {
                                       "Content-Type": "application/json",
                                       "Cookie": "JSESSIONID=$session",

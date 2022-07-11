@@ -85,7 +85,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
       _titleController.text = "Re : " + widget.keywords['title'];
     }
     super.initState();
-    Future.delayed(const Duration(milliseconds: 400),()=> {
+    Future.delayed(const Duration(milliseconds: 600),()=> {
         if(widget.type !="ReadPost"){
           _controller.setText(readPostController.content.value)
       }
@@ -175,7 +175,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                         var body = json.encode(data);
                         await http.post(
                           Uri.http(
-                              ipv4, '/createAnswerPost'),
+                              serverIP, '/createAnswerPost'),
                           headers: {
                             "Content-Type": "application/json",
                             "Cookie": "JSESSIONID=$session",
@@ -231,7 +231,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                           };
                           var body = json.encode(data);
                           await http.post(
-                            Uri.http(ipv4, '/updatePost'),
+                            Uri.http(serverIP, '/updatePost'),
                             headers: {
                               "Content-Type": "application/json",
                               "Cookie": "JSESSIONID=$session",
@@ -252,7 +252,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                           var body = json.encode(data);
 
                           await http.post(
-                            Uri.http(ipv4, '/createBasicPost'),
+                            Uri.http(serverIP, '/createBasicPost'),
                             headers: {
                               "Content-Type": "application/json",
                               "Cookie": "JSESSIONID=$session",

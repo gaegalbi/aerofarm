@@ -121,8 +121,8 @@ class BoardListController extends GetxController{
   }
 
   //중복방지
-  void boardIdAdd(int index){
-    boardIdList.add(index);
+  void boardIdAdd(int id){
+    boardIdList.add(id);
   }
 
   //중복방지
@@ -143,13 +143,33 @@ class BoardListController extends GetxController{
 }
 class CommentListController extends GetxController{
   final commentList= <Widget>[].obs;
+  final commentGroupIdList = <int>[].obs;
 
   void commentAdd(Widget widget){
     commentList.add(widget);
   }
 
+  void commentInsert(int index,Widget widget){
+    commentList.insert(index, widget);
+  }
+
   void commentClear(){
     commentList.clear();
+    commentGroupIdList.clear();
+  }
+
+  //대댓글
+  void commentGroupIdAdd(int id){
+    commentGroupIdList.add(id);
+  }
+
+  //대댓글
+  void commentIdInsert(int index,int id){
+    commentGroupIdList.insert(index,id);
+  }
+
+  void commentIdClear(){
+    commentGroupIdList.clear();
   }
 }
 
@@ -191,6 +211,7 @@ class ReadPostController extends GetxController{
   final isLike =false.obs;
   final content ="".obs;
   final id = "".obs;
+  final writer = "".obs;
 
   void setIsLike(String like){
     if(like == "1"){
@@ -211,7 +232,27 @@ class ReadPostController extends GetxController{
   void setId(String inputId){
     id.value = inputId;
   }
+
+  void setWriter(String inputId){
+    writer.value = inputId;
+  }
 }
+
+class ReplyDetailListController extends GetxController{
+  final replyDetail = {0:<Widget>[]}.obs;
+  late String before;
+
+  void replyDetailSetUp(){
+    replyDetail.clear();
+    replyDetailList.clear();
+  }
+
+  void replyDetailSetUpBefore(String inputBefore){
+    before = inputBefore;
+  }
+
+}
+
 
 Future searchFetch(String communityCategory,String search,String keyword) async {
   final pageIndexController = Get.put(PageIndexController());
@@ -227,7 +268,7 @@ Future searchFetch(String communityCategory,String search,String keyword) async 
     'keyword' : keyword
   };
   final response = await http
-      .get(Uri.http(ipv4, '/api/community/posts', _queryParameters),
+      .get(Uri.http(serverIP, '/api/community/posts', _queryParameters),
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
         "Cookie": "JSESSIONID=$session",
@@ -257,7 +298,7 @@ Future searchFetch(String communityCategory,String search,String keyword) async 
           'keyword' : keyword
         };
         final response = await http
-            .get(Uri.http(ipv4, '/api/community/posts', _queryParameters),
+            .get(Uri.http(serverIP, '/api/community/posts', _queryParameters),
             headers: {
               "Content-Type": "application/x-www-form-urlencoded",
               "Cookie": "JSESSIONID=$session",
@@ -327,7 +368,7 @@ Future startFetch(String communityCategory) async {
     'page': pageIndexController.pageIndex.value.toString(),
   };
   final response = await http
-      .get(Uri.http(ipv4, '/api/community/posts', _queryParameters),
+      .get(Uri.http(serverIP, '/api/community/posts', _queryParameters),
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
         "Cookie": "JSESSIONID=$session",
@@ -355,7 +396,7 @@ Future startFetch(String communityCategory) async {
           'page': pageIndexController.pageIndex.value.toString(),
         };
         final response = await http
-            .get(Uri.http(ipv4, '/api/community/posts', _queryParameters),
+            .get(Uri.http(serverIP, '/api/community/posts', _queryParameters),
             headers: {
               "Content-Type": "application/x-www-form-urlencoded",
               "Cookie": "JSESSIONID=$session",
@@ -420,7 +461,7 @@ Future loadFetch(String communityCategory) async{
     'page': pageIndexController.pageIndex.value.toString(),
   };
   final response = await http
-      .get(Uri.http(ipv4, '/api/community/posts',_queryParameters),
+      .get(Uri.http(serverIP, '/api/community/posts',_queryParameters),
       headers:{
         "Content-Type": "application/x-www-form-urlencoded",
         "Cookie":"JSESSIONID=$session",
@@ -452,7 +493,7 @@ Future loadFetch(String communityCategory) async{
           'page': pageIndexController.pageIndex.value.toString(),
         };
         final response = await http
-            .get(Uri.http(ipv4, '/api/community/posts', _queryParameters),
+            .get(Uri.http(serverIP, '/api/community/posts', _queryParameters),
             headers: {
               "Content-Type": "application/x-www-form-urlencoded",
               "Cookie": "JSESSIONID=$session",
@@ -504,7 +545,7 @@ Future answerFetch(String communityCategory) async {
     pageIndex--;
   }
   final answerResponse = await http
-      .get(Uri.http(ipv4, '/api/community/answerposts'),
+      .get(Uri.http(serverIP, '/api/community/answerposts'),
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
         "Cookie": "JSESSIONID=$session",
@@ -571,7 +612,7 @@ Future categoryFetch(String communityCategory) async {
     'page': pageIndexController.pageIndex.value.toString(),
   };
   final response = await http
-      .get(Uri.http(ipv4, '/api/community/posts', _queryParameters),
+      .get(Uri.http(serverIP, '/api/community/posts', _queryParameters),
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
         "Cookie": "JSESSIONID=$session",
@@ -599,7 +640,7 @@ Future categoryFetch(String communityCategory) async {
           'page': pageIndexController.pageIndex.value.toString(),
         };
         final response = await http
-            .get(Uri.http(ipv4, '/api/community/posts', _queryParameters),
+            .get(Uri.http(serverIP, '/api/community/posts', _queryParameters),
             headers: {
               "Content-Type": "application/x-www-form-urlencoded",
               "Cookie": "JSESSIONID=$session",
@@ -655,30 +696,130 @@ Future categoryFetch(String communityCategory) async {
   }
 }
 
-class ReplyDetailListController extends GetxController{
-  final replyDetail = {"-1":<Widget>[]}.obs;
-  late String before;
+//readPost 게시글 내용 불러오기, 추천 유무
+Future readPostContent(int postId, String communityCategory) async{
+  final readPostController = Get.put(ReadPostController());
 
-  void replyDetailFirstAdd(String element){
-      replyDetail[element]=[];
+  customKeywords.clear();
+
+  final response = await http
+      .get(Uri.http(serverIP, '/community/detail/$postId'),
+      headers:{
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cookie":"JSESSIONID=$session",
+      }
+  );
+  if (response.statusCode == 200) {
+    dom.Document document = parser.parse(response.body);
+    readPostController.setContent(document.querySelector('.post-content')!.outerHtml);
+    readPostController.setIsLike(document.querySelector('.isSelected')!.text);
+    readPostController.setWriter(document.querySelector('.postWriter')!.text);
+    readComment(postId, communityCategory);
+  }else{
+    throw Exception("readPostContent Error");
   }
-
-  void replyDetailAdd(String element,Widget widget){
-    replyDetail[element]!.add(widget);
-  }
-
-  void replyDetailSetUp(){
-    replyDetail.clear();
-    replyDetailList.clear();
-  }
-
-  void replyDetailSetUpBefore(String inputBefore){
-    before = inputBefore;
-  }
-
 }
 
-//readPost 게시글 내용 불러오기, 추천 유무
+Future readComment(int postId,String communityCategory) async{
+  final commentListController = Get.put(CommentListController());
+  final pageIndexController = Get.put(PageIndexController());
+  final replyDetailController = Get.put(ReplyDetailListController());
+
+  commentListController.commentClear();
+  replyDetailController.replyDetailSetUp();
+
+  final Map<String, String> _queryParameters = <String, String>{
+    'postId': postId.toString(),
+  };
+
+  final commentResponse = await http
+      .get(Uri.http(serverIP, '/api/detail/comments',_queryParameters),
+      headers:{
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cookie":"JSESSIONID=$session",
+      }
+  );
+
+  final answerCommentResponse = await http
+      .get(Uri.http(serverIP, '/api/detail/answercomments',_queryParameters),
+      headers:{
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cookie":"JSESSIONID=$session",
+      }
+  );
+
+
+  if(commentResponse.statusCode == 200){
+    Map<String, dynamic> data = jsonDecode(utf8.decode(commentResponse.bodyBytes));
+    if(data['content'].length!=0) {
+      for (int i = 0; i < data['content'].length; i++) {
+        data['content'][i].addAll({"category":communityCategory});
+        commentListController.commentAdd(AddComment(
+          index: pageIndexController.pageIndex.value,
+          keywords: data['content'][i],
+          before: communityCategory, selectReply: '',)
+        );
+        commentListController.commentGroupIdAdd(data['content'][i]['groupId']);
+
+        replyDetailController.replyDetail[data['content'][i]['groupId']] = [];
+        replyDetailController.replyDetail[data['content'][i]['groupId']]?.add(AddComment(
+          index: pageIndexController.pageIndex.value,
+          keywords: data['content'][i],
+          before: "ReadPost", selectReply: '',)
+        );
+      }
+    }
+  }
+
+  if(answerCommentResponse.statusCode == 200){
+    List<dynamic> data = jsonDecode(utf8.decode(answerCommentResponse.bodyBytes));
+    Map<int,dynamic> answerCommentCount= {};
+
+    if(data.isNotEmpty) {
+      for (int i = 0; i < data.length; i++) {
+        data[i].addAll({"category":communityCategory});
+        if (!answerCommentCount.keys.contains(data[i]['groupId'])) {
+          answerCommentCount[data[i]['groupId']] = [];
+          answerCommentCount[data[i]['groupId']].add(data[i]);
+        }else{
+          answerCommentCount[data[i]['groupId']].add(data[i]);
+        }
+      }
+
+      for(int i=0;i<answerCommentCount.length;i++){
+        for(int j=0;j<commentListController.commentGroupIdList.length;j++){
+          if(commentListController.commentGroupIdList[j]==answerCommentCount.keys.elementAt(i)){
+            for(int k=0;k<answerCommentCount[answerCommentCount.keys.elementAt(i)].length;k++){
+
+              replyDetailController.replyDetail[answerCommentCount.keys.elementAt(i)]?.add(AddComment(
+                index: pageIndexController.pageIndex.value,
+                keywords: answerCommentCount[answerCommentCount.keys.elementAt(i)][k],
+                before: "ReadPost", selectReply: '',));
+
+              if(commentListController.commentGroupIdList.indexOf(answerCommentCount.keys.elementAt(i))+k+1>=commentListController.commentGroupIdList.length){
+                commentListController.commentAdd(AddComment(
+                  index: pageIndexController.pageIndex.value,
+                  keywords: answerCommentCount[answerCommentCount.keys.elementAt(i)][k],
+                  before: communityCategory, selectReply: '',));
+              }else{
+                commentListController.commentInsert(commentListController.commentGroupIdList.indexOf(answerCommentCount.keys.elementAt(i))+k+1
+                    ,AddComment(
+                      index: pageIndexController.pageIndex.value,
+                      keywords: answerCommentCount[answerCommentCount.keys.elementAt(i)][k],
+                      before: communityCategory, selectReply: '',));
+              }
+            }
+          }
+        }
+      }
+    }
+  }else{
+    Exception("readComment Error");
+  }
+}
+
+
+/*//readPost 게시글 내용 불러오기, 추천 유무
 Future readPostContent(int postId, String communityCategory) async{
   final readPostController = Get.put(ReadPostController());
   final commentListController = Get.put(CommentListController());
@@ -737,13 +878,8 @@ Future readPostContent(int postId, String communityCategory) async{
       });
     }
     for (var element in customKeywords) {
-      if(!replyDetailController.replyDetail.keys.contains(element['commentGroupId']) && !replyDetailList.contains(element['commentId'])
-      ){
-        //replyDetail[element['commentGroupId']] = [];
+      if(!replyDetailController.replyDetail.keys.contains(element['commentGroupId']) && !replyDetailList.contains(element['commentId'])){
         replyDetailController.replyDetailFirstAdd(element['commentGroupId']);
-     /*   replyDetail[element['commentGroupId']]!.add(AddComment(
-          index: pageIndexController.pageIndex.value ,keywords: element, before: "ReadPost", selectReply: '',//beforeRouteController.before.value,
-        ));*/
         replyDetailController.replyDetailAdd(element['commentGroupId'], AddComment(
           index: pageIndexController.pageIndex.value ,keywords: element, before: "ReadPost", selectReply: '',//beforeRouteController.before.value,
         ));
@@ -754,11 +890,7 @@ Future readPostContent(int postId, String communityCategory) async{
       ));
       for(var answerElement in answerKeywords){
         if(answerElement['commentGroupId'] == element['commentGroupId']){
-          //if(replyDetail[element['commentGroupId']].)
           if(!replyDetailList.contains(answerElement['commentId'])){
-           /* replyDetail[element['commentGroupId']]!.add(AddComment(
-              index: pageIndexController.pageIndex.value ,keywords: answerElement, before: "ReadPost", selectReply: '',//beforeRouteController.before.value,
-            ));*/
             replyDetailController.replyDetailAdd(element['commentGroupId'], AddComment(
               index: pageIndexController.pageIndex.value ,keywords: answerElement, before: "ReadPost", selectReply: '',//beforeRouteController.before.value,
             ));
@@ -774,7 +906,7 @@ Future readPostContent(int postId, String communityCategory) async{
   }else{
     throw Exception("readPostContent Error");
   }
-}
+}*/
 
 //readPost내에서 불러오기
 Future loadReadPostContent(int postId, String communityCategory) async{
@@ -788,7 +920,7 @@ Future loadReadPostContent(int postId, String communityCategory) async{
     'page': pageIndexController.pageIndex.value.toString(),
   };
   final response = await http
-      .get(Uri.http(ipv4, '/community/detail/$postId',_queryParameters),
+      .get(Uri.http(serverIP, '/community/detail/$postId',_queryParameters),
       headers:{
         "Content-Type": "application/x-www-form-urlencoded",
         "Cookie":"JSESSIONID=$session",
@@ -840,7 +972,7 @@ Future fetch(String communityCategory, bool readPost) async {
       'page': pageIndexController.pageIndex.value.toString(),
     };
     final response = await http
-        .get(Uri.http(ipv4, '/community/detail/${readPostController.id.value}',_queryParameters),
+        .get(Uri.http(serverIP, '/community/detail/${readPostController.id.value}',_queryParameters),
         headers:{
           "Content-Type": "application/x-www-form-urlencoded",
           "Cookie":"JSESSIONID=$session",
@@ -885,7 +1017,7 @@ Future fetch(String communityCategory, bool readPost) async {
             'page': pageIndexController.pageIndex.value.toString(),
           };
           final response = await http.get(Uri.http(
-              ipv4, '/community/${setCategoryController.setCategory.value}', _queryParameters));
+              serverIP, '/community/${setCategoryController.setCategory.value}', _queryParameters));
           if (response.statusCode == 200) {
             dom.Document document = parser.parse(response.body);
             List<dom.Element> keywordElements = document.querySelectorAll('.post-data');
@@ -928,7 +1060,7 @@ Future fetch(String communityCategory, bool readPost) async {
           final Map<String, String> _queryParameters = <String, String>{
             'page': pageIndexController.pageIndex.value.toString(),
           };
-          final response = await http.get(Uri.http(ipv4,
+          final response = await http.get(Uri.http(serverIP,
               '/community/${boardCategory[categoryIndexController.categoryIndex.value]}', _queryParameters));
           if (response.statusCode == 200) {
             dom.Document document = parser.parse(response.body);
@@ -1045,7 +1177,7 @@ Future fetch(String communityCategory, bool readPost) async {
         'page': pageIndexController.pageIndex.value.toString(),
       };
       final response = await http.get(Uri.http(
-          ipv4, '/community/$communityCategory', _queryParameters));
+          serverIP, '/community/$communityCategory', _queryParameters));
       if (response.statusCode == 200) {
         dom.Document document = parser.parse(response.body);
         List<dom.Element> keywordElements = document.querySelectorAll('.post-data');

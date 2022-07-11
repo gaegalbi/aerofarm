@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:capstone/LoginPage/LoginPage.dart';
 import 'package:capstone/MachinePage/MachinePageList.dart';
 import 'package:capstone/MainPage/MainPageMyProfile.dart';
@@ -47,7 +46,7 @@ Future<void> getProfile(String before) async {
   final addressController = Get.put(AddressController());
   final phoneNumberController = Get.put(PhoneNumberController());
 
-  final response = await http.get(Uri.http(ipv4,
+  final response = await http.get(Uri.http(serverIP,
       '/api/my-page/info'),
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -59,8 +58,10 @@ Future<void> getProfile(String before) async {
   if(_user['name']!=null){
     nameController.setName(_user['name']);
   }
-  if(_user['phoneNumber'] !=null){
+  if(_user['phoneNumber'] !=null && _user['phoneNumber']!=""){
     phoneNumberController.setPhoneNumber(_user['phoneNumber']);
+  }else{
+    phoneNumberController.setPhoneNumber("미등록");
   }
   if(_user['addressInfo']!=null){
     addressController.setAddress(
@@ -75,7 +76,8 @@ Future<void> getProfile(String before) async {
       Get.to(()=>MainPageMyProfileEdit(user:_user));
       break;
     case "MainPageMyProfileEdit":
-      Get.back();
+        Get.back();
+      //Get.offAll(()=>CommunityPageForm(category: "ALL"));
       //Get.off(()=>MainPageMyProfile(user:_user, before: "MainPage",));
       break;
     case "CommunityPage":
@@ -117,7 +119,7 @@ class MainPageDrawer extends StatelessWidget {
               children: [
                  Obx(()=>Text(
                   nicknameController.nickname.value,
-                  style: MainPageTheme.name,
+                  style: nicknameController.nickname.value.length >7 ?  MainPageTheme.nameSub : MainPageTheme.name,
                 )),
                 Container(
                     padding:  EdgeInsets.only(top: drawerPadding/2),

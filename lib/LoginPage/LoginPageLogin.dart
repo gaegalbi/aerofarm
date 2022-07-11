@@ -101,7 +101,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
               onPressed: () async {
                 try{
                   final response = await http.get(
-                    Uri.http(ipv4, '/login'),// Uri.http('172.25.4.179:8080', '/login'),//Uri.http('127.0.0.1:8080', '/login')
+                    Uri.http(serverIP, '/login'),// Uri.http('172.25.4.179:8080', '/login'),//Uri.http('127.0.0.1:8080', '/login')
                   );
                   tmp = response.headers['set-cookie'];
 
@@ -113,7 +113,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                     'remember-me' : "true"
                   };
                   final response1 = await http.post(
-                    Uri.http(ipv4, '/login'),//Uri.http('172.25.4.179:8080', '/login'),
+                    Uri.http(serverIP, '/login'),//Uri.http('172.25.4.179:8080', '/login'),
                     headers: {
                       "Content-Type": "application/x-www-form-urlencoded",
                       "Cookie":"JSESSIONID=$session",
@@ -141,7 +141,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                     tmp = response1.headers['set-cookie'];
                     session = tmp?.substring(tmp!.lastIndexOf('JSESSIONID')+11,tmp!.lastIndexOf('JSESSIONID')+43);
                     final response = await http.get(
-                      Uri.http(ipv4, ''),//Uri.http('172.25.4.179:8080', '')
+                      Uri.http(serverIP, ''),//Uri.http('172.25.4.179:8080', '')
                       headers: {
                         "Content-Type": "application/x-www-form-urlencoded",
                         "Cookie":"JSESSIONID=$session",
@@ -163,7 +163,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                     );
                     //print(nickname);
                     //printWrapped(document.outerHtml);
-                    profile = Image.network("http://$ipv4$src");
+                    profile = Image.network("http://$serverIP$src");
                     print(profile);
                     widget.reLogin ?
                     Get.back() :

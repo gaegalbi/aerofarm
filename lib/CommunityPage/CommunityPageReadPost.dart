@@ -150,58 +150,69 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
           body: SingleChildScrollView(
             controller: _scrollController,
             child: Container(
-              height: MediaQuery.of(context).size.height,
-              padding: EdgeInsets.fromLTRB(
-                MediaQuery.of(context).size.width * 0.04,
-                0,
-                MediaQuery.of(context).size.width * 0.04,
-                MediaQuery.of(context).size.width * 0.04,
-              ),
               child: Obx(()=>!loadingController.loading.value ? Column(
                 children: [
                   Container(
-                      alignment: Alignment.topLeft,
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.03,
-                      margin: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).size.height * 0.005),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                matchCategory[widget.keywords['category']]!,
-                                style: CommunityPageTheme.title,
-                              ),
-                              IconButton(
-                                splashRadius: 20,
-                                padding: EdgeInsets.zero,
-                                alignment: Alignment.center,
-                                color: MainColor.three,
-                                constraints: const BoxConstraints(),
-                                icon: const Icon(
-                                  Icons.chevron_right,
+                    padding: EdgeInsets.fromLTRB(
+                      MediaQuery.of(context).size.width * 0.04,
+                      0,
+                      MediaQuery.of(context).size.width * 0.04,
+                      0,
+                    ),
+                    child: Column(
+                      children: [
+                        Container(
+                            alignment: Alignment.topLeft,
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height * 0.03,
+                            margin: EdgeInsets.only(
+                                bottom: MediaQuery.of(context).size.height * 0.005),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      matchCategory[widget.keywords['category']]!,
+                                      style: CommunityPageTheme.title,
+                                    ),
+                                    IconButton(
+                                      splashRadius: 20,
+                                      padding: EdgeInsets.zero,
+                                      alignment: Alignment.center,
+                                      color: MainColor.three,
+                                      constraints: const BoxConstraints(),
+                                      icon: const Icon(
+                                        Icons.chevron_right,
+                                      ),
+                                      onPressed: () {
+                                        Get.off(()=> CommunityPageForm(category:widget.keywords['category']));
+                                      },
+                                    ),
+                                  ],
                                 ),
-                                onPressed: () {
-                                  Get.off(()=> CommunityPageForm(category:widget.keywords['category']));
-                                },
-                              ),
-                            ],
+                              ],
+                            )),
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          padding: EdgeInsets.only(
+                              right: MediaQuery.of(context).size.width * 0.05,
+                              bottom: MediaQuery.of(context).size.height * 0.012),
+                          child: Text(
+                            widget.keywords['title'],
+                            style: CommunityPageTheme.postTitle,
                           ),
-                        ],
-                      )),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.only(
-                        right: MediaQuery.of(context).size.width * 0.05,
-                        bottom: MediaQuery.of(context).size.height * 0.012),
-                    child: Text(
-                      widget.keywords['title'],
-                      style: CommunityPageTheme.postTitle,
+                        ),
+                      ],
                     ),
                   ),
                   Container(
+                    padding: EdgeInsets.fromLTRB(
+                      MediaQuery.of(context).size.width * 0.04,
+                      0,
+                      MediaQuery.of(context).size.width * 0.04,
+                      0,
+                    ),
                     margin: EdgeInsets.only(
                         right: MediaQuery.of(context).size.width * 0.02,
                         left: MediaQuery.of(context).size.width * 0.02),
@@ -310,42 +321,42 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                 ),
                               ],
                             )),
-                        Obx(()=> commentListController.commentList.isEmpty? Container(
-                          margin: EdgeInsets.only(top: 5),
-                          child: Row(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(right: 15),
-                                child: CircleAvatar(
-                                  radius:
-                                  MediaQuery.of(context).size.width *
-                                      0.08,
-                                  backgroundImage: profile!.image,
-                                ),
-                              ),
-                              TextButton(
-                                onPressed: (){
-                                  Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before,));
-                                },
-                                child: const Text(
-                                  "첫 댓글을 입력하세요",
-                                  style: CommunityPageTheme.postFont,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ) : InkWell(
-                          splashColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          onTap: (){
-                            Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before,));
-                          },
-                          child: Column(children: commentListController.commentList
-                            ,),
-                        ),)
                       ],
                     ),
                   ),
+                  Obx(()=> commentListController.commentList.isEmpty? Container(
+                    margin: EdgeInsets.only(top: 5),
+                    child: Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(right: 15),
+                          child: CircleAvatar(
+                            radius:
+                            MediaQuery.of(context).size.width *
+                                0.08,
+                            backgroundImage: profile!.image,
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: (){
+                            Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before,));
+                          },
+                          child: const Text(
+                            "첫 댓글을 입력하세요",
+                            style: CommunityPageTheme.postFont,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ) : InkWell(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: (){
+                      Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before,));
+                    },
+                    child: Column(children: commentListController.commentList
+                      ,),
+                  ),)
                 ],
               ):
               const Center(
@@ -389,7 +400,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                       ),
                       onPressed: () async {
                         //누를때 한번 더 확인
-                        final response = await http.get(Uri.http(ipv4, '/community/detail/${widget.keywords['id']}'),
+                        final response = await http.get(Uri.http(serverIP, '/community/detail/${widget.keywords['id']}'),
                             headers:{
                               "Content-Type": "application/x-www-form-urlencoded",
                               "Cookie":"JSESSIONID=$session",
@@ -417,7 +428,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                           });
                         }
                         await http.post(
-                          Uri.http(ipv4, work),
+                          Uri.http(serverIP, work),
                           headers: {
                             "Content-Type": "application/json",
                             "Cookie":"JSESSIONID=$session",
