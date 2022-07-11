@@ -260,7 +260,7 @@
             $('#answer-textarea-' + updateButtonType.name + buttonId).attr('name', 'update');
             $.ajax({
                 type: "GET",
-                url: "/api/community/commentInfo?commentId=" + buttonId,
+                url: "/api/commentinfo?commentId=" + buttonId,
                 dataType: 'json',
                 contentType: 'application/json; charset=utf-8',
             }).done(function (data){

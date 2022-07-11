@@ -102,7 +102,7 @@ public class PostController {
     }
 
     // 댓글 정보 API
-    @GetMapping("/api/community/commentinfo")
+    @GetMapping("/api/commentinfo")
     @ResponseBody
     public CommentDto findCommentInfo(@RequestParam Long commentId) {
         Comment comment = postService.selectComment(commentId);
