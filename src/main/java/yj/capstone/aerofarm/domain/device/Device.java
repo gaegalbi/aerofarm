@@ -45,6 +45,9 @@ public class Device extends BaseEntity {
     @JoinColumn(name = "member_id")
     private Member owner;
 
+    // 사용자가 소유한 기기의 번호(첫 기기는 1, 그뒤로 쭉..)
+    private Long number;
+
     private void setDeviceStatus(DeviceStatus status) {
         this.deviceStatus = status;
     }
@@ -54,6 +57,7 @@ public class Device extends BaseEntity {
         this.uuid = uuid;
         this.model = model;
         this.imageUrl = "https://via.placeholder.com/150x150";
+        this.ipAddress = ""; // NULL 방지
     }
 
     // 관리자용
@@ -78,8 +82,9 @@ public class Device extends BaseEntity {
         throw new UuidNotMatchException("기기의 UUID가 맞지 않습니다.");
     }
 
-    public void setOwner(Member member) {
+    public void setOwner(Member member, Long number) {
         this.owner = member;
+        this.number = number;
     }
 
     public void changeImage(String imageUrl) {
