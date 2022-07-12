@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -16,7 +17,10 @@ import yj.capstone.aerofarm.form.CommentForm;
 import yj.capstone.aerofarm.form.PostForm;
 import yj.capstone.aerofarm.service.PostService;
 
+import javax.validation.Valid;
 import java.util.List;
+
+import static yj.capstone.aerofarm.dto.Message.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -180,16 +184,20 @@ public class PostController {
     @ResponseBody
     @PostMapping("/createBasicPost")
     @PreAuthorize("hasAnyAuthority('GUEST')")
-    public Long createPost(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody PostForm postForm) {
-        return postService.createBasicPost(userDetails.getMember(), postForm).getId();
+    public ResponseEntity<Message> createPost(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody @Valid PostForm postForm) {
+        postService.createBasicPost(userDetails.getMember(), postForm);
+        return ResponseEntity.ok()
+                .body(createMessage("게시글 작성이 완료되었습니다."));
     }
 
     // 답글 등록
     @ResponseBody
     @PostMapping("/createAnswerPost")
     @PreAuthorize("hasAnyAuthority('GUEST')")
-    public Long createAnswerPost(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody PostForm postForm) {
-        return postService.createAnswerPost(userDetails.getMember(), postForm).getId();
+    public ResponseEntity<Message> createAnswerPost(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody @Valid PostForm postForm) {
+        postService.createAnswerPost(userDetails.getMember(), postForm);
+        return ResponseEntity.ok()
+                .body(createMessage("답글 작성이 완료되었습니다."));
     }
 
     // 게시글 안에서 댓글 등록
@@ -219,8 +227,10 @@ public class PostController {
     // 게시글 수정
     @ResponseBody
     @PostMapping("/updatePost")
-    public Long updatePost(@RequestBody PostForm postForm) {
-        return postService.updatePost(postForm).getId();
+    public ResponseEntity<Message> updatePost(@RequestBody @Valid PostForm postForm) {
+        postService.updatePost(postForm);
+        return ResponseEntity.ok()
+                .body(createMessage("게시글 수정이 완료되었습니다."));
     }
 
     // 댓글 수정

@@ -31,7 +31,7 @@ public class PostService {
     private final PostLikeRepository postLikeRepository;
 
     // 게시글 등록
-    public Post createBasicPost(Member writer, PostForm postForm) {
+    public void createBasicPost(Member writer, PostForm postForm) {
 
         int max = 0;
         if (postRepository.findMaxGroupIdInfo() != null) {
@@ -45,11 +45,10 @@ public class PostService {
                 .build();
 
         postRepository.save(post);
-        return post;
     }
 
     // 답글 등록
-    public Post createAnswerPost(Member writer, PostForm postForm) {
+    public void createAnswerPost(Member writer, PostForm postForm) {
         Post post = Post.postParentBuilder()
                 .postForm(postForm)
                 .writer(writer)
@@ -58,7 +57,6 @@ public class PostService {
                 .build();
 
         postRepository.save(post);
-        return post;
     }
 
     // 댓글 등록
@@ -111,13 +109,12 @@ public class PostService {
     }
 
     // 게시글 수정
-    public Post updatePost(PostForm postForm) {
+    public void updatePost(PostForm postForm) {
         Post post = postRepository.findById(postForm.getId()).orElseThrow(() -> null);
         post.updateTitle(postForm.getTitle());
         post.updateContent(PostDetail.createPostDetail(postForm.getContents()));
 
         postRepository.save(post);
-        return post;
     }
 
     // 댓글 수정

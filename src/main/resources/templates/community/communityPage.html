@@ -95,6 +95,7 @@
     .list-col-5 {width: 6.98%;}
     .list-col-6 {width: 6.98%;}
 </style>
+
 <body class="d-flex flex-column min-vh-100">
 <div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
 <nav style="background-color: #1C273A">
@@ -114,40 +115,53 @@
         </div>
     </div>
 </nav>
+
 <div class="container">
     <main>
+
         <!--카테고리 표시-->
         <div class="community-category" th:text="${selectCategory == null} ? '전체게시판' : ${selectCategory.getName()}"/>
+
         <!--필터링 헤더-->
         <div class="filtering">
-            <a class="p-2 post-header" href="javascript:void(0);" id="all" onclick="searchPost('filter', this.id);">전체</a>
-            <a class="p-2 post-header" href="javascript:void(0);" id="normal" onclick="searchPost('filter', this.id);">일반</a>
-            <a class="p-2 post-header" href="javascript:void(0);" id="hobby" onclick="searchPost('filter', this.id);">취미</a>
-            <a class="p-2 post-header" href="javascript:void(0);" id="game" onclick="searchPost('filter', this.id);">게임</a>
-            <a class="p-2 post-header" href="javascript:void(0);" id="daily" onclick="searchPost('filter', this.id);">일상</a>
-            <a class="p-2 post-header" href="javascript:void(0);" id="travel" onclick="searchPost('filter', this.id);">여행</a>
+            <a class="p-2 post-header" href="#" id="all" onclick="searchPost('filter', this.id);">전체</a>
+            <a class="p-2 post-header" href="#" id="normal" onclick="searchPost('filter', this.id);">일반</a>
+            <a class="p-2 post-header" href="#" id="hobby" onclick="searchPost('filter', this.id);">취미</a>
+            <a class="p-2 post-header" href="#" id="game" onclick="searchPost('filter', this.id);">게임</a>
+            <a class="p-2 post-header" href="#" id="daily" onclick="searchPost('filter', this.id);">일상</a>
+            <a class="p-2 post-header" href="#" id="travel" onclick="searchPost('filter', this.id);">여행</a>
         </div>
+
+        <!--글 쓰기 버튼-->
         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
             <button type="button" class="btn btn-primary bi-pencil-square" onclick="location.href='/writing'" th:text="| 글쓰기|"/>
         </div>
+
     </main>
 </div>
+
 <!--목록 표시-->
 <div class="container">
+
     <!--헤더 부분-->
     <ol class="list-group" style="margin-bottom: 20px">
+
+        <!--게시판 목록의 헤더-->
         <li class="list-group-item list-item-backcolor" style="border-style: solid; border-width: 0px 0px 2px 0px; border-color: #FFFFFF">
             <div class="row g-0" style="height: 35px">
-                <div class="title-header col-sm-1 list-text-center list-col-1" th:text="분류"/>    <!--75px-->
-                <div class="title-header col-sm-1 list-text-center list-col-2" th:text="제목"/>   <!--710-->
+                <div class="title-header col-sm-1 list-text-center list-col-1" th:text="분류"/>     <!--75px-->
+                <div class="title-header col-sm-1 list-text-center list-col-2" th:text="제목"/>     <!--710-->
                 <div class="title-header col-sm-1 list-text-center list-col-3" th:text="작성자"/>   <!--140-->
-                <div class="title-header col-sm-1 list-text-center list-col-4" th:text="작성일"/>    <!--185-->
-                <div class="title-header col-sm-1 list-text-center list-col-5" th:text="추천"/>   <!--90-->
+                <div class="title-header col-sm-1 list-text-center list-col-4" th:text="작성일"/>   <!--185-->
+                <div class="title-header col-sm-1 list-text-center list-col-5" th:text="추천"/>     <!--90-->
                 <div class="title-header col-sm-1 list-text-center list-col-6" th:text="조회"/>     <!--90-->
             </div>
         </li>
+
         <!--데이터 부분-->
         <li class="list-group-item list-item-backcolor" style="border: none" th:each="postDto : ${pageableList.getContent()}">
+
+            <!--부모 글-->
             <button type="button" class="list-item-backcolor list-group-item list-group-item-action hover-item" style="padding: 0px; border: none" th:onclick="|location.href='@{/community/detail/{id}(id=${postDto.id})}'|">
                 <div class="row g-0 post-data">
                     <div class="list-item-1 list-body col-sm-1 list-text-center list-col-1 post-category" th:text="${postDto.getFilter().getName()}"/>
@@ -163,8 +177,11 @@
                     <div class="post-dateSS" style="display: none" th:text="${#temporals.format(postDto.getModifiedDate(), 'yyyy.MM.dd HH:mm:ss')}"/>     <!--숨김 정보-->
                 </div>
             </button>
+
+            <!--자식 글-->
             <ol class="list-group" th:each="answerDto : ${answerPostInfo}" style="border: none">
                 <li class="list-group-item list-item-backcolor" style="border: none" th:if="${postDto.groupId == answerDto.groupId}">
+
                     <button type="button" class="list-item-backcolor list-group-item list-group-item-action hover-item" style="padding: 0px; border: none" th:onclick="|location.href='@{/community/detail/{id}(id=${answerDto.id})}'|">
                         <div class="row g-0 answer-data" style="height: 35px">
                             <div class="list-body col-sm-1 list-text-center list-col-1">
@@ -186,11 +203,15 @@
                             <div style="display: none" class="answer-category" th:text="${postDto.getFilter()}"/>
                         </div>
                     </button>
+
                 </li>
             </ol>
+
         </li>
     </ol>
+
 </div>
+
 <!--페이징 번호 표시-->
 <div class="container">
     <nav aria-label="Page navigation example">
@@ -220,24 +241,36 @@
         </ul>
     </nav>
 </div>
+
+<!--검색 영역-->
 <div class="container">
     <div class="input-group mb-3" style="width: 50%; margin: auto">
+
+        <!--검색 분류 선택 영역-->
         <div>
             <select class="form-select" id="search_category">
                 <option value="title" selected>제목</option>
                 <option value="writer">작성자</option>
             </select>
         </div>
+
+        <!--검색어 입력 영역-->
         <div style="margin-left: 10px; width: 300px">
             <input id="keyword" type="text" class="form-control" onkeypress="javascript:if(event.keyCode==13){searchPost('search', '')}" placeholder="키워드" aria-label="keywords" aria-describedby="basic-addon1">
         </div>
+
+        <!--검색 버튼 영역-->
         <div style="margin-left: 10px">
             <button type="button" class="btn btn-primary bi-search" onclick="searchPost('search', '');" th:text="| 검색|"/>
             <button type="button" class="btn btn-primary bi-arrow-repeat" th:onclick="resetPost()" th:text="| 초기화|"/>
         </div>
+
+        <!--카테고리 저장-->
         <input type="hidden" id="hidden_category" th:value="${selectCategory == null ? '' : selectCategory.getLowerCase()}"/>
+
     </div>
 </div>
+
 <div th:replace="~{fragments/footer :: footer}"/>
 
 <script src="/js/community/searchPost.js"></script>

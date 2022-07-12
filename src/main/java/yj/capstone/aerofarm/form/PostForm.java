@@ -9,8 +9,8 @@ import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
+//@NoArgsConstructor
+//@AllArgsConstructor
 public class PostForm {
     private Long id;
 
@@ -20,6 +20,7 @@ public class PostForm {
     @NotBlank(message = "제목을 입력해주세요.")
     private String title;
 
+    @NotBlank(message = "내용을 입력해주세요.")
     private String contents;
 
     @NotBlank(message = "필터를 선택해주세요.")

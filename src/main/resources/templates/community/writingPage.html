@@ -10,47 +10,72 @@
 
 <body>
 
+<!--제목-->
 <br>
-<h2 style="text-align: center; color: #FFFFFF">게시글 작성</h2>
+    <h2 style="text-align: center; color: #FFFFFF">게시글 작성</h2>
 <br>
 
 <div class="container">
-    <form th:object="${savePostForm}">
+
+    <form th:object="${savePostForm}" id="post-form">
+
+        <!--변수 데이터-->
         <input class="post-id" type="hidden" id="post-id" th:value="${selectPostId}">
         <input class="myId" type="hidden" id="myId" th:value="${myId}">
+
+        <!--카테고리와 분류선택 영역-->
         <div class="input-group" style="width: 80%; margin: auto">
+
+            <!--카테고리 영역-->
             <div class="input-group mb-3" style="width: 35%; margin-right: 20px">
+
                 <label class="input-group-text" for="category">CATEGORY</label>
-                <select class="form-select" id="category" th:field="*{category}" th:disabled="${selectPostId != null or myId != null}">
-                    <option value="" selected>카테고리를 선택해주세요.</option>
+                <select class="form-select" id="category" th:field="*{category}" th:disabled="${selectPostId != null or myId != null}" required>
+                    <option value="">카테고리를 선택해주세요.</option>
                     <option value="announcement" th:text="공지사항" sec:authorize="hasAuthority('ADMIN')"/>
                     <option th:each="allCategory : ${T(yj.capstone.aerofarm.domain.board.PostCategory).values()}" th:value="${allCategory.getLowerCase()}" th:text="${allCategory.getName()}" th:if="${!allCategory.getName().equals('공지사항')}"/>
                 </select>
+
             </div>
+
+            <!--분류 영역-->
             <div class="input-group mb-3" style="width: 35%; margin-right: 20px">
+
                 <label class="input-group-text" for="filter">CLASSIFICATION</label>
-                <select class="form-select" id="filter" th:field="*{filter}" th:disabled="${selectPostId != null or myId != null}">
-                    <option value="" selected>분류를 선택해주세요.</option>
+                <select class="form-select" id="filter" th:field="*{filter}" th:disabled="${selectPostId != null or myId != null}" required>
+                    <option value="">분류를 선택해주세요.</option>
                     <option th:each="allFilter : ${T(yj.capstone.aerofarm.domain.board.PostFilter).values()}" th:value="${allFilter.getLowerCase()}" th:text="${allFilter.getName()}"/>
                 </select>
+
             </div>
+
         </div>
+
+        <!--제목 선택 영역-->
         <div class="input-group mb-3" style="width: 80%; margin: auto">
             <span class="input-group-text">Title</span>
-            <input id="title" type="text" class="form-control" placeholder="제목" aria-label="Title" aria-describedby="basic-addon1" th:field="*{title}">
+            <input id="title" type="text" class="form-control" placeholder="제목" aria-label="Title" aria-describedby="basic-addon1" th:field="*{title}" required>
         </div>
+
+        <!--내용 입력 영역-->
         <div style="width: 80%; margin: auto; background-color: #FFFFFF">
-            <textarea id="summernote" name="content" th:field="*{contents}"></textarea>
+            <textarea class="form-control" id="summernote" name="content" th:field="*{contents}"></textarea>
         </div>
+
+        <!--버튼 영역-->
         <div style="width: 80%; margin: auto">
             <div class="d-grid gap-2 d-md-flex justify-content-md-end form-margin">
-                <button type="button" class="btn btn-secondary" onclick="location.href='/community/free?page=1'">취소</button>
-                <button type="button" class="btn btn-secondary" id="btn-savePostForm">글 작성</button>
+                <button type="button" class="btn btn-secondary" onclick="location.href='/community/all?page=1'">취소</button>
+                <button type="submit" class="btn btn-secondary" id="btn-savePostForm">글 작성</button>
             </div>
         </div>
+
     </form>
+
 </div>
+
 <div th:replace="~{fragments/footer :: footer}"/>
+
 <script src="/js/community/savePostForm.js"></script>
 
 <link href="/css/summernote/summernote-lite.css" rel="stylesheet">
@@ -68,6 +93,6 @@
         });
     });
 </script>
-<!--글 쓰기 헤더 정의 끝-->
+
 </body>
 </html>
