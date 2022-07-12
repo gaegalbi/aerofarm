@@ -84,7 +84,7 @@
                         <div class="card-body member-info px-4">
                             <div class="d-flex justify-content-between align-items-center">
                                 <h4 class="m-0">
-                                    기기, 작물 관리
+                                    소유 기기 목록
                                 </h4>
                                 <a class="btn btn-primary" href="/my-page/devices/register">
                                     기기 등록
@@ -95,7 +95,7 @@
                                 <th:block th:each="device: ${pageableList.getContent()}">
                                     <div class="col">
                                         <div class="card bg-primary bg-opacity-25" onclick="location.href ='#'"
-                                             th:onclick="|location.href='@{/my-page/devices/{uuid}(uuid=${device.getUuid()})}'|"
+                                             th:onclick="|location.href='@{/my-page/devices/management/{number}(number=${device.getNumber()})}'|"
                                              style="cursor:pointer;">
                                             <div class="card-body pt-2">
                                                 <div class="row mt-2">

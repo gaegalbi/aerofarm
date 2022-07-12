@@ -18,6 +18,6 @@ public class CommentListResponseDto {
     public CommentListResponseDto(Long postId, String content, LocalDateTime createdDate) {
         this.postId = postId;
         this.content = content;
-        this.createdDate = createdDate.format(DateTimeFormatter.ISO_LOCAL_DATE);;
+        this.createdDate = createdDate.format(DateTimeFormatter.ISO_LOCAL_DATE);
     }
 }

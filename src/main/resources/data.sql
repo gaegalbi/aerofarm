@@ -35,6 +35,8 @@ values (2, '2022-06-29 11:12:38.752227', '2022-06-29 11:12:38.752227', '답글-�
 insert into post (id, created_date, modified_date, category, delete_tnf, filter, group_id, title, views, post_detail_id, parent_id, member_id)
 values (2, '2022-06-29 11:12:38.752227', '2022-06-29 11:12:38.752227', 'free', 'FALSE', 'normal', 1, 'Re:자유-일반', 1, 2, 1, 1);
 
+insert into device (created_date, modified_date, image_url, ip_address, mac_address, model, nickname, member_id, plant_id, uuid, number) values ('2022-07-07 09:56:03.868090', '2022-07-07 09:56:03.868090', 'https://via.placeholder.com/150x150', '', NULL, 'DS_001', 'TEST', 1, NULL, 'bcec74a4-ea3f-4b78-a6ed-40f789643036', 1);
+insert into device_status (led_on, fertilizer, humidity, temperature, device_id) values (false, 1, 50, 20, 1);
 
 -- insert into PRODUCT (NAME, PRICE, STOCK, CATEGORY) values ( 'Apple', 1000, 100, 'ETC');
 -- insert into PRODUCT (NAME, PRICE, STOCK, CATEGORY) values ( 'Pear', 1000, 100, 'ETC');

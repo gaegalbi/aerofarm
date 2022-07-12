@@ -30,6 +30,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/css/**",
             "/js/**",
             "/image/**",
+            "/icon/**",
+            "/api/devices/update",
             "/**" // TEST
     };
 
