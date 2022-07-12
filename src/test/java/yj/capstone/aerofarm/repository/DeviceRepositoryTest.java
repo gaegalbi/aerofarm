@@ -35,6 +35,5 @@ class DeviceRepositoryTest {
         assertThat(findDevice.getId()).isNotNull();
         assertThat(findDevice.getUuid()).isNotNull();
         assertThat(findDevice.getDeviceStatus()).isNotNull();
-        assertThat(findDevice.getDeviceStatus().getDevice()).isEqualTo(device);
     }
 }
