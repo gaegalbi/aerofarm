@@ -3,19 +3,12 @@ package yj.capstone.aerofarm.service;
 import lombok.RequiredArgsConstructor;
 import net.nurigo.sdk.message.model.Message;
 import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
-import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 import net.nurigo.sdk.message.service.DefaultMessageService;
-import org.apache.tomcat.jni.Local;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import yj.capstone.aerofarm.domain.member.MessageAuthToken;
 import yj.capstone.aerofarm.dto.request.PhoneNumberRequestDto;
-import yj.capstone.aerofarm.exception.TokenExpiredException;
 import yj.capstone.aerofarm.repository.MessageAuthRepository;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor

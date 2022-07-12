@@ -38,6 +38,7 @@ out/
 application-dev.properties
 application-aws.properties
 application-sms.properties
-application-post.properties
 src/main/resources/application-oauth.properties
 src/main/resources/application-mail.properties
+/src/main/resources/application-post.properties
+/src/main/resources/static/js/member/waybillConfig.js
