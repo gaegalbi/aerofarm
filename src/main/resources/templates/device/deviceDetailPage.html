@@ -56,7 +56,7 @@
 <div th:replace="~{fragments/bodyHeader :: bodyHeader}"/>
 
 <div class="container text-white">
-    <div class="col-7 col-md-2 d-flex text-secondary">
+    <div class="col-12 d-flex text-secondary">
         <a href="/" class="text-secondary">
             <h5 class="my-2">
                 <i class="bi bi-house-fill"></i>
@@ -76,67 +76,12 @@
         <h5 class="my-2">
             기기 관리
         </h5>
-
     </div>
     <div class="d-flex">
         <h3 th:text="${deviceInfo.getNickname()}" class="mb-3">기기-001</h3>
         <h3 class="mb-3">&nbsp;상세정보</h3>
     </div>
     <div class="card-group">
-        <div class="card border-secondary">
-            <div class="card-body">
-                <div class="text-center mb-3">
-                    <img src="https://via.placeholder.com/400x400"
-                         th:src="${deviceInfo.getImageUrl()}"
-                         class="rounded-circle"
-                         style="width: 100px; height: 100px"
-                         alt="avatar">
-                </div>
-
-                <p class="card-text mb-1">기기 별명</p>
-                <h5 th:text="${deviceInfo.getNickname()}" class="card-text">기기-001</h5>
-
-                <br/>
-
-                <p class="card-text mb-1">기기 모델명</p>
-                <h5 th:text="${deviceInfo.getModel()}" class="card-text">DS-001</h5>
-
-                <br/>
-
-                <p class="card-text mb-1">기기 등록일</p>
-                <h5 th:text="${deviceInfo.getCreatedDate()}" class="card-text">2022-06-30 22:11</h5>
-
-                <br/>
-
-                <p class="card-text mb-1">심은 작물</p>
-                <h5 th:text="${deviceInfo.plant} == null ? '없음' : ${deviceInfo.getPlant()}" class="card-text">없음</h5>
-            </div>
-        </div>
-
-        <div class="card border-secondary">
-            <div class="card-body">
-                <input type="hidden" th:value="${deviceInfo.getNumber()}" id="number">
-                <label for="tempRange" class="form-label">기기 온도 설정 (단위: &deg;C)</label>
-                <input type="range" class="form-range mb-4" min="20" max="36" id="tempRange">
-
-                <label for="humiRange" class="form-label">기기 습도 설정 (단위: %)</label>
-                <input type="range" class="form-range mb-4" min="0" max="100" step="5" id="humiRange">
-                <br/>
-
-                <label for="fertRange" class="form-label">기기 양액 분사량 설정 (단위: ml/분)</label>
-                <input type="range" class="form-range mb-4" min="0" max="10" id="fertRange">
-                <br/>
-
-                <label class="form-check-label" for="ledSwitch">LED (OFF/ON)</label>
-                <div class="form-check form-switch form-switch-md mb-4">
-                    <input class="form-check-input" type="checkbox" role="switch" id="ledSwitch">
-                </div>
-                <br>
-                <div class="d-grid">
-                    <button class="btn btn-primary" id="apply-btn">적용</button>
-                </div>
-            </div>
-        </div>
 
         <div class="card bg-transparent">
             <div class="card-body pt-0 px-4">
@@ -184,6 +129,61 @@
                     </div>
                     <hr class="my-2"/>
                 </div>
+            </div>
+        </div>
+
+        <div class="card border-secondary">
+            <div class="card-body">
+                <input type="hidden" th:value="${deviceInfo.getNumber()}" id="number">
+                <label for="tempRange" class="form-label">기기 온도 설정 (단위: &deg;C)</label>
+                <input type="range" class="form-range mb-4" min="20" max="36" id="tempRange">
+
+                <label for="humiRange" class="form-label">기기 습도 설정 (단위: %)</label>
+                <input type="range" class="form-range mb-4" min="0" max="100" step="5" id="humiRange">
+                <br/>
+
+                <label for="fertRange" class="form-label">기기 양액 분사량 설정 (단위: ml/분)</label>
+                <input type="range" class="form-range mb-4" min="0" max="10" id="fertRange">
+                <br/>
+
+                <label class="form-check-label" for="ledSwitch">LED (OFF/ON)</label>
+                <div class="form-check form-switch form-switch-md mb-4">
+                    <input class="form-check-input" type="checkbox" role="switch" id="ledSwitch">
+                </div>
+                <br>
+                <div class="d-grid">
+                    <button class="btn btn-primary" id="apply-btn">적용</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-secondary">
+            <div class="card-body">
+                <div class="text-center mb-3">
+                    <img src="https://via.placeholder.com/400x400"
+                         th:src="${deviceInfo.getImageUrl()}"
+                         class="rounded-circle"
+                         style="width: 100px; height: 100px"
+                         alt="avatar">
+                </div>
+
+                <p class="card-text mb-1">기기 별명</p>
+                <h5 th:text="${deviceInfo.getNickname()}" class="card-text">기기-001</h5>
+
+                <br/>
+
+                <p class="card-text mb-1">기기 모델명</p>
+                <h5 th:text="${deviceInfo.getModel()}" class="card-text">DS-001</h5>
+
+                <br/>
+
+                <p class="card-text mb-1">기기 등록일</p>
+                <h5 th:text="${deviceInfo.getCreatedDate()}" class="card-text">2022-06-30 22:11</h5>
+
+                <br/>
+
+                <p class="card-text mb-1">심은 작물</p>
+                <h5 th:text="${deviceInfo.plant} == null ? '없음' : ${deviceInfo.getPlant()}" class="card-text">없음</h5>
             </div>
         </div>
     </div>
