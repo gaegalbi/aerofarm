@@ -31,7 +31,7 @@ public class PostService {
     private final PostLikeRepository postLikeRepository;
 
     // 게시글 등록
-    public Post createBasicPost(Member writer, PostForm postForm) {
+    public void createBasicPost(Member writer, PostForm postForm) {
 
         int max = 0;
         if (postRepository.findMaxGroupIdInfo() != null) {
@@ -45,11 +45,10 @@ public class PostService {
                 .build();
 
         postRepository.save(post);
-        return post;
     }
 
     // 답글 등록
-    public Post createAnswerPost(Member writer, PostForm postForm) {
+    public void createAnswerPost(Member writer, PostForm postForm) {
         Post post = Post.postParentBuilder()
                 .postForm(postForm)
                 .writer(writer)
@@ -58,7 +57,6 @@ public class PostService {
                 .build();
 
         postRepository.save(post);
-        return post;
     }
 
     // 댓글 등록
@@ -110,13 +108,22 @@ public class PostService {
         return postLike;
     }
 
-    public Post updatePost(PostForm postForm) {
+    // 게시글 수정
+    public void updatePost(PostForm postForm) {
         Post post = postRepository.findById(postForm.getId()).orElseThrow(() -> null);
         post.updateTitle(postForm.getTitle());
         post.updateContent(PostDetail.createPostDetail(postForm.getContents()));
 
         postRepository.save(post);
-        return post;
+    }
+
+    // 댓글 수정
+    public Comment updateComment(CommentForm commentForm) {
+        Comment comment = commentRepository.findById(commentForm.getId()).orElseThrow(() -> null);
+        comment.updateContent(commentForm.getContent());
+
+        commentRepository.save(comment);
+        return comment;
     }
 
     // 조회수 업데이트
@@ -171,8 +178,16 @@ public class PostService {
         return postRepository.findById(postId).orElseThrow(() -> null);
     }
 
+    // 인기 게시글 조회
+    public Page<PostDto> findHotPostInfo(PostCategory category, String searchCategory, String keyword, PostFilter postFilter, Pageable pageable) {
+        return postRepository.findHotPostInfo(category, searchCategory, keyword, postFilter, pageable);
+    }
+
     // 해당 댓글 정보 조회
     public Comment selectComment(Long commentId) { return commentRepository.findById(commentId).orElseThrow(() -> null); }
+
+    // 해당 게시글에 포함된 모든 댓글 개수
+    public Long commentCount(Post post) { return commentRepository.findAllCommentCount(post); }
 
     // 좋아요 개수 조회
     public List<PostLikeDto> findLikeInfo(Long postId) {

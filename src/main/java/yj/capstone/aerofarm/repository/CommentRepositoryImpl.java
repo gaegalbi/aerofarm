@@ -33,7 +33,9 @@ public class CommentRepositoryImpl extends Querydsl5RepositorySupport implements
                                 comment.post,
                                 comment.writer.id,
                                 comment.deleteTnF,
-                                comment.groupId))
+                                comment.groupId,
+                                comment.writer.picture,
+                                comment.parent.id))
                         .from(comment)
                         .where(
                                 comment.post.eq(post),
@@ -59,7 +61,9 @@ public class CommentRepositoryImpl extends Querydsl5RepositorySupport implements
                 comment.post,
                 comment.writer.id,
                 comment.deleteTnF,
-                comment.groupId))
+                comment.groupId,
+                comment.writer.picture,
+                comment.parent.id))
                 .from(comment)
                 .where(
                         comment.post.eq(post),
@@ -72,6 +76,14 @@ public class CommentRepositoryImpl extends Querydsl5RepositorySupport implements
     public Integer findMaxGroupIdInfo() {
         return select(comment.groupId.max())
                 .from(comment)
+                .fetchOne();
+    }
+
+    @Override
+    public Long findAllCommentCount(Post post) {
+        return select(comment.id.count())
+                .from(comment)
+                .where(comment.post.eq(post))
                 .fetchOne();
     }
 

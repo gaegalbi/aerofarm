@@ -17,6 +17,7 @@ public class PostDetailDto {
     private int views;
     private String contents;
     private LocalDateTime modifiedDate;
+    private String picture;
 
     public PostDetailDto(Post post) {
         this.id = post.getId();
@@ -25,5 +26,6 @@ public class PostDetailDto {
         this.views = post.getViews();
         this.contents = post.getContent().getContents();
         this.modifiedDate = post.getContent().getModifiedDate();
+        this.picture = post.getWriter().getPicture();
     }
 }

@@ -36,13 +36,16 @@ public class Post extends BaseEntity {
     @OneToMany(mappedBy = "post")
     private List<File> files = new ArrayList<>();
 
+    @Column(nullable = false)
     private String title;
 
     @Convert(converter = FilterConverter.class)
+    @Column(nullable = false)
     private PostFilter filter;
 
 //    @Enumerated(EnumType.STRING)
     @Convert(converter = CategoryConverter.class)
+    @Column(nullable = false)
     private PostCategory category;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/header :: header}"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 <style>
     @media (min-width: 768px) {
         .bd-placeholder-img-lg {
@@ -80,12 +79,12 @@
         <input type="hidden" id="post-category" th:value="${postInfo.getCategory().getLowerCase()}"/>
         <div class="row">
             <div class="col-lg-6 col-sm-12 text-lg-start">
-                <button type="button" class="btn btn-secondary button-margin" th:onclick="|location.href='@{/community/{category}?page=1(category=${postInfo.getCategory().getLowerCase()})}'|" th:text="목록"/>
-                <button type="button" class="btn btn-danger button-margin" th:id="|post-delete-${postInfo.getId()}|" onclick="deletePost(this.id)" th:if="${user == postInfo.getWriter().getId() and !postInfo.isDeleteTnF()}" th:text="삭제"/>
+                <button type="button" class="btn btn-secondary button-margin  bi-list-columns-reverse" th:onclick="|location.href='@{/community/{category}?page=1(category=${postInfo.getCategory().getLowerCase()})}'|" th:text="| 목록|"/>
+                <button type="button" class="btn btn-danger button-margin bi-trash" th:id="|post-delete-${postInfo.getId()}|" onclick="deletePost(this.id)" th:if="${user == postInfo.getWriter().getId() and !postInfo.isDeleteTnF()}" th:text="삭제"/>
             </div>
             <div class="col-lg-6 col-sm-12 text-lg-end" id="like-area">
-                <button type="button" class="btn btn-secondary button-margin" th:onclick="|location.href='@{/writing?id={postId}(postId=${selectPost.id})}'|" th:text="수정" th:if="${user == postInfo.getWriter().getId() and !postInfo.isDeleteTnF()}"/>
-                <button type="button" class="btn btn-secondary button-margin" th:onclick="|location.href='@{/writing?postId={postId}(postId=${selectPost.id})}'|" th:text="답글" th:if="${!postInfo.isDeleteTnF()}"/>
+                <button type="button" class="btn btn-secondary button-margin bi-upload" th:onclick="|location.href='@{/writing?id={postId}(postId=${selectPost.id})}'|" th:text="| 수정|" th:if="${user == postInfo.getWriter().getId() and !postInfo.isDeleteTnF()}"/>
+                <button type="button" class="btn btn-secondary button-margin bi-pencil-square" th:onclick="|location.href='@{/writing?postId={postId}(postId=${selectPost.id})}'|" th:text="| 답글|" th:if="${!postInfo.isDeleteTnF()}"/>
                 <input type="checkbox" class="btn-check" id="likeButton" th:checked="${isSelected == 1}" th:disabled="${postInfo.isDeleteTnF()}">
                 <label class="btn btn-outline-danger button-margin bi-heart" for="likeButton" th:text="' ' + ${postLikeInfo.getLikeCount()}"/><br>
                 <label style="display: none" class="isSelected" th:checked="${isSelected}"/>
@@ -97,17 +96,15 @@
             <div class="row">
                 <div class="post-title col-10" th:utext="${postInfo.isDeleteTnF()} ? '삭제 처리된 게시글입니다.' : '&lt;b&gt;' + ${selectPost.title} + '&lt;/b&gt;'"/>
                 <div class="col-2 text-lg-end">
-                    <i class="fa-regular fa-eye"></i>
-                    <span th:text="${selectPost.getViews()}"></span>
-                    <i class="fa-regular fa-comment fa-flip-horizontal"></i>
-                    <span th:text="${pageableList.getContent().size()}"></span>
+                    <span class="bi-eye" th:text="| ${selectPost.getViews()}|"></span>
+                    <span class="bi-chat-square" th:text="| ${commentCount}|"></span>
                 </div>
             </div>
             <!--회원 정보-->
             <div class="user-info-border">
                 <div class="row">
                     <div style="width: 40px">
-                        <img src="/image/test_icon.png" class="rounded-circle" style="width: 35px; height: 35px">
+                        <img src="/image/test_icon.png" th:src="${selectPost.getPicture()}" class="rounded-circle" style="width: 35px; height: 35px">
                     </div>
                     <div class="comment-basic col text-lg-start">
                         <span th:utext="${postInfo.isDeleteTnF()} ? '' : '&lt;b&gt;' + ${selectPost.writer} + '&lt;/b&gt;'"/>
@@ -131,45 +128,49 @@
                     </div>
                     <div class="row comment-info" th:each="commentDto : ${pageableList.getContent()}">
                         <div class="col-6 text-lg-start">
-                            <img src="/image/test_icon.png" class="rounded-circle" style="width: 40px; height: 40px">
+                            <img th:src="${!commentDto.isDeleteTnF() ? commentDto.getPicture() : '/image/test_icon.png'}" class="rounded-circle" style="width: 40px; height: 40px">
                             <span class="comment-basic comment-writer" th:utext="${commentDto.isDeleteTnF()} ? '( 삭제 )' : '&lt;b&gt;' + ${commentDto.getWriter()} + '&lt;/b&gt; '"/>
                             <span class="comment-basic" th:utext="${commentDto.isDeleteTnF()} ? '' : ${#temporals.format(commentDto.getLocalDateTime(), '( yyyy.MM.dd HH:mm )')}"/>
+                            <span class="badge bg-secondary bi-person-fill" th:text="| 글쓴이|" th:if="${!commentDto.isDeleteTnF() and selectPost.writer == commentDto.writer}"/>
                             <span class="comment-date" style="display: none" th:utext="${#temporals.format(commentDto.getLocalDateTime(), 'yyyy.MM.dd HH:mm:ss')}"/>
                         </div>
                         <div class="col-6 text-lg-end">
-                            <button type="button" style="padding:0.3em" class="comment-basic btn btn-danger" th:id="|delete-${commentDto.getId()}|" onclick="deleteComment(this.id)" th:if="${user == commentDto.getWriterId() and !commentDto.isDeleteTnF()}" th:text="삭제"/>
-                            <button type="button" style="padding:0.3em" class="comment-basic btn btn-secondary text-lg-end" th:name="parent" th:id="${commentDto.getId()}" onclick="buttonChange(this.id)" th:value="normal" th:if="${!commentDto.isDeleteTnF()}" th:text="답글"/>
+                            <button type="button" style="padding:0.3em" class="comment-basic btn btn-secondary text-lg-end" th:name="parent" th:id="|update-parent${commentDto.getId()}|" onclick="updateButtonChange(this.id, this.name)" th:value="normal" th:if="${user == commentDto.getWriterId() and !commentDto.isDeleteTnF()}" th:text="수정"/>
+                            <button type="button" style="padding:0.3em" class="comment-basic btn btn-secondary text-lg-end" th:name="parent" th:id="|answer-parent${commentDto.getId()}|" onclick="buttonChange(this.id, this.name)" th:value="normal" th:if="${!commentDto.isDeleteTnF()}" th:text="답글"/>
+                            <button type="button" style="padding:0.3em" class="comment-basic btn btn-danger bi-trash" th:id="|delete-${commentDto.getId()}|" onclick="deleteComment(this.id)" th:if="${user == commentDto.getWriterId() and !commentDto.isDeleteTnF()}" th:text="삭제"/>
                         </div>
                         <div class="comment-body" style="margin-top: 10px; margin-bottom: 20px;">
                             <span class="comment-basic comment-content" th:utext="${commentDto.isDeleteTnF()} ? '삭제된 댓글입니다.' : ${commentDto.getContent()}"/>
                         </div>
                         <div class="input-group" th:id="|answer-div-area-parent${commentDto.id}|" style="padding-bottom: 20px" hidden>
                             <span class="input-group-text">답글</span>
-                            <textarea class="form-control" aria-label="comment" th:id="|answer-textarea-parent${commentDto.id}|"></textarea>
+                            <textarea class="form-control" aria-label="comment" name="normal" th:id="|answer-textarea-parent${commentDto.id}|"></textarea>
                             <button type="button" class="btn btn-secondary" style="margin-left: 10px" th:id="|btn-createAnswerComment-parent-${commentDto.id}|" onclick="callAnswerCommentMethod(this.value, this.name)" th:value="${commentDto.id}" th:name="parent" th:text="쓰기"/>
                         </div>
                         <div class="row" th:each="answerCommentDto : ${answerCommentInfo}" th:if="${commentDto.getGroupId() == answerCommentDto.getGroupId()}" style="--bs-gutter-x: 1rem; margin-left: 5px">
                             <div style="width: 30px">
-                                <i class="fa-solid fa-arrow-turn-up fa-rotate-90"></i>
+                                <span class="bi-arrow-return-right"/>
                             </div>
                             <div class="col">
                                 <div class="row">
                                     <div class="col-6 text-lg-start">
-                                        <img src="/image/test_icon.png" class="rounded-circle" style="width: 40px; height: 40px">
+                                        <img src="/image/test_icon.png" th:src="${answerCommentDto.getPicture()}" class="rounded-circle" style="width: 40px; height: 40px">
                                         <span class="comment-basic answer-writer" th:utext="${answerCommentDto.isDeleteTnF()} ? '( 삭제 )' : '&lt;b&gt;' + ${answerCommentDto.getWriter()} + '&lt;/b&gt; '"/>
                                         <span class="comment-basic" th:utext="${answerCommentDto.isDeleteTnF()} ? '' : ${#temporals.format(answerCommentDto.getLocalDateTime(), '( yyyy.MM.dd HH:mm )')}"/>
+                                        <span class="badge bg-secondary bi-person-fill" th:text="| 글쓴이|" th:if="${!answerCommentDto.isDeleteTnF() and selectPost.writer == answerCommentDto.writer}"/>
                                         <span class="answer-date" style="display: none" th:utext="${#temporals.format(answerCommentDto.getLocalDateTime(), 'yyyy.MM.dd HH:mm:ss')}"/>
                                     </div>
                                     <div class="col-6 text-lg-end">
-                                        <button type="button" style="padding:0.3em" class="comment-basic btn btn-danger" th:id="|delete-${answerCommentDto.getId()}|" onclick="deleteComment(this.id)" th:if="${user == answerCommentDto.getWriterId() and !answerCommentDto.isDeleteTnF()}" th:text="삭제"/>
-                                        <button type="button" style="padding:0.3em" class="comment-basic btn btn-secondary text-lg-end" th:id="${answerCommentDto.getId()}" onclick="buttonChange(this.id)" th:value="normal" th:if="${!answerCommentDto.isDeleteTnF()}" th:text="답글"/>
+                                        <button type="button" style="padding:0.3em" class="comment-basic btn btn-secondary text-lg-end" th:id="|update-${answerCommentDto.getId()}|" onclick="updateButtonChange(this.id, this.name)" th:value="normal" th:if="${user == answerCommentDto.getWriterId() and !answerCommentDto.isDeleteTnF()}" th:text="수정"/>
+                                        <button type="button" style="padding:0.3em" class="comment-basic btn btn-secondary text-lg-end" th:id="|answer-${answerCommentDto.getId()}|" onclick="buttonChange(this.id, this.name)" th:value="normal" th:if="${!answerCommentDto.isDeleteTnF()}" th:text="답글"/>
+                                        <button type="button" style="padding:0.3em" class="comment-basic btn btn-danger bi-trash" th:id="|delete-${answerCommentDto.getId()}|" onclick="deleteComment(this.id)" th:if="${user == answerCommentDto.getWriterId() and !answerCommentDto.isDeleteTnF()}" th:text="삭제"/>
                                     </div>
                                     <div class="comment-body" style="margin-top: 10px; margin-bottom: 20px;">
                                         <span class="comment-basic" th:utext="${answerCommentDto.isDeleteTnF()} ? '삭제된 댓글입니다.' : ${answerCommentDto.getContent()}"/>
                                     </div>
                                     <div class="input-group" th:id="|answer-div-area-${answerCommentDto.id}|" style="padding-bottom: 20px" hidden>
                                         <span class="input-group-text">답글</span>
-                                        <textarea class="form-control" aria-label="comment" th:id="|answer-textarea-${answerCommentDto.id}|"></textarea>
+                                        <textarea class="form-control" name="normal" aria-label="comment" th:id="|answer-textarea-${answerCommentDto.id}|"></textarea>
                                         <button type="button" class="btn btn-secondary" style="margin-left: 10px" th:id="|btn-createAnswerComment-${answerCommentDto.id}|" onclick="callAnswerCommentMethod(this.value, this.name)" th:value="${answerCommentDto.id}" th:text="쓰기"/>
                                     </div>
                                 </div>
@@ -208,7 +209,7 @@
             </div>
         </div>
         <div>
-            <button type="button" class="btn btn-secondary button-margin" th:onclick="|location.href='@{/community/{category}?page=1(category=${postInfo.getCategory().getLowerCase()})}'|" th:text="목록"/>
+            <button type="button" class="btn btn-secondary button-margin bi-list-columns-reverse" th:onclick="|location.href='@{/community/{category}?page=1(category=${postInfo.getCategory().getLowerCase()})}'|" th:text="| 목록|"/>
             <button type="button" class="btn btn-secondary button-margin" onclick="window.scrollTo(0,0);" th:text="TOP"/>
         </div>
     </main>
@@ -216,17 +217,63 @@
 <div th:replace="~{fragments/footer :: footer}"/>
 
 <script>
-    function buttonChange(myid) {
+    function buttonChange(myid, name) {
+        var buttonId;
+        if (name != '') {
+            buttonId = myid.substring(13, myid.length);
+        } else {
+            buttonId = myid.substring(7, myid.length);
+        }
         var buttonType = document.getElementById(myid);
-        var answerArea = document.getElementById('answer-div-area-' + buttonType.name + myid);
+        var updateButton = document.getElementById('update-' + buttonType.name + buttonId);
+        var answerArea = document.getElementById('answer-div-area-' + buttonType.name + buttonId);
         if (buttonType.value == 'normal') {
             buttonType.value = 'answer';
             buttonType.innerText = '취소';
             answerArea.hidden = false;
+            updateButton.hidden = true;
+            $('#answer-textarea-' + buttonType.name + buttonId).text("");
+            $('#answer-textarea-' + buttonType.name + buttonId).attr('name', 'normal');
         } else {
             buttonType.value = 'normal';
             buttonType.innerText = '답글';
             answerArea.hidden = true;
+            updateButton.hidden = false;
+        }
+    }
+
+    function updateButtonChange(myid, name) {
+        var buttonId;
+        if (name != '') {
+            buttonId = myid.substring(13, myid.length);
+        } else {
+            buttonId = myid.substring(7, myid.length);
+        }
+        var updateButtonType = document.getElementById(myid);
+        var updateArea = document.getElementById('answer-div-area-' + updateButtonType.name + buttonId);
+        var button = document.getElementById('answer-' + updateButtonType.name + buttonId);
+        if (updateButtonType.value == 'normal') {
+            updateButtonType.value = 'update';
+            updateButtonType.innerText = '취소';
+            updateArea.hidden = false;
+            button.hidden = true;
+            $('#answer-textarea-' + updateButtonType.name + buttonId).attr('name', 'update');
+            $.ajax({
+                type: "GET",
+                url: "/api/commentinfo?commentId=" + buttonId,
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+            }).done(function (data){
+                let str = data['content'];
+                var text = str.replaceAll('<br>', '\n');
+                $('#answer-textarea-' + updateButtonType.name + buttonId).text(text);
+            });
+        } else {
+            updateButtonType.value = 'normal';
+            updateButtonType.innerText = '수정';
+            updateArea.hidden = true;
+            button.hidden = false;
+            $('#answer-textarea-' + updateButtonType.name + buttonId).attr('name', 'normal');
         }
     }
 </script>
