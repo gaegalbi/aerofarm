@@ -118,22 +118,22 @@ public class PostController {
     // 작성한 게시글 조회 API
     @GetMapping("/api/my/posts")
     @ResponseBody
-    public Page<PostDto> findMyPostAllInfo(@RequestParam Long memberId, @PageableDefault Pageable pageable) {
-        return postService.findMyPostsAllInfo(memberId, pageable);
+    public Page<PostDto> findMyPostAllInfo(@AuthenticationPrincipal UserDetailsImpl userDetails, @PageableDefault Pageable pageable) {
+        return postService.findMyPostsAllInfo(userDetails.getMember().getId(), pageable);
     }
 
     // 작성한 댓글 조회 API
     @GetMapping("/api/my/comments")
     @ResponseBody
-    public Page<CommentListResponseDto> findMyComments(@RequestParam Long memberId, @PageableDefault Pageable pageable) {
-        return postService.findMyCommentList(memberId, pageable);
+    public Page<CommentListResponseDto> findMyComments(@AuthenticationPrincipal UserDetailsImpl userDetails, @PageableDefault Pageable pageable) {
+        return postService.findMyCommentList(userDetails.getMember().getId(), pageable);
     }
 
     // 좋아요를 누른 게시글 조회
     @GetMapping("/api/my/likeposts")
     @ResponseBody
-    public Page<PostDto> findMyLikePostInfo(@RequestParam Long memberId, @PageableDefault Pageable pageable) {
-        return postService.findMyLikePostInfo(memberId, pageable);
+    public Page<PostDto> findMyLikePostInfo(@AuthenticationPrincipal UserDetailsImpl userDetails, @PageableDefault Pageable pageable) {
+        return postService.findMyLikePostInfo(userDetails.getMember().getId(), pageable);
     }
 
     // 선택된 게시글 페이지
