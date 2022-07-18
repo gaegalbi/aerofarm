@@ -11,12 +11,14 @@ import java.time.format.DateTimeFormatter;
 @Setter
 public class CommentListResponseDto {
     private Long postId;
+    private String title;
     private String content;
     private String createdDate;
 
     @QueryProjection
-    public CommentListResponseDto(Long postId, String content, LocalDateTime createdDate) {
+    public CommentListResponseDto(Long postId, String title, String content, LocalDateTime createdDate) {
         this.postId = postId;
+        this.title = title;
         this.content = content;
         this.createdDate = createdDate.format(DateTimeFormatter.ISO_LOCAL_DATE);
     }

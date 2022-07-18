@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import yj.capstone.aerofarm.config.auth.dto.UserDetailsImpl;
 import yj.capstone.aerofarm.domain.board.*;
 import yj.capstone.aerofarm.dto.*;
+import yj.capstone.aerofarm.dto.response.CommentListResponseDto;
 import yj.capstone.aerofarm.form.CommentForm;
 import yj.capstone.aerofarm.form.PostForm;
 import yj.capstone.aerofarm.service.PostService;
@@ -112,6 +113,27 @@ public class PostController {
         Comment comment = postService.selectComment(commentId);
         CommentDto commentDto = new CommentDto(comment);
         return commentDto;
+    }
+
+    // 작성한 게시글 조회 API
+    @GetMapping("/api/my/posts")
+    @ResponseBody
+    public Page<PostDto> findMyPostAllInfo(@RequestParam Long memberId, @PageableDefault Pageable pageable) {
+        return postService.findMyPostsAllInfo(memberId, pageable);
+    }
+
+    // 작성한 댓글 조회 API
+    @GetMapping("/api/my/comments")
+    @ResponseBody
+    public Page<CommentListResponseDto> findMyComments(@RequestParam Long memberId, @PageableDefault Pageable pageable) {
+        return postService.findMyCommentList(memberId, pageable);
+    }
+
+    // 좋아요를 누른 게시글 조회
+    @GetMapping("/api/my/likeposts")
+    @ResponseBody
+    public Page<PostDto> findMyLikePostInfo(@RequestParam Long memberId, @PageableDefault Pageable pageable) {
+        return postService.findMyLikePostInfo(memberId, pageable);
     }
 
     // 선택된 게시글 페이지

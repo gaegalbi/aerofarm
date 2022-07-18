@@ -199,11 +199,23 @@ public class PostService {
         return postLikeRepository.findByMemberIdAndPostId(memberId, postId);
     }
 
+    // 작성한 게시글 리스트 조회
     public Page<PostListResponseDto> findMyPostList(Long memberId, Pageable pageable) {
         return postRepository.findMyPost(memberId, pageable);
     }
 
+    // 작성한 댓글 리스트 조회
     public Page<CommentListResponseDto> findMyCommentList(Long memberId, Pageable pageable) {
         return commentRepository.findMyComment(memberId, pageable);
+    }
+
+    // 자신이 작성한 게시글의 모든 정보 조회
+    public Page<PostDto> findMyPostsAllInfo(Long memberId, Pageable pageable) {
+        return postRepository.findMyPostAllInfo(memberId, pageable);
+    }
+
+    // 자신이 좋아요한 게시글의 모든 정보 조회
+    public Page<PostDto> findMyLikePostInfo(Long memberId, Pageable pageable) {
+        return postRepository.findMyLikePostInfo(memberId, pageable);
     }
 }

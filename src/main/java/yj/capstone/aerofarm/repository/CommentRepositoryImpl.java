@@ -94,6 +94,7 @@ public class CommentRepositoryImpl extends Querydsl5RepositorySupport implements
                 query -> query
                         .select(new QCommentListResponseDto(
                                 comment.post.id,
+                                comment.post.title,
                                 comment.content,
                                 comment.createdDate
                         ))
