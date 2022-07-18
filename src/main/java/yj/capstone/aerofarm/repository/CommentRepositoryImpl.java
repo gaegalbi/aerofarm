@@ -96,7 +96,8 @@ public class CommentRepositoryImpl extends Querydsl5RepositorySupport implements
                                 comment.post.id,
                                 comment.post.title,
                                 comment.content,
-                                comment.createdDate
+                                comment.createdDate,
+                                comment.deleteTnF
                         ))
                         .from(comment)
                         .where(comment.writer.id.eq(memberId)),
