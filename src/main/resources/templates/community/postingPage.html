@@ -104,7 +104,7 @@
             <div class="user-info-border">
                 <div class="row">
                     <div style="width: 40px">
-                        <img src="/image/test_icon.png" th:src="${selectPost.getPicture()}" class="rounded-circle" style="width: 35px; height: 35px">
+                        <img th:src="${!selectPost.isDeleteTnF() ? selectPost.getPicture() : '/image/test_icon.png'}" class="rounded-circle" style="width: 35px; height: 35px">
                     </div>
                     <div class="comment-basic col text-lg-start">
                         <span th:utext="${postInfo.isDeleteTnF()} ? '' : '&lt;b&gt;' + ${selectPost.writer} + '&lt;/b&gt;'"/>
@@ -154,7 +154,7 @@
                             <div class="col">
                                 <div class="row">
                                     <div class="col-6 text-lg-start">
-                                        <img src="/image/test_icon.png" th:src="${answerCommentDto.getPicture()}" class="rounded-circle" style="width: 40px; height: 40px">
+                                        <img th:src="${!answerCommentDto.isDeleteTnF() ? commentDto.getPicture() : '/image/test_icon.png'}" class="rounded-circle" style="width: 40px; height: 40px">
                                         <span class="comment-basic answer-writer" th:utext="${answerCommentDto.isDeleteTnF()} ? '( 삭제 )' : '&lt;b&gt;' + ${answerCommentDto.getWriter()} + '&lt;/b&gt; '"/>
                                         <span class="comment-basic" th:utext="${answerCommentDto.isDeleteTnF()} ? '' : ${#temporals.format(answerCommentDto.getLocalDateTime(), '( yyyy.MM.dd HH:mm )')}"/>
                                         <span class="badge bg-secondary bi-person-fill" th:text="| 글쓴이|" th:if="${!answerCommentDto.isDeleteTnF() and selectPost.writer == answerCommentDto.writer}"/>
@@ -166,9 +166,9 @@
                                         <button type="button" style="padding:0.3em" class="comment-basic btn btn-danger bi-trash" th:id="|delete-${answerCommentDto.getId()}|" onclick="deleteComment(this.id)" th:if="${user == answerCommentDto.getWriterId() and !answerCommentDto.isDeleteTnF()}" th:text="삭제"/>
                                     </div>
                                     <div class="comment-body" style="margin-top: 10px; margin-bottom: 20px;">
-                                        <span class="comment-basic" th:utext="${answerCommentDto.isDeleteTnF()} ? '삭제된 댓글입니다.' : ${answerCommentDto.getContent()}"/>
+                                        <span class="comment-basic" th:utext="${answerCommentDto.isDeleteTnF()} ? '삭제된 댓글입니다.' : '&lt;span style=\'color:deepskyblue\'&gt;@' + ${answerCommentDto.parentNickname} + '&lt;/span&gt; ' + ${answerCommentDto.getContent()}"/>
                                     </div>
-                                    <div class="input-group" th:id="|answer-div-area-${answerCommentDto.id}|" style="padding-bottom: 20px" hidden>
+                                    <div class="input-group" th:id="|answer-div-area-${answerCommentDto.id}|" style="padding-bottom: 20px;" hidden>
                                         <span class="input-group-text">답글</span>
                                         <textarea class="form-control" name="normal" aria-label="comment" th:id="|answer-textarea-${answerCommentDto.id}|"></textarea>
                                         <button type="button" class="btn btn-secondary" style="margin-left: 10px" th:id="|btn-createAnswerComment-${answerCommentDto.id}|" onclick="callAnswerCommentMethod(this.value, this.name)" th:value="${answerCommentDto.id}" th:text="쓰기"/>

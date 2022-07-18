@@ -24,6 +24,7 @@ public class CommentDto {
     private int groupId;
     private String picture;
     private Long parentId;
+    private String parentNickname;
 
     @Builder
     public CommentDto(Comment comment) {
@@ -50,5 +51,20 @@ public class CommentDto {
         this.groupId = groupId;
         this.picture = picture;
         this.parentId = parentId;
+    }
+
+    @QueryProjection
+    public CommentDto(Long id, String writer, String content, LocalDateTime localDateTime, Post post, Long writerId, boolean deleteTnF, int groupId, String picture, Long parentId, String parentNickname) {
+        this.id = id;
+        this.writer = writer;
+        this.content = content;
+        this.localDateTime = localDateTime;
+        this.postId = post.getId();
+        this.writerId = writerId;
+        this.deleteTnF = deleteTnF;
+        this.groupId = groupId;
+        this.picture = picture;
+        this.parentId = parentId;
+        this.parentNickname = parentNickname;
     }
 }

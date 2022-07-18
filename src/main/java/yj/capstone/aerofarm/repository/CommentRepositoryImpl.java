@@ -63,7 +63,8 @@ public class CommentRepositoryImpl extends Querydsl5RepositorySupport implements
                 comment.deleteTnF,
                 comment.groupId,
                 comment.writer.picture,
-                comment.parent.id))
+                comment.parent.id,
+                comment.parent.writer.nickname))
                 .from(comment)
                 .where(
                         comment.post.eq(post),
