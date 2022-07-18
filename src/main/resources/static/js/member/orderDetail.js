@@ -29,22 +29,13 @@ let orderDetail = {
         })
     },
     waybillEnquire: function () {
-
-
-        //import {waybillApi} from "./waybillConfig";
-        //alert(waybillApi);
-
         const apiKey = 'p0XRqBRiUyjyBdNATUg2bg';
-
         const selectValue = document.getElementById("chooseCompany");
         const company = selectValue.options[selectValue.selectedIndex].value;
         const waybill = $('#waybillInput').val();
         const url = 'http://info.sweettracker.co.kr/tracking/5?t_key=' + apiKey +'&t_code=' + company + '&t_invoice=' + waybill;
 
-
-
-        $('#waybillForm').attr("action", url);
-        //window.open(url);
+        window.open(url);
     }
 };
 

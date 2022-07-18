@@ -259,138 +259,6 @@
                 <h5 class="modal-title" id="staticBackdropLabel">배송 조회</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="chooseCompany">택배사 코드</label>
-                        <select class="form-select" id="chooseCompany" title="택배사 선택" onchange="onselectionchange()">
-                            <option selected="" disabled="">택배사 선택</option>
-                            <option value="04">CJ대한통운</option>
-                            <option value="01">우체국택배</option>
-                            <option value="05">한진택배</option>
-                            <option value="08">롯데택배</option>
-                            <option value="06">로젠택배</option>
-                            <option value="54">홈픽</option>
-                            <option value="24">CVSnet 편의점택배(GS25)</option>
-                            <option value="46">CU 편의점택배</option>
-                            <option value="23">경동택배</option>
-                            <option value="22">대신택배</option>
-                            <option value="11">일양로지스</option>
-                            <option value="32">합동택배</option>
-                            <option value="18">건영택배</option>
-                            <option value="17">천일택배</option>
-                            <option value="20">한덱스</option>
-                            <option value="16">한의사랑택배</option>
-                            <option value="12">EMS</option>
-                            <option value="25">TNT Express</option>
-                            <option value="14">UPS</option>
-                            <option value="21">Fedex</option>
-                            <option value="26">USPS</option>
-                            <option value="34">i-Parcel</option>
-                            <option value="33">DHL Global Mail</option>
-                            <option value="37">LX판토스</option>
-                            <option value="28">GSMNtoN</option>
-                            <option value="38">ECMS Express</option>
-                            <option value="30">KGL네트웍스</option>
-                            <option value="40">굿투럭</option>
-                            <option value="45">우리택배(구호남택배)</option>
-                            <option value="41">GSI Express</option>
-                            <option value="44">SLX택배</option>
-                            <option value="47">우리한방택배</option>
-                            <option value="52">세방</option>
-                            <option value="57">Cway Express</option>
-                            <option value="60">YJS글로벌(영국)</option>
-                            <option value="51">성원글로벌카고</option>
-                            <option value="62">홈이노베이션로지스</option>
-                            <option value="63">은하쉬핑</option>
-                            <option value="66">Giant Network Group</option>
-                            <option value="64">FLF퍼레버택배</option>
-                            <option value="53">농협택배</option>
-                            <option value="65">YJS글로벌(월드)</option>
-                            <option value="67">디디로지스</option>
-                            <option value="69">대림통운</option>
-                            <option value="70">LOTOS CORPORATION</option>
-                            <option value="43">애니트랙</option>
-                            <option value="72">성훈물류</option>
-                            <option value="71">IK물류</option>
-                            <option value="79">로지스밸리택배</option>
-                            <option value="81">제니엘시스템</option>
-                            <option value="84">스마트로지스</option>
-                            <option value="87">이투마스(ETOMARS)</option>
-                            <option value="85">풀앳홈</option>
-                            <option value="82">프레시솔루션</option>
-                            <option value="88">큐런택배</option>
-                            <option value="89">두발히어로</option>
-                            <option value="91">하이브시티</option>
-                            <option value="94">오늘의픽업</option>
-                            <option value="93">팬스타국제특송(PIEX)</option>
-                            <option value="92">지니고 당일배송</option>
-                            <option value="96">로지스밸리</option>
-                            <option value="99">롯데국제특송</option>
-                            <option value="100">나은물류</option>
-                            <option value="101">한샘서비스원 택배</option>
-                            <option value="102">배송하기좋은날 (SHIPNERGY)</option>
-                            <option value="103">NDEX KOREA</option>
-                            <option value="104">도도플렉스(dodoflex)</option>
-                            <option value="105">브릿지로지스㈜</option>
-                            <option value="106">허브넷로지스틱스</option>
-                            <option value="108">MEXGLOBAL</option>
-                            <option value="49">A.C.E EXPRESS INC</option>
-                            <option value="113">썬더히어로</option>
-                            <option value="112">1004홈</option>
-                            <option value="114">㈜캐나다쉬핑</option>
-                            <option value="110">부릉</option>
-                            <option value="117">YUNDA EXPRESS</option>
-                            <option value="120">발렉스 특수물류</option>
-                            <option value="109">파테크해운항공</option>
-                            <option value="119">핑퐁</option>
-                            <option value="121">바바바(bababa)</option>
-                            <option value="122">BAIMA EXPRESS</option>
-                            <option value="123">엔티엘피스</option>
-                            <option value="124">LTL</option>
-                            <option value="125">GTS 로지스</option>
-                            <option value="126">㈜올타코리아</option>
-                            <option value="128">판월드로지스틱㈜</option>
-                            <option value="95">큐익스프레스</option>
-                            <option value="130">UFO로지스</option>
-                            <option value="131">딜리래빗</option>
-                            <option value="132">지오피</option>
-                            <option value="134">에이치케이홀딩스</option>
-                            <option value="135">HTNS</option>
-                            <option value="13">DHL</option>
-                            <option value="138">라스트마일</option>
-                            <option value="139">오늘회 러쉬</option>
-                            <option value="141">인터로지스</option>
-                            <option value="142">탱고앤고</option>
-                            <option value="140">직구문</option>
-                            <option value="143">투데이</option>
-                            <option value="144">큐브플로우(CUBEFLOW)</option>
-                        </select>
-                    </div>
-                    <div class="form-group my-3">
-                        <label for="waybillInput">운송장 번호</label>
-                        <input type="number" class="form-control" id="waybillInput" placeholder="운송장 번호">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                    <button type="button" id="waybill-btn" class="btn btn-primary">조회</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-
-<!--
-<div class="modal fade" id="waybillModal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
-     tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalToggleLabel">배송 조회</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
             <div class="modal-body">
                 <div class="form-group">
                     <label for="chooseCompany">택배사 코드</label>
@@ -500,37 +368,16 @@
                 </div>
                 <div class="form-group my-3">
                     <label for="waybillInput">운송장 번호</label>
-                    <input type="number" class="form-control" name="t_invoice" id="waybillInput" placeholder="운송장 번호">
+                    <input type="number" class="form-control" id="waybillInput" placeholder="운송장 번호">
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" id="waybill-btn" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal"
-                        data-bs-dismiss="modal">Open second modal</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                <button type="button" id="waybill-btn" class="btn btn-primary">조회</button>
             </div>
         </div>
     </div>
 </div>
-<div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2"
-     tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalToggleLabel2">배송 현황</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <table id="myPtag2"></table>
-                <label id="aaa">1</label>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal"
-                        data-bs-dismiss="modal">닫기</button>
-            </div>
-        </div>
-    </div>
-</div>
--->
-
 <div th:replace="~{fragments/footer :: footer}"/>
 <script src="/js/util/jquery.serialize-object.min.js"></script>
 <script src="/js/member/orderDetail.js"></script>
