@@ -34,11 +34,11 @@ class AddBoard extends StatelessWidget {
 
     return Container(
       height: MediaQuery.of(context).size.height * 0.08,
-      padding: EdgeInsets.only(top: 10),
-      margin: EdgeInsets.only(bottom: 10),
+      padding: EdgeInsets.only(bottom: 10),
+      margin: EdgeInsets.only(top: 10),
       decoration: const BoxDecoration(
           border: Border(
-            top: BorderSide(width: 1, color: Colors.white),
+            bottom: BorderSide(width: 1, color: Colors.white),
           )),
       child: InkWell(
         onTap: () {

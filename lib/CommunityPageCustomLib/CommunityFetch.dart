@@ -240,7 +240,10 @@ class ReadPostController extends GetxController{
 
 class ReplyDetailListController extends GetxController{
   final replyDetail = {0:<Widget>[]}.obs;
-  late String before;
+  final replyDetailBefore = "".obs;
+  final index = 0.obs;
+  final keywords = Rx<Map<String, dynamic>>({});
+  final before = "".obs;
 
   void replyDetailSetUp(){
     replyDetail.clear();
@@ -248,11 +251,82 @@ class ReplyDetailListController extends GetxController{
   }
 
   void replyDetailSetUpBefore(String inputBefore){
-    before = inputBefore;
+    replyDetailBefore.value = inputBefore;
   }
 
+  void replyDetailSetUpBackRoute(int inputIndex, Map<String, dynamic> inputKeywords, String inputBefore){
+    index.value = inputIndex;
+    keywords.value = inputKeywords;
+    before.value = inputBefore;
+  }
 }
 
+Future writePostStartFetch() async {
+  final pageIndexController = Get.put(PageIndexController());
+  final boardListController = Get.put(BoardListController());
+
+  pageIndexController.setUp();
+  boardListController.boardList.clear();
+  boardListController.boardIdClear();
+
+  Map<String, String> _queryParameters = <String, String>{
+    'page': pageIndexController.pageIndex.value.toString(),
+  };
+  final response = await http
+      .get(Uri.http(serverIP, '/api/my-page/posts', _queryParameters),
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cookie": "JSESSIONID=$session",
+      }
+  );
+  if (response.statusCode == 200) {
+    Map<String, dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
+    if(data['content'].length!=0) {
+      for (int i = 0; i < data['content'].length; i++) {
+        boardListController.boardAdd(AddBoard(
+            index: pageIndexController.pageIndex.value,
+            keywords: data['content'][i],
+            before: "MyActivity"));
+      }
+    }
+  } else {
+    throw Exception("startFetch Error");
+  }
+}
+
+Future writePostLoadFetch() async {
+  final pageIndexController = Get.put(PageIndexController());
+  final boardListController = Get.put(BoardListController());
+
+  pageIndexController.increment();
+
+  Map<String, String> _queryParameters = <String, String>{
+    'page': pageIndexController.pageIndex.value.toString(),
+  };
+  final response = await http
+      .get(Uri.http(serverIP, '/api/my-page/posts', _queryParameters),
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cookie": "JSESSIONID=$session",
+      }
+  );
+  if (response.statusCode == 200) {
+    Map<String, dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
+    if(data['content'].length!=0) {
+      for (int i = 0; i < data['content'].length; i++) {
+        boardListController.boardAdd(AddBoard(
+            index: pageIndexController.pageIndex.value,
+            keywords: data['content'][i],
+            before: "MyActivity"));
+      }
+    }else{
+      pageIndexController.decrement();
+    }
+  } else {
+
+    throw Exception("startFetch Error");
+  }
+}
 
 Future searchFetch(String communityCategory,String search,String keyword) async {
   final pageIndexController = Get.put(PageIndexController());
@@ -274,8 +348,8 @@ Future searchFetch(String communityCategory,String search,String keyword) async 
         "Cookie": "JSESSIONID=$session",
       }
   );
-  Map<String, dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
   if (response.statusCode == 200) {
+    Map<String, dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
     if(communityCategory=='ALL' || communityCategory =='HOT'){
       if(data['content'].length!=0) {
         for (int i = 0; i < data['content'].length; i++) {
@@ -374,8 +448,8 @@ Future startFetch(String communityCategory) async {
         "Cookie": "JSESSIONID=$session",
       }
   );
-  Map<String, dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
   if (response.statusCode == 200) {
+    Map<String, dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
     if(communityCategory=='ALL' || communityCategory =='HOT'){
       if(data['content'].length!=0) {
         for (int i = 0; i < data['content'].length; i++) {
@@ -500,8 +574,7 @@ Future loadFetch(String communityCategory) async{
             }
         );
         if (response.statusCode == 200) {
-          Map<String, dynamic> data = jsonDecode(
-              utf8.decode(response.bodyBytes));
+          Map<String, dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
           if (data['content'].length != 0) {
             for (int i = 0; i < data['content'].length; i++) {
               if (data['content'][i]['category'] == communityCategory &&
@@ -618,8 +691,8 @@ Future categoryFetch(String communityCategory) async {
         "Cookie": "JSESSIONID=$session",
       }
   );
-  Map<String, dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
   if (response.statusCode == 200) {
+    Map<String, dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
     if(communityCategory=='ALL' || communityCategory =='HOT'){
       if(data['content'].length!=0) {
         for (int i = 0; i < data['content'].length; i++) {
@@ -817,96 +890,6 @@ Future readComment(int postId,String communityCategory) async{
     Exception("readComment Error");
   }
 }
-
-
-/*//readPost 게시글 내용 불러오기, 추천 유무
-Future readPostContent(int postId, String communityCategory) async{
-  final readPostController = Get.put(ReadPostController());
-  final commentListController = Get.put(CommentListController());
-  final pageIndexController = Get.put(PageIndexController());
-  final replyDetailController = Get.put(ReplyDetailListController());
-
-  customKeywords.clear();
-  commentListController.commentClear();
-  final response = await http
-      .get(Uri.http(ipv4, '/community/detail/$postId'),
-      headers:{
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie":"JSESSIONID=$session",
-      }
-  );
-  if (response.statusCode == 200) {
-    dom.Document document = parser.parse(response.body);
-    readPostController.setContent(document.querySelector('.post-content')!.outerHtml);
-    readPostController.setIsLike(document.querySelector('.isSelected')!.text);
-    List<dom.Element> keywordElements = document.querySelectorAll('.comment-info');
-    List<dom.Element> answerKeywordElements = document.querySelectorAll('.answer-comment-info');
-    for (var element in keywordElements) {
-      dom.Element? commentWriter = element.querySelector('.comment-writer');
-      dom.Element? commentContent = element.querySelector('.comment-content');
-      dom.Element? commentDate = element.querySelector('.comment-date');
-      dom.Element? commentDelete = element.querySelector('.comment-delete');
-      dom.Element? commentId = element.querySelector('.comment-id');
-      dom.Element? commentGroupId = element.querySelector('.comment-group-id');
-      customKeywords.add({
-        'writer': commentWriter?.text,
-        'date': commentDate?.text,
-        'content':  commentContent?.text,
-        'category' : communityCategory,
-        'id' : postId,
-        "delete" : commentDelete?.text,
-        "commentId" : commentId?.text,
-        "commentGroupId" : commentGroupId?.text,
-      });
-    }
-    for (var element in answerKeywordElements) {
-      dom.Element? commentWriter = element.querySelector('.answer-comment-writer');
-      dom.Element? commentContent = element.querySelector('.answer-comment-content');
-      dom.Element? commentDate = element.querySelector('.answer-comment-date');
-      dom.Element? commentDelete = element.querySelector('.answer-comment-delete');
-      dom.Element? commentId = element.querySelector('.answer-comment-id');
-      dom.Element? commentGroupId = element.querySelector('.answer-comment-group-id');
-      answerKeywords.add({
-        'writer': commentWriter?.text,
-        'date': commentDate?.text,
-        'content':  commentContent?.text,
-        'category' : communityCategory,
-        'id' : postId,
-        "delete" : commentDelete?.text,
-        "commentId" : commentId?.text,
-        "commentGroupId" : commentGroupId?.text,
-      });
-    }
-    for (var element in customKeywords) {
-      if(!replyDetailController.replyDetail.keys.contains(element['commentGroupId']) && !replyDetailList.contains(element['commentId'])){
-        replyDetailController.replyDetailFirstAdd(element['commentGroupId']);
-        replyDetailController.replyDetailAdd(element['commentGroupId'], AddComment(
-          index: pageIndexController.pageIndex.value ,keywords: element, before: "ReadPost", selectReply: '',//beforeRouteController.before.value,
-        ));
-        replyDetailList.add(element['commentId']);
-      }
-      commentListController.commentAdd(AddComment(
-        index: pageIndexController.pageIndex.value ,keywords: element, before: communityCategory, selectReply: '',//beforeRouteController.before.value,
-      ));
-      for(var answerElement in answerKeywords){
-        if(answerElement['commentGroupId'] == element['commentGroupId']){
-          if(!replyDetailList.contains(answerElement['commentId'])){
-            replyDetailController.replyDetailAdd(element['commentGroupId'], AddComment(
-              index: pageIndexController.pageIndex.value ,keywords: answerElement, before: "ReadPost", selectReply: '',//beforeRouteController.before.value,
-            ));
-          }
-          commentListController.commentAdd(AddComment(
-            index: pageIndexController.pageIndex.value ,keywords: answerElement, before: communityCategory, selectReply: '',//beforeRouteController.before.value,
-          ));
-        }
-      }
-    }
-    answerKeywords.clear();
-
-  }else{
-    throw Exception("readPostContent Error");
-  }
-}*/
 
 //readPost내에서 불러오기
 Future loadReadPostContent(int postId, String communityCategory) async{

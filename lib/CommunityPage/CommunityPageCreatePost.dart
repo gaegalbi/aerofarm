@@ -173,8 +173,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                           "postId": widget.keywords['id'],
                         };
                         var body = json.encode(data);
-                        await http.post(
-                          Uri.http(
+                        await http.post(Uri.http(
                               serverIP, '/createAnswerPost'),
                           headers: {
                             "Content-Type": "application/json",

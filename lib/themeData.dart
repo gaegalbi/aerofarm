@@ -298,6 +298,11 @@ class CommunityPageTheme {
       decoration: TextDecoration.none,
       fontFamily: 'bmAir',
       fontSize: 15);
+  static const commentModify = TextStyle(
+      color: Colors.grey,//Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmAir',
+      fontSize: 15);
   static const postFalseFont = TextStyle(
       color: Colors.grey,
       decoration: TextDecoration.none,
@@ -373,5 +378,28 @@ class CommunityPageTheme {
       decoration: TextDecoration.none,
       fontFamily: 'bmPro',
       fontSize: 20);
-
+  static const commentMenuButton = TextStyle(
+      color: MainColor.three,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 30);
+  static const commentMenuDeleteButton = TextStyle(
+      color: Colors.red,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 30);
+  static const tabBarText = TextStyle(
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 20);
+  static const activityNickname = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 30);
+  static const activityButton = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 15);
 }

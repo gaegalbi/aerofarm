@@ -61,6 +61,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
     readPostContent(widget.keywords['id'], widget.keywords['category']).then((value) => loadingController.setFalse());
 
     replyDetailController.replyDetailSetUpBefore("ReadPost");
+    replyDetailController.replyDetailSetUpBackRoute(widget.index, widget.keywords, widget.before);
 
     //null 방지
     content = "";
@@ -149,221 +150,225 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
           ),
           body: SingleChildScrollView(
             controller: _scrollController,
-            child: Container(
-              child: Obx(()=>!loadingController.loading.value ? Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.fromLTRB(
-                      MediaQuery.of(context).size.width * 0.04,
-                      0,
-                      MediaQuery.of(context).size.width * 0.04,
-                      0,
-                    ),
-                    child: Column(
-                      children: [
-                        Container(
-                            alignment: Alignment.topLeft,
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height * 0.03,
-                            margin: EdgeInsets.only(
-                                bottom: MediaQuery.of(context).size.height * 0.005),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      matchCategory[widget.keywords['category']]!,
-                                      style: CommunityPageTheme.title,
-                                    ),
-                                    IconButton(
-                                      splashRadius: 20,
-                                      padding: EdgeInsets.zero,
-                                      alignment: Alignment.center,
-                                      color: MainColor.three,
-                                      constraints: const BoxConstraints(),
-                                      icon: const Icon(
-                                        Icons.chevron_right,
-                                      ),
-                                      onPressed: () {
-                                        Get.off(()=> CommunityPageForm(category:widget.keywords['category']));
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            )),
-                        Container(
-                          alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.only(
-                              right: MediaQuery.of(context).size.width * 0.05,
-                              bottom: MediaQuery.of(context).size.height * 0.012),
-                          child: Text(
-                            widget.keywords['title'],
-                            style: CommunityPageTheme.postTitle,
-                          ),
-                        ),
-                      ],
-                    ),
+            child: Obx(()=>!loadingController.loading.value ? Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.fromLTRB(
+                    MediaQuery.of(context).size.width * 0.04,
+                    0,
+                    MediaQuery.of(context).size.width * 0.04,
+                    0,
                   ),
-                  Container(
-                    padding: EdgeInsets.fromLTRB(
-                      MediaQuery.of(context).size.width * 0.04,
-                      0,
-                      MediaQuery.of(context).size.width * 0.04,
-                      0,
-                    ),
-                    margin: EdgeInsets.only(
-                        right: MediaQuery.of(context).size.width * 0.02,
-                        left: MediaQuery.of(context).size.width * 0.02),
-                    child: Column(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(
-                              bottom: MediaQuery.of(context).size.height * 0.01),
-                          decoration: const BoxDecoration(
-                              border: Border(
-                            bottom: BorderSide(width: 2, color: Colors.white),
-                          )),
-                          child: Row(
-                            children: [
-                              //프로필
-                              CircleAvatar(
-                                radius: MediaQuery.of(context).size.width * 0.08,
-                                backgroundImage:profile!.image,
-                              ),
-                              Container(
-                                padding: EdgeInsets.only(
-                                    right:
-                                        MediaQuery.of(context).size.width * 0.02,
-                                    left:
-                                        MediaQuery.of(context).size.width * 0.02),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Container(
-                                            margin: const EdgeInsets.only(right: 20),
-                                            child:  Text(
-                                              widget.keywords['writer'],
-                                              style: CommunityPageTheme.commentWriter,
-                                            )),
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Container(
-                                          margin: EdgeInsets.only(right: 10),
-                                          child: Text(date,)
-                                        ),
-                                        Container(
-                                            margin: EdgeInsets.only(right: 10),
-                                            child: Row(
-                                              children: [
-                                                const Text("조회 "),
-                                                Text((int.parse(widget.keywords['views'].toString())+1).toString()),
-                                              ],
-                                            )
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        Container(
-                          //height: MediaQuery.of(context).size.height*0.4,
+                  child: Column(
+                    children: [
+                      Container(
+                          alignment: Alignment.topLeft,
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height * 0.03,
                           margin: EdgeInsets.only(
-                              top: MediaQuery.of(context).size.height * 0.01),
-                          child: Obx(()=>Html(data: readPostController.content.value)),
+                              bottom: MediaQuery.of(context).size.height * 0.005),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    matchCategory[widget.keywords['category']]!,
+                                    style: CommunityPageTheme.title,
+                                  ),
+                                  IconButton(
+                                    splashRadius: 20,
+                                    padding: EdgeInsets.zero,
+                                    alignment: Alignment.center,
+                                    color: MainColor.three,
+                                    constraints: const BoxConstraints(),
+                                    icon: const Icon(
+                                      Icons.chevron_right,
+                                    ),
+                                    onPressed: () {
+                                      Get.off(()=> CommunityPageForm(category:widget.keywords['category']));
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )),
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        padding: EdgeInsets.only(
+                            right: MediaQuery.of(context).size.width * 0.05,
+                            bottom: MediaQuery.of(context).size.height * 0.012),
+                        child: Text(
+                          widget.keywords['title'],
+                          style: CommunityPageTheme.postTitle,
                         ),
-                        Container(
-                            decoration: const BoxDecoration(
-                                border: Border(
-                              top: BorderSide(width: 2, color: Colors.white),
-                            )),
-                            padding: EdgeInsets.only(
-                                top: MediaQuery.of(context).size.height * 0.01),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                TextButton(
-                                  style: ButtonStyle(
-                                      padding: MaterialStateProperty.all(
-                                          EdgeInsets.zero)),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.fromLTRB(
+                    MediaQuery.of(context).size.width * 0.04,
+                    0,
+                    MediaQuery.of(context).size.width * 0.04,
+                    0,
+                  ),
+                  margin: EdgeInsets.only(
+                      right: MediaQuery.of(context).size.width * 0.02,
+                      left: MediaQuery.of(context).size.width * 0.02),
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).size.height * 0.01),
+                        decoration: const BoxDecoration(
+                            border: Border(
+                          bottom: BorderSide(width: 2, color: Colors.white),
+                        )),
+                        child: Row(
+                          children: [
+                            //프로필
+                            CircleAvatar(
+                              radius: MediaQuery.of(context).size.width * 0.08,
+                              backgroundImage:profile!.image,
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(
+                                  right:
+                                      MediaQuery.of(context).size.width * 0.02,
+                                  left:
+                                      MediaQuery.of(context).size.width * 0.02),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
                                     children: [
                                       Container(
-                                        margin: EdgeInsets.only(right: 5),
-                                        child: const Text(
-                                          "댓글",
-                                          style: CommunityPageTheme.postFont,
-                                        ),
-                                      ),
-                                      Obx(()=>Text(
-                                        commentListController.commentList.length.toString(),//widget.keywords['comments'],
-                                        style: CommunityPageTheme.postFont,
-                                      )),
-                                      const Icon(
-                                        Icons.chevron_right,
-                                        color: Colors.white,
-                                      ),
+                                          margin: const EdgeInsets.only(right: 20),
+                                          child:  Text(
+                                            widget.keywords['writer'],
+                                            style: CommunityPageTheme.commentWriter,
+                                          )),
                                     ],
                                   ),
-                                  onPressed: () {
-                                      Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before,));
-                                  },
+                                  Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.only(right: 10),
+                                        child: Text(date,)
+                                      ),
+                                      Container(
+                                          margin: EdgeInsets.only(right: 10),
+                                          child: Row(
+                                            children: [
+                                              const Text("조회 "),
+                                              Text((int.parse(widget.keywords['views'].toString())+1).toString()),
+                                            ],
+                                          )
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        //height: MediaQuery.of(context).size.height*0.4,
+                        margin: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height * 0.01),
+                        child: Obx(()=>Html(data: readPostController.content.value)),
+                      ),
+                      Container(
+                          decoration: const BoxDecoration(
+                              border: Border(
+                            top: BorderSide(width: 2, color: Colors.white),
+                          )),
+                          padding: EdgeInsets.only(
+                              top: MediaQuery.of(context).size.height * 0.01),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              TextButton(
+                                style: ButtonStyle(
+                                    padding: MaterialStateProperty.all(
+                                        EdgeInsets.zero)),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.only(right: 5),
+                                      child: const Text(
+                                        "댓글",
+                                        style: CommunityPageTheme.postFont,
+                                      ),
+                                    ),
+                                    Obx(()=>Text(
+                                      commentListController.commentList.length.toString(),//widget.keywords['comments'],
+                                      style: CommunityPageTheme.postFont,
+                                    )),
+                                    const Icon(
+                                      Icons.chevron_right,
+                                      color: Colors.white,
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            )),
-                      ],
-                    ),
+                                onPressed: () {
+                                    Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before,));
+                                },
+                              ),
+                            ],
+                          )),
+                    ],
                   ),
-                  Obx(()=> commentListController.commentList.isEmpty? Container(
-                    margin: EdgeInsets.only(top: 5),
-                    child: Row(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(right: 15),
-                          child: CircleAvatar(
-                            radius:
-                            MediaQuery.of(context).size.width *
-                                0.08,
-                            backgroundImage: profile!.image,
-                          ),
+                ),
+                Obx(()=> commentListController.commentList.isEmpty? Container(
+                  margin: EdgeInsets.only(top: 5),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height * 0.02,
+                          bottom: MediaQuery.of(context).size.height * 0.02,
+                          left: MediaQuery.of(context).size.width * 0.08,
+                          right:  MediaQuery.of(context).size.width * 0.06,
                         ),
-                        TextButton(
-                          onPressed: (){
-                            Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before,));
-                          },
-                          child: const Text(
-                            "첫 댓글을 입력하세요",
-                            style: CommunityPageTheme.postFont,
-                          ),
+                        margin: EdgeInsets.only(right: 10),
+                        child: CircleAvatar(
+                          radius:
+                          MediaQuery.of(context).size.width * 0.07,
+                          backgroundImage: profile!.image,
                         ),
-                      ],
-                    ),
-                  ) : InkWell(
-                    splashColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    onTap: (){
-                      Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before,));
-                    },
-                    child: Column(children: commentListController.commentList
-                      ,),
-                  ),)
-                ],
-              ):
-              const Center(
-                  child: CircularProgressIndicator(
-                    color: MainColor.three,
-                  )),),
-            ),
+                      ),
+                      TextButton(
+                        onPressed: (){
+                          Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before,));
+                        },
+                        child: const Text(
+                          "첫 댓글을 입력하세요",
+                          style: CommunityPageTheme.postFont,
+                        ),
+                      ),
+                    ],
+                  ),
+                ) : InkWell(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  onTap: (){
+                    Navigator.of(context).push(MaterialPageRoute(builder: (_) => CommunityPageReply(index: widget.index, keywords: widget.keywords, before: widget.before,)));
+                   // Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before,));
+                  },
+                  child: Column(children: commentListController.commentList
+                    ,),
+                ),)
+              ],
+            ):
+            const Center(
+                child: CircularProgressIndicator(
+                  color: MainColor.three,
+                )),),
           ),
           bottomNavigationBar: BottomAppBar(
             color: Colors.indigo,

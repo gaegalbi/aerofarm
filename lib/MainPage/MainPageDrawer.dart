@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:capstone/CommunityPage/CommunityPageMyActivity.dart';
 import 'package:capstone/LoginPage/LoginPage.dart';
 import 'package:capstone/MachinePage/MachinePageList.dart';
 import 'package:capstone/MainPage/MainPageMyProfile.dart';
@@ -147,7 +148,10 @@ class MainPageDrawer extends StatelessWidget {
             padding: EdgeInsets.all(drawerPadding),
             child: TextButton(
               child: const Text("작성 글 조회", style: MainPageTheme.drawerButton),
-              onPressed: () {},
+              onPressed: () {
+                checkTimerController.time.value ?
+                checkTimerController.stop(context) : Get.to(()=>const CommunityPageMyActivity());
+              },
             ),
           ),
           Container(
@@ -160,7 +164,7 @@ class MainPageDrawer extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(drawerPadding),
             child: TextButton(
-              child: const Text("기기 구매내역 조회", style: MainPageTheme.drawerButton),
+              child: const Text("구매내역 조회", style: MainPageTheme.drawerButton),
               onPressed: () {},
             ),
           ),
