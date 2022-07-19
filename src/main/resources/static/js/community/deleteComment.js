@@ -14,7 +14,6 @@ function deleteComment(commentId) {
         }).done(function () {
             alert('댓글이 삭제 처리 되었습니다.');
             window.location.href ='/community/detail/' + $('#post-id').val();
-            // $('#comment-area').load(window.location.href + ' #comment-area');
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });
