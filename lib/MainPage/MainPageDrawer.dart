@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import '../CommunityPageCustomLib/CommunityFetch.dart';
 import '../LoginPage/LoginPageLogin.dart';
 import '../main.dart';
 
@@ -100,8 +101,9 @@ class MainPageDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  double drawerPadding = MediaQuery.of(context).size.height*0.012;
+  double drawerPadding = MediaQuery.of(context).size.height*0.01;
   final nicknameController = Get.put(NicknameController());
+  final tabController = Get.put(NewTabController());
 
   return Container(
       padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.075),
@@ -149,8 +151,10 @@ class MainPageDrawer extends StatelessWidget {
             child: TextButton(
               child: const Text("작성 글 조회", style: MainPageTheme.drawerButton),
               onPressed: () {
+                tabController.controller.index = 0;
                 checkTimerController.time.value ?
-                checkTimerController.stop(context) : Get.to(()=>const CommunityPageMyActivity());
+                checkTimerController.stop(context) :   activityPostStartFetch().then((value)=>
+                    Navigator.of(context).push(MaterialPageRoute(builder: (_) =>const CommunityPageMyActivity())));
               },
             ),
           ),
@@ -158,7 +162,24 @@ class MainPageDrawer extends StatelessWidget {
             padding: EdgeInsets.all(drawerPadding),
             child: TextButton(
               child: const Text("작성 댓글 조회", style: MainPageTheme.drawerButton),
-              onPressed: () {},
+              onPressed: () {
+                tabController.controller.index = 1;
+                checkTimerController.time.value ?
+                checkTimerController.stop(context) :   activityCommentStartFetch().then((value)=>
+                    Navigator.of(context).push(MaterialPageRoute(builder: (_) =>const CommunityPageMyActivity())));
+              },
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.all(drawerPadding),
+            child: TextButton(
+              child: const Text("좋아요한 글 조회", style: MainPageTheme.drawerButton),
+              onPressed: () {
+                tabController.controller.index = 2;
+                checkTimerController.time.value ?
+                checkTimerController.stop(context) :   activityCommentStartFetch().then((value)=>
+                    Navigator.of(context).push(MaterialPageRoute(builder: (_) =>const CommunityPageMyActivity())));
+              },
             ),
           ),
           Container(

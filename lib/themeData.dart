@@ -402,4 +402,19 @@ class CommunityPageTheme {
       decoration: TextDecoration.none,
       fontFamily: 'bmPro',
       fontSize: 15);
+  static const activityCommentContent = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 20);
+  static const activityCommentDate = TextStyle(
+      color: Colors.grey,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmAir',
+      fontSize: 16);
+  static const activityCommentTitle = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmAir',
+      fontSize: 20);
 }

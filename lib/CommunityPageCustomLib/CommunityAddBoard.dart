@@ -68,8 +68,6 @@ class AddBoard extends StatelessWidget {
                         style: CommunityPageTheme.main,
                       )),
                   Row(
-                    //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible(
                         flex: 8,

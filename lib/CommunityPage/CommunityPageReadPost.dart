@@ -119,7 +119,10 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                   replyDetailController.replyDetailSetUp();
                   if(widget.before=="ALL"||widget.before=='HOT'){
                     Get.offAll(()=>CommunityPageForm(category: widget.before));
-                  }else{
+                  }else if(widget.before=="MyActivity"){
+                    Get.back();
+                  }
+                  else{
                     Get.offAll(()=>CommunityPageForm(category:widget.keywords['category']));
                   }
                 },
@@ -316,7 +319,8 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                   ],
                                 ),
                                 onPressed: () {
-                                    Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before,));
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (_) => CommunityPageReply(index: widget.index, keywords: widget.keywords, before: widget.before,)));
+                                    //Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before,));
                                 },
                               ),
                             ],
@@ -344,7 +348,8 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                       ),
                       TextButton(
                         onPressed: (){
-                          Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before,));
+                          Navigator.of(context).push(MaterialPageRoute(builder: (_) => CommunityPageReply(index: widget.index, keywords: widget.keywords, before: widget.before,)));
+                          //Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before,));
                         },
                         child: const Text(
                           "첫 댓글을 입력하세요",
@@ -457,7 +462,8 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                         style: CommunityPageTheme.bottomAppBarReply,
                       )),
                       onPressed: () {
-                        Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before ,));
+                        Navigator.of(context).push(MaterialPageRoute(builder: (_) => CommunityPageReply(index: widget.index, keywords: widget.keywords, before: widget.before,)));
+                        //Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before ,));
                       },
                     )
                   ],

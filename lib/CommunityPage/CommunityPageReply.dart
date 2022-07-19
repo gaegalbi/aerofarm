@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:capstone/CommunityPage/CommunityPageMyActivity.dart';
 import 'package:capstone/main.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +50,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply>{
 
   @override
   void initState() {
-    print("??");
+    print(widget.keywords);
     if(GetPlatform.isIOS){
       keyboardOffset = -0.9;
     }else {
@@ -74,9 +75,14 @@ class _CommunityPageReplyState extends State<CommunityPageReply>{
   }
 
   Future<bool> _onWillPop() async {
-    Get.off(()=>CommunityPageReadPost(index: replyDetailController.index.value,
-        keywords: replyDetailController.keywords.value,
-        before: replyDetailController.before.value));
+    if(widget.before == "MyActivity"){
+      activityCommentStartFetch();
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) =>const CommunityPageMyActivity()));
+    }else{
+      Get.off(()=>CommunityPageReadPost(index: replyDetailController.index.value,
+          keywords: replyDetailController.keywords.value,
+          before: replyDetailController.before.value));
+    }
     return false;
   }
 
@@ -113,7 +119,11 @@ class _CommunityPageReplyState extends State<CommunityPageReply>{
                     Icons.chevron_left,
                   ),
                   onPressed: () {
-                    Get.back();
+                    if(widget.before=="MyActivity"){
+                      activityCommentStartFetch().then((value)=>  Get.off(()=>const CommunityPageMyActivity()));
+                    } else{
+                      Get.back();
+                    }
                   },
                 )),
               ),
@@ -261,7 +271,11 @@ class _CommunityPageReplyState extends State<CommunityPageReply>{
                                       body: body,
                                     );
                                     }
-                                  readPostContent(widget.keywords['id'], widget.keywords['category']);
+                                  if(widget.before=="MyActivity"){
+                                    readComment(widget.keywords['id'], "");
+                                  }else{
+                                    readPostContent(widget.keywords['id'], widget.keywords['category']); 
+                                  }
                                     _textEditingController.text = "";
                                   }
                                }

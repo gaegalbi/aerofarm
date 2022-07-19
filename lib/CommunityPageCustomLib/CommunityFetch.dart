@@ -261,7 +261,7 @@ class ReplyDetailListController extends GetxController{
   }
 }
 
-Future writePostStartFetch() async {
+Future activityPostStartFetch() async {
   final pageIndexController = Get.put(PageIndexController());
   final boardListController = Get.put(BoardListController());
 
@@ -272,15 +272,17 @@ Future writePostStartFetch() async {
   Map<String, String> _queryParameters = <String, String>{
     'page': pageIndexController.pageIndex.value.toString(),
   };
-  final response = await http
-      .get(Uri.http(serverIP, '/api/my-page/posts', _queryParameters),
+  Map<String, dynamic> data;
+  final postResponse = await http
+      .get(Uri.http(serverIP, '/api/my/posts', _queryParameters),
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
         "Cookie": "JSESSIONID=$session",
       }
   );
-  if (response.statusCode == 200) {
-    Map<String, dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
+
+  if (postResponse.statusCode == 200) {
+    data = jsonDecode(utf8.decode(postResponse.bodyBytes));
     if(data['content'].length!=0) {
       for (int i = 0; i < data['content'].length; i++) {
         boardListController.boardAdd(AddBoard(
@@ -289,12 +291,84 @@ Future writePostStartFetch() async {
             before: "MyActivity"));
       }
     }
-  } else {
-    throw Exception("startFetch Error");
+  }
+  else {
+    throw Exception("activityPostStartFetch Error");
   }
 }
 
-Future writePostLoadFetch() async {
+Future activityLikedStartFetch() async {
+  final pageIndexController = Get.put(PageIndexController());
+  final boardListController = Get.put(BoardListController());
+
+  pageIndexController.setUp();
+  boardListController.boardList.clear();
+  boardListController.boardIdClear();
+
+  Map<String, String> _queryParameters = <String, String>{
+    'page': pageIndexController.pageIndex.value.toString(),
+  };
+  Map<String, dynamic> data;
+  final postResponse = await http
+      .get(Uri.http(serverIP, '/api/my/likeposts', _queryParameters),
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cookie": "JSESSIONID=$session",
+      }
+  );
+
+  if (postResponse.statusCode == 200) {
+    data = jsonDecode(utf8.decode(postResponse.bodyBytes));
+    if(data['content'].length!=0) {
+      for (int i = 0; i < data['content'].length; i++) {
+        boardListController.boardAdd(AddBoard(
+            index: pageIndexController.pageIndex.value,
+            keywords: data['content'][i],
+            before: "MyActivity"));
+      }
+    }
+  }
+  else {
+    throw Exception("activityLikedStartFetch Error");
+  }
+}
+
+Future activityCommentStartFetch() async {
+  final pageIndexController = Get.put(PageIndexController());
+  final commentListController = Get.put(CommentListController());
+
+  pageIndexController.setUp();
+  commentListController.commentClear();
+
+  Map<String, String> _queryParameters = <String, String>{
+    'page': pageIndexController.pageIndex.value.toString(),
+  };
+  Map<String, dynamic> data;
+  final commentResponse = await http
+      .get(Uri.http(serverIP, '/api/my/comments', _queryParameters),
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cookie": "JSESSIONID=$session",
+      }
+  );
+  if (commentResponse.statusCode == 200) {
+    data = jsonDecode(utf8.decode(commentResponse.bodyBytes));
+    if(data['content'].length!=0) {
+      for (int i = 0; i < data['content'].length; i++) {
+        commentListController.commentAdd(AddComment(
+            index: pageIndexController.pageIndex.value,
+            keywords: data['content'][i],
+            before: "MyActivity", selectReply: '',));
+      }
+    }
+  }
+  else {
+    throw Exception("activityStartFetch Error");
+  }
+}
+
+
+Future activityPostLoadFetch() async {
   final pageIndexController = Get.put(PageIndexController());
   final boardListController = Get.put(BoardListController());
 
@@ -304,7 +378,7 @@ Future writePostLoadFetch() async {
     'page': pageIndexController.pageIndex.value.toString(),
   };
   final response = await http
-      .get(Uri.http(serverIP, '/api/my-page/posts', _queryParameters),
+      .get(Uri.http(serverIP, '/api/my/posts', _queryParameters),
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
         "Cookie": "JSESSIONID=$session",
@@ -323,6 +397,42 @@ Future writePostLoadFetch() async {
       pageIndexController.decrement();
     }
   } else {
+
+    throw Exception("startFetch Error");
+  }
+}
+
+Future activityCommentLoadFetch() async {
+  final pageIndexController = Get.put(PageIndexController());
+  final commentListController = Get.put(CommentListController());
+
+  pageIndexController.increment();
+
+  Map<String, String> _queryParameters = <String, String>{
+    'page': pageIndexController.pageIndex.value.toString(),
+  };
+  Map<String, dynamic> data;
+  final commentResponse = await http
+      .get(Uri.http(serverIP, '/api/my/comments', _queryParameters),
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cookie": "JSESSIONID=$session",
+      }
+  );
+  if (commentResponse.statusCode == 200) {
+    data = jsonDecode(utf8.decode(commentResponse.bodyBytes));
+    if(data['content'].length!=0) {
+      for (int i = 0; i < data['content'].length; i++) {
+        commentListController.commentAdd(AddComment(
+          index: pageIndexController.pageIndex.value,
+          keywords: data['content'][i],
+          before: "MyActivity", selectReply: '',));
+      }
+    }else{
+      pageIndexController.decrement();
+    }
+  }
+  else {
 
     throw Exception("startFetch Error");
   }
