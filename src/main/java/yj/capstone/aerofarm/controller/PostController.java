@@ -48,7 +48,7 @@ public class PostController {
         model.addAttribute("selectCategory", postCategory);     // 카테고리
         model.addAttribute("answerPostInfo", answerPostInfo);   // 답글 리스트
 
-        return "/community/communityPage";
+        return "community/communityPage";
     }
 
     // 인기 게시판 페이지
@@ -68,7 +68,7 @@ public class PostController {
         model.addAttribute("pageableList", pageableList);       // 시초 게시글
         model.addAttribute("selectCategory", postCategory);     // 카테고리
 
-        return "/community/hotCommunityPage";
+        return "community/hotCommunityPage";
     }
 
     // 본글 API
@@ -148,7 +148,7 @@ public class PostController {
         model.addAttribute("isSelected", isSelect.size());
         model.addAttribute("user", userId);
 
-        return "/community/postingPage";
+        return "community/postingPage";
     }
 
     // 글쓰기 페이지
@@ -175,7 +175,7 @@ public class PostController {
         model.addAttribute("myId", id);
         model.addAttribute("selectPostId", postId);
         model.addAttribute("savePostForm", postForm);       // 아무 조건도 일치하지 않으면 새 글 작성
-        return "/community/writingPage";
+        return "community/writingPage";
     }
 
     /*--------------------------------------------------------------------------------------------------------------------------------------------------*/
