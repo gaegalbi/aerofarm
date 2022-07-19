@@ -8,7 +8,6 @@ import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' as parser;
 import 'package:html/dom.dart' as dom;
 
-import '../CurrentTime.dart';
 import '../LoginPage/LoginPageLogin.dart';
 import '../themeData.dart';
 import 'CommunityAddBoard.dart';
@@ -50,18 +49,6 @@ List<String> boardCategory = [
   "picture",
   "trade"
 ];
-
-
-class CategoryIndexController extends GetxController{
-  final categoryIndex = 0.obs;
-  void increment(){
-    categoryIndex.value++;
-  }
-  void setUp(){
-    categoryIndex.value = 0;
-  }
-}
-
 
 class PageIndexController extends GetxController{
   final pageIndex = 1.obs;
@@ -174,37 +161,18 @@ class CommentListController extends GetxController{
 }
 
 class SetCategoryController extends GetxController {
-  final setCategory = "ALL".obs;
+  final setCategory = "".obs;
   final List<bool> category = [true, false, false, false, false, false,].obs;
 
-  void categoryClick(int index) {
+  void categoryClick(int index,String filter) {
     for (int i = 0; i < category.length; i++) {
       if (i != index) {
         category[i]= false;
       } else {
         category[i] = true;
-        switch (i) {
-          case 1:
-            setCategory.value = "FREE";
-            break;
-          case 2:
-            setCategory.value = "PICTURE";
-            break;
-          case 3:
-            setCategory.value = "INFORMATION";
-            break;
-          case 4:
-            setCategory.value = "QUESTION";
-            break;
-          case 5:
-            setCategory.value = "TRADE";
-            break;
-          default:
-            setCategory.value = "ALL";
-            break;
-        }
       }
     }
+    setCategory.value = filter;
   }
 }
 class ReadPostController extends GetxController{
@@ -363,10 +331,9 @@ Future activityCommentStartFetch() async {
     }
   }
   else {
-    throw Exception("activityStartFetch Error");
+    throw Exception("activityCommentStartFetch Error");
   }
 }
-
 
 Future activityPostLoadFetch() async {
   final pageIndexController = Get.put(PageIndexController());
@@ -397,8 +364,41 @@ Future activityPostLoadFetch() async {
       pageIndexController.decrement();
     }
   } else {
+    throw Exception("activityPostLoadFetch Error");
+  }
+}
 
-    throw Exception("startFetch Error");
+Future activityLikedLoadFetch() async {
+  final pageIndexController = Get.put(PageIndexController());
+  final boardListController = Get.put(BoardListController());
+
+  pageIndexController.increment();
+
+  Map<String, String> _queryParameters = <String, String>{
+    'page': pageIndexController.pageIndex.value.toString(),
+  };
+  final response = await http
+      .get(Uri.http(serverIP, '/api/my/likeposts', _queryParameters),
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cookie": "JSESSIONID=$session",
+      }
+  );
+  if (response.statusCode == 200) {
+    Map<String, dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
+    if(data['content'].length!=0) {
+      for (int i = 0; i < data['content'].length; i++) {
+        boardListController.boardAdd(AddBoard(
+            index: pageIndexController.pageIndex.value,
+            keywords: data['content'][i],
+            before: "MyActivity"));
+      }
+    }else{
+      pageIndexController.decrement();
+    }
+  } else {
+
+    throw Exception("activityLikedLoadFetch Error");
   }
 }
 
@@ -434,7 +434,7 @@ Future activityCommentLoadFetch() async {
   }
   else {
 
-    throw Exception("startFetch Error");
+    throw Exception("activityCommentLoadFetch Error");
   }
 }
 
@@ -786,10 +786,12 @@ Future answerFetch(String communityCategory) async {
 Future categoryFetch(String communityCategory) async {
   final pageIndexController = Get.put(PageIndexController());
   final boardListController = Get.put(BoardListController());
+  final setCategoryController  = Get.put(SetCategoryController());
 
   pageIndexController.setUp();
   boardListController.boardClear();
   boardListController.boardIdClear();
+
 
   Map<String, String> _queryParameters = <String, String>{
     'page': pageIndexController.pageIndex.value.toString(),
@@ -806,13 +808,38 @@ Future categoryFetch(String communityCategory) async {
     if(communityCategory=='ALL' || communityCategory =='HOT'){
       if(data['content'].length!=0) {
         for (int i = 0; i < data['content'].length; i++) {
-          boardListController.boardIdAdd(data['content'][i]['id']);
-          boardListController.boardParentList.add(data['content'][i]['id']);
-          boardListController.boardAdd(AddBoard(
-              index: pageIndexController.pageIndex.value,
-              keywords: data['content'][i],
-              before: communityCategory)
-          );
+          if(setCategoryController.setCategory.value=="ALL"){
+            boardListController.boardIdAdd(data['content'][i]['id']);
+            boardListController.boardParentList.add(data['content'][i]['id']);
+            boardListController.boardAdd(AddBoard(
+                index: pageIndexController.pageIndex.value,
+                keywords: data['content'][i],
+                before: communityCategory)
+            );
+          }else{
+            if(communityCategory=="HOT"){
+              if(data['content'][i]['category'] == setCategoryController.setCategory.value){
+                boardListController.boardIdAdd(data['content'][i]['id']);
+                boardListController.boardParentList.add(data['content'][i]['id']);
+                boardListController.boardAdd(AddBoard(
+                    index: pageIndexController.pageIndex.value,
+                    keywords: data['content'][i],
+                    before: communityCategory)
+                );
+              }
+            }else{
+              if(data['content'][i]['filter'] == setCategoryController.setCategory.value) {
+                boardListController.boardIdAdd(data['content'][i]['id']);
+                boardListController.boardParentList.add(
+                    data['content'][i]['id']);
+                boardListController.boardAdd(AddBoard(
+                    index: pageIndexController.pageIndex.value,
+                    keywords: data['content'][i],
+                    before: communityCategory)
+                );
+              }
+            }
+          }
         }
       }
     }
@@ -834,15 +861,27 @@ Future categoryFetch(String communityCategory) async {
           if (data['content'].length != 0) {
             for (int i = 0; i < data['content'].length; i++) {
               if (data['content'][i]['category'] == communityCategory) {
-                boardListController.boardIdAdd(data['content'][i]['id']);
-                boardListController.boardParentList.add(data['content'][i]['id']);
-                boardListController.boardAdd(AddBoard(
-                    index: pageIndexController.pageIndex.value,
-                    keywords: data['content'][i],
-                    before: communityCategory)
-                );
-                count++;
-                //for문
+                if(setCategoryController.setCategory.value == "ALL"){
+                  boardListController.boardIdAdd(data['content'][i]['id']);
+                  boardListController.boardParentList.add(data['content'][i]['id']);
+                  boardListController.boardAdd(AddBoard(
+                      index: pageIndexController.pageIndex.value,
+                      keywords: data['content'][i],
+                      before: communityCategory)
+                  );
+                  count++;
+                }else{
+                  if(setCategoryController.setCategory.value == data['content'][i]['filter']){
+                    boardListController.boardIdAdd(data['content'][i]['id']);
+                    boardListController.boardParentList.add(data['content'][i]['id']);
+                    boardListController.boardAdd(AddBoard(
+                        index: pageIndexController.pageIndex.value,
+                        keywords: data['content'][i],
+                        before: communityCategory)
+                    );
+                    count++;
+                  }
+                }
                 if(count==10){
                   break;
                 }
@@ -1048,6 +1087,7 @@ Future loadReadPostContent(int postId, String communityCategory) async{
     throw Exception("loadReadPostContent Error");
   }
 }
+/*
 
 Future fetch(String communityCategory, bool readPost) async {
   String current = dateFormat.format(DateTime.now());
@@ -1366,3 +1406,4 @@ Future fetch(String communityCategory, bool readPost) async {
     }
   }
 }
+*/

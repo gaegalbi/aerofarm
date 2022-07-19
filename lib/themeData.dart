@@ -19,6 +19,7 @@ class MainColor {
   Color.fromRGBO(64, 78, 105, 1);
       //Color.fromRGBO(95, 114, 151, 1); //Color.fromRGBO(64, 78, 105, 100);
   static const three =  Color.fromRGBO(57, 87, 183, 1); //Color.fromRGBO(80, 130, 255, 1);
+  static const filter =  Color.fromRGBO(107, 137, 233, 1);
 // Color.fromRGBO(57, 87, 183, 100); //Color.fromRGBO(64, 91, 177, 100);
 }
 
@@ -414,6 +415,11 @@ class CommunityPageTheme {
       fontSize: 16);
   static const activityCommentTitle = TextStyle(
       color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmAir',
+      fontSize: 20);
+  static const filter = TextStyle(
+      color: MainColor.filter,
       decoration: TextDecoration.none,
       fontFamily: 'bmAir',
       fontSize: 20);

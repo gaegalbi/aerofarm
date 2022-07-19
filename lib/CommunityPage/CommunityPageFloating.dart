@@ -51,7 +51,7 @@ class CommunityPageFloating extends StatelessWidget {
     final textEditingController =  TextEditingController();
     switch (type) {
       case "ReadPost":
-        return SpeedDial(
+        return keywords['deleteTnF'] ? Container():SpeedDial(
             spaceBetweenChildren: 5,
             icon: Icons.menu,
             backgroundColor: MainColor.three,

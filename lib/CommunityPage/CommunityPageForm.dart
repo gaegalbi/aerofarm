@@ -24,7 +24,6 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
   final commentListController = Get.put(CommentListController());
   final loadingController = Get.put(LoadingController());
   final pageIndexController = Get.put(PageIndexController());
-  final categoryIndexController  = Get.put(CategoryIndexController());
   final setCategoryController  = Get.put(SetCategoryController());
   final replyDetailController  = Get.put(ReplyDetailListController());
 
@@ -40,7 +39,6 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
         loadFetch(widget.category).then((value) => answerFetch(widget.category));
       }
       if (_scrollController.offset == _scrollController.position.minScrollExtent) {
-          categoryIndexController.setUp();
           loadingController.setTrue();
           startFetch(widget.category).then((value)=>answerFetch(widget.category)).then((value)=>loadingController.setFalse());
       }
@@ -71,7 +69,6 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
     boardListController.dispose();
     loadingController.dispose();
     pageIndexController.dispose();
-    categoryIndexController.dispose();
     _scrollController.dispose();
     _categoryController.dispose();
     super.dispose();
@@ -169,87 +166,73 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
                     matchCategory[widget.category.toString()]!,
                     style: CommunityPageTheme.title,
                   ),
-                  widget.category == "HOT"
-                      ? Container(
+                  Container(
                           height: MediaQuery.of(context).size.height * 0.039,
                           width: MediaQuery.of(context).size.width * 0.6,
                           padding: EdgeInsets.only(
                             left: MediaQuery.of(context).size.width * 0.021,
                           ),
-                          child: ListView(
+                          child: Obx(()=>ListView(
                             controller: _categoryController,
                             scrollDirection: Axis.horizontal,
                             children: <Widget>[
                               TitleButton(
                                   title: "전체",
                                   onPressed: () {
-                                    setState(() {
-                                      setCategoryController.categoryClick(0);
-                                      fetch(widget.category,false);
-                                    });
+                                      setCategoryController.categoryClick(0,"ALL");
+                                      categoryFetch(widget.category);
                                   },
                                   style: setCategoryController.category[0]
                                       ? CommunityPageTheme.titleButtonTrue
                                       : CommunityPageTheme.titleButtonFalse),
                               TitleButton(
-                                  title: "자유",
+                                  title: widget.category == "HOT" ? "자유" : "일반",
                                   onPressed: () {
-                                    setState(() {
-                                      setCategoryController.categoryClick(1);
-                                      fetch(widget.category,false);
-                                    });
+                                      setCategoryController.categoryClick(1,widget.category == "HOT" ? "FREE" : "NORMAL");
+                                      categoryFetch(widget.category);
                                   },
                                   style: setCategoryController.category[1]
                                       ? CommunityPageTheme.titleButtonTrue
                                       : CommunityPageTheme.titleButtonFalse),
                               TitleButton(
-                                  title: "사진",
+                                  title: widget.category == "HOT" ? "사진" : "취미",
                                   onPressed: () {
-                                    setState(() {
-                                      setCategoryController.categoryClick(2);
-                                      fetch(widget.category,false);
-                                    });
+                                      setCategoryController.categoryClick(2,widget.category == "HOT" ? "PICTURE" : "HOBBY");
+                                      categoryFetch(widget.category);
                                   },
                                   style: setCategoryController.category[2]
                                       ? CommunityPageTheme.titleButtonTrue
                                       : CommunityPageTheme.titleButtonFalse),
                               TitleButton(
-                                  title: "정보",
+                                  title: widget.category == "HOT" ? "정보" : "게임",
                                   onPressed: () {
-                                    setState(() {
-                                      setCategoryController.categoryClick(3);
-                                      fetch(widget.category,false);
-                                    });
+                                      setCategoryController.categoryClick(3,widget.category == "HOT" ? "INFORMATION" : "GAME");
+                                      categoryFetch(widget.category);
                                   },
                                   style: setCategoryController.category[3]
                                       ? CommunityPageTheme.titleButtonTrue
                                       : CommunityPageTheme.titleButtonFalse),
                               TitleButton(
-                                  title: "질문",
+                                  title: widget.category == "HOT" ? "질문" : "일상",
                                   onPressed: () {
-                                    setState(() {
-                                      setCategoryController.categoryClick(4);
-                                      fetch(widget.category,false);
-                                    });
+                                      setCategoryController.categoryClick(4,widget.category == "HOT" ? "QUESTION" : "DAILY");
+                                      categoryFetch(widget.category);
                                   },
                                   style: setCategoryController.category[4]
                                       ? CommunityPageTheme.titleButtonTrue
                                       : CommunityPageTheme.titleButtonFalse),
                               TitleButton(
-                                  title: "거래",
+                                  title:widget.category == "HOT" ?  "거래" : "여행",
                                   onPressed: () {
-                                    setState(() {
-                                      setCategoryController.categoryClick(5);
-                                      fetch(widget.category,false);
-                                    });
+                                      setCategoryController.categoryClick(5,widget.category == "HOT" ? "TRADE" : "TRAVEL");
+                                      categoryFetch(widget.category);
                                   },
                                   style: setCategoryController.category[5]
                                       ? CommunityPageTheme.titleButtonTrue
                                       : CommunityPageTheme.titleButtonFalse),
                             ],
-                          ),
+                          )),
                         )
-                      : Container(),
                 ],
               ),
               GestureDetector(

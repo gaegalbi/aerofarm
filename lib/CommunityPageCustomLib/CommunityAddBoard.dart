@@ -6,6 +6,14 @@ import '../CommunityPage/CommunityPageReadPost.dart';
 import '../CurrentTime.dart';
 import '../themeData.dart';
 
+final Map<String,String >changeFilter ={
+  "NORMAL":"일반",
+  "HOBBY":"취미",
+  "GAME":"게임",
+  "TRAVEL":"여행",
+  "DAILY":"일상",
+};
+
 class AddBoard extends StatelessWidget {
   final int index;
   final Map<String, dynamic> keywords;
@@ -61,12 +69,18 @@ class AddBoard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                      margin: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).size.height * 0.008),
-                      child: Text(
-                        keywords['title'],
-                        style: CommunityPageTheme.main,
-                      )),
+                    margin: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).size.height * 0.008),
+                    child: Row(
+                      children: [
+                        Text("[${changeFilter[keywords['filter']]!}] ",style: CommunityPageTheme.filter,),
+                        Text(
+                          keywords['title'],
+                          style: CommunityPageTheme.main,
+                        ),
+                      ],
+                    ),
+                  ),
                   Row(
                     children: [
                       Flexible(
