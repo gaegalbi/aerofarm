@@ -69,19 +69,16 @@ public class DeviceController {
                         .scheme("http")
                         .host(deviceIpUuid.getIp())
                         .port(5111)
-                        .path("/test") // TODO 경로 수정할 것
+                        .path("/device-setting")
                         .build())
                 .bodyValue(new DeviceSettingUuidDto(deviceIpUuid.getUuid(), request))
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(Void.class)
-//                .publishOn(Schedulers.boundedElastic())
                 .onErrorMap(error -> {
                     throw new AerofarmTimeoutException("수경재배기 응답 없음");
                 })
-//                .doOnSuccess(unused -> deviceService.updateDeviceSetting(request))
                 .block();
-//                .subscribe(); // Async-Non block
 
         deviceService.updateDeviceSetting(userDetails.getMember().getId() ,request);
         log.info("Device status updated. by {}, device number: {}", userDetails.getUsername(), request.getNumber());
@@ -100,7 +97,7 @@ public class DeviceController {
                         .scheme("http")
                         .host(deviceIpUuid.getIp())
                         .port(5111)
-                        .path("/test2") // TODO 경로 수정할 것
+                        .path("/device-info")
                         .build())
                 .body(BodyInserters.fromFormData("uuid", deviceIpUuid.getUuid()))
                 .accept(MediaType.APPLICATION_JSON)
