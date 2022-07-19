@@ -33,6 +33,8 @@ import yj.capstone.aerofarm.service.PostService;
 
 import javax.validation.Valid;
 
+import java.io.*;
+
 import static yj.capstone.aerofarm.dto.Message.createMessage;
 
 @Controller
@@ -162,6 +164,21 @@ public class MemberController {
             return "redirect:/";
         }
         return "member/orderDetailPage";
+    }
+
+    @PostMapping("/my-page/save-img")
+    public String saveImg(File file) throws IOException {
+        FileOutputStream outputStream = new FileOutputStream("D:/capstone/src/main/resources/static/image/" + file.getName());
+        FileInputStream inputStream = new FileInputStream(file);
+
+        int readCount = 0;
+        byte[] buffer = new byte[1024];
+
+        while((readCount = inputStream.read(buffer)) != -1) {
+            outputStream.write(buffer, 0, readCount);
+        }
+
+        return file.getName();
     }
 
     @GetMapping("/my-page/edit")

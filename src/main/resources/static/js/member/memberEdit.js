@@ -1,6 +1,9 @@
 let memberEdit = {
     init: function () {
         let _this = this;
+        $('#imgSendBtn').on('click', function (){
+            _this.imgEdit();
+        });
         $('#edit-form').submit(function (event) {
             event.preventDefault();
             _this.profileEdit();
@@ -11,6 +14,24 @@ let memberEdit = {
         $('#auth-btn').on('click', function (){
             _this.validateSms();
         });
+    },
+    imgEdit: function () {
+        const img = $('#imgInput');
+
+        const formData = new FormData();
+        formData.append("profileImg", img.files[0]);
+
+        $.ajax({
+            type: 'POST',
+            url: '/my-page/save-img',
+            data: 'formData',
+            processData: false,
+            contentType: false
+        }).done(function (data) {
+            alert('실행 성공')
+        }).fail(function () {
+            alert('실행 실패')
+        })
     },
     profileEdit: function () {
         let data = {

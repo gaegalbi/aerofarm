@@ -18,6 +18,8 @@ public class ProfileEditRequest {
     @Pattern(regexp = "^$|^[가-힣]*$")
     private String name;
 
+    private String picture;
+
     @Pattern(regexp = "^$|^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$", message = "올바른 전화번호를 입력해주세요.")
     private String phoneNumber;
 
