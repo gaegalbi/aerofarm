@@ -190,8 +190,12 @@ public class PostService {
     public Long commentCount(Post post) { return commentRepository.findAllCommentCount(post); }
 
     // 좋아요 개수 조회
-    public List<PostLikeDto> findLikeInfo(Long postId) {
-        return postLikeRepository.findLikeInfo(postId);
+    public Long findLikeInfo(Long postId) {
+        Long count = postLikeRepository.findLikeCount(postId);
+        if (count == null) {
+            count = 0L;
+        }
+        return count;
     }
 
     // 좋아요 누름 여부 조회

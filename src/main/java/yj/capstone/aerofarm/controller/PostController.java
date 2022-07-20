@@ -153,7 +153,7 @@ public class PostController {
 
         Page<CommentDto> commentInfo = postService.findCommentInfo(post, pageable); // 게시물 id로 포함 댓글 검색
         PageableList<CommentDto> pageableList = new PageableList<>(commentInfo);    // 페이징
-        List<PostLikeDto> postLikeInfo = postService.findLikeInfo(post.getId());
+        Long postLikeCount = postService.findLikeInfo(post.getId());
 
         List<CommentDto> answerCommentInfo = postService.findAnswerCommentInfo(post);
 
@@ -163,9 +163,9 @@ public class PostController {
         }
         boolean isSelect = postService.isMemberSelectInfo(userId, postId);
 
-        if (postLikeInfo.size() == 0) {
-            postLikeInfo.add(new PostLikeDto(post.getId(), 0L));
-        }
+//        if (postLikeInfo.size() == 0) {
+//            postLikeInfo.add(new PostLikeDto(post.getId(), 0L));
+//        }
 
         model.addAttribute("commentCount", postService.commentCount(post));
         model.addAttribute("answerCommentInfo", answerCommentInfo);
@@ -173,7 +173,7 @@ public class PostController {
         model.addAttribute("pageableList", pageableList);
         model.addAttribute("selectPost", result);
         model.addAttribute("selectPostCategory", post.getCategory().getLowerCase());
-        model.addAttribute("postLikeInfo", postLikeInfo.get(0));
+        model.addAttribute("postLikeInfo", postLikeCount);
         model.addAttribute("isSelected", isSelect);
         model.addAttribute("user", userId);
 

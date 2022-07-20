@@ -16,14 +16,12 @@ public class PostLikeRepositoryImpl extends Querydsl5RepositorySupport implement
     }
 
     @Override
-    public List<PostLikeDto> findLikeInfo(Long postId) {
+    public Long findLikeCount(Long postId) {
 
-        return select(new QPostLikeDto(
-                        postLike.post.id,
-                        postLike.count()))
+        return select(postLike.count())
                 .from(postLike)
                 .groupBy(postLike.post)
                 .having(postLike.post.id.eq(postId))
-                .fetch();
+                .fetchOne();
     }
 }
