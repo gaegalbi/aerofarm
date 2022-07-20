@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:capstone/main.dart';
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
@@ -84,7 +86,7 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
         body: Container(
           color: MainColor.six,
           alignment: Alignment.center,
-          height: MediaQuery.of(context).size.height,
+          //height: MediaQuery.of(context).size.height,
           child: SingleChildScrollView(
             controller: _scrollController,
             scrollDirection: Axis.vertical,
@@ -113,11 +115,18 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                         textInputAction: TextInputAction.next,
                         style: LoginRegisterPageTheme.text,
                         //textAlign: TextAlign.center,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: const BorderSide(
+                                width: 0,
+                                style: BorderStyle.none,
+                              ),
+                            ),
                             filled: true,
                             fillColor: MainColor.one,
-                            enabledBorder: InputBorder.none,
-                            focusedBorder: InputBorder.none,
+                            //enabledBorder: InputBorder.none,
+                            //focusedBorder: InputBorder.none,
                             hintText: "name@example.com",
                             hintStyle: LoginRegisterPageTheme.hint),
                       ),
@@ -148,11 +157,18 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                         textInputAction: TextInputAction.next,
                         style: LoginRegisterPageTheme.text,
                         //textAlign: TextAlign.center,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: const BorderSide(
+                                width: 0,
+                                style: BorderStyle.none,
+                              ),
+                            ),
                             filled: true,
                             fillColor: MainColor.one,
-                            enabledBorder: InputBorder.none,
-                            focusedBorder: InputBorder.none,
+                            //enabledBorder: InputBorder.none,
+                            //focusedBorder: InputBorder.none,
                             hintStyle: LoginRegisterPageTheme.hint),
                       ),
                     ),
@@ -182,11 +198,18 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                         textInputAction: TextInputAction.next,
                         style: LoginRegisterPageTheme.text,
                         //textAlign: TextAlign.center,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: const BorderSide(
+                                width: 0,
+                                style: BorderStyle.none,
+                              ),
+                            ),
                             filled: true,
                             fillColor: MainColor.one,
-                            enabledBorder: InputBorder.none,
-                            focusedBorder: InputBorder.none,
+                            //enabledBorder: InputBorder.none,
+                            //focusedBorder: InputBorder.none,
                             hintStyle: LoginRegisterPageTheme.hint),
                       ),
                     ),
@@ -215,11 +238,18 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                         style: LoginRegisterPageTheme.text,
                         //textAlign: TextAlign.center,
                         keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(
+                        decoration:  InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: const BorderSide(
+                                width: 0,
+                                style: BorderStyle.none,
+                              ),
+                            ),
                             filled: true,
                             fillColor: MainColor.one,
-                            enabledBorder: InputBorder.none,
-                            focusedBorder: InputBorder.none,
+                            //enabledBorder: InputBorder.none,
+                            //focusedBorder: InputBorder.none,
                             hintText: "홍길동",
                             hintStyle: LoginRegisterPageTheme.hint),
                       ),
@@ -248,11 +278,18 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                         textInputAction: TextInputAction.next,
                         style: LoginRegisterPageTheme.text,
                         //textAlign: TextAlign.center,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide: const BorderSide(
+                                width: 0,
+                                style: BorderStyle.none,
+                              ),
+                            ),
                             filled: true,
                             fillColor: MainColor.one,
-                            enabledBorder: InputBorder.none,
-                            focusedBorder: InputBorder.none,
+                            //enabledBorder: InputBorder.none,
+                            //focusedBorder: InputBorder.none,
                             hintText: "NICKNAME을 입력해주세요",
                             hintStyle: LoginRegisterPageTheme.hint),
                       ),
@@ -268,15 +305,74 @@ class _LoginPageRegisterState extends State<LoginPageRegister> {
                   child: TextButton(
                     onPressed: () async {
                       //회원 가입
-                      await http.post(Uri.http(serverIP, '/signup'),
-                          body: {
-                            "email":_emailController.text,
-                            "password":_passwordController.text,
-                            "confirmPassword":_passwordConfirmController.text,
-                            "name":_nameController.text,
-                            "nickname":_nickNameController.text
-                          });
-                      Get.back();
+                      if(_passwordController.text != _passwordConfirmController.text){
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              Future.delayed(const Duration(milliseconds: 900), () {
+                                Navigator.pop(context);
+                              });
+                              return const AlertDialog(
+                                backgroundColor: Colors.transparent,
+                                contentPadding: EdgeInsets.all(5),
+                                content: Text(
+                                  "비밀번호가\n같지 않습니다.",
+                                  style: TextStyle(fontSize: 26),
+                                  textAlign: TextAlign.center,
+                                ),
+                              );
+                            });
+                      }else{
+                        var data = json.encode({
+                          "email":_emailController.text,
+                          "password":_passwordController.text,
+                          "confirmPassword":_passwordConfirmController.text,
+                          "name":_nameController.text,
+                          "nickname":_nickNameController.text
+                        });
+                        final response = await http.post(Uri.http(serverIP, '/signup/api'),
+                            headers: {
+                              "Content-Type": "application/json",
+                            },
+                            body: data);
+                        if(response.statusCode == 400){
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                Future.delayed(const Duration(milliseconds: 900), () {
+                                  Navigator.pop(context);
+                                });
+                                return AlertDialog(
+                                  backgroundColor: Colors.transparent,
+                                  contentPadding: const EdgeInsets.all(5),
+                                  content: Text(
+                                    jsonDecode(utf8.decode(response.bodyBytes))['message'],
+                                    style: const TextStyle(fontSize: 26),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                );
+                              });
+                        }else{
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                Future.delayed(const Duration(milliseconds: 900),
+                                        () {
+                                      Navigator.pop(context);
+                                      Get.back();
+                                    });
+                                return const AlertDialog(
+                                  backgroundColor: Colors.transparent,
+                                  contentPadding: EdgeInsets.all(5),
+                                  content: Text(
+                                    "해당 이메일로\n인증링크를 보냈습니다.",
+                                    style: TextStyle(fontSize: 28),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                );
+                              });
+                        }
+                      }
                       //Get.off(()=>LoginPage(reLogin: widget.reLogin,));
                     },
                     child: const Text(

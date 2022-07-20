@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+
+import '../main.dart';
 
 class LoginPageResetPassword extends StatefulWidget {
   const LoginPageResetPassword({Key? key}) : super(key: key);
@@ -123,8 +128,14 @@ class _LoginPageResetPasswordState extends State<LoginPageResetPassword> {
                         bottom: MediaQuery.of(context).size.height * 0.08),
                     color: MainColor.three,
                     child: TextButton(
-                      onPressed: () {
+                      onPressed: () async {
                         //이메일 전송
+                        var data = json.encode({"email":_emailController.text});
+                        await http.post(Uri.http(serverIP, '/login/reset-password'),
+                            headers: {
+                              "Content-Type": "application/json",
+                            },
+                            body: data);
                         Get.back();
                       },
                       child: const Text(

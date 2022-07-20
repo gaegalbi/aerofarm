@@ -137,24 +137,50 @@ class _MainPageMyProfileEditState extends State<MainPageMyProfileEdit> {
                         status = jsonDecode(utf8.decode(response.bodyBytes))['validation'];
                         switch(status.keys.first){
                           case "nickname":
-                            print("nickname오류");
+                            showDialog(context: context, barrierDismissible:false, builder: (context){
+                              Future.delayed(const Duration(milliseconds: 1500), () {
+                                Navigator.pop(context);
+                              });
+                              return const AlertDialog(
+                                backgroundColor: Colors.transparent,
+                                contentPadding: EdgeInsets.all(5),
+                                content: Text("닉네임이 중복되거나\n올바르지 않습니다.",style: TextStyle(fontSize: 30),textAlign: TextAlign.center,),
+                              );
+                            });
                             break;
                           case "phoneNumber":
-                            print("phoneNumber오류");
+                            showDialog(context: context, barrierDismissible:false, builder: (context){
+                              Future.delayed(const Duration(milliseconds: 1500), () {
+                                Navigator.pop(context);
+                              });
+                              return const AlertDialog(
+                                backgroundColor: Colors.transparent,
+                                contentPadding: EdgeInsets.all(5),
+                                content: Text("연락처가 중복되거나\n올바르지 않습니다.",style: TextStyle(fontSize: 30),textAlign: TextAlign.center,),
+                              );
+                            });
                             break;
                           case "name":
                             //이름 다섯글자
-                            print("name오류");
+                            showDialog(context: context, barrierDismissible:false, builder: (context){
+                              Future.delayed(const Duration(milliseconds: 1500), () {
+                                Navigator.pop(context);
+                              });
+                              return const AlertDialog(
+                                backgroundColor: Colors.transparent,
+                                contentPadding: EdgeInsets.all(5),
+                                content: Text("이름이 중복되거나\n올바르지 않습니다.",style: TextStyle(fontSize: 30),textAlign: TextAlign.center,),
+                              );
+                            });
                             break;
                           default:
                             print(status.keys.first);
                             break;
                         }
+                      }else{
+                        nicknameController.setNickname(_nicknameController.text);
+                        getProfile("MainPageMyProfileEdit");
                       }
-                      //address1
-                      //address2
-                      nicknameController.setNickname(_nicknameController.text);
-                      getProfile("MainPageMyProfileEdit");
                     }
                   },
                   child: const Text(

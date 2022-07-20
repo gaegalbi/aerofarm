@@ -275,12 +275,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                           ],
                         ),
                       ),
-                      Container(
-                        //height: MediaQuery.of(context).size.height*0.4,
-                        margin: EdgeInsets.only(
-                            top: MediaQuery.of(context).size.height * 0.01),
-                        child: Obx(()=>Html(data: readPostController.content.value)),
-                      ),
+                      Obx(()=>Html(data: readPostController.content.value)),
                       Container(
                           decoration: const BoxDecoration(
                               border: Border(
@@ -407,48 +402,52 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                       ),
                       onPressed: () async {
                         //누를때 한번 더 확인
-                        if(!widget.keywords['deleteTnF']){
-                          Map<String, String> _queryParameters =  <String, String>{
-                            'postId': widget.keywords['id'].toString(),
-                          };
-                          final likeResponse = await http
-                              .get(Uri.http(serverIP, '/api/islike',_queryParameters),
-                              headers:{
-                                "Content-Type": "application/x-www-form-urlencoded",
+                        if(checkTimerController.time.value){
+                          checkTimerController.stop(context);
+                        }else{
+                          if(!widget.keywords['deleteTnF']){
+                            Map<String, String> _queryParameters =  <String, String>{
+                              'postId': widget.keywords['id'].toString(),
+                            };
+                            final likeResponse = await http
+                                .get(Uri.http(serverIP, '/api/islike',_queryParameters),
+                                headers:{
+                                  "Content-Type": "application/x-www-form-urlencoded",
+                                  "Cookie":"JSESSIONID=$session",
+                                }
+                            );
+                            if(likeResponse.statusCode ==200) {
+                              readPostController.setIsLike(likeResponse.body);
+                            }else{
+                              readPostController.setIsLike("false");
+                            }
+                            var data = {
+                              "postId":widget.keywords['id'],
+                            };
+                            var body = json.encode(data);
+                            String work = "";
+                            if(readPostController.isLike.isTrue){
+                              work = "/deleteLike";
+                              setState((){
+                                likes = (int.parse(likes!)-1).toString();
+                              });
+                            }else{
+                              work = "/createLike";
+                              setState((){
+                                likes = (int.parse(likes!)+1).toString();
+                              });
+                            }
+                            await http.post(
+                              Uri.http(serverIP, work),
+                              headers: {
+                                "Content-Type": "application/json",
                                 "Cookie":"JSESSIONID=$session",
-                              }
-                          );
-                          if(likeResponse.statusCode ==200) {
-                            readPostController.setIsLike(likeResponse.body);
-                          }else{
-                            readPostController.setIsLike("false");
+                              },
+                              encoding: Encoding.getByName('utf-8'),
+                              body: body,
+                            );
+                            readPostController.toggleLike();
                           }
-                          var data = {
-                            "postId":widget.keywords['id'],
-                          };
-                          var body = json.encode(data);
-                          String work = "";
-                          if(readPostController.isLike.isTrue){
-                            work = "/deleteLike";
-                            setState((){
-                              likes = (int.parse(likes!)-1).toString();
-                            });
-                          }else{
-                            work = "/createLike";
-                            setState((){
-                              likes = (int.parse(likes!)+1).toString();
-                            });
-                          }
-                          await http.post(
-                            Uri.http(serverIP, work),
-                            headers: {
-                              "Content-Type": "application/json",
-                              "Cookie":"JSESSIONID=$session",
-                            },
-                            encoding: Encoding.getByName('utf-8'),
-                            body: body,
-                          );
-                          readPostController.toggleLike();
                         }
                       },
                     ),

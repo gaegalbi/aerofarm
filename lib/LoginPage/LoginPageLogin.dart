@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:capstone/LoginPage/LoginPageRegister.dart';
 import 'package:capstone/LoginPage/LoginPageResetPassword.dart';
 import 'package:capstone/MainPage/MainPage.dart';
@@ -118,7 +117,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                       "Content-Type": "application/x-www-form-urlencoded",
                       "Cookie":"JSESSIONID=$session",
                     },
-                    encoding: Encoding.getByName('utf-8'),
+                    //encoding: Encoding.getByName('utf-8'),
                     body: data,
                   );
                   if(response1.statusCode ==200){
@@ -164,7 +163,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                     //print(nickname);
                     //printWrapped(document.outerHtml);
                     profile = Image.network("http://$serverIP$src");
-                    print(profile);
+                    //print(profile);
                     widget.reLogin ?
                     Get.back() :
                     Get.offAll(()=>const MainPage());

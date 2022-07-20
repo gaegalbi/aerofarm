@@ -113,7 +113,7 @@ class MainPageTheme {
       color: MainColor.three,
       decoration: TextDecoration.none,
       fontFamily: 'bmPro',
-      fontSize: 45);
+      fontSize: 43);
   static const nameSub = TextStyle(
       color: MainColor.three,
       decoration: TextDecoration.none,
