@@ -125,6 +125,8 @@ public class Member extends BaseEntity {
         this.password = password;
     }
 
+    public void changePicutre(String picture) { this.picture = picture; }
+
     public void emailVerifiedSuccess() {
         this.verify = true;
     }

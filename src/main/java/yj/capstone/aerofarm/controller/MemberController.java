@@ -207,6 +207,11 @@ public class MemberController {
                 .body(createMessage("정보가 수정 되었습니다."));
     }
 
+    @PostMapping("my-page/edit/pic")
+    public void editPicture() {
+
+    }
+
     @GetMapping("/my-page/posts")
     public String postList(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails, @PageableDefault Pageable pageable) {
         MemberDto memberDto = getMemberDto(userDetails.getMember());

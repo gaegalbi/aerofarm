@@ -65,6 +65,7 @@
                             <h4 th:text="*{nickname}">
                                 abc123
                             </h4>
+                            <button class="btn btn-primary d-grid auto" style="margin: auto" data-bs-toggle="modal" data-bs-target="#editProfileModal">프로필 변경</button>
                             <br/>
                             <div th:replace="~{fragments/memberMenuBar :: memberMenuBar}"/>
                         </div>
@@ -148,6 +149,27 @@
                         <a class="btn btn-primary" href="/my-page/edit">변경하기</a>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editProfileModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">프로필 변경</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="my-page/edit/pic" id="editPicture" enctype="multipart/form-data">
+                    <h5>프로필 사진 선택</h5>
+                    <input type="file" accept="image/*" readonly class="form-control">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                <button type="submit" class="btn btn-primary">저장</button>
             </div>
         </div>
     </div>
