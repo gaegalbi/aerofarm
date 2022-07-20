@@ -111,9 +111,7 @@ public class PostController {
     @GetMapping("/api/commentinfo")
     @ResponseBody
     public CommentDto findCommentInfo(@RequestParam Long commentId) {
-        Comment comment = postService.selectComment(commentId);
-        CommentDto commentDto = new CommentDto(comment);
-        return commentDto;
+        return new CommentDto(postService.selectComment(commentId));
     }
 
     // 특정 게시글 정보 조회 API
@@ -158,22 +156,14 @@ public class PostController {
 
         Post post = postService.selectPost(postId);    // 선택한 게시물 찾기
         PostDetailDto result = new PostDetailDto(post); // 선택한 게시물 id로 상세 내용 가져오기
-
         Page<CommentDto> commentInfo = postService.findCommentInfo(post, pageable); // 게시물 id로 포함 댓글 검색
         PageableList<CommentDto> pageableList = new PageableList<>(commentInfo);    // 페이징
-        Long postLikeCount = postService.findLikeInfo(post.getId());
-
         List<CommentDto> answerCommentInfo = postService.findAnswerCommentInfo(post);
 
         Long userId = null;
         if (userDetails != null) {
             userId = userDetails.getMember().getId();
         }
-        boolean isSelect = postService.isMemberSelectInfo(userId, postId);
-
-//        if (postLikeInfo.size() == 0) {
-//            postLikeInfo.add(new PostLikeDto(post.getId(), 0L));
-//        }
 
         model.addAttribute("commentCount", postService.commentCount(post));
         model.addAttribute("answerCommentInfo", answerCommentInfo);
@@ -181,8 +171,8 @@ public class PostController {
         model.addAttribute("pageableList", pageableList);
         model.addAttribute("selectPost", result);
         model.addAttribute("selectPostCategory", post.getCategory().getLowerCase());
-        model.addAttribute("postLikeInfo", postLikeCount);
-        model.addAttribute("isSelected", isSelect);
+        model.addAttribute("postLikeInfo", postService.findLikeInfo(post.getId()));
+        model.addAttribute("isSelected", postService.isMemberSelectInfo(userId, postId));
         model.addAttribute("user", userId);
 
         return "community/postingPage";
