@@ -3,7 +3,11 @@ let eventsComment = {
         let _this = this;
 
         $('#btn-createBasicComment').on('click', function () {
-            _this.createBasicComment();
+            if ($('#comment').val().trim() == '') {
+                alert('댓글을 입력해주세요.');
+            } else {
+                _this.createBasicComment();
+            }
         });
     },
     createBasicComment : function () {
@@ -56,5 +60,9 @@ let eventsComment = {
 eventsComment.init();
 
 function callAnswerCommentMethod(attValue, attName) {
-    eventsComment.createAnswerComment(attValue, attName);
+    if ($('#answer-textarea-' + attName + attValue).val().trim() == '') {
+        alert('댓글을 입력해주세요.');
+    } else {
+        eventsComment.createAnswerComment(attValue, attName);
+    }
 }
