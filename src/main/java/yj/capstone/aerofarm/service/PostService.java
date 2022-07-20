@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import yj.capstone.aerofarm.domain.board.*;
 import yj.capstone.aerofarm.dto.CommentDto;
+import yj.capstone.aerofarm.dto.PostDetailDto;
 import yj.capstone.aerofarm.dto.PostDto;
 import yj.capstone.aerofarm.dto.PostLikeDto;
 import yj.capstone.aerofarm.dto.response.CommentListResponseDto;
@@ -20,6 +21,7 @@ import yj.capstone.aerofarm.repository.PostLikeRepository;
 import yj.capstone.aerofarm.repository.PostRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -221,5 +223,11 @@ public class PostService {
     // 자신이 좋아요한 게시글의 모든 정보 조회
     public Page<PostDto> findMyLikePostInfo(Long memberId, Pageable pageable) {
         return postRepository.findMyLikePostInfo(memberId, pageable);
+    }
+
+    // 특정 게시글 조회 API
+    public PostDetailDto findByPost(Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> null);
+        return new PostDetailDto(post);
     }
 }

@@ -18,6 +18,7 @@ public class PostDto {
     private Long id;
     private String title;
     private String writer;
+    private String content;
     private PostCategory category;
     private PostFilter filter;
     private int views;

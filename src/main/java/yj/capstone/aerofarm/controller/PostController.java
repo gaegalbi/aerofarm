@@ -20,6 +20,7 @@ import yj.capstone.aerofarm.service.PostService;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 import static yj.capstone.aerofarm.dto.Message.*;
 
@@ -113,6 +114,13 @@ public class PostController {
         Comment comment = postService.selectComment(commentId);
         CommentDto commentDto = new CommentDto(comment);
         return commentDto;
+    }
+
+    // 특정 게시글 정보 조회 API
+    @GetMapping("/api/detail/post")
+    @ResponseBody
+    public PostDetailDto findPost(@RequestParam Long postId) {
+        return postService.findByPost(postId);
     }
 
     // 게시글 좋아요 여부
