@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:capstone/main.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:http/http.dart' as http;
-import 'package:html/parser.dart' as parser;
 import 'package:html/dom.dart' as dom;
 
 import 'package:capstone/CommunityPage/CommunityPageReply.dart';
@@ -73,8 +72,6 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
     postKeywords.addAll(widget.keywords);
     //날짜 변경
     date = dateInfoFormat.format(DateTime.parse(widget.keywords['modifiedDate']));
-
-
     super.initState();
   }
 
@@ -410,43 +407,49 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                       ),
                       onPressed: () async {
                         //누를때 한번 더 확인
-                        final response = await http.get(Uri.http(serverIP, '/community/detail/${widget.keywords['id']}'),
-                            headers:{
-                              "Content-Type": "application/x-www-form-urlencoded",
+                        if(!widget.keywords['deleteTnF']){
+                          Map<String, String> _queryParameters =  <String, String>{
+                            'postId': widget.keywords['id'].toString(),
+                          };
+                          final likeResponse = await http
+                              .get(Uri.http(serverIP, '/api/islike',_queryParameters),
+                              headers:{
+                                "Content-Type": "application/x-www-form-urlencoded",
+                                "Cookie":"JSESSIONID=$session",
+                              }
+                          );
+                          if(likeResponse.statusCode ==200) {
+                            readPostController.setIsLike(likeResponse.body);
+                          }else{
+                            readPostController.setIsLike("false");
+                          }
+                          var data = {
+                            "postId":widget.keywords['id'],
+                          };
+                          var body = json.encode(data);
+                          String work = "";
+                          if(readPostController.isLike.isTrue){
+                            work = "/deleteLike";
+                            setState((){
+                              likes = (int.parse(likes!)-1).toString();
+                            });
+                          }else{
+                            work = "/createLike";
+                            setState((){
+                              likes = (int.parse(likes!)+1).toString();
+                            });
+                          }
+                          await http.post(
+                            Uri.http(serverIP, work),
+                            headers: {
+                              "Content-Type": "application/json",
                               "Cookie":"JSESSIONID=$session",
-                            }
-                        );
-                        if (response.statusCode == 200) {
-                          dom.Document document = parser.parse(response.body);
-                          readPostController.setIsLike(document.querySelector('.isSelected')!.text);
-                         // likes = document.querySelector('.post-likes')!.text;
+                            },
+                            encoding: Encoding.getByName('utf-8'),
+                            body: body,
+                          );
+                          readPostController.toggleLike();
                         }
-                        var data = {
-                          "postId":widget.keywords['id'],
-                        };
-                        var body = json.encode(data);
-                        String work = "";
-                        if(readPostController.isLike.isTrue){
-                          work = "/deleteLike";
-                          setState((){
-                            likes = (int.parse(likes!)-1).toString();
-                          });
-                        }else{
-                          work = "/createLike";
-                          setState((){
-                            likes = (int.parse(likes!)+1).toString();
-                          });
-                        }
-                        await http.post(
-                          Uri.http(serverIP, work),
-                          headers: {
-                            "Content-Type": "application/json",
-                            "Cookie":"JSESSIONID=$session",
-                          },
-                          encoding: Encoding.getByName('utf-8'),
-                          body: body,
-                        );
-                        readPostController.toggleLike();
                       },
                     ),
                     AppBarButton(

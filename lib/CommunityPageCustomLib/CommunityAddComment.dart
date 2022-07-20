@@ -63,7 +63,6 @@ class AddComment extends StatelessWidget {
     final modifyController = Get.put(ModifyController());
     final readPostController = Get.put(ReadPostController());
     final commentListController = Get.put(CommentListController());
-    print(keywords);
     final TextEditingController textEditingController = TextEditingController();
     String date;
     before == "MyActivity" ? date = dateFormat.format(DateTime.parse(keywords['createdDate'])): date = dateInfoFormat.format(DateTime.parse(keywords['localDateTime']));

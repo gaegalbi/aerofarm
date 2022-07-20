@@ -185,7 +185,7 @@ class ReadPostController extends GetxController{
   final writer = "".obs;
 
   void setIsLike(String like){
-    if(like == "1"){
+    if(like == "true"){
       isLike.value = true;
     }else{
       isLike.value = false;
@@ -927,19 +927,37 @@ Future readPostContent(int postId, String communityCategory) async{
   final readPostController = Get.put(ReadPostController());
 
   customKeywords.clear();
+  Map<String, String> _queryParameters =  <String, String>{
+    'postId': postId.toString(),
+  };
 
-  final response = await http
-      .get(Uri.http(serverIP, '/community/detail/$postId'),
+  final likeResponse = await http
+      .get(Uri.http(serverIP, '/api/islike',_queryParameters),
       headers:{
         "Content-Type": "application/x-www-form-urlencoded",
         "Cookie":"JSESSIONID=$session",
       }
   );
-  if (response.statusCode == 200) {
-    dom.Document document = parser.parse(response.body);
-    readPostController.setContent(document.querySelector('.post-content')!.outerHtml);
-    readPostController.setIsLike(document.querySelector('.isSelected')!.text);
-    readPostController.setWriter(document.querySelector('.postWriter')!.text);
+  if(likeResponse.statusCode ==200) {
+    readPostController.setIsLike(likeResponse.body);
+  }else{
+    readPostController.setIsLike("false");
+  }
+
+  _queryParameters =  <String, String>{
+    'postId': postId.toString(),
+  };
+  final postResponse = await http
+      .get(Uri.http(serverIP, '/api/detail/post',_queryParameters),
+      headers:{
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Cookie":"JSESSIONID=$session",
+      }
+  );
+  if (postResponse.statusCode == 200) {
+    Map<String, dynamic> data = jsonDecode(utf8.decode(postResponse.bodyBytes));
+    readPostController.setId(data['writer']);
+    readPostController.setContent(data['contents']);
     readComment(postId, communityCategory);
   }else{
     throw Exception("readPostContent Error");
