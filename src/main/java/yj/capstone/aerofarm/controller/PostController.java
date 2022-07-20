@@ -20,7 +20,6 @@ import yj.capstone.aerofarm.service.PostService;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 import static yj.capstone.aerofarm.dto.Message.*;
 
@@ -183,22 +182,20 @@ public class PostController {
     @PreAuthorize("hasAnyAuthority('GUEST')")
     public String community_writing(@RequestParam(required = false) Long postId, @RequestParam(required = false) Long id, Model model) {
 
-        PostForm postForm = new PostForm();
-        Post post;
+        PostForm postForm;
         if (postId != null) {               // 게시글의 답글
-            post = postService.selectPost(postId);
-            postForm.setPostId(postId);
-            postForm.setCategory(post.getCategory().getLowerCase());
-            postForm.setFilter(post.getFilter().getLowerCase());
-            postForm.setTitle("Re:" + post.getTitle());
+            postForm = PostForm.answerFormBuilder()
+                    .post(postService.selectPost(postId))
+                    .answerString("Re:")
+                    .build();
         } else if (id != null) {            // 게시글 수정
-            post = postService.selectPost(id);
-            postForm.setPostId(postId);
-            postForm.setCategory(post.getCategory().getLowerCase());
-            postForm.setFilter(post.getFilter().getLowerCase());
-            postForm.setTitle(post.getTitle());
-            postForm.setContents(post.getContent().getContents());
+            postForm = PostForm.updateFormBuilder()
+                    .post(postService.selectPost(id))
+                    .build();
+        } else {
+            postForm = new PostForm();
         }
+
         model.addAttribute("myId", id);
         model.addAttribute("selectPostId", postId);
         model.addAttribute("savePostForm", postForm);       // 아무 조건도 일치하지 않으면 새 글 작성
