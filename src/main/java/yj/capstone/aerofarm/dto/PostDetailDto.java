@@ -18,6 +18,7 @@ public class PostDetailDto {
     private String contents;
     private LocalDateTime modifiedDate;
     private String picture;
+    private boolean deleteTnF;
 
     public PostDetailDto(Post post) {
         this.id = post.getId();
@@ -27,5 +28,6 @@ public class PostDetailDto {
         this.contents = post.getContent().getContents();
         this.modifiedDate = post.getContent().getModifiedDate();
         this.picture = post.getWriter().getPicture();
+        this.deleteTnF = post.isDeleteTnF();
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import yj.capstone.aerofarm.domain.board.*;
 import yj.capstone.aerofarm.dto.CommentDto;
+import yj.capstone.aerofarm.dto.PostDetailDto;
 import yj.capstone.aerofarm.dto.PostDto;
 import yj.capstone.aerofarm.dto.PostLikeDto;
 import yj.capstone.aerofarm.dto.response.CommentListResponseDto;
@@ -20,6 +21,7 @@ import yj.capstone.aerofarm.repository.PostLikeRepository;
 import yj.capstone.aerofarm.repository.PostRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -190,20 +192,42 @@ public class PostService {
     public Long commentCount(Post post) { return commentRepository.findAllCommentCount(post); }
 
     // 좋아요 개수 조회
-    public List<PostLikeDto> findLikeInfo(Long postId) {
-        return postLikeRepository.findLikeInfo(postId);
+    public Long findLikeInfo(Long postId) {
+        Long count = postLikeRepository.findLikeCount(postId);
+        if (count == null) {
+            count = 0L;
+        }
+        return count;
     }
 
     // 좋아요 누름 여부 조회
-    public List<PostLike> isMemberSelectInfo(Long memberId, Long postId) {
-        return postLikeRepository.findByMemberIdAndPostId(memberId, postId);
+    public boolean isMemberSelectInfo(Long memberId, Long postId) {
+        return postLikeRepository.existsByMemberIdAndPostId(memberId, postId);
     }
 
+    // 작성한 게시글 리스트 조회
     public Page<PostListResponseDto> findMyPostList(Long memberId, Pageable pageable) {
         return postRepository.findMyPost(memberId, pageable);
     }
 
+    // 작성한 댓글 리스트 조회
     public Page<CommentListResponseDto> findMyCommentList(Long memberId, Pageable pageable) {
         return commentRepository.findMyComment(memberId, pageable);
+    }
+
+    // 자신이 작성한 게시글의 모든 정보 조회
+    public Page<PostDto> findMyPostsAllInfo(Long memberId, Pageable pageable) {
+        return postRepository.findMyPostAllInfo(memberId, pageable);
+    }
+
+    // 자신이 좋아요한 게시글의 모든 정보 조회
+    public Page<PostDto> findMyLikePostInfo(Long memberId, Pageable pageable) {
+        return postRepository.findMyLikePostInfo(memberId, pageable);
+    }
+
+    // 특정 게시글 조회 API
+    public PostDetailDto findByPost(Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> null);
+        return new PostDetailDto(post);
     }
 }

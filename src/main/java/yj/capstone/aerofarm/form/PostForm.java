@@ -1,16 +1,13 @@
 package yj.capstone.aerofarm.form;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import yj.capstone.aerofarm.domain.board.Post;
 
 import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
-//@NoArgsConstructor
-//@AllArgsConstructor
+@NoArgsConstructor
 public class PostForm {
     private Long id;
 
@@ -27,4 +24,21 @@ public class PostForm {
     private String filter;
 
     private Long postId;
+
+    @Builder(builderClassName = "AnswerFormBuilder", builderMethodName = "answerFormBuilder")
+    public PostForm(Post post, String answerString) {
+        this.postId = post.getId();
+        this.category = post.getCategory().getLowerCase();
+        this.filter = post.getFilter().getLowerCase();
+        this.title = answerString + post.getTitle();
+    }
+
+    @Builder(builderClassName = "UpdateFormBuilder", builderMethodName = "updateFormBuilder")
+    public PostForm(Post post) {
+        this.postId = post.getId();
+        this.category = post.getCategory().getLowerCase();
+        this.filter = post.getFilter().getLowerCase();
+        this.title = post.getTitle();
+        this.contents = post.getContent().getContents();
+    }
 }

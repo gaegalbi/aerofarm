@@ -171,6 +171,64 @@ public class PostRepositoryImpl extends Querydsl5RepositorySupport implements Po
         );
     }
 
+    @Override
+    public Page<PostDto> findMyPostAllInfo(Long memberId, Pageable pageable) {
+        return applyPagination(pageable,
+                query -> query
+                        .select(new QPostDto(
+                                post.id,
+                                post.title,
+                                post.writer.nickname.as("writer"),
+                                post.category,
+                                post.filter,
+                                post.views,
+                                post.content.modifiedDate,
+                                comment.id.countDistinct().as("commentCount"),
+                                postLike.id.countDistinct().as("likeCount"),
+                                post.parent.id,
+                                post.groupId,
+                                post.deleteTnF))
+                        .from(post)
+                        .leftJoin(comment).on(post.id.eq(comment.post.id))
+                        .leftJoin(postLike).on(post.id.eq(postLike.post.id))
+                        .where(post.writer.id.eq(memberId))
+                        .groupBy(post.id)
+                        .orderBy(post.createdDate.desc()),
+                query -> query
+                        .select(post.count())
+                        .from(post)
+                        .where(post.writer.id.eq(memberId)));
+    }
+
+    @Override
+    public Page<PostDto> findMyLikePostInfo(Long memberId, Pageable pageable) {
+        return applyPagination(pageable,
+                query -> query
+                        .select(new QPostDto(
+                                post.id,
+                                post.title,
+                                post.writer.nickname.as("writer"),
+                                post.category,
+                                post.filter,
+                                post.views,
+                                post.content.modifiedDate,
+                                comment.id.countDistinct().as("commentCount"),
+                                postLike.id.countDistinct().as("likeCount"),
+                                post.parent.id,
+                                post.groupId,
+                                post.deleteTnF))
+                        .from(post)
+                        .leftJoin(comment).on(post.id.eq(comment.post.id))
+                        .leftJoin(postLike).on(post.id.eq(postLike.post.id))
+                        .where(postLike.member.id.eq(memberId))
+                        .groupBy(post.id)
+                        .orderBy(post.createdDate.desc()),
+                query -> query
+                        .select(post.count())
+                        .from(post)
+                        .where(postLike.member.id.eq(memberId)));
+    }
+
     private BooleanExpression categoryEq(PostCategory category) {
         return category == null ? null : post.category.eq(category);
     }

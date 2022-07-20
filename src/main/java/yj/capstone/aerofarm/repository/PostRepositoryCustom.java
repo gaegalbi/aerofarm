@@ -16,4 +16,6 @@ public interface PostRepositoryCustom {
     Integer findMaxGroupIdInfo();
 
     Page<PostListResponseDto> findMyPost(Long memberId, Pageable pageable);
+    Page<PostDto> findMyPostAllInfo(Long memberId, Pageable pageable);
+    Page<PostDto> findMyLikePostInfo(Long memberId, Pageable pageable);
 }
