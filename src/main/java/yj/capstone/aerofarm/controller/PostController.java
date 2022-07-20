@@ -115,6 +115,13 @@ public class PostController {
         return commentDto;
     }
 
+    // 게시글 좋아요 여부
+    @GetMapping("/api/islike")
+    @ResponseBody
+    public boolean isLikePost(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestParam Long postId) {
+        return postService.isMemberSelectInfo(userDetails.getMember().getId(), postId);
+    }
+
     // 작성한 게시글 조회 API
     @GetMapping("/api/my/posts")
     @ResponseBody
@@ -154,7 +161,7 @@ public class PostController {
         if (userDetails != null) {
             userId = userDetails.getMember().getId();
         }
-        List<PostLike> isSelect = postService.isMemberSelectInfo(userId, postId);
+        boolean isSelect = postService.isMemberSelectInfo(userId, postId);
 
         if (postLikeInfo.size() == 0) {
             postLikeInfo.add(new PostLikeDto(post.getId(), 0L));
@@ -167,7 +174,7 @@ public class PostController {
         model.addAttribute("selectPost", result);
         model.addAttribute("selectPostCategory", post.getCategory().getLowerCase());
         model.addAttribute("postLikeInfo", postLikeInfo.get(0));
-        model.addAttribute("isSelected", isSelect.size());
+        model.addAttribute("isSelected", isSelect);
         model.addAttribute("user", userId);
 
         return "community/postingPage";

@@ -195,8 +195,8 @@ public class PostService {
     }
 
     // 좋아요 누름 여부 조회
-    public List<PostLike> isMemberSelectInfo(Long memberId, Long postId) {
-        return postLikeRepository.findByMemberIdAndPostId(memberId, postId);
+    public boolean isMemberSelectInfo(Long memberId, Long postId) {
+        return postLikeRepository.existsByMemberIdAndPostId(memberId, postId);
     }
 
     // 작성한 게시글 리스트 조회
