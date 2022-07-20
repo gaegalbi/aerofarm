@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 import yj.capstone.aerofarm.config.auth.dto.UserDetailsImpl;
 import yj.capstone.aerofarm.dto.DeviceIpUuidDto;
 import yj.capstone.aerofarm.dto.ErrorResponse;
@@ -88,7 +87,7 @@ public class DeviceController {
 
     @PostMapping("/my-page/devices/request-info")
     @ResponseBody
-    public Mono<DeviceStatusResponseDto> getDeviceInfo(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestParam Long number) {
+    public DeviceStatusResponseDto getDeviceInfo(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestParam Long number) {
 
         DeviceIpUuidDto deviceIpUuid = deviceService.getDeviceIpUuid(number, userDetails.getMember().getId());
 
@@ -105,7 +104,8 @@ public class DeviceController {
                 .bodyToMono(DeviceStatusResponseDto.class)
                 .onErrorMap(error -> {
                     throw new AerofarmTimeoutException("수경재배기 응답 없음");
-                });
+                })
+                .block();
     }
 
     @ResponseBody
