@@ -423,4 +423,9 @@ class CommunityPageTheme {
       decoration: TextDecoration.none,
       fontFamily: 'bmAir',
       fontSize: 20);
+  static const postTagFont = TextStyle(
+      color: MainColor.filter,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmAir',
+      fontSize: 17);
 }

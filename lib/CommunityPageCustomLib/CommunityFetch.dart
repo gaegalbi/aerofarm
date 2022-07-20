@@ -14,10 +14,7 @@ import 'CommunityAddBoard.dart';
 import 'CommunityAddComment.dart';
 import 'CommunityNotice.dart';
 
-//final List<Widget> boardList = [];
-final List<Map<String, dynamic>> keywords = [];
-final List<Map<String, dynamic>> customKeywords = []; //post-data
-final List<Map<String, dynamic>> answerKeywords = []; //answer-data
+final List<Map<String, dynamic>> customKeywords = [];
 final Map<String, dynamic> postKeywords = {};
 List<String> replyDetailList = [];
 
@@ -131,6 +128,7 @@ class BoardListController extends GetxController{
 class CommentListController extends GetxController{
   final commentList= <Widget>[].obs;
   final commentGroupIdList = <int>[].obs;
+  final commentParentIdList = <int>[].obs;
 
   void commentAdd(Widget widget){
     commentList.add(widget);
@@ -148,6 +146,11 @@ class CommentListController extends GetxController{
   //대댓글
   void commentGroupIdAdd(int id){
     commentGroupIdList.add(id);
+  }
+
+  //대댓글 닉네임
+  void commentParentIdAdd(int id){
+    commentParentIdList.add(id);
   }
 
   //대댓글
@@ -555,6 +558,7 @@ Future startFetch(String communityCategory) async {
       .get(Uri.http(serverIP, '/api/community/posts', _queryParameters),
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
+       /* "Content-Type": "application/json",*/
         "Cookie": "JSESSIONID=$session",
       }
   );
@@ -791,7 +795,7 @@ Future categoryFetch(String communityCategory) async {
   pageIndexController.setUp();
   boardListController.boardClear();
   boardListController.boardIdClear();
-
+  int count;
 
   Map<String, String> _queryParameters = <String, String>{
     'page': pageIndexController.pageIndex.value.toString(),
@@ -844,7 +848,7 @@ Future categoryFetch(String communityCategory) async {
       }
     }
     else{
-      int count=0;
+      count=0;
       while (true) {
         Map<String, String> _queryParameters = <String, String>{
           'page': pageIndexController.pageIndex.value.toString(),
@@ -976,6 +980,7 @@ Future readComment(int postId,String communityCategory) async{
     if(data['content'].length!=0) {
       for (int i = 0; i < data['content'].length; i++) {
         data['content'][i].addAll({"category":communityCategory});
+        commentListController.commentParentIdAdd(data['content'][i]['id']);
         commentListController.commentAdd(AddComment(
           index: pageIndexController.pageIndex.value,
           keywords: data['content'][i],
@@ -996,7 +1001,6 @@ Future readComment(int postId,String communityCategory) async{
   if(answerCommentResponse.statusCode == 200){
     List<dynamic> data = jsonDecode(utf8.decode(answerCommentResponse.bodyBytes));
     Map<int,dynamic> answerCommentCount= {};
-
     if(data.isNotEmpty) {
       for (int i = 0; i < data.length; i++) {
         data[i].addAll({"category":communityCategory});
@@ -1087,323 +1091,3 @@ Future loadReadPostContent(int postId, String communityCategory) async{
     throw Exception("loadReadPostContent Error");
   }
 }
-/*
-
-Future fetch(String communityCategory, bool readPost) async {
-  String current = dateFormat.format(DateTime.now());
-  final categoryIndexController = Get.put(CategoryIndexController());
-  final pageIndexController = Get.put(PageIndexController());
-  final loadingController = Get.put(LoadingController());
-  final boardListController = Get.put(BoardListController());
-  final commentListController = Get.put(CommentListController());
-  final setCategoryController = Get.put(SetCategoryController());
-  final readPostController = Get.put(ReadPostController());
-
-  if(readPost){
-    customKeywords.clear();
-    final Map<String, String> _queryParameters = <String, String>{
-      'page': pageIndexController.pageIndex.value.toString(),
-    };
-    final response = await http
-        .get(Uri.http(serverIP, '/community/detail/${readPostController.id.value}',_queryParameters),
-        headers:{
-          "Content-Type": "application/x-www-form-urlencoded",
-          "Cookie":"JSESSIONID=$session",
-        }
-    );
-    if (response.statusCode == 200) {
-      dom.Document document = parser.parse(response.body);
-      List<dom.Element> keywordElements = document.querySelectorAll('.comment-info');
-      readPostController.setContent(document.querySelector('.post-content')!.outerHtml);
-      readPostController.setIsLike(document.querySelector('.isSelected')!.text);
-      for (var element in keywordElements) {
-        dom.Element? commentWriter = element.querySelector('.comment-writer');
-        dom.Element? commentContent = element.querySelector('.comment-content');
-        dom.Element? commentDate = element.querySelector('.comment-date');
-        customKeywords.add({
-          'writer': commentWriter?.text,
-          'date': commentDate?.text,
-          'content':  commentContent?.text,
-          'category' : communityCategory,
-          'id' : readPostController.id.value
-        });
-      }
-      //commentListController.commentClear();
-      for (var element in customKeywords) {
-        commentListController.commentAdd(AddComment(
-          index: pageIndexController.pageIndex.value ,keywords: element, before: communityCategory, selectReply: '',//beforeRouteController.before.value,
-        ));
-      }
-    }else{
-      throw Exception('Failed to load post');
-    }
-  }else{
-    boardListController.boardList.clear();
-    if (communityCategory== 'ALL' || communityCategory == 'HOT') {
-      customKeywords.clear();
-      postKeywords.clear();
-      if (setCategoryController.setCategory.value!="ALL") {
-        boardListController.boardClear();
-        pageIndexController.setUp();
-        while (true) {
-          final Map<String, String> _queryParameters = <String, String>{
-            'page': pageIndexController.pageIndex.value.toString(),
-          };
-          final response = await http.get(Uri.http(
-              serverIP, '/community/${setCategoryController.setCategory.value}', _queryParameters));
-          if (response.statusCode == 200) {
-            dom.Document document = parser.parse(response.body);
-            List<dom.Element> keywordElements = document.querySelectorAll('.post-data');
-            if (keywordElements.isEmpty) {
-              break;
-            } else {
-              for (var element in keywordElements) {
-                dom.Element? writer = element.querySelector('.post-writer');
-                dom.Element? title = element.querySelector('.post-title');
-                dom.Element? category = element.querySelector('.post-category');
-                dom.Element? date = element.querySelector('.post-date');
-                dom.Element? likes = element.querySelector('.post-likes');
-                dom.Element? views = element.querySelector('.post-views');
-                dom.Element? id = element.querySelector('.post-id');
-                dom.Element? realDate = element.querySelector('.post-dateSS');
-                dom.Element? comments = element.querySelector('.post-comments');
-                customKeywords.add({
-                  'writer': writer?.text,
-                  'title': title?.text,
-                  'category': category?.text,
-                  'realDate': realDate?.text,
-                  'date': current == date?.text.substring(0, 10)
-                      ? date?.text = date.text.substring(10, date.text.length)
-                      : date?.text = date.text.substring(2, 10),
-                  'likes': likes?.text,
-                  'views': views?.text,
-                  'comments': comments?.text.substring(1),
-                  'id': id?.text,
-                  'communityCategory': setCategoryController.setCategory.value
-                });
-              }
-              pageIndexController.increment();
-            }
-          }
-        }
-      } else {
-        pageIndexController.setUp();
-        categoryIndexController.setUp();
-        while (true) {
-          final Map<String, String> _queryParameters = <String, String>{
-            'page': pageIndexController.pageIndex.value.toString(),
-          };
-          final response = await http.get(Uri.http(serverIP,
-              '/community/${boardCategory[categoryIndexController.categoryIndex.value]}', _queryParameters));
-          if (response.statusCode == 200) {
-            dom.Document document = parser.parse(response.body);
-            List<dom.Element> keywordElements = document.querySelectorAll('.post-data');
-            List<dom.Element> answerKeywordElements = document.querySelectorAll('.answer-data');
-            if (keywordElements.isEmpty) {
-              if (categoryIndexController.categoryIndex.value < 4) {
-                categoryIndexController.categoryIndex.value++;
-                pageIndexController.setUp();
-              } else {
-                break;
-              }
-            } else {
-              for (var element in keywordElements) {
-                dom.Element? writer = element.querySelector('.post-writer');
-                dom.Element? title = element.querySelector('.post-title');
-                dom.Element? category = element.querySelector('.post-category');
-                dom.Element? date = element.querySelector('.post-date');
-                dom.Element? likes = element.querySelector('.post-likes');
-                dom.Element? views = element.querySelector('.post-views');
-                dom.Element? id = element.querySelector('.post-id');
-                dom.Element? realDate = element.querySelector('.post-dateSS');
-                dom.Element? comments = element.querySelector('.post-comments');
-                customKeywords.add({
-                  'writer': writer?.text,
-                  'title': title?.text,
-                  'category': category?.text,
-                  'realDate': realDate?.text,
-                  'date': current == date?.text.substring(0, 10)
-                      ? date?.text = date.text.substring(10, date.text.length)
-                      : date?.text = date.text.substring(2, 10),
-                  'likes': likes?.text,
-                  'views': views?.text,
-                  'comments': comments?.text.substring(1),
-                  'id': id?.text,
-                  'communityCategory': boardCategory[categoryIndexController.categoryIndex.value]
-                });
-              }
-              for(var element in answerKeywordElements){
-                dom.Element? title = element.querySelector('.answer-title');
-                dom.Element? writer = element.querySelector('.answer-writer');
-                dom.Element? date = element.querySelector('.answer-date');
-                dom.Element? realDate = element.querySelector('.answer-dateSS');
-                dom.Element? parentId = element.querySelector('.answer-parentId');
-                dom.Element? id = element.querySelector('.answer-id');
-                dom.Element? likes = element.querySelector('.answer-likes');
-                dom.Element? views = element.querySelector('.answer-views');
-                dom.Element? comments = element.querySelector('.answer-comments');
-                dom.Element? category = element.querySelector('.answer-category');
-                answerKeywords.add({
-                  'parentId' : parentId?.text,
-                  'id' : id?.text,
-                  'title' : title?.text,
-                  'writer' : writer?.text,
-                  'date' :current == date?.text.substring(0, 10)
-                      ? date?.text = date.text.substring(10, date.text.length)
-                      : date?.text = date.text.substring(2, 10),
-                  'realDate' : realDate?.text,
-                  'likes' : likes?.text,
-                  'views' : views?.text,
-                  'comments': comments?.text.substring(1),
-                  'category': category?.text,
-                  'communityCategory': boardCategory[categoryIndexController.categoryIndex.value]
-                });
-              }
-              pageIndexController.increment();
-            }
-          }
-        }
-      }
-      if (communityCategory== 'all') {
-        customKeywords.sort((b, a) => a['realDate'].compareTo(b['realDate']));
-      } else {
-        customKeywords.sort((b, a) =>
-            int.parse(a['comments']).compareTo(int.parse(b['comments'])));
-        customKeywords.sort(
-                (b, a) => int.parse(a['likes']).compareTo(int.parse(b['likes'])));
-        customKeywords.sort(
-                (b, a) => int.parse(a['views']).compareTo(int.parse(b['views'])));
-      }
-      boardListController.boardClear();
-      for (var element in customKeywords) {
-        boardListController.boardAdd(AddBoard(
-          keywords: element,
-          index: pageIndexController.pageIndex.value,
-          before: communityCategory,//beforeRouteController.before.value,
-        ));
-        for(var answerElement in answerKeywords){
-          if(element['id'] == answerElement['parentId']){
-            boardListController.boardAdd(AddBoard(
-                index: pageIndexController.pageIndex.value,
-                keywords: answerElement,
-                before: communityCategory
-            ));
-          }
-        }
-      }
-      if (boardListController.boardList.length == 1) {
-        boardListController.boardAdd(Container(
-            margin: EdgeInsets.only(
-                top: Get.height * 0.345),
-            alignment: Alignment.center,
-            child: const Text(
-              "게시글이 없습니다.",
-              style: CommunityPageTheme.announce,
-            )));
-      }
-      customKeywords.clear();
-      answerKeywords.clear();
-    } else {
-      //초기화, 전체, 인기 게시판이 아닐때
-      boardListController.boardClear();
-      final Map<String, String> _queryParameters = <String, String>{
-        'page': pageIndexController.pageIndex.value.toString(),
-      };
-      final response = await http.get(Uri.http(
-          serverIP, '/community/$communityCategory', _queryParameters));
-      if (response.statusCode == 200) {
-        dom.Document document = parser.parse(response.body);
-        List<dom.Element> keywordElements = document.querySelectorAll('.post-data');
-        List<dom.Element> answerKeywordElements = document.querySelectorAll('.answer-data');
-        if (keywordElements.isEmpty) {
-          pageIndexController.decrement();
-          loadingController.setFalse();
-          if (boardListController.boardList.length == 1) {
-            boardListController.boardAdd(Container(
-                margin: EdgeInsets.only(
-                    top: Get.height * 0.345),
-                alignment: Alignment.center,
-                child: const Text(
-                  "게시글이 없습니다.",
-                  style: CommunityPageTheme.announce,
-                )));
-          }
-          throw Exception('Failed to load post');
-        } else {
-          dom.Element? communityCategory = document.querySelector("community-category");
-          for (var element in keywordElements) {
-            dom.Element? writer = element.querySelector('.post-writer');
-            dom.Element? title = element.querySelector('.post-title');
-            dom.Element? category = element.querySelector('.post-category');
-            dom.Element? date = element.querySelector('.post-date');
-            dom.Element? likes = element.querySelector('.post-likes');
-            dom.Element? views = element.querySelector('.post-views');
-            dom.Element? id = element.querySelector('.post-id');
-            dom.Element? realDate = element.querySelector('.post-dateSS');
-            dom.Element? comments = element.querySelector('.post-comments');
-            keywords.add({
-              'writer': writer?.text,
-              'title': title?.text,
-              'category': category?.text,
-              'realDate': realDate?.text,
-              'date': current == date?.text.substring(0, 10)
-                  ? date?.text = date.text.substring(10, date.text.length)
-                  : date?.text = date.text.substring(2, 10),
-              'likes': likes?.text,
-              'views': views?.text,
-              'comments': comments?.text.substring(1),
-              'id': id?.text,
-              'communityCategory': communityCategory
-            });
-          }
-          for(var element in answerKeywordElements){
-            dom.Element? title = element.querySelector('.answer-title');
-            dom.Element? writer = element.querySelector('.answer-writer');
-            dom.Element? date = element.querySelector('.answer-date');
-            dom.Element? realDate = element.querySelector('.answer-dateSS');
-            dom.Element? parentId = element.querySelector('.answer-parentId');
-            dom.Element? id = element.querySelector('.answer-id');
-            dom.Element? likes = element.querySelector('.answer-likes');
-            dom.Element? views = element.querySelector('.answer-views');
-            dom.Element? comments = element.querySelector('.answer-comments');
-            dom.Element? category = element.querySelector('.answer-category');
-            answerKeywords.add({
-              'parentId' : parentId?.text,
-              'id' : id?.text,
-              'title' : title?.text,
-              'writer' : writer?.text,
-              'date' :current == date?.text.substring(0, 10)
-                  ? date?.text = date.text.substring(10, date.text.length)
-                  : date?.text = date.text.substring(2, 10),
-              'realDate' : realDate?.text,
-              'likes' : likes?.text,
-              'views' : views?.text,
-              'comments': comments?.text.substring(1),
-              'category': category?.text,
-              'communityCategory': boardCategory[categoryIndexController.categoryIndex.value]
-            });
-          }
-          for (var element in keywords) {
-            boardListController.boardAdd(AddBoard(
-              keywords: element,
-              index: pageIndexController.pageIndex.value,
-              before: element['communityCategory'],//beforeRouteController.before.value,
-            ));
-            for(var answerElement in answerKeywords){
-              if(element['id'] == answerElement['parentId']){
-                boardListController.boardAdd(AddBoard(
-                    index: pageIndexController.pageIndex.value,
-                    keywords: answerElement,
-                    before: element['communityCategory']
-                ));
-              }
-            }
-          }
-          keywords.clear();
-          answerKeywords.clear();
-        }
-      }
-    }
-  }
-}
-*/

@@ -27,17 +27,15 @@ class SelectReplyController extends GetxController{
 class ModifyController extends GetxController{
   final modify= false.obs;
   final id = 0.obs;
+
   void setId(int input){
     id.value = input;
   }
-
   void changeModify(){
     modify.value = !modify.value;
   }
-
-  bool setUpFalse(){
+  void setUpFalse(){
     modify.value = false;
-    return true;
   }
   void setUpTrue(){
     modify.value = true;
@@ -64,6 +62,8 @@ class AddComment extends StatelessWidget {
     final selectController = Get.put(SelectReplyController());
     final modifyController = Get.put(ModifyController());
     final readPostController = Get.put(ReadPostController());
+    final commentListController = Get.put(CommentListController());
+    print(keywords);
     final TextEditingController textEditingController = TextEditingController();
     String date;
     before == "MyActivity" ? date = dateFormat.format(DateTime.parse(keywords['createdDate'])): date = dateInfoFormat.format(DateTime.parse(keywords['localDateTime']));
@@ -87,7 +87,9 @@ class AddComment extends StatelessWidget {
           children: [
             Container(
               margin: const EdgeInsets.only(bottom: 5),
-                child: Text(keywords['content'],style: CommunityPageTheme.activityCommentContent,)),
+                child: Text(
+                  keywords['content'],
+                  style: CommunityPageTheme.activityCommentContent,)),
             Container(
               margin: const EdgeInsets.only(bottom: 5),
                 child: Text(date,style: CommunityPageTheme.activityCommentDate,)),
@@ -155,10 +157,17 @@ class AddComment extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Flexible(
-                                child:Obx(()=> !(modifyController.modify.value && modifyController.id.value == keywords['id']) ? RichText(
-                              maxLines: null,
-                              text: TextSpan(
-                                  text: keywords['deleteTnF'] ? "삭제된 댓글입니다." :keywords['content'],
+                                child:Obx(()=> !(modifyController.modify.value && modifyController.id.value == keywords['id']) ?
+                                RichText(maxLines: null,
+                                 text:   keywords['deleteTnF'] ?
+                                 const TextSpan(text:"삭제된 댓글입니다",style:CommunityPageTheme.postFont)
+                                     : keywords['parentId'] == null || commentListController.commentParentIdList.contains(keywords['parentId']) ?
+                                 TextSpan(text:keywords['content'],style:CommunityPageTheme.postFont )
+                                     : TextSpan(
+                                  children:[
+                                      TextSpan(text:"@${keywords['parentNickname']} ",style: CommunityPageTheme.postTagFont),
+                                     TextSpan(text:keywords['content'], style: CommunityPageTheme.postFont),
+                                  ],
                                   style: CommunityPageTheme.postFont),
                             )
                                     :TextField(

@@ -64,7 +64,6 @@ class _CommunityPageReplyDetailState extends State<CommunityPageReplyDetail> {
     _scrollController.addListener(() {
       handleScrolling();
     });
-    print(replyDetailController.replyDetailBefore.value);
     super.initState();
   }
 

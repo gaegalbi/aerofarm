@@ -249,7 +249,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply>{
                                             backgroundColor: Colors.transparent,
                                             contentPadding: EdgeInsets.all(5),
                                             content: Text(
-                                              "댓글 내용이\n있어야합니다깇.",
+                                              "댓글 내용이\n있어야합니다.",
                                               style: TextStyle(fontSize: 28),
                                               textAlign: TextAlign.center,
                                             ),

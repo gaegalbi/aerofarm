@@ -35,7 +35,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
 
   void handleScrolling() {
       if (_scrollController.offset == _scrollController.position.maxScrollExtent) {
-        keywords.clear();
+       // keywords.clear();
         loadFetch(widget.category).then((value) => answerFetch(widget.category));
       }
       if (_scrollController.offset == _scrollController.position.minScrollExtent) {
