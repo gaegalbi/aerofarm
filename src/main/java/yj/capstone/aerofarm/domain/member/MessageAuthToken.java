@@ -25,14 +25,14 @@ public class MessageAuthToken {
     public static MessageAuthToken createMessageAuthToken(String phoneNumber) {
         MessageAuthToken token = new MessageAuthToken();
 
-        String authNumber = "";
+        StringBuilder authNumber = new StringBuilder();
 
         for(int i=0;i<6;i++)
-            authNumber += ((int) (Math.random() * 10));
+            authNumber.append((int) (Math.random() * 10));
 
         //token.expirationDate = LocalDateTime.now().plusMinutes(3);
         token.phoneNumber = phoneNumber;
-        token.authNumber = authNumber;
+        token.authNumber = authNumber.toString();
         return token;
     }
 }

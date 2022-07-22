@@ -10,4 +10,10 @@ import java.util.Optional;
 public interface MessageAuthRepository extends JpaRepository<MessageAuthToken, Long> {
 
     Optional<MessageAuthToken> findByPhoneNumber(String phoneNumber);
+
+    boolean existsByAuthNumber(String authNumber);
+
+    void deleteByAuthNumber(String authNumber);
+
+    Optional<MessageAuthToken> findByAuthNumber(String authNumber);
 }

@@ -147,6 +147,12 @@ public class MemberService {
         }
     }
 
+    @Transactional(readOnly = true)
+    public boolean isPhoneNumberMatch(String email, String phoneNumber) {
+        return memberRepository.existsByEmailAndPhoneNumber(email, phoneNumber);
+    }
+
+    @Transactional(readOnly = true)
     public OrderAddressResponseDto findMemberAddress(Long id) {
         return memberRepository.findMemberAddress(id);
     }

@@ -6,8 +6,11 @@ import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
 import net.nurigo.sdk.message.service.DefaultMessageService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import yj.capstone.aerofarm.domain.member.Member;
 import yj.capstone.aerofarm.domain.member.MessageAuthToken;
 import yj.capstone.aerofarm.dto.request.PhoneNumberRequestDto;
+import yj.capstone.aerofarm.exception.AuthNumberNotFoundException;
 import yj.capstone.aerofarm.repository.MessageAuthRepository;
 
 @Service
@@ -18,7 +21,7 @@ public class MessageService {
 
     private final MessageAuthRepository messageAuthRepository;
 
-
+    @Transactional
     public String sendSms(PhoneNumberRequestDto request) {
         Message message = new Message();
 
@@ -34,7 +37,21 @@ public class MessageService {
         return authNumber;
     }
 
-    public MessageAuthToken getToken(PhoneNumberRequestDto request) {
-        return messageAuthRepository.findByPhoneNumber(request.getPhoneNumber()).orElseThrow(() -> new UsernameNotFoundException("해당 회원이 없습니다."));
+    @Transactional(readOnly = true)
+    public String getPhoneNumber(String authNumber) {
+        MessageAuthToken token = messageAuthRepository.findByAuthNumber(authNumber)
+                .orElseThrow(() -> new AuthNumberNotFoundException("해당 인증번호가 맞지 않습니다."));
+        return token.getPhoneNumber();
     }
+
+    @Transactional(readOnly = true)
+    public boolean getToken(String authNumber) {
+        return messageAuthRepository.existsByAuthNumber(authNumber);
+    }
+
+    @Transactional
+    public void deleteToken(String authNumber) {
+        messageAuthRepository.deleteByAuthNumber(authNumber);
+    }
+
 }

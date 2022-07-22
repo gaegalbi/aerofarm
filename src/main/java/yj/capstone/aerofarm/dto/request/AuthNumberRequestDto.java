@@ -5,7 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PhoneNumberRequestDto {
-    private String phoneNumber;
-    private String email;
+public class AuthNumberRequestDto {
+    private String authNumber;
 }
