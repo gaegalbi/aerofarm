@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import yj.capstone.aerofarm.config.auth.dto.UserDetailsImpl;
 import yj.capstone.aerofarm.domain.member.Member;
 import yj.capstone.aerofarm.domain.order.Order;
@@ -166,21 +167,6 @@ public class MemberController {
         return "member/orderDetailPage";
     }
 
-    @PostMapping("/my-page/save-img")
-    public String saveImg(File file) throws IOException {
-        FileOutputStream outputStream = new FileOutputStream("D:/capstone/src/main/resources/static/image/" + file.getName());
-        FileInputStream inputStream = new FileInputStream(file);
-
-        int readCount = 0;
-        byte[] buffer = new byte[1024];
-
-        while((readCount = inputStream.read(buffer)) != -1) {
-            outputStream.write(buffer, 0, readCount);
-        }
-
-        return file.getName();
-    }
-
     @GetMapping("/my-page/edit")
     public String editPage(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         Member member = memberService.findMember(userDetails.getUsername());
@@ -207,9 +193,17 @@ public class MemberController {
                 .body(createMessage("정보가 수정 되었습니다."));
     }
 
-    @PostMapping("my-page/edit/pic")
-    public void editPicture() {
+    @PostMapping("my-page/edit/picture")
+    @ResponseBody
+    public ResponseEntity<Message> editPicture(@AuthenticationPrincipal UserDetailsImpl userDetails, MultipartFile picture) {
+        if(picture.isEmpty()) {
+//            throw new IllegalArgumentException("이미지 파일을 업로드해주세요.");
+            return ResponseEntity.badRequest().body(createMessage("이미지 파일을 업로드해주세요."));
+        }
+        String imageUrl = memberService.changeProfileImage(userDetails.getUsername(), picture);
+        log.info("User profile image has uploaded. by {}, Image url = {}",userDetails.getUsername(), imageUrl);
 
+        return ResponseEntity.ok().body(createMessage("ok"));
     }
 
     @GetMapping("/my-page/posts")

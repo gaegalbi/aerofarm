@@ -161,20 +161,21 @@
                 <h5 class="modal-title" id="staticBackdropLabel">프로필 변경</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form method="post" action="my-page/edit/pic" id="editPicture" enctype="multipart/form-data">
+            <form method="post" id="editPicture" enctype="multipart/form-data">
+                <div class="modal-body">
                     <h5>프로필 사진 선택</h5>
-                    <input type="file" accept="image/*" readonly class="form-control">
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                <button type="submit" class="btn btn-primary">저장</button>
-            </div>
+                    <input type="file" accept="image/*" id="picture" name="picture" readonly class="form-control">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                    <button type="submit" class="btn btn-primary">저장</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
 <div th:replace="~{fragments/footer :: footer}"/>
+<script src="/js/member/profileImage.js"></script>
 </body>
 </html>

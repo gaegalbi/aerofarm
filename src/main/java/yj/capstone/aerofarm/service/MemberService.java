@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import yj.capstone.aerofarm.domain.member.ConfirmationToken;
 import yj.capstone.aerofarm.domain.member.Member;
 import yj.capstone.aerofarm.domain.member.Provider;
@@ -27,6 +28,8 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
+
+    private final S3Service s3Service;
 
     public boolean duplicateEmailCheck(String email) {
         return memberRepository.existsByEmail(email);
@@ -119,6 +122,29 @@ public class MemberService {
     @Transactional
     public Page<MemberListResponseDto> findMemberList(Pageable pageable) {
         return memberRepository.findMemberList(pageable);
+    }
+
+    @Transactional
+    public String changeProfileImage(String email, MultipartFile picture) {
+        Member member = findMember(email);
+
+        String oldProfileImage = member.getPicture();
+        deleteOldProfileImage(oldProfileImage);
+
+        String imageUrl = uploadProfileImage(picture);
+        member.changePicture(imageUrl);
+
+        return imageUrl;
+    }
+
+    private String uploadProfileImage(MultipartFile picture) {
+        return s3Service.uploadImage(picture, 500, 500, true);
+    }
+
+    private void deleteOldProfileImage(String imageUrl) {
+        if (!imageUrl.contains("default")) {
+            s3Service.deleteFile(imageUrl);
+        }
     }
 
     public OrderAddressResponseDto findMemberAddress(Long id) {
