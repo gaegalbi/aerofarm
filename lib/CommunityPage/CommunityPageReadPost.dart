@@ -46,7 +46,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
     if (_scrollController.offset ==
         _scrollController.position.maxScrollExtent) {
       pageIndexController.increment();
-      loadReadPostContent(widget.keywords['id'], widget.keywords['category']);
+      //loadReadPostContent(widget.keywords['id'], widget.keywords['category']);
     }
   }
   @override
@@ -72,6 +72,8 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
     postKeywords.addAll(widget.keywords);
     //날짜 변경
     date = dateInfoFormat.format(DateTime.parse(widget.keywords['modifiedDate']));
+
+   print(widget.keywords);
     super.initState();
   }
 

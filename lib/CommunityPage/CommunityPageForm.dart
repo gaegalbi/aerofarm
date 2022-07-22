@@ -57,7 +57,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
     boardListController.boardClear();
     startFetch(widget.category).then((value) => answerFetch(widget.category));
 
-    loadingController.setTrue();
+    //loadingController.setTrue();
     Future.delayed(const Duration(milliseconds: 300), () {
       loadingController.setFalse();
     });
@@ -67,7 +67,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
   @override
   void dispose() {
     boardListController.dispose();
-    loadingController.dispose();
+    //loadingController.dispose();
     pageIndexController.dispose();
     _scrollController.dispose();
     _categoryController.dispose();

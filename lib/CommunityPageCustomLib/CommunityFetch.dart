@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
-import 'package:html/parser.dart' as parser;
-import 'package:html/dom.dart' as dom;
 
 import '../LoginPage/LoginPageLogin.dart';
 import '../themeData.dart';
@@ -36,7 +34,8 @@ final Map<String, String> matchCategory = {
   "INFORMATION": "정보게시판",
   "QUESTION": "질문게시판",
   "PICTURE": "사진게시판",
-  "TRADE": "거래게시판"
+  "TRADE": "거래게시판",
+  "ANNOUNCEMENT":"공지사항"
 };
 
 List<String> boardCategory = [
@@ -248,7 +247,8 @@ Future activityPostStartFetch() async {
       .get(Uri.http(serverIP, '/api/my/posts', _queryParameters),
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": "JSESSIONID=$session",
+        //"Cookie": "JSESSIONID=$session",
+        "Cookie":"remember-me=$rememberMe;JSESSIONID=$session",
       }
   );
 
@@ -284,7 +284,8 @@ Future activityLikedStartFetch() async {
       .get(Uri.http(serverIP, '/api/my/likeposts', _queryParameters),
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": "JSESSIONID=$session",
+        //"Cookie": "JSESSIONID=$session",
+        "Cookie":"remember-me=$rememberMe;JSESSIONID=$session",
       }
   );
 
@@ -319,7 +320,8 @@ Future activityCommentStartFetch() async {
       .get(Uri.http(serverIP, '/api/my/comments', _queryParameters),
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": "JSESSIONID=$session",
+        //"Cookie": "JSESSIONID=$session",
+        "Cookie":"remember-me=$rememberMe;JSESSIONID=$session",
       }
   );
   if (commentResponse.statusCode == 200) {
@@ -351,7 +353,8 @@ Future activityPostLoadFetch() async {
       .get(Uri.http(serverIP, '/api/my/posts', _queryParameters),
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": "JSESSIONID=$session",
+        //"Cookie": "JSESSIONID=$session",
+        "Cookie":"remember-me=$rememberMe;JSESSIONID=$session",
       }
   );
   if (response.statusCode == 200) {
@@ -384,7 +387,8 @@ Future activityLikedLoadFetch() async {
       .get(Uri.http(serverIP, '/api/my/likeposts', _queryParameters),
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": "JSESSIONID=$session",
+        //"Cookie": "JSESSIONID=$session",
+        "Cookie":"remember-me=$rememberMe;JSESSIONID=$session",
       }
   );
   if (response.statusCode == 200) {
@@ -419,7 +423,8 @@ Future activityCommentLoadFetch() async {
       .get(Uri.http(serverIP, '/api/my/comments', _queryParameters),
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": "JSESSIONID=$session",
+        //"Cookie": "JSESSIONID=$session",
+        "Cookie":"remember-me=$rememberMe;JSESSIONID=$session",
       }
   );
   if (commentResponse.statusCode == 200) {
@@ -458,7 +463,8 @@ Future searchFetch(String communityCategory,String search,String keyword) async 
       .get(Uri.http(serverIP, '/api/community/posts', _queryParameters),
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": "JSESSIONID=$session",
+        //"Cookie": "JSESSIONID=$session",
+        "Cookie":"remember-me=$rememberMe;JSESSIONID=$session",
       }
   );
   if (response.statusCode == 200) {
@@ -488,7 +494,8 @@ Future searchFetch(String communityCategory,String search,String keyword) async 
             .get(Uri.http(serverIP, '/api/community/posts', _queryParameters),
             headers: {
               "Content-Type": "application/x-www-form-urlencoded",
-              "Cookie": "JSESSIONID=$session",
+              //"Cookie": "JSESSIONID=$session",
+              "Cookie":"remember-me=$rememberMe;JSESSIONID=$session",
             }
         );
         if (response.statusCode == 200) {
@@ -559,7 +566,8 @@ Future startFetch(String communityCategory) async {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
        /* "Content-Type": "application/json",*/
-        "Cookie": "JSESSIONID=$session",
+        //"Cookie": "JSESSIONID=$session",
+        "Cookie":"remember-me=$rememberMe;JSESSIONID=$session",
       }
   );
   if (response.statusCode == 200) {
@@ -587,7 +595,8 @@ Future startFetch(String communityCategory) async {
             .get(Uri.http(serverIP, '/api/community/posts', _queryParameters),
             headers: {
               "Content-Type": "application/x-www-form-urlencoded",
-              "Cookie": "JSESSIONID=$session",
+              //"Cookie": "JSESSIONID=$session",
+              "Cookie":"remember-me=$rememberMe;JSESSIONID=$session",
             }
         );
         if (response.statusCode == 200) {
@@ -652,7 +661,8 @@ Future loadFetch(String communityCategory) async{
       .get(Uri.http(serverIP, '/api/community/posts',_queryParameters),
       headers:{
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie":"JSESSIONID=$session",
+        //"Cookie":"JSESSIONID=$session",
+        "Cookie":"remember-me=$rememberMe;JSESSIONID=$session",
       }
   );
   if(response.statusCode == 200) {
@@ -684,7 +694,8 @@ Future loadFetch(String communityCategory) async{
             .get(Uri.http(serverIP, '/api/community/posts', _queryParameters),
             headers: {
               "Content-Type": "application/x-www-form-urlencoded",
-              "Cookie": "JSESSIONID=$session",
+              //"Cookie": "JSESSIONID=$session",
+              "Cookie":"remember-me=$rememberMe;JSESSIONID=$session",
             }
         );
         if (response.statusCode == 200) {
@@ -735,7 +746,8 @@ Future answerFetch(String communityCategory) async {
       .get(Uri.http(serverIP, '/api/community/answerposts'),
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": "JSESSIONID=$session",
+        //"Cookie": "JSESSIONID=$session",
+        "Cookie":"remember-me=$rememberMe;JSESSIONID=$session",
       }
   );
   if (answerResponse.statusCode == 200) {
@@ -804,7 +816,8 @@ Future categoryFetch(String communityCategory) async {
       .get(Uri.http(serverIP, '/api/community/posts', _queryParameters),
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie": "JSESSIONID=$session",
+        //"Cookie": "JSESSIONID=$session",
+        "Cookie":"remember-me=$rememberMe;JSESSIONID=$session",
       }
   );
   if (response.statusCode == 200) {
@@ -857,7 +870,8 @@ Future categoryFetch(String communityCategory) async {
             .get(Uri.http(serverIP, '/api/community/posts', _queryParameters),
             headers: {
               "Content-Type": "application/x-www-form-urlencoded",
-              "Cookie": "JSESSIONID=$session",
+              //"Cookie": "JSESSIONID=$session",
+              "Cookie":"remember-me=$rememberMe;JSESSIONID=$session",
             }
         );
         if (response.statusCode == 200) {
@@ -930,12 +944,12 @@ Future readPostContent(int postId, String communityCategory) async{
   Map<String, String> _queryParameters =  <String, String>{
     'postId': postId.toString(),
   };
-
   final likeResponse = await http
       .get(Uri.http(serverIP, '/api/islike',_queryParameters),
       headers:{
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie":"JSESSIONID=$session",
+        //"Cookie":"JSESSIONID=$session",
+        "Cookie":"remember-me=$rememberMe;JSESSIONID=$session",
       }
   );
   if(likeResponse.statusCode ==200) {
@@ -951,7 +965,8 @@ Future readPostContent(int postId, String communityCategory) async{
       .get(Uri.http(serverIP, '/api/detail/post',_queryParameters),
       headers:{
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie":"JSESSIONID=$session",
+        //"Cookie":"JSESSIONID=$session",
+        "Cookie":"remember-me=$rememberMe;JSESSIONID=$session",
       }
   );
   if (postResponse.statusCode == 200) {
@@ -980,7 +995,8 @@ Future readComment(int postId,String communityCategory) async{
       .get(Uri.http(serverIP, '/api/detail/comments',_queryParameters),
       headers:{
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie":"JSESSIONID=$session",
+        //"Cookie":"JSESSIONID=$session",
+        "Cookie":"remember-me=$rememberMe;JSESSIONID=$session",
       }
   );
 
@@ -988,7 +1004,8 @@ Future readComment(int postId,String communityCategory) async{
       .get(Uri.http(serverIP, '/api/detail/answercomments',_queryParameters),
       headers:{
         "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie":"JSESSIONID=$session",
+        //"Cookie":"JSESSIONID=$session",
+        "Cookie":"remember-me=$rememberMe;JSESSIONID=$session",
       }
   );
 
@@ -1059,53 +1076,5 @@ Future readComment(int postId,String communityCategory) async{
     }
   }else{
     Exception("readComment Error");
-  }
-}
-
-//readPost내에서 불러오기
-Future loadReadPostContent(int postId, String communityCategory) async{
-  final readPostController = Get.put(ReadPostController());
-  final commentListController = Get.put(CommentListController());
-  final pageIndexController = Get.put(PageIndexController());
-
-  customKeywords.clear();
-
-  final Map<String, String> _queryParameters = <String, String>{
-    'page': pageIndexController.pageIndex.value.toString(),
-  };
-  final response = await http
-      .get(Uri.http(serverIP, '/community/detail/$postId',_queryParameters),
-      headers:{
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Cookie":"JSESSIONID=$session",
-      }
-  );
-  if (response.statusCode == 200) {
-    dom.Document document = parser.parse(response.body);
-    readPostController.setContent(document.querySelector('.post-content')!.outerHtml);
-    readPostController.setIsLike(document.querySelector('.isSelected')!.text);
-    List<dom.Element> keywordElements = document.querySelectorAll('.comment-info');
-    if(keywordElements.isEmpty){
-      pageIndexController.decrement();
-    }
-    for (var element in keywordElements) {
-      dom.Element? commentWriter = element.querySelector('.comment-writer');
-      dom.Element? commentContent = element.querySelector('.comment-content');
-      dom.Element? commentDate = element.querySelector('.comment-date');
-      customKeywords.add({
-        'writer': commentWriter?.text,
-        'date': commentDate?.text,
-        'content':  commentContent?.text,
-        'category' : communityCategory,
-        'id' : postId
-      });
-    }
-    for (var element in customKeywords) {
-      commentListController.commentAdd(AddComment(
-        index: pageIndexController.pageIndex.value ,keywords: element, before: communityCategory, selectReply: '',//beforeRouteController.before.value,
-      ));
-    }
-  }else{
-    throw Exception("loadReadPostContent Error");
   }
 }

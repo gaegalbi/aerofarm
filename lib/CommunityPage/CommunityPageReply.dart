@@ -265,7 +265,8 @@ class _CommunityPageReplyState extends State<CommunityPageReply>{
                                       Uri.http(serverIP, '/createComment'),
                                       headers: {
                                         "Content-Type": "application/json",
-                                        "Cookie": "JSESSIONID=$session",
+                                        //"Cookie": "JSESSIONID=$session",
+                                        "Cookie":"remember-me=$rememberMe;JSESSIONID=$session",
                                       },
                                       encoding: Encoding.getByName('utf-8'),
                                       body: body,

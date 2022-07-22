@@ -16,6 +16,7 @@ import '../CheckTimer.dart';
 import '../main.dart';
 
 late String? session;
+late String? rememberMe;
 late String name;
 late bool isLogin = false;
 late String? nickname;
@@ -120,6 +121,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                     //encoding: Encoding.getByName('utf-8'),
                     body: data,
                   );
+                  print(response1.headers);
                   if(response1.statusCode ==200){
                     showDialog(context: context, barrierDismissible:false, builder: (context){
                       Future.delayed(const Duration(milliseconds: 1500), () {
@@ -139,11 +141,13 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                     checkTimerController.timerStart();
                     tmp = response1.headers['set-cookie'];
                     session = tmp?.substring(tmp!.lastIndexOf('JSESSIONID')+11,tmp!.lastIndexOf('JSESSIONID')+43);
+                    rememberMe = tmp?.substring(tmp!.indexOf('remember-me')+12,tmp!.indexOf("; Max-Age"));
+                    print(tmp);
                     final response = await http.get(
                       Uri.http(serverIP, ''),//Uri.http('172.25.4.179:8080', '')
                       headers: {
                         "Content-Type": "application/x-www-form-urlencoded",
-                        "Cookie":"JSESSIONID=$session",
+                        "Cookie":"remember-me=$rememberMe;JSESSIONID=$session",
                       },
                     );
                     dom.Document document = parser.parse(response.body);
@@ -164,6 +168,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                     //printWrapped(document.outerHtml);
                     profile = Image.network("http://$serverIP$src");
                     //print(profile);
+                    //print(session);
                     widget.reLogin ?
                     Get.back() :
                     Get.offAll(()=>const MainPage());
