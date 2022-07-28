@@ -304,11 +304,16 @@ class CommunityPageTheme {
       decoration: TextDecoration.none,
       fontFamily: 'bmAir',
       fontSize: 15);
-  static const postFalseFont = TextStyle(
+  static const replyButtonFont = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmAir',
+      fontSize: 17);
+  static const replyButtonFalseFont = TextStyle(
       color: Colors.grey,
       decoration: TextDecoration.none,
       fontFamily: 'bmAir',
-      fontSize: 18);
+      fontSize: 17);
   static const contentInfo = TextStyle(
       color: Colors.white,
       decoration: TextDecoration.none,

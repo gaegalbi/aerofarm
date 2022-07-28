@@ -37,27 +37,32 @@ class _CommunityPageReplyState extends State<CommunityPageReply>{
   late double keyboardOffset;
 
   void handleScrolling() {
-    //전체게시판은 전체 게시물을 전부 불러올 거라서 전체게시판이나 인기게시판일때는 동작x
-    if (_scrollController.offset ==
-        _scrollController.position.maxScrollExtent) {
-      pageIndexController.increment();
-      //fetch();
-      //print(widget.keywords);
-      loadFetch(widget.keywords['category']);
-     // fetch(widget.keywords['communityCategory'],true);
+    //새로고참
+    if (_scrollController.offset == _scrollController.position.minScrollExtent) {
+      if(sort){
+        readComment(widget.keywords['id'], widget.keywords['category'], false);
+      }else{
+        readReverseComment(widget.keywords['id'], widget.keywords['category'], false);
+      }
+    }
+    //load
+    if (_scrollController.offset == _scrollController.position.maxScrollExtent) {
+      if(sort){
+        readComment(widget.keywords['id'], widget.keywords['category'], true);
+      }else{
+        readReverseComment(widget.keywords['id'], widget.keywords['category'], true);
+      }
     }
   }
 
   @override
   void initState() {
-    print(widget.keywords);
     if(GetPlatform.isIOS){
       keyboardOffset = -0.9;
     }else {
       keyboardOffset = -1.0;
     }
     sort = true;
-    pageIndexController.setUp();
     _textEditingController = TextEditingController();
     _scrollController = ScrollController();
     _scrollController.addListener(() {
@@ -156,20 +161,10 @@ class _CommunityPageReplyState extends State<CommunityPageReply>{
                               TextButton(
                                   onPressed: () {
                                     setState(() {
-                                      if (!sort) sort = !sort;
-                                    });
-                                  },
-                                  style: ButtonStyle(
-                                      padding: MaterialStateProperty.all(
-                                          EdgeInsets.zero)),
-                                  child: Text("등록순",
-                                      style: sort
-                                          ? CommunityPageTheme.postFont
-                                          : CommunityPageTheme.postFalseFont)),
-                              TextButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      if (sort) sort = !sort;
+                                      if (!sort) {
+                                        sort = !sort;
+                                        readComment(widget.keywords['id'], widget.keywords['category'], false);
+                                      }
                                     });
                                   },
                                   style: ButtonStyle(
@@ -177,8 +172,24 @@ class _CommunityPageReplyState extends State<CommunityPageReply>{
                                           EdgeInsets.zero)),
                                   child: Text("최신순",
                                       style: sort
-                                          ? CommunityPageTheme.postFalseFont
-                                          : CommunityPageTheme.postFont)),
+                                          ? CommunityPageTheme.replyButtonFont
+                                          : CommunityPageTheme.replyButtonFalseFont)),
+                              TextButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      if (sort) {
+                                        sort = !sort;
+                                        readReverseComment(widget.keywords['id'], widget.keywords['category'], false);
+                                      }
+                                    });
+                                  },
+                                  style: ButtonStyle(
+                                      padding: MaterialStateProperty.all(
+                                          EdgeInsets.zero)),
+                                  child: Text("등록순",
+                                      style: sort
+                                          ? CommunityPageTheme.replyButtonFalseFont
+                                          : CommunityPageTheme.replyButtonFont)),
                             ],
                           ),
                         ),
@@ -273,7 +284,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply>{
                                     );
                                     }
                                   if(widget.before=="MyActivity"){
-                                    readComment(widget.keywords['id'], "");
+                                    readComment(widget.keywords['id'], "",false);
                                   }else{
                                     readPostContent(widget.keywords['id'], widget.keywords['category']); 
                                   }

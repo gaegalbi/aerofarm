@@ -70,7 +70,7 @@ class AddComment extends StatelessWidget {
     return before == "MyActivity" ?
     InkWell(
       onTap: (){
-        readComment(keywords['postId'], "").then((value)=>{
+        readComment(keywords['postId'], "",false).then((value)=>{
         Navigator.of(keyController.scaffoldKey.currentContext!).push(MaterialPageRoute(
             builder: (_) => CommunityPageReply(index: 0, before: "MyActivity", keywords: {"id":keywords['postId']},)))
         });
@@ -118,7 +118,7 @@ class AddComment extends StatelessWidget {
                 Container(
                   margin: const EdgeInsets.only(right: 10),
                   child: CircleAvatar(
-                    radius: keywords['parentId'] == null ? MediaQuery.of(context).size.width * 0.07 :  MediaQuery.of(context).size.width * 0.05,
+                    radius: keywords['parentId'] == null ? MediaQuery.of(context).size.width * 0.065 :  MediaQuery.of(context).size.width * 0.045,
                     backgroundImage: profile!.image,
                   ),
                 ),
@@ -250,7 +250,7 @@ class AddComment extends StatelessWidget {
                                                     encoding: Encoding.getByName('utf-8'),
                                                     body: body,
                                                   );
-                                                  readComment(keywords['postId'],keywords['category']);
+                                                  readComment(keywords['postId'],keywords['category'],false);
                                                 }/*else{
                                                   textEditingController.text = keywords['content'];
                                                 }*/
@@ -286,7 +286,7 @@ class AddComment extends StatelessWidget {
                                                     },
                                                     body: body
                                                 );
-                                                readComment(keywords['postId'], keywords['category']);
+                                                readComment(keywords['postId'], keywords['category'],false);
                                               }
                                             }
                                           },

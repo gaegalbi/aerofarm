@@ -89,7 +89,10 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                         const Text("공지사항", style: MainPageTheme.drawerButton),
                       ],
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      beforeRouteController.setBefore("ANNOUNCEMENT");
+                      Get.offAll(()=> CommunityPageForm(category:beforeRouteController.before.value));
+                    },
                   ),
                 ),
                 Container(

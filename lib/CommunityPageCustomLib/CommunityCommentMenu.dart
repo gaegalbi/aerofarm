@@ -76,7 +76,7 @@ class CommunityCommentMenu extends StatelessWidget {
                     },
                     body: body
                 );
-                readComment(keywords['postId'], keywords['category']);
+                readComment(keywords['postId'], keywords['category'],false);
                 Get.back();
               }
             }

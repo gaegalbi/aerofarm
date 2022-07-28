@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'package:capstone/main.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:http/http.dart' as http;
-import 'package:html/dom.dart' as dom;
-
 import 'package:capstone/CommunityPage/CommunityPageReply.dart';
 import 'package:capstone/MainPage/MainPage.dart';
 import 'package:capstone/themeData.dart';
@@ -33,29 +31,18 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
   final replyDetailController = Get.put(ReplyDetailListController());
   final loadingController = Get.put(LoadingController());
 
-  late String? content;
-  late dom.Element? contents;
   late String? likes;
   late int count;
   late ScrollController _scrollController;
   bool floating = false;
   String date = "";
 
-  void handleScrolling() {
-    //전체게시판은 전체 게시물을 전부 불러올 거라서 전체게시판이나 인기게시판일때는 동작x
-    if (_scrollController.offset ==
-        _scrollController.position.maxScrollExtent) {
-      pageIndexController.increment();
-      //loadReadPostContent(widget.keywords['id'], widget.keywords['category']);
-    }
-  }
   @override
   void initState(){
     pageIndexController.setUp();
     _scrollController = ScrollController();
-    _scrollController.addListener(() {
-      handleScrolling();
-    });
+
+    loadingController.setTrue();
     //게시글 내용 불러오기
     readPostContent(widget.keywords['id'], widget.keywords['category']).then((value) => loadingController.setFalse());
 
@@ -63,7 +50,6 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
     replyDetailController.replyDetailSetUpBackRoute(widget.index, widget.keywords, widget.before);
 
     //null 방지
-    content = "";
     likes = widget.keywords['likeCount'].toString();
 
     //CommunityPageReply 에서 뒤로가기 아이콘 클릭 시 null 방지
@@ -72,8 +58,6 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
     postKeywords.addAll(widget.keywords);
     //날짜 변경
     date = dateInfoFormat.format(DateTime.parse(widget.keywords['modifiedDate']));
-
-   print(widget.keywords);
     super.initState();
   }
 
@@ -208,6 +192,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                     ],
                   ),
                 ),
+                //게시글 부분
                 Container(
                   padding: EdgeInsets.fromLTRB(
                     MediaQuery.of(context).size.width * 0.04,
@@ -303,7 +288,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                                       ),
                                     ),
                                     Obx(()=>Text(
-                                      commentListController.commentList.length.toString(),//widget.keywords['comments'],
+                                      readPostController.commentCount.value,//widget.keywords['commentCount'].toString(),
                                       style: CommunityPageTheme.postFont,
                                     )),
                                     const Icon(
@@ -322,6 +307,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                     ],
                   ),
                 ),
+                //댓글 부분
                 Obx(()=> commentListController.commentList.isEmpty? Container(
                   margin: EdgeInsets.only(top: 5),
                   child: Row(
@@ -352,22 +338,28 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                       ),
                     ],
                   ),
-                ) : InkWell(
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  onTap: (){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (_) => CommunityPageReply(index: widget.index, keywords: widget.keywords, before: widget.before,)));
-                   // Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before,));
-                  },
-                  child: Column(children: commentListController.commentList
-                    ,),
-                ),)
+                )
+                    : Column(children: commentListController.commentList
+                  ,),),
+                commentListController.commentParentIdList.length >=10 ?
+                Padding(
+                  padding: EdgeInsets.only(top: 10,bottom: 10),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => CommunityPageReply(index: widget.index, keywords: widget.keywords, before: widget.before,)));
+                   },
+                    child: const Text("댓글더보기",style: CommunityPageTheme.title,),),
+                )
+                    :Container(),
               ],
             ):
-            const Center(
-                child: CircularProgressIndicator(
-                  color: MainColor.three,
-                )),),
+            SizedBox(
+              height: MediaQuery.of(context).size.height*0.75,
+              child: const Center(
+                  child: CircularProgressIndicator(
+                    color: MainColor.three,
+                  )),
+            ),),
           ),
           bottomNavigationBar: BottomAppBar(
             color: Colors.indigo,
@@ -462,7 +454,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                         ),
                       ),
                       text: Obx(()=>Text(
-                        commentListController.commentList.length.toString(),//widget.keywords['comments'],
+                        readPostController.commentCount.value,//widget.keywords['commentCount'].toString(),
                         style: CommunityPageTheme.bottomAppBarReply,
                       )),
                       onPressed: () {

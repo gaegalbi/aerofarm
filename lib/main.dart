@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 
-const String serverIP = "172.25.10.226:8080";
-//const String serverIP = "172.30.1.18:8080";
+//const String serverIP = "172.25.10.226:8080";
+const String serverIP = "172.30.1.77:8080";
 
 void main() {
   KakaoSdk.init(nativeAppKey: 'cf0a2321116751cad7b6b470377c39b3');

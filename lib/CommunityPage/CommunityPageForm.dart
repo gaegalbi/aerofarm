@@ -52,22 +52,18 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
     _scrollController.addListener(() {
       handleScrolling();
     });
-
+    loadingController.setTrue();
     commentListController.commentClear();
     boardListController.boardClear();
-    startFetch(widget.category).then((value) => answerFetch(widget.category));
+    startFetch(widget.category).then((value) => answerFetch(widget.category)).then((value)=>loadingController.setFalse());
 
-    //loadingController.setTrue();
-    Future.delayed(const Duration(milliseconds: 300), () {
-      loadingController.setFalse();
-    });
     super.initState();
   }
 
   @override
   void dispose() {
     boardListController.dispose();
-    //loadingController.dispose();
+    loadingController.dispose();
     pageIndexController.dispose();
     _scrollController.dispose();
     _categoryController.dispose();
