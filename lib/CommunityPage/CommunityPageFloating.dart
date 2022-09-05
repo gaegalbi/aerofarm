@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'package:capstone/CommunityPageCustomLib/CommunityFetch.dart';
 import 'package:capstone/MainPage/MainPageDrawer.dart';
+import 'package:capstone/screen/CommunityActivityScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../LoginPage/LoginPageLogin.dart';
 import '../main.dart';
+import '../screen/ProfileEditScreen.dart';
+import '../service/getRoute.dart';
 import '../themeData.dart';
 import 'CommunityPageCreatePost.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -59,7 +62,7 @@ class CommunityPageFloating extends StatelessWidget {
             children: [
               keywords['writer'] == nicknameController.nickname.value ? SpeedDialChild(
                 child: const Text(
-                  "삭제", style: CommunityPageTheme.floatingButton,),
+                  "삭제", style: CommunityScreenTheme.floatingButton,),
                 backgroundColor: Colors.red,
                 foregroundColor: Colors.white,
                 onTap: () async {
@@ -78,7 +81,7 @@ class CommunityPageFloating extends StatelessWidget {
               ) : SpeedDialChild(),
               keywords['writer'] ==  nicknameController.nickname.value ? SpeedDialChild(
                 child: const Text(
-                  "수정", style: CommunityPageTheme.floatingButton,),
+                  "수정", style: CommunityScreenTheme.floatingButton,),
                 backgroundColor: MainColor.three,
                 foregroundColor: Colors.white,
                 onTap: () {
@@ -91,7 +94,7 @@ class CommunityPageFloating extends StatelessWidget {
               ) : SpeedDialChild(),
               SpeedDialChild(
                 child: const Text(
-                  "답글", style: CommunityPageTheme.floatingButton,),
+                  "답글", style: CommunityScreenTheme.floatingButton,),
                 backgroundColor: MainColor.three,
                 foregroundColor: Colors.white,
                 onTap: () {
@@ -111,10 +114,11 @@ class CommunityPageFloating extends StatelessWidget {
           child: IconButton(
               padding: EdgeInsets.zero,
               onPressed: () {
+
                 checkTimerController.time.value ?
-                checkTimerController.stop(context) :getProfile("MainPageMyProfile");
+                checkTimerController.stop(context) :Get.to(()=>const ProfileEditScreen());
               },
-              icon: const Text("수정", style: CommunityPageTheme.floatingButton,),)
+              icon: const Text("수정", style: CommunityScreenTheme.floatingButton,),)
         );
       case "CommunityProfile":
         return SpeedDial(
@@ -136,13 +140,14 @@ class CommunityPageFloating extends StatelessWidget {
                   height: 50,
                   alignment: Alignment.center,
                   child: const Text(
-                      "내 정보 수정", style: CommunityPageTheme.floatingButton),
+                      "내 정보 수정", style: CommunityScreenTheme.floatingButton),
                 ),
                 backgroundColor: MainColor.three,
                 foregroundColor: Colors.white,
                 onTap: () {
-                  checkTimerController.time.value ?
-                  checkTimerController.stop(context) :getProfile("CommunityPageEdit");
+
+                 /* checkTimerController.time.value ?
+                  checkTimerController.stop(context) :getRoute("CommunityPageEdit");*/
                 },
               ),
               SpeedDialChild(
@@ -156,13 +161,13 @@ class CommunityPageFloating extends StatelessWidget {
                   height: 50,
                   alignment: Alignment.center,
                   child: const Text(
-                    "활동 보기", style: CommunityPageTheme.floatingButton),
+                    "활동 보기", style: CommunityScreenTheme.floatingButton),
                 ),
                 backgroundColor: MainColor.three,
                 foregroundColor: Colors.white,
                 onTap: () {
-                  checkTimerController.time.value ?
-                  checkTimerController.stop(context) :getProfile("CommunityPageEdit");
+                 /* checkTimerController.time.value ?
+                  checkTimerController.stop(context) :getRoute("CommunityPageEdit");*/
                 },
               ),
             ]
@@ -197,7 +202,7 @@ class CommunityPageFloating extends StatelessWidget {
                         return AlertDialog(
                           contentPadding: const EdgeInsets.only(right: 10,left: 10,top: 10),
                           backgroundColor: MainColor.six,
-                          content: Container(
+                          content: SizedBox(
                             height: MediaQuery.of(context).size.height*0.2,
                             width: MediaQuery.of(context).size.width*0.5,
                             child: Column(
@@ -209,10 +214,10 @@ class CommunityPageFloating extends StatelessWidget {
                                   children: <Widget>[
                                    SizedBox(
                                        width: MediaQuery.of(context).size.width*0.25,
-                                       child: Text("제목",style:selectSearchController.searchTitle.value ? CommunityPageTheme.searchTextTrue : CommunityPageTheme.searchTextFalse,textAlign: TextAlign.center,)),
+                                       child: Text("제목",style:selectSearchController.searchTitle.value ? CommunityScreenTheme.searchTextTrue : CommunityScreenTheme.searchTextFalse,textAlign: TextAlign.center,)),
                                     SizedBox(
                                         width: MediaQuery.of(context).size.width*0.25,
-                                        child: Text("작성자",style:selectSearchController.searchWriter.value ? CommunityPageTheme.searchTextTrue : CommunityPageTheme.searchTextFalse,textAlign: TextAlign.center,)),
+                                        child: Text("작성자",style:selectSearchController.searchWriter.value ? CommunityScreenTheme.searchTextTrue : CommunityScreenTheme.searchTextFalse,textAlign: TextAlign.center,)),
                                   ],
                                   onPressed: (int index) {
                                       selectSearchController.setSearch(index);
@@ -226,7 +231,7 @@ class CommunityPageFloating extends StatelessWidget {
                                       enabledBorder: InputBorder.none,
                                       focusedBorder: InputBorder.none,
                                       hintText: "검색어를 입력하세요",
-                                      hintStyle: LoginRegisterPageTheme.hint),
+                                      hintStyle: LoginRegisterScreenTheme.hint),
                                 ),
                                 Container(
                                   color:MainColor.three,
@@ -235,7 +240,7 @@ class CommunityPageFloating extends StatelessWidget {
                                       searchFetch(keywords['category'], selectSearchController.getSearch(), textEditingController.text).then((value) => answerFetch(keywords['category']));
                                       Get.back();
                                     }
-                                  }, child: const Text("검색",style:CommunityPageTheme.searchButton,textAlign: TextAlign.center,)),
+                                  }, child: const Text("검색",style:CommunityScreenTheme.searchButton,textAlign: TextAlign.center,)),
                                 )
                               ],
                             ),

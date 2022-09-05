@@ -84,7 +84,7 @@ class _LoginPageResetPasswordState extends State<LoginPageResetPassword> {
                         bottom: MediaQuery.of(context).size.height * 0.036),
                     child: const Text(
                       "도시농부",
-                      style: LoginRegisterPageTheme.title,
+                      style: LoginRegisterScreenTheme.title,
                     ),
                   ),
                   Column(
@@ -95,11 +95,11 @@ class _LoginPageResetPasswordState extends State<LoginPageResetPassword> {
                                   MediaQuery.of(context).size.height * 0.018),
                           child: const Text(
                             "도시농부에 가입했던 이메일을 입력해주세요.",
-                            style: LoginRegisterPageTheme.content,
+                            style: LoginRegisterScreenTheme.content,
                           )),
                       const Text(
                         "비밀번호 재설정 메일을 보내드립니다.",
-                        style: LoginRegisterPageTheme.content,
+                        style: LoginRegisterScreenTheme.content,
                       ),
                     ],
                   ),
@@ -111,7 +111,7 @@ class _LoginPageResetPasswordState extends State<LoginPageResetPassword> {
                     child: TextField(
                       controller: _emailController,
                       textInputAction: TextInputAction.next,
-                      style: LoginRegisterPageTheme.text,
+                      style: LoginRegisterScreenTheme.text,
                       textAlign: TextAlign.center,
                       decoration: const InputDecoration(
                           filled: true,
@@ -119,7 +119,7 @@ class _LoginPageResetPasswordState extends State<LoginPageResetPassword> {
                           enabledBorder: InputBorder.none,
                           focusedBorder: InputBorder.none,
                           hintText: "EMAIL을 입력해주세요",
-                          hintStyle: LoginRegisterPageTheme.hint),
+                          hintStyle: LoginRegisterScreenTheme.hint),
                     ),
                   ),
                   Container(
@@ -140,7 +140,7 @@ class _LoginPageResetPasswordState extends State<LoginPageResetPassword> {
                       },
                       child: const Text(
                         "전송",
-                        style: LoginRegisterPageTheme.button,
+                        style: LoginRegisterScreenTheme.button,
                       ),
                     ),
                   )

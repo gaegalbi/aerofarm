@@ -1,12 +1,15 @@
 import 'dart:convert';
 
 import 'package:capstone/main.dart';
+import 'package:capstone/widget/CommentWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 
 import '../LoginPage/LoginPageLogin.dart';
+import '../model/Comment.dart';
+import '../provider/Controller.dart';
 import '../themeData.dart';
 import 'CommunityAddBoard.dart';
 import 'CommunityAddComment.dart';
@@ -16,7 +19,7 @@ final List<Map<String, dynamic>> customKeywords = [];
 final Map<String, dynamic> postKeywords = {};
 List<String> replyDetailList = [];
 
-final dateInfoFormat = DateFormat('yyyy.MM.dd hh:mm');
+
 /*final Map<String, String> matchCategory = {
   "all": "전체게시판",
   "hot": "인기게시판",
@@ -46,33 +49,7 @@ List<String> boardCategory = [
   "trade"
 ];
 
-class PageIndexController extends GetxController{
-  final pageIndex = 1.obs;
 
-  void increment(){
-    pageIndex.value++;
-  }
-  void decrement(){
-    pageIndex.value--;
-  }
-  void setUp(){
-    pageIndex.value = 1;
-  }
-}
-
-class LoadingController extends GetxController{
-  final loading = true.obs;
-
-/*  void setStatus(){
-    loading.toggle();
-  }*/
-  void setTrue(){
-    loading.value = true;
-  }
-  void setFalse(){
-    loading.value = false;
-  }
-}
 
 class BeforeRouteController extends GetxController{
   final before = "".obs;
@@ -83,121 +60,11 @@ class BeforeRouteController extends GetxController{
   }
 }
 
-class BoardListController extends GetxController{
-  final boardList = <Widget>[].obs;
-  final boardIdList = <int>[].obs;
-  final boardParentList = <int>[].obs;
 
-  //게시글
-  void boardAdd(Widget widget){
-    boardList.add(widget);
-  }
-
-  //답글
-  void boardInsert(int index, Widget widget){
-    boardList.insert(index, widget);
-  }
-
-  //답글
-  void boardIdInsert(int index, int id){
-    boardIdList.insert(index, id);
-  }
-
-  //중복방지
-  void boardIdAdd(int id){
-    boardIdList.add(id);
-  }
-
-  //중복방지
-  void boardParentAdd(int index){
-    boardParentList.add(index);
-  }
-
-  void boardIdClear(){
-    boardIdList.clear();
-    boardIdList.add(-1);
-    boardParentList.clear();
-  }
-
-  void boardClear(){
-    boardList.clear();
-    boardList.add(notice());
-  }
-}
-class CommentListController extends GetxController{
-  final commentList= <Widget>[].obs;
-  final commentGroupIdList = <int>[].obs;
-  final commentIdList = <int>[].obs;
-  final commentParentIdList = <int>[].obs;
-  final commentPreventDuplicateIdList = <int>[].obs;
-  final commentAnswerCount = 0.obs;
-
-  void commentAdd(Widget widget){
-    commentList.add(widget);
-  }
-
-  void commentInsert(int index,Widget widget){
-    commentList.insert(index, widget);
-  }
-
-  void commentClear(){
-    commentList.clear();
-    commentParentIdList.clear();
-    commentIdList.clear();
-    commentGroupIdList.clear();
-    commentPreventDuplicateIdList.clear();
-    commentAnswerCount.value = 0;
-  }
-}
-
-class SetCategoryController extends GetxController {
-  final setCategory = "".obs;
-  final List<bool> category = [true, false, false, false, false, false,].obs;
-
-  void categoryClick(int index,String filter) {
-    for (int i = 0; i < category.length; i++) {
-      if (i != index) {
-        category[i]= false;
-      } else {
-        category[i] = true;
-      }
-    }
-    setCategory.value = filter;
-  }
-}
 class ReadPostController extends GetxController{
-  final isLike =false.obs;
-  final content ="".obs;
-  final id = "".obs;
   final writer = "".obs;
-  final commentCount = "".obs;
-
-  void setIsLike(String like){
-    if(like == "true"){
-      isLike.value = true;
-    }else{
-      isLike.value = false;
-    }
-  }
-
-  void toggleLike(){
-    isLike.value = !isLike.value;
-  }
-
-  void setContent(String html){
-    content.value = html;
-  }
-
-  void setId(String inputId){
-    id.value = inputId;
-  }
-
   void setWriter(String inputId){
     writer.value = inputId;
-  }
-
-  void setCommentCount(String count){
-    commentCount.value = count;
   }
 }
 
@@ -249,10 +116,10 @@ Future activityPostStartFetch() async {
     data = jsonDecode(utf8.decode(postResponse.bodyBytes));
     if(data['content'].length!=0) {
       for (int i = 0; i < data['content'].length; i++) {
-        boardListController.boardAdd(AddBoard(
+      /*  boardListController.addBoard(AddBoard(
             index: pageIndexController.pageIndex.value,
             keywords: data['content'][i],
-            before: "MyActivity"));
+            before: "MyActivity"));*/
       }
     }
   }
@@ -286,10 +153,10 @@ Future activityLikedStartFetch() async {
     data = jsonDecode(utf8.decode(postResponse.bodyBytes));
     if(data['content'].length!=0) {
       for (int i = 0; i < data['content'].length; i++) {
-        boardListController.boardAdd(AddBoard(
+  /*      boardListController.addBoard(AddBoard(
             index: pageIndexController.pageIndex.value,
             keywords: data['content'][i],
-            before: "MyActivity"));
+            before: "MyActivity"));*/
       }
     }
   }
@@ -321,10 +188,10 @@ Future activityCommentStartFetch() async {
     data = jsonDecode(utf8.decode(commentResponse.bodyBytes));
     if(data['content'].length!=0) {
       for (int i = 0; i < data['content'].length; i++) {
-        commentListController.commentAdd(AddComment(
+       /* commentListController.commentAdd(AddComment(
             index: pageIndexController.pageIndex.value,
             keywords: data['content'][i],
-            before: "MyActivity", selectReply: '',));
+            before: "MyActivity", selectReply: '',));*/
       }
     }
   }
@@ -354,10 +221,10 @@ Future activityPostLoadFetch() async {
     Map<String, dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
     if(data['content'].length!=0) {
       for (int i = 0; i < data['content'].length; i++) {
-        boardListController.boardAdd(AddBoard(
+    /*    boardListController.addBoard(AddBoard(
             index: pageIndexController.pageIndex.value,
             keywords: data['content'][i],
-            before: "MyActivity"));
+            before: "MyActivity"));*/
       }
     }else{
       pageIndexController.decrement();
@@ -388,10 +255,10 @@ Future activityLikedLoadFetch() async {
     Map<String, dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
     if(data['content'].length!=0) {
       for (int i = 0; i < data['content'].length; i++) {
-        boardListController.boardAdd(AddBoard(
+      /*  boardListController.addBoard(AddBoard(
             index: pageIndexController.pageIndex.value,
             keywords: data['content'][i],
-            before: "MyActivity"));
+            before: "MyActivity"));*/
       }
     }else{
       pageIndexController.decrement();
@@ -424,10 +291,10 @@ Future activityCommentLoadFetch() async {
     data = jsonDecode(utf8.decode(commentResponse.bodyBytes));
     if(data['content'].length!=0) {
       for (int i = 0; i < data['content'].length; i++) {
-        commentListController.commentAdd(AddComment(
+     /*   commentListController.commentAdd(AddComment(
           index: pageIndexController.pageIndex.value,
           keywords: data['content'][i],
-          before: "MyActivity", selectReply: '',));
+          before: "MyActivity", selectReply: '',));*/
       }
     }else{
       pageIndexController.decrement();
@@ -444,7 +311,7 @@ Future searchFetch(String communityCategory,String search,String keyword) async 
   final boardListController = Get.put(BoardListController());
 
   pageIndexController.setUp();
-  boardListController.boardClear();
+  //boardListController.boardClear();
   boardListController.boardIdClear();
 
   Map<String, String> _queryParameters = <String, String>{
@@ -467,11 +334,11 @@ Future searchFetch(String communityCategory,String search,String keyword) async 
         for (int i = 0; i < data['content'].length; i++) {
           boardListController.boardIdAdd(data['content'][i]['id']);
           boardListController.boardParentList.add(data['content'][i]['id']);
-          boardListController.boardAdd(AddBoard(
+        /*  boardListController.addBoard(AddBoard(
               index: pageIndexController.pageIndex.value,
               keywords: data['content'][i],
               before: communityCategory)
-          );
+          );*/
         }
       }
     }
@@ -498,11 +365,11 @@ Future searchFetch(String communityCategory,String search,String keyword) async 
               if (data['content'][i]['category'] == communityCategory) {
                 boardListController.boardIdAdd(data['content'][i]['id']);
                 boardListController.boardParentList.add(data['content'][i]['id']);
-                boardListController.boardAdd(AddBoard(
+           /*     boardListController.addBoard(AddBoard(
                     index: pageIndexController.pageIndex.value,
                     keywords: data['content'][i],
                     before: communityCategory)
-                );
+                );*/
                 count++;
                 //for문
                 if(count==10){
@@ -527,8 +394,8 @@ Future searchFetch(String communityCategory,String search,String keyword) async 
         }
       }
     }
-    if (boardListController.boardList.length == 1) {
-      boardListController.boardAdd(Container(
+/*    if (boardListController.boardList.length == 1) {
+      boardListController.addBoard(Container(
           margin: EdgeInsets.only(
               top: Get.height * 0.345),
           alignment: Alignment.center,
@@ -536,7 +403,7 @@ Future searchFetch(String communityCategory,String search,String keyword) async 
             "게시글이 없습니다.",
             style: CommunityPageTheme.announce,
           )));
-    }
+    }*/
   } else {
     throw Exception("startFetch Error");
   }
@@ -548,7 +415,7 @@ Future startFetch(String communityCategory) async {
   final boardListController = Get.put(BoardListController());
 
   pageIndexController.setUp();
-  boardListController.boardClear();
+  //boardListController.boardClear();
   boardListController.boardIdClear();
 
   Map<String, String> _queryParameters = <String, String>{
@@ -570,11 +437,11 @@ Future startFetch(String communityCategory) async {
         for (int i = 0; i < data['content'].length; i++) {
           boardListController.boardIdAdd(data['content'][i]['id']);
           boardListController.boardParentList.add(data['content'][i]['id']);
-          boardListController.boardAdd(AddBoard(
+        /*  boardListController.addBoard(AddBoard(
               index: pageIndexController.pageIndex.value,
               keywords: data['content'][i],
               before: communityCategory)
-          );
+          );*/
         }
       }
     }
@@ -599,11 +466,11 @@ Future startFetch(String communityCategory) async {
               if (data['content'][i]['category'] == communityCategory) {
                 boardListController.boardIdAdd(data['content'][i]['id']);
                 boardListController.boardParentList.add(data['content'][i]['id']);
-                boardListController.boardAdd(AddBoard(
+               /* boardListController.addBoard(AddBoard(
                     index: pageIndexController.pageIndex.value,
                     keywords: data['content'][i],
                     before: communityCategory)
-                );
+                );*/
                 count++;
                 //for문
                 if(count==10){
@@ -628,8 +495,8 @@ Future startFetch(String communityCategory) async {
         }
       }
     }
-    if (boardListController.boardList.length == 1) {
-      boardListController.boardAdd(Container(
+  /*  if (boardListController.boardList.length == 1) {
+      boardListController.addBoard(Container(
           margin: EdgeInsets.only(
               top: Get.height * 0.345),
           alignment: Alignment.center,
@@ -637,7 +504,7 @@ Future startFetch(String communityCategory) async {
             "게시글이 없습니다.",
             style: CommunityPageTheme.announce,
           )));
-    }
+    }*/
   } else {
     throw Exception("startFetch Error");
   }
@@ -665,11 +532,11 @@ Future loadFetch(String communityCategory) async{
         for (int i = 0; i < data['content'].length; i++) {
           boardListController.boardIdAdd(data['content'][i]['id']);
           boardListController.boardParentList.add(data['content'][i]['id']);
-          boardListController.boardAdd(AddBoard(
+    /*      boardListController.addBoard(AddBoard(
               index: pageIndexController.pageIndex.value,
               keywords: data['content'][i],
               before: communityCategory)
-          );
+          );*/
         }
       } else {
         pageIndexController.decrement();
@@ -699,11 +566,11 @@ Future loadFetch(String communityCategory) async{
                   !boardListController.boardIdList.contains(data['content'][i]['id'])) {
                 boardListController.boardIdAdd(data['content'][i]['id']);
                 boardListController.boardParentList.add(data['content'][i]['id']);
-                boardListController.boardAdd(AddBoard(
+          /*      boardListController.addBoard(AddBoard(
                     index: pageIndexController.pageIndex.value,
                     keywords: data['content'][i],
                     before: communityCategory)
-                );
+                );*/
                 count++;
               }
             }
@@ -775,12 +642,12 @@ Future answerFetch(String communityCategory) async {
           for(int k =0; k<answer[answer.keys.elementAt(i)].length;k++){
             if(!boardListController.boardIdList.contains(answer[answer.keys.elementAt(i)][k]['id'])){
                if(answer.keys.elementAt(i) == answerCheck[answerCheck.length-1] && answer.length != 1 && boardListController.boardParentList.last == answer[answer.keys.elementAt(i)][k]['parentId']){
-                boardListController.boardAdd(AddBoard(index: pageIndexController.pageIndex.value, keywords: answer[answer.keys.elementAt(i)][k], before: communityCategory));
-              }else{
+               // boardListController.addBoard(AddBoard(index: pageIndexController.pageIndex.value, keywords: answer[answer.keys.elementAt(i)][k], before: communityCategory));
+              }/*else{
                 boardListController.boardInsert(
                     boardListController.boardIdList.indexOf(answer.keys.elementAt(i))+1 + k,
                     AddBoard(index: pageIndexController.pageIndex.value, keywords: answer[answer.keys.elementAt(i)][k], before: communityCategory));
-              }
+              }*/
               boardListController.boardIdInsert(boardListController.boardIdList.indexOf(answer.keys.elementAt(i))+1 + k, answer[answer.keys.elementAt(i)][k]['id']);
             }
           }
@@ -798,7 +665,7 @@ Future categoryFetch(String communityCategory) async {
   final setCategoryController  = Get.put(SetCategoryController());
 
   pageIndexController.setUp();
-  boardListController.boardClear();
+  //boardListController.boardClear();
   boardListController.boardIdClear();
   int count;
 
@@ -824,11 +691,11 @@ Future categoryFetch(String communityCategory) async {
             if (setCategoryController.setCategory.value == "ALL") {
               boardListController.boardIdAdd(data['content'][i]['id']);
               boardListController.boardParentList.add(data['content'][i]['id']);
-              boardListController.boardAdd(AddBoard(
+           /*   boardListController.addBoard(AddBoard(
                   index: pageIndexController.pageIndex.value,
                   keywords: data['content'][i],
                   before: communityCategory)
-              );
+              );*/
               count++;
             } else {
               if (communityCategory == "HOT") {
@@ -836,11 +703,11 @@ Future categoryFetch(String communityCategory) async {
                   boardListController.boardIdAdd(data['content'][i]['id']);
                   boardListController.boardParentList.add(
                       data['content'][i]['id']);
-                  boardListController.boardAdd(AddBoard(
+                /*  boardListController.addBoard(AddBoard(
                       index: pageIndexController.pageIndex.value,
                       keywords: data['content'][i],
                       before: communityCategory)
-                  );
+                  );*/
                   count++;
                 }
               } else {
@@ -849,11 +716,11 @@ Future categoryFetch(String communityCategory) async {
                   boardListController.boardIdAdd(data['content'][i]['id']);
                   boardListController.boardParentList.add(
                       data['content'][i]['id']);
-                  boardListController.boardAdd(AddBoard(
+                /*  boardListController.addBoard(AddBoard(
                       index: pageIndexController.pageIndex.value,
                       keywords: data['content'][i],
                       before: communityCategory)
-                  );
+                  );*/
                   count++;
                 }
               }
@@ -890,21 +757,21 @@ Future categoryFetch(String communityCategory) async {
                 if(setCategoryController.setCategory.value == "ALL"){
                   boardListController.boardIdAdd(data['content'][i]['id']);
                   boardListController.boardParentList.add(data['content'][i]['id']);
-                  boardListController.boardAdd(AddBoard(
+                  /*boardListController.addBoard(AddBoard(
                       index: pageIndexController.pageIndex.value,
                       keywords: data['content'][i],
                       before: communityCategory)
-                  );
+                  );*/
                   count++;
                 }else{
                   if(setCategoryController.setCategory.value == data['content'][i]['filter']){
                     boardListController.boardIdAdd(data['content'][i]['id']);
                     boardListController.boardParentList.add(data['content'][i]['id']);
-                    boardListController.boardAdd(AddBoard(
+                   /* boardListController.addBoard(AddBoard(
                         index: pageIndexController.pageIndex.value,
                         keywords: data['content'][i],
                         before: communityCategory)
-                    );
+                    );*/
                     count++;
                   }
                 }
@@ -929,8 +796,8 @@ Future categoryFetch(String communityCategory) async {
         }
       }
     }
-    if (boardListController.boardList.length == 1) {
-      boardListController.boardAdd(Container(
+  /*  if (boardListController.boardList.length == 1) {
+      boardListController.addBoard(Container(
           margin: EdgeInsets.only(
               top: Get.height * 0.345),
           alignment: Alignment.center,
@@ -938,7 +805,7 @@ Future categoryFetch(String communityCategory) async {
             "게시글이 없습니다.",
             style: CommunityPageTheme.announce,
           )));
-    }
+    }*/
   }
 
 //readPost 게시글 내용 불러오기, 추천 유무
@@ -956,7 +823,7 @@ Future readPostContent(int postId, String communityCategory) async{
         //"Cookie":"JSESSIONID=$session",
         //"Cookie":"remember-me=$rememberMe;JSESSIONID=$session",
       });
-  readPostController.setCommentCount(commentCountResponse.body);
+//  readPostController.setCommentCount(commentCountResponse.body);
 
   final likeResponse = await http
       .get(Uri.http(serverIP, '/api/islike',_queryParameters),
@@ -967,9 +834,9 @@ Future readPostContent(int postId, String communityCategory) async{
       }
   );
   if(likeResponse.statusCode ==200) {
-    readPostController.setIsLike(likeResponse.body);
+   // readPostController.setIsLike(likeResponse.body);
   }else{
-    readPostController.setIsLike("false");
+   // readPostController.setIsLike("false");
   }
 
   final postResponse = await http
@@ -982,13 +849,14 @@ Future readPostContent(int postId, String communityCategory) async{
   );
   if (postResponse.statusCode == 200) {
     Map<String, dynamic> data = jsonDecode(utf8.decode(postResponse.bodyBytes));
-    readPostController.setId(data['writer']);
-    readPostController.setContent(data['contents']);
-    readComment(postId, communityCategory,false);
+   // readPostController.setId(data['writer']);
+   // readPostController.setContent(data['contents']);
+    //readComment(postId, communityCategory,false);
   }else{
     throw Exception("readPostContent Error");
   }
 }
+/*
 Future readComment(int postId,String communityCategory,bool load) async{
   final commentListController = Get.put(CommentListController());
   final pageIndexController = Get.put(PageIndexController());
@@ -1175,3 +1043,4 @@ Future readReverseComment(int postId,String communityCategory,bool load) async{
     Exception("readComment Error");
   }
 }
+*/

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../CommunityPageCustomLib/CommunityFetch.dart';
 import '../CommunityPageCustomLib/CommunityTitleButton.dart';
+import '../provider/Controller.dart';
 import 'CommunityPageFloating.dart';
 
 class CommunityPageForm extends StatefulWidget {
@@ -54,7 +55,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
     });
     loadingController.setTrue();
     commentListController.commentClear();
-    boardListController.boardClear();
+    //boardListController.boardClear();
     startFetch(widget.category).then((value) => answerFetch(widget.category)).then((value)=>loadingController.setFalse());
 
     super.initState();
@@ -113,7 +114,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
           ),
           title: const Text(
             "도시농부",
-            style: MainPageTheme.title,
+            style: MainScreenTheme.title,
           ),
           actions: [
             Container(
@@ -160,7 +161,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
                 children: [
                   Text(
                     matchCategory[widget.category.toString()]!,
-                    style: CommunityPageTheme.title,
+                    style: CommunityScreenTheme.title,
                   ),
                   Container(
                           height: MediaQuery.of(context).size.height * 0.039,
@@ -179,8 +180,8 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
                                       categoryFetch(widget.category);
                                   },
                                   style: setCategoryController.category[0]
-                                      ? CommunityPageTheme.titleButtonTrue
-                                      : CommunityPageTheme.titleButtonFalse),
+                                      ? CommunityScreenTheme.titleButtonTrue
+                                      : CommunityScreenTheme.titleButtonFalse),
                               TitleButton(
                                   title: widget.category == "HOT" ? "자유" : "일반",
                                   onPressed: () {
@@ -188,8 +189,8 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
                                       categoryFetch(widget.category);
                                   },
                                   style: setCategoryController.category[1]
-                                      ? CommunityPageTheme.titleButtonTrue
-                                      : CommunityPageTheme.titleButtonFalse),
+                                      ? CommunityScreenTheme.titleButtonTrue
+                                      : CommunityScreenTheme.titleButtonFalse),
                               TitleButton(
                                   title: widget.category == "HOT" ? "사진" : "취미",
                                   onPressed: () {
@@ -197,8 +198,8 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
                                       categoryFetch(widget.category);
                                   },
                                   style: setCategoryController.category[2]
-                                      ? CommunityPageTheme.titleButtonTrue
-                                      : CommunityPageTheme.titleButtonFalse),
+                                      ? CommunityScreenTheme.titleButtonTrue
+                                      : CommunityScreenTheme.titleButtonFalse),
                               TitleButton(
                                   title: widget.category == "HOT" ? "정보" : "게임",
                                   onPressed: () {
@@ -206,8 +207,8 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
                                       categoryFetch(widget.category);
                                   },
                                   style: setCategoryController.category[3]
-                                      ? CommunityPageTheme.titleButtonTrue
-                                      : CommunityPageTheme.titleButtonFalse),
+                                      ? CommunityScreenTheme.titleButtonTrue
+                                      : CommunityScreenTheme.titleButtonFalse),
                               TitleButton(
                                   title: widget.category == "HOT" ? "질문" : "일상",
                                   onPressed: () {
@@ -215,8 +216,8 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
                                       categoryFetch(widget.category);
                                   },
                                   style: setCategoryController.category[4]
-                                      ? CommunityPageTheme.titleButtonTrue
-                                      : CommunityPageTheme.titleButtonFalse),
+                                      ? CommunityScreenTheme.titleButtonTrue
+                                      : CommunityScreenTheme.titleButtonFalse),
                               TitleButton(
                                   title:widget.category == "HOT" ?  "거래" : "여행",
                                   onPressed: () {
@@ -224,8 +225,8 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
                                       categoryFetch(widget.category);
                                   },
                                   style: setCategoryController.category[5]
-                                      ? CommunityPageTheme.titleButtonTrue
-                                      : CommunityPageTheme.titleButtonFalse),
+                                      ? CommunityScreenTheme.titleButtonTrue
+                                      : CommunityScreenTheme.titleButtonFalse),
                             ],
                           )),
                         )

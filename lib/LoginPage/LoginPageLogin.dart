@@ -12,7 +12,7 @@ import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' as parser;
 import 'package:html/dom.dart' as dom;
 
-import '../CheckTimer.dart';
+import '../utils/CheckTimer.dart';
 import '../main.dart';
 
 late String? session;
@@ -23,8 +23,6 @@ late String? nickname;
 //쿠키 받아두는 변수
 late String? tmp;
 late Image? profile = const Image(image: AssetImage("assets/images/profile.png"),);
-
-final checkTimerController  = Get.put(CheckTimer());
 
 class NicknameController extends GetxController{
   final nickname = "".obs;
@@ -82,8 +80,8 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
   Widget build(BuildContext context) {
     double topMargin = MediaQuery.of(context).size.height * 0.025;
     double rightMargin = MediaQuery.of(context).size.width * 0.04;
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.45,
+    return Container(
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.1),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -179,24 +177,25 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
               },
               child: const Text(
                 "도시농부 아이디로 로그인하기",
-                style: LoginRegisterPageTheme.content,
+                style: LoginRegisterScreenTheme.content,
               ),
             ),
           ),
           Container(
+            decoration: BoxDecoration(
+              color: MainColor.one,
+              borderRadius: BorderRadius.circular(20)
+            ),
             margin: EdgeInsets.only(top: topMargin),
             padding:
                 EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.04),
-            color: MainColor.one,
             width: MediaQuery.of(context).size.width * 0.696,
             height: MediaQuery.of(context).size.height * 0.059,
             child: TextField(
               controller: _lUserNameController,
               textInputAction: TextInputAction.next,
-              style: LoginRegisterPageTheme.text,
-              decoration: const InputDecoration(
-                  filled: true,
-                  fillColor: Colors.transparent,
+              style: LoginRegisterScreenTheme.text,
+              decoration:  const InputDecoration(
                   enabledBorder: InputBorder.none,
                   focusedBorder: InputBorder.none,
                   icon: Icon(
@@ -205,14 +204,17 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                     color: Colors.black,
                   ),
                   hintText: "Username",
-                  hintStyle: LoginRegisterPageTheme.hint),
+                  hintStyle: LoginRegisterScreenTheme.hint),
             ),
           ),
           Container(
             margin: EdgeInsets.only(top: topMargin),
             padding:
                 EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.04),
-            color: MainColor.one,
+            decoration: BoxDecoration(
+                color: MainColor.one,
+                borderRadius: BorderRadius.circular(20)
+            ),
             width: MediaQuery.of(context).size.width * 0.696,
             height: MediaQuery.of(context).size.height * 0.059,
             child: TextField(
@@ -220,10 +222,8 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
               obscuringCharacter: "*",
               controller: _lPasswordController,
               textInputAction: TextInputAction.next,
-              style: LoginRegisterPageTheme.text,
+              style: LoginRegisterScreenTheme.text,
               decoration: const InputDecoration(
-                  filled: true,
-                  fillColor: Colors.transparent,
                   enabledBorder: InputBorder.none,
                   focusedBorder: InputBorder.none,
                   icon: Icon(
@@ -232,7 +232,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                     color: Colors.black,
                   ),
                   hintText: "Password",
-                  hintStyle: LoginRegisterPageTheme.hint),
+                  hintStyle: LoginRegisterScreenTheme.hint),
             ),
           ),
           Container(
@@ -243,7 +243,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                 TextButton(
                   child: const Text(
                     "비밀번호 재설정",
-                    style: LoginRegisterPageTheme.sButton,
+                    style: LoginRegisterScreenTheme.sButton,
                   ),
                   onPressed: () {
                     Get.to(()=>const LoginPageResetPassword());
@@ -255,13 +255,13 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                   },
                   child: const Text(
                     "회원이 아니신가요?",
-                    style: LoginRegisterPageTheme.sButton,
+                    style: LoginRegisterScreenTheme.sButton,
                   ),
                 ),
               ],
             ),
           ),
-          Container(
+        /*  Container(
             margin: EdgeInsets.only(bottom: topMargin, top: topMargin / 4),
             padding: EdgeInsets.only(top: topMargin),
             decoration: const BoxDecoration(
@@ -348,7 +348,7 @@ class _LoginPageLoginRegisterState extends State<LoginPageLoginRegister> {
                 icon: Image.asset("assets/google/google_circle.png"),
               ),
             ],
-          ),
+          ),*/
         ],
       ),
     );

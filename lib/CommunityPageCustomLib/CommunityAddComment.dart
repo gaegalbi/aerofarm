@@ -7,11 +7,13 @@ import 'package:capstone/CommunityPageCustomLib/CommunityFetch.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../CommunityPage/CommunityPageReply.dart';
-import '../CurrentTime.dart';
 import '../LoginPage/LoginPageLogin.dart';
 import '../main.dart';
+import '../provider/Controller.dart';
 import '../themeData.dart';
 import 'package:http/http.dart' as http;
+
+import '../utils/CheckTimer.dart';
 
 class SelectReplyController extends GetxController{
   final id = 0.obs;
@@ -21,24 +23,6 @@ class SelectReplyController extends GetxController{
   }
   void clearId(){
     id.value = 0;
-  }
-}
-
-class ModifyController extends GetxController{
-  final modify= false.obs;
-  final id = 0.obs;
-
-  void setId(int input){
-    id.value = input;
-  }
-  void changeModify(){
-    modify.value = !modify.value;
-  }
-  void setUpFalse(){
-    modify.value = false;
-  }
-  void setUpTrue(){
-    modify.value = true;
   }
 }
 
@@ -60,7 +44,7 @@ class AddComment extends StatelessWidget {
     final keyController = Get.put(KeyController());
     final nicknameController = Get.put(NicknameController());
     final selectController = Get.put(SelectReplyController());
-    final modifyController = Get.put(ModifyController());
+    final modifyController = Get.put(ModifySelectController());
     final readPostController = Get.put(ReadPostController());
     final commentListController = Get.put(CommentListController());
     final TextEditingController textEditingController = TextEditingController();
@@ -70,10 +54,10 @@ class AddComment extends StatelessWidget {
     return before == "MyActivity" ?
     InkWell(
       onTap: (){
-        readComment(keywords['postId'], "",false).then((value)=>{
+       /* readComment(keywords['postId'], "",false).then((value)=>{
         Navigator.of(keyController.scaffoldKey.currentContext!).push(MaterialPageRoute(
             builder: (_) => CommunityPageReply(index: 0, before: "MyActivity", keywords: {"id":keywords['postId']},)))
-        });
+        });*/
       },
       child: Container(
         padding: const EdgeInsets.only(top: 10,bottom: 10,left: 15),
@@ -88,11 +72,11 @@ class AddComment extends StatelessWidget {
               margin: const EdgeInsets.only(bottom: 5),
                 child: Text(
                   keywords['content'],
-                  style: CommunityPageTheme.activityCommentContent,)),
+                  style: CommunityScreenTheme.activityCommentContent,)),
             Container(
               margin: const EdgeInsets.only(bottom: 5),
-                child: Text(date,style: CommunityPageTheme.activityCommentDate,)),
-            Text(keywords['title'],style: CommunityPageTheme.activityCommentTitle),
+                child: Text(date,style: CommunityScreenTheme.activityCommentDate,)),
+            Text(keywords['title'],style: CommunityScreenTheme.activityCommentTitle),
           ],
         ),
       ),
@@ -129,7 +113,7 @@ class AddComment extends StatelessWidget {
                       children: [
                         Text(
                           keywords['writer'],
-                          style: keywords['writer'].length > 7 ? CommunityPageTheme.commentWriterOver:CommunityPageTheme.commentWriter,
+                          style: keywords['writer'].length > 7 ? CommunityScreenTheme.commentWriterOver:CommunityScreenTheme.commentWriter,
                         ),
                         readPostController.writer.value == keywords['writer'] ?
                         Container(
@@ -142,7 +126,7 @@ class AddComment extends StatelessWidget {
                         child: Row(
                           children: const [
                             Icon(Icons.account_circle),
-                            Text("글쓴이",style: CommunityPageTheme.commentOwner,),
+                            Text("글쓴이",style: CommunityScreenTheme.commentOwner,),
                           ],
                         ),
                         )
@@ -150,7 +134,7 @@ class AddComment extends StatelessWidget {
                       ],
                     ),
                     Container(
-                        margin: EdgeInsets.only(top: 10, bottom: 10),
+                        margin: const EdgeInsets.only(top: 10, bottom: 10),
                         width: before!="ReadPost" ? MediaQuery.of(context).size.width*0.49 :MediaQuery.of(context).size.width*0.42,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -159,15 +143,15 @@ class AddComment extends StatelessWidget {
                                 child:Obx(()=> !(modifyController.modify.value && modifyController.id.value == keywords['id']) ?
                                 RichText(maxLines: null,
                                  text:   keywords['deleteTnF'] ?
-                                 const TextSpan(text:"삭제된 댓글입니다",style:CommunityPageTheme.postFont)
+                                 const TextSpan(text:"삭제된 댓글입니다",style:CommunityScreenTheme.postFont)
                                      : keywords['parentId'] == null || commentListController.commentParentIdList.contains(keywords['parentId']) ?
-                                 TextSpan(text:keywords['content'],style:CommunityPageTheme.postFont )
+                                 TextSpan(text:keywords['content'],style:CommunityScreenTheme.postFont )
                                      : TextSpan(
                                   children:[
-                                      TextSpan(text:"@${keywords['parentNickname']} ",style: CommunityPageTheme.postTagFont),
-                                     TextSpan(text:keywords['content'], style: CommunityPageTheme.postFont),
+                                      TextSpan(text:"@${keywords['parentNickname']} ",style: CommunityScreenTheme.postTagFont),
+                                     TextSpan(text:keywords['content'], style: CommunityScreenTheme.postFont),
                                   ],
-                                  style: CommunityPageTheme.postFont),
+                                  style: CommunityScreenTheme.postFont),
                             )
                                     :TextField(
                                   controller: textEditingController,
@@ -182,7 +166,7 @@ class AddComment extends StatelessWidget {
                             width: MediaQuery.of(context).size.width*0.31,
                             child: Text(
                               date,
-                              style: CommunityPageTheme.commentDate,
+                              style: CommunityScreenTheme.commentDate,
                             ),
                           ),
                           Row(
@@ -197,7 +181,7 @@ class AddComment extends StatelessWidget {
                                 },
                                 child: const Text(
                                   "답글 쓰기",
-                                  style: CommunityPageTheme.commentReply,
+                                  style: CommunityScreenTheme.commentReply,
                                 ),
                               ) : const SizedBox(),
                                   before =="ReadPost" && keywords['writer'] == nicknameController.nickname.value && !keywords['deleteTnF'] ? Row(
@@ -250,7 +234,7 @@ class AddComment extends StatelessWidget {
                                                     encoding: Encoding.getByName('utf-8'),
                                                     body: body,
                                                   );
-                                                  readComment(keywords['postId'],keywords['category'],false);
+                                                //  readComment(keywords['postId'],keywords['category'],false);
                                                 }/*else{
                                                   textEditingController.text = keywords['content'];
                                                 }*/
@@ -260,7 +244,7 @@ class AddComment extends StatelessWidget {
                                           },
                                           child:  Obx(()=>Text(
                                             !(modifyController.modify.value && modifyController.id.value==keywords['id']) ?
-                                            "수정" : "등록", style: CommunityPageTheme.commentModify,),),
+                                            "수정" : "등록", style: CommunityScreenTheme.commentModify,),),
                                         ),
                                       ),
                                       SizedBox(
@@ -286,13 +270,13 @@ class AddComment extends StatelessWidget {
                                                     },
                                                     body: body
                                                 );
-                                                readComment(keywords['postId'], keywords['category'],false);
+                                               // readComment(keywords['postId'], keywords['category'],false);
                                               }
                                             }
                                           },
                                           child: Obx(()=>Text(
                                             !(modifyController.modify.value && modifyController.id.value==keywords['id']) ?
-                                            "삭제" : "취소", style: CommunityPageTheme.commentDelete,),
+                                            "삭제" : "취소", style: CommunityScreenTheme.commentDelete,),
                                         ),),
                                       ),
                                     ],

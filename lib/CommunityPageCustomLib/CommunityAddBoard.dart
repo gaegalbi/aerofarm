@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../CommunityPage/CommunityPageReadPost.dart';
-import '../CurrentTime.dart';
+import '../provider/Controller.dart';
 import '../themeData.dart';
+import '../utils/CheckTimer.dart';
 
 final Map<String,String >changeFilter ={
   "NORMAL":"일반",
@@ -73,10 +74,10 @@ class AddBoard extends StatelessWidget {
                         bottom: MediaQuery.of(context).size.height * 0.008),
                     child: Row(
                       children: [
-                        Text("[${changeFilter[keywords['filter']]!}] ",style: CommunityPageTheme.filter,),
+                        Text("[${changeFilter[keywords['filter']]!}] ",style: CommunityScreenTheme.filter,),
                         Text(
                           keywords['title'],
-                          style: CommunityPageTheme.main,
+                          style: CommunityScreenTheme.main,
                         ),
                       ],
                     ),
@@ -88,7 +89,7 @@ class AddBoard extends StatelessWidget {
                         child: Text(
                           keywords['writer'],
                           overflow: TextOverflow.ellipsis,
-                          style: CommunityPageTheme.subEtc,
+                          style: CommunityScreenTheme.subEtc,
                         ),
                       ),
                       Flexible(
@@ -97,7 +98,7 @@ class AddBoard extends StatelessWidget {
                           alignment: Alignment.center,
                           child: Text(
                             date,
-                            style: CommunityPageTheme.subEtc,
+                            style: CommunityScreenTheme.subEtc,
                           ),
                         ),
                       ),
@@ -108,11 +109,11 @@ class AddBoard extends StatelessWidget {
                           children: [
                             const Text(
                               "조회 ",
-                              style: CommunityPageTheme.subEtc,
+                              style: CommunityScreenTheme.subEtc,
                             ),
                             Text(
                               keywords['views'].toString(),
-                              style: CommunityPageTheme.subEtc,
+                              style: CommunityScreenTheme.subEtc,
                             ),
                           ],
                         ),
@@ -124,11 +125,11 @@ class AddBoard extends StatelessWidget {
                           children: [
                             const Text(
                               "추천 ",
-                              style: CommunityPageTheme.subEtc,
+                              style: CommunityScreenTheme.subEtc,
                             ),
                             Text(
                              keywords['likeCount'].toString(),
-                              style: CommunityPageTheme.sub1,
+                              style: CommunityScreenTheme.sub1,
                             ),
                           ],
                         ),
@@ -147,12 +148,12 @@ class AddBoard extends StatelessWidget {
                   children: [
                     Text(
                       keywords['commentCount'].toString(),
-                      style: CommunityPageTheme.subCommentCount,
+                      style: CommunityScreenTheme.subCommentCount,
                       textAlign: TextAlign.center,
                     ),
                     const Text(
                       "댓글",
-                      style: CommunityPageTheme.subEtc,
+                      style: CommunityScreenTheme.subEtc,
                       textAlign: TextAlign.center,
                     ),
                   ]),

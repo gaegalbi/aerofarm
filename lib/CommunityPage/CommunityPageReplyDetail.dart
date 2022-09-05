@@ -10,6 +10,7 @@ import '../CommunityPageCustomLib/CommunityFetch.dart';
 import '../LoginPage/LoginPageLogin.dart';
 import 'package:http/http.dart' as http;
 
+import '../provider/Controller.dart';
 import 'CommunityPageReadPost.dart';
 
 class CommunityPageReplyDetail extends StatefulWidget {
@@ -36,7 +37,7 @@ class _CommunityPageReplyDetailState extends State<CommunityPageReplyDetail> {
   final pageIndexController = Get.put(PageIndexController());
   final selectController = Get.put(SelectReplyController());
   final replyDetailController = Get.put(ReplyDetailListController());
-  final modifyController = Get.put(ModifyController());
+  final modifyController = Get.put(ModifySelectController());
   double initial = 0.0;
   double distance = 0.0;
   late double keyboardOffset;
@@ -129,9 +130,9 @@ class _CommunityPageReplyDetailState extends State<CommunityPageReplyDetail> {
                       },
                     )),
               ),
-              title: const Text("답글쓰기", style: MainPageTheme.title),
+              title: const Text("답글쓰기", style: MainScreenTheme.title),
             ),
-            body: SingleChildScrollView(
+          /*  body: SingleChildScrollView(
               controller: _scrollController,
               child: Obx(()=>Column(
                 children: replyDetailController.replyDetail[widget.keywords['groupId']] !=null
@@ -144,7 +145,7 @@ class _CommunityPageReplyDetailState extends State<CommunityPageReplyDetail> {
                   ),
                   ], //_replyList,
               ),),
-            ),
+            ),*/
             bottomNavigationBar: Obx(()=>SizedBox(
               height: modifyController.modify.value ? 0 : GetPlatform.isIOS? 80 : 50,
               child: Transform.translate(
@@ -161,12 +162,12 @@ class _CommunityPageReplyDetailState extends State<CommunityPageReplyDetail> {
                           child: TextField(
                             controller: _textEditingController,
                             textInputAction: TextInputAction.next,
-                            style: LoginRegisterPageTheme.text,
+                            style: LoginRegisterScreenTheme.text,
                             decoration: const InputDecoration(
                                 enabledBorder: InputBorder.none,
                                 focusedBorder: InputBorder.none,
                                 hintText: "답글을 남겨보세요",
-                                hintStyle: LoginRegisterPageTheme.hint),
+                                hintStyle: LoginRegisterScreenTheme.hint),
                           ),
                         ),
                         Row(
@@ -186,7 +187,7 @@ class _CommunityPageReplyDetailState extends State<CommunityPageReplyDetail> {
                                     MaterialStateProperty.all(MainColor.one)),
                                 child: const Text(
                                   "등록",
-                                  style: CommunityPageTheme.bottomAppBarList,
+                                  style: CommunityScreenTheme.bottomAppBarList,
                                 ),
                                 onPressed: () async {
                                   if(checkTimerController.time.value){

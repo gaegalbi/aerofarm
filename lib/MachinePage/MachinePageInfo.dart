@@ -46,7 +46,7 @@ class _MachinePageInfoState extends State<MachinePageInfo> {
         ),
         title: const Text(
           "기기1",
-          style: MainPageTheme.title,
+          style: MainScreenTheme.title,
         ),
         actions: [
           Container(
@@ -134,7 +134,7 @@ class _MachinePageInfoState extends State<MachinePageInfo> {
                                       0.006),
                               child: const Text(
                                 "설정값 편집",
-                                style: MachinePageTheme.infoText,
+                                style: DeviceScreenTheme.infoText,
                               ))
                         ],
                       ),
@@ -163,7 +163,7 @@ class _MachinePageInfoState extends State<MachinePageInfo> {
                                     MediaQuery.of(context).size.height * 0.006),
                             child: const Text(
                               "프로필 편집",
-                              style: MachinePageTheme.infoText,
+                              style: DeviceScreenTheme.infoText,
                             ))
                       ],
                     ),

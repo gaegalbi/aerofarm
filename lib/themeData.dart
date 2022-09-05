@@ -24,10 +24,14 @@ class MainColor {
 }
 
 class MainSize {
-  static double toolbarHeight = Get.height * 0.1;
+  static final double widthRatio =Get.width/375;
+  static final double heightRatio =  Get.height/812;
+  static final double width =Get.width * widthRatio;
+  static final double height =  Get.height * heightRatio;
+  static final double toolbarHeight = height * 0.086;
 }
 
-class LoginRegisterPageTheme {
+class LoginRegisterScreenTheme {
   static const button = TextStyle(
       color: Colors.white,
       decoration: TextDecoration.none,
@@ -84,7 +88,7 @@ class LoginRegisterPageTheme {
       fontSize: 18);
 }
 
-class MainPageTheme {
+class MainScreenTheme {
   //APPBAR , IPHONE 13 mini
   // leadingWidth 79, MediaQuery.of(context).size.width * 0.2106,
   // leading margin:EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.03),
@@ -128,7 +132,7 @@ class MainPageTheme {
       color: MainColor.three,
       decoration: TextDecoration.none,
       fontFamily: 'bmPro',
-      fontSize: 30);
+      fontSize: 29);
   static const profileField = TextStyle(
       color: MainColor.three,
       decoration: TextDecoration.none,
@@ -156,7 +160,7 @@ class MainPageTheme {
       fontSize: 18);
 }
 
-class MachinePageTheme {
+class DeviceScreenTheme {
   static const mName = TextStyle(
       color: Colors.white,
       decoration: TextDecoration.none,
@@ -182,6 +186,12 @@ class MachinePageTheme {
       decoration: TextDecoration.none,
       fontFamily: 'bmPro',
       fontSize: 55);
+  static const led = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 20);
+
 }
 
 class ProfilePageTheme {
@@ -202,7 +212,7 @@ class ProfilePageTheme {
       fontSize: 25);
 }
 
-class CommunityPageTheme {
+class CommunityScreenTheme {
   static const title = TextStyle(
       color: MainColor.three,
       decoration: TextDecoration.none,
@@ -407,7 +417,7 @@ class CommunityPageTheme {
       color: Colors.white,
       decoration: TextDecoration.none,
       fontFamily: 'bmPro',
-      fontSize: 15);
+      fontSize: 19);
   static const activityCommentContent = TextStyle(
       color: Colors.white,
       decoration: TextDecoration.none,
@@ -419,7 +429,7 @@ class CommunityPageTheme {
       fontFamily: 'bmAir',
       fontSize: 16);
   static const activityCommentTitle = TextStyle(
-      color: Colors.white,
+      color: Colors.grey,
       decoration: TextDecoration.none,
       fontFamily: 'bmAir',
       fontSize: 20);
@@ -433,4 +443,14 @@ class CommunityPageTheme {
       decoration: TextDecoration.none,
       fontFamily: 'bmAir',
       fontSize: 17);
+  static const searchInfo = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 18);
+  static const deleteTnFTrue = TextStyle(
+      color: Colors.white,
+      decoration: TextDecoration.none,
+      fontFamily: 'bmPro',
+      fontSize: 18);
 }

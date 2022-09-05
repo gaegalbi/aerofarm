@@ -40,7 +40,7 @@ class _MainPageState extends State<MainPage> {
         ),
         title: const Text(
           "도시농부",
-          style: MainPageTheme.title,
+          style: MainScreenTheme.title,
         ),
       ),
       drawer: SizedBox(

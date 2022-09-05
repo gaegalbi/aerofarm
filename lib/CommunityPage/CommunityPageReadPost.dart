@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../CommunityPageCustomLib/CommunityFetch.dart';
 import '../LoginPage/LoginPageLogin.dart';
+import '../provider/Controller.dart';
+import '../utils/CheckTimer.dart';
 import 'CommunityPageFloating.dart';
 import 'CommunityPageForm.dart';
 
@@ -69,7 +71,8 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return Container();
+/*    return GestureDetector(
       onDoubleTap: (){
         setState((){
           floating = !floating;
@@ -111,7 +114,7 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
                 },
               )),
             ),
-            title: const Text("도시농부", style: MainPageTheme.title),
+            title: const Text("도시농부", style: MainScreenTheme.title),
             actions: [
               Container(
                 margin: EdgeInsets.only(
@@ -467,33 +470,6 @@ class _CommunityPageReadPostState extends State<CommunityPageReadPost> {
               ],
             ),
           )),
-    );
-  }
-}
-
-@immutable
-class AppBarButton extends StatelessWidget {
-  const AppBarButton({
-    Key? key,
-    this.onPressed,
-    required this.icon,
-    required this.text,
-  }) : super(key: key);
-
-  final VoidCallback? onPressed;
-  final Widget icon;
-  final Widget text;
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialButton(
-      onPressed: onPressed,
-      child: Row(
-        children: [
-          icon,
-          text,
-        ],
-      ),
-    );
+    );*/
   }
 }

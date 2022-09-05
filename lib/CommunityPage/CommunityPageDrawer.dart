@@ -5,6 +5,7 @@ import 'package:capstone/themeData.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../MainPage/MainPageDrawer.dart';
+import '../service/getRoute.dart';
 import 'CommunityPageForm.dart';
 
 class CommunityPageDrawer extends StatefulWidget {
@@ -55,15 +56,15 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
               children: [
                  Obx(()=>Text(
                    nicknameController.nickname.value,
-                  style: nicknameController.nickname.value.length > 7 ? MainPageTheme.nameSub :MainPageTheme.name ,
+                  style: nicknameController.nickname.value.length > 7 ? MainScreenTheme.nameSub :MainScreenTheme.name ,
                 ),),
                 Container(
                     padding: EdgeInsets.only(top: drawerPadding / 2),
                     child: TextButton(
-                        child: const Text("내 정보", style: MainPageTheme.modify),
+                        child: const Text("내 정보", style: MainScreenTheme.modify),
                         onPressed: () async {
-                          checkTimerController.time.value ?
-                          checkTimerController.stop(context) : await getProfile("CommunityPage");
+                         /* checkTimerController.time.value ?
+                          checkTimerController.stop(context) : await getRoute("CommunityPage");*/
                         })),
               ],
             ),
@@ -86,7 +87,7 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                                 AssetImage("assets/images/megaphone.png"),
                                 size: 45,
                                 color: MainColor.three)),
-                        const Text("공지사항", style: MainPageTheme.drawerButton),
+                        const Text("공지사항", style: MainScreenTheme.drawerButton),
                       ],
                     ),
                     onPressed: () {
@@ -104,7 +105,7 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                             margin: EdgeInsets.only(right: imageMargin),
                             child: const Icon(Icons.local_fire_department,
                                 size: 45, color: MainColor.three)),
-                        const Text("인기게시판", style: MainPageTheme.drawerButton),
+                        const Text("인기게시판", style: MainScreenTheme.drawerButton),
                       ],
                     ),
                     onPressed: () {
@@ -127,12 +128,12 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                             alignment: Alignment.center,
                             child: const Text(
                               "ALL",
-                              style: CommunityPageTheme.all,
+                              style: CommunityScreenTheme.all,
                               textAlign: TextAlign.center,
                             ),
                           ),
                         ),
-                        const Text("전체게시판", style: MainPageTheme.drawerButton),
+                        const Text("전체게시판", style: MainScreenTheme.drawerButton),
                       ],
                     ),
                     onPressed: () {
@@ -155,12 +156,12 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                             alignment: Alignment.center,
                             child: const Text(
                               "FREE",
-                              style: CommunityPageTheme.free,
+                              style: CommunityScreenTheme.free,
                               textAlign: TextAlign.center,
                             ),
                           ),
                         ),
-                        const Text("자유게시판", style: MainPageTheme.drawerButton),
+                        const Text("자유게시판", style: MainScreenTheme.drawerButton),
                       ],
                     ),
                     onPressed: () {
@@ -179,7 +180,7 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                             margin: EdgeInsets.only(right: imageMargin),
                             child: const Icon(Icons.question_mark,
                                 size: 45, color: MainColor.three)),
-                        const Text("질문게시판", style: MainPageTheme.drawerButton),
+                        const Text("질문게시판", style: MainScreenTheme.drawerButton),
                       ],
                     ),
                     onPressed: () {
@@ -197,7 +198,7 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                             margin: EdgeInsets.only(right: imageMargin),
                             child: const Icon(Icons.home,
                                 size: 45, color: MainColor.three)),
-                        const Text("홈으로", style: MainPageTheme.drawerButton),
+                        const Text("홈으로", style: MainScreenTheme.drawerButton),
                       ],
                     ),
                     onPressed: () {
@@ -214,7 +215,7 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                             margin: EdgeInsets.only(right: imageMargin),
                             child: const Icon(Icons.info,
                                 size: 45, color: MainColor.three)),
-                        const Text("정보게시판", style: MainPageTheme.drawerButton),
+                        const Text("정보게시판", style: MainScreenTheme.drawerButton),
                       ],
                     ),
                     onPressed: () {
@@ -232,7 +233,7 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                             margin: EdgeInsets.only(right: imageMargin),
                             child: const Icon(Icons.panorama,
                                 size: 45, color: MainColor.three)),
-                        const Text("사진게시판", style: MainPageTheme.drawerButton),
+                        const Text("사진게시판", style: MainScreenTheme.drawerButton),
                       ],
                     ),
                     onPressed: () {
@@ -252,7 +253,7 @@ class _CommunityPageDrawerState extends State<CommunityPageDrawer> {
                                 AssetImage("assets/images/carrot.png"),
                                 size: 45,
                                 color: MainColor.three)),
-                        const Text("거래게시판", style: MainPageTheme.drawerButton),
+                        const Text("거래게시판", style: MainScreenTheme.drawerButton),
                       ],
                     ),
                     onPressed: () {

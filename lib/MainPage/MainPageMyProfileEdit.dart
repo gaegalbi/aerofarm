@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:kpostal/kpostal.dart';
 import 'package:http/http.dart' as http;
 import '../LoginPage/LoginPageLogin.dart';
+import '../service/getRoute.dart';
 import '../themeData.dart';
 
 class MainPageMyProfileEdit extends StatefulWidget {
@@ -79,7 +80,7 @@ class _MainPageMyProfileEditState extends State<MainPageMyProfileEdit> {
       child: Scaffold(
         backgroundColor: MainColor.six,
         appBar: AppBar(
-          title: const Text("내 정보 수정",style: MainPageTheme.subTitle,),
+          title: const Text("내 정보 수정",style: MainScreenTheme.subTitle,),
           toolbarHeight: MainSize.toolbarHeight / 2,
           elevation: 0,
           backgroundColor: MainColor.six,
@@ -179,13 +180,13 @@ class _MainPageMyProfileEditState extends State<MainPageMyProfileEdit> {
                         }
                       }else{
                         nicknameController.setNickname(_nicknameController.text);
-                        getProfile("MainPageMyProfileEdit");
+                       // getRoute("MainPageMyProfileEdit");
                       }
                     }
                   },
                   child: const Text(
                     "등록",
-                    style: CommunityPageTheme.postFont,
+                    style: CommunityScreenTheme.postFont,
                   )),
             )
           ],
@@ -207,7 +208,7 @@ class _MainPageMyProfileEditState extends State<MainPageMyProfileEdit> {
                       children: [
                         Container(
                             alignment: Alignment.centerLeft,
-                            child: const Text("프로필 사진",style: MainPageTheme.profileEditField,)),
+                            child: const Text("프로필 사진",style: MainScreenTheme.profileEditField,)),
                         CircleAvatar(
                           radius: MediaQuery.of(context).size.width * 0.18,
                           backgroundImage: profile?.image ?? const AssetImage("assets/images/profile.png"),
@@ -236,7 +237,7 @@ class _MainPageMyProfileEditState extends State<MainPageMyProfileEdit> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text("닉네임",style: MainPageTheme.profileEditField,),
+                        const Text("닉네임",style: MainScreenTheme.profileEditField,),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.05,
                           child: TextField(
@@ -247,7 +248,7 @@ class _MainPageMyProfileEditState extends State<MainPageMyProfileEdit> {
                                 enabledBorder: InputBorder.none,
                                 focusedBorder: InputBorder.none,
                                 hintText: "닉네임",
-                                hintStyle: LoginRegisterPageTheme.hint),
+                                hintStyle: LoginRegisterScreenTheme.hint),
                           ),
                         ),
                       ],
@@ -255,7 +256,7 @@ class _MainPageMyProfileEditState extends State<MainPageMyProfileEdit> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children:  [
-                        const Text("이름",style: MainPageTheme.profileEditField,),
+                        const Text("이름",style: MainScreenTheme.profileEditField,),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.05,
                           child: TextField(
@@ -266,7 +267,7 @@ class _MainPageMyProfileEditState extends State<MainPageMyProfileEdit> {
                                 enabledBorder: InputBorder.none,
                                 focusedBorder: InputBorder.none,
                                 hintText: "이름",
-                                hintStyle: LoginRegisterPageTheme.hint),
+                                hintStyle: LoginRegisterScreenTheme.hint),
                           ),
                         ),
                       ],
@@ -274,7 +275,7 @@ class _MainPageMyProfileEditState extends State<MainPageMyProfileEdit> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text("연락처",style: MainPageTheme.profileEditField,),
+                        const Text("연락처",style: MainScreenTheme.profileEditField,),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.05,
                           child: TextField(
@@ -288,7 +289,7 @@ class _MainPageMyProfileEditState extends State<MainPageMyProfileEdit> {
                                 enabledBorder: InputBorder.none,
                                 focusedBorder: InputBorder.none,
                                 hintText: "연락처",
-                                hintStyle: LoginRegisterPageTheme.hint),
+                                hintStyle: LoginRegisterScreenTheme.hint),
                           ),
                         ),
                       ],
@@ -296,7 +297,7 @@ class _MainPageMyProfileEditState extends State<MainPageMyProfileEdit> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children:  [
-                        const Text("우편번호",style: MainPageTheme.profileEditField,),
+                        const Text("우편번호",style: MainScreenTheme.profileEditField,),
                         Row(
                           children: [
                              Expanded(
@@ -312,7 +313,7 @@ class _MainPageMyProfileEditState extends State<MainPageMyProfileEdit> {
                                       enabledBorder: InputBorder.none,
                                       focusedBorder: InputBorder.none,
                                       hintText: "우편번호",
-                                      hintStyle: LoginRegisterPageTheme.hint),
+                                      hintStyle: LoginRegisterScreenTheme.hint),
                                 ),
                               ),
                             ),
@@ -346,7 +347,7 @@ class _MainPageMyProfileEditState extends State<MainPageMyProfileEdit> {
                                     },
                                     child: const Text(
                                       "우편번호 찾기",
-                                      style: MainPageTheme.profileMapButton,
+                                      style: MainScreenTheme.profileMapButton,
                                     )),
                               ),
                             ),
@@ -357,7 +358,7 @@ class _MainPageMyProfileEditState extends State<MainPageMyProfileEdit> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children:  [
-                        const Text("주소",style: MainPageTheme.profileEditField,),
+                        const Text("주소",style: MainScreenTheme.profileEditField,),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.05,
                           child: TextField(
@@ -369,7 +370,7 @@ class _MainPageMyProfileEditState extends State<MainPageMyProfileEdit> {
                                 enabledBorder: InputBorder.none,
                                 focusedBorder: InputBorder.none,
                                 hintText: "주소",
-                                hintStyle: LoginRegisterPageTheme.hint),
+                                hintStyle: LoginRegisterScreenTheme.hint),
                           ),
                         ),
                       ],
@@ -382,7 +383,7 @@ class _MainPageMyProfileEditState extends State<MainPageMyProfileEdit> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children:  [
-                                const Text("상세주소",style: MainPageTheme.profileEditField,),
+                                const Text("상세주소",style: MainScreenTheme.profileEditField,),
                                 SizedBox(
                                   height: MediaQuery.of(context).size.height * 0.05,
                                   child: TextField(
@@ -393,7 +394,7 @@ class _MainPageMyProfileEditState extends State<MainPageMyProfileEdit> {
                                         enabledBorder: InputBorder.none,
                                         focusedBorder: InputBorder.none,
                                         hintText: "상세주소",
-                                        hintStyle: LoginRegisterPageTheme.hint),
+                                        hintStyle: LoginRegisterScreenTheme.hint),
                                   ),
                                 ),
                               ],
@@ -404,7 +405,7 @@ class _MainPageMyProfileEditState extends State<MainPageMyProfileEdit> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children:  [
-                              const Text("참고항목",style: MainPageTheme.profileEditField,),
+                              const Text("참고항목",style: MainScreenTheme.profileEditField,),
                               SizedBox(
                                 height: MediaQuery.of(context).size.height * 0.05,
                                 child: TextField(
@@ -415,7 +416,7 @@ class _MainPageMyProfileEditState extends State<MainPageMyProfileEdit> {
                                       enabledBorder: InputBorder.none,
                                       focusedBorder: InputBorder.none,
                                       hintText: "참고항목",
-                                      hintStyle: LoginRegisterPageTheme.hint),
+                                      hintStyle: LoginRegisterScreenTheme.hint),
                                 ),
                               ),
                             ],
@@ -435,6 +436,9 @@ class _MainPageMyProfileEditState extends State<MainPageMyProfileEdit> {
 }
 
 class PhoneNumberFormatter extends TextInputFormatter {
+  @override
+
+
   @override
   TextEditingValue formatEditUpdate(
       TextEditingValue oldValue, TextEditingValue newValue) {

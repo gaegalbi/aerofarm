@@ -1,9 +1,13 @@
 import 'dart:async';
-import 'package:capstone/LoginPage/LoginPage.dart';
+import 'package:capstone/screen/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../LoginPage/LoginPageLogin.dart';
+import 'package:intl/intl.dart';
 
-import 'LoginPage/LoginPageLogin.dart';
+final dateFormat = DateFormat('yyyy.MM.dd');
+final timeFormat = DateFormat('hh:mm');
+final dateInfoFormat = DateFormat('yyyy.MM.dd hh:mm');
 
 class CheckTimer extends GetxController{
   final time =false.obs;
@@ -32,10 +36,10 @@ class CheckTimer extends GetxController{
           content: Text("세션이 만료되어 로그인이 필요합니다.",style: TextStyle(fontSize: 30),textAlign: TextAlign.center,),
         );
       });
-      Future.delayed(const Duration(milliseconds: 1000),()=>{
-        Navigator.pop(context),
-        Get.to(()=>const LoginPage(reLogin: true,))
-      }
+        Future.delayed(const Duration(milliseconds: 1000),()=>{
+          Navigator.pop(context),
+          Get.to(()=>const LoginScreen(reLogin: true,))
+        }
       );
   }
 }

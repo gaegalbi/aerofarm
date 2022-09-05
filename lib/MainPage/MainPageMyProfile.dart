@@ -3,6 +3,7 @@ import 'package:capstone/CommunityPage/CommunityPageForm.dart';
 import 'package:capstone/LoginPage/LoginPageLogin.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../provider/Controller.dart';
 import '../themeData.dart';
 import 'MainPage.dart';
 import 'MainPageDrawer.dart';
@@ -19,9 +20,9 @@ class MainPageMyProfile extends StatefulWidget {
 
 class _MainPageMyProfileState extends State<MainPageMyProfile> {
   final nicknameController = Get.put(NicknameController());
-  final nameController = Get.put(NameController());
+/*  final nameController = Get.put(NameController());
   final phoneNumberController = Get.put(PhoneNumberController());
-  final addressController = Get.put(AddressController());
+  final addressController = Get.put(AddressController());*/
   bool floating = false;
 
   @override
@@ -70,7 +71,7 @@ class _MainPageMyProfileState extends State<MainPageMyProfile> {
           ),
           title: const Text(
             "도시농부",
-            style: MainPageTheme.title,
+            style: MainScreenTheme.title,
           ),
           actions: [
             Container(
@@ -132,7 +133,7 @@ class _MainPageMyProfileState extends State<MainPageMyProfile> {
                         children: [
                           const Expanded(
                             flex: 3,
-                            child: Text("이메일", style: MainPageTheme
+                            child: Text("이메일", style: MainScreenTheme
                                 .profileField,),
                           ),
                           Expanded(
@@ -146,13 +147,13 @@ class _MainPageMyProfileState extends State<MainPageMyProfile> {
                                         widget.user['email']
                                             .toString()
                                             .lastIndexOf('@')),
-                                    style: MainPageTheme.profileInfo,),
+                                    style: MainScreenTheme.profileInfo,),
                                   Text(
                                     widget.user['email'].toString().substring(
                                         widget.user['email']
                                             .toString()
                                             .lastIndexOf('@')),
-                                    style: MainPageTheme.profileInfo,),
+                                    style: MainScreenTheme.profileInfo,),
                                 ]),
                           ),
                         ],
@@ -165,17 +166,17 @@ class _MainPageMyProfileState extends State<MainPageMyProfile> {
                         children: [
                           const Expanded(
                             flex: 3,
-                            child: Text("이름", style: MainPageTheme
+                            child: Text("이름", style: MainScreenTheme
                                 .profileField,),
                           ),
-                          Expanded(
+                          /*Expanded(
                             flex: 5,
                             child: Obx(()=>Text(widget.user['name'] == null
                                 ? "미등록"
                                 : (widget.user['name'] == "") ? "미등록" :
                                 nameController.name.value, style: MainPageTheme
                                 .profileInfo,),),
-                          ),
+                          ),*/
                         ],
                       ),
                     ),
@@ -186,14 +187,14 @@ class _MainPageMyProfileState extends State<MainPageMyProfile> {
                           children: [
                             const Expanded(
                               flex: 3,
-                              child: Text("전화번호", style: MainPageTheme
+                              child: Text("전화번호", style: MainScreenTheme
                                   .profileField,),
                             ),
-                            Expanded(
+                            /*Expanded(
                               flex: 5,
                               child: Obx(()=>Text( phoneNumberController.phoneNumber.value,
                                 style: MainPageTheme.profileInfo,),),
-                            ),
+                            ),*/
                           ]
                       ),
                     ),
@@ -203,19 +204,19 @@ class _MainPageMyProfileState extends State<MainPageMyProfile> {
                         const Expanded(
                             flex: 3,
                             child: Text(
-                              "주소", style: MainPageTheme.profileField,)),
+                              "주소", style: MainScreenTheme.profileField,)),
                         Expanded(
                           flex: 5,
                           child: widget.user['addressInfo'] == null ?
-                          const Text("미등록", style: MainPageTheme.profileInfo)
+                          const Text("미등록", style: MainScreenTheme.profileInfo)
                               : (widget.user['addressInfo'] == " " ||
                               widget.user['addressInfo']['zipcode'] == "")
                               ? const Text(
-                            "미등록", style: MainPageTheme.profileInfo,)
+                            "미등록", style: MainScreenTheme.profileInfo,)
                               : Obx(()=>Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(addressController.zipcode.value,
+                              /*Text(addressController.zipcode.value,
                                 style: MainPageTheme.profileAddress,),
                               Text(addressController.address1.value,
                                 style: MainPageTheme.profileAddress,),
@@ -224,7 +225,7 @@ class _MainPageMyProfileState extends State<MainPageMyProfile> {
                                   .substring(1),
                                 style: MainPageTheme.profileAddress,),
                               Text(addressController.address2.value,
-                                style: MainPageTheme.profileAddress,),
+                                style: MainPageTheme.profileAddress,),*/
                             ],
                           ),),
                         )

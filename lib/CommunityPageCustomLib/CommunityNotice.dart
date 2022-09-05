@@ -27,12 +27,12 @@ Container notice() {
           ),
           child: const Text(
             "필독",
-            style: CommunityPageTheme.announce,
+            style: CommunityScreenTheme.announce,
           ),
         ),
         const Text(
           "도시농부 서비스 안내",
-          style: CommunityPageTheme.announce,
+          style: CommunityScreenTheme.announce,
         ),
       ],
     ),

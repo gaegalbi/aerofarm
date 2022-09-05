@@ -12,7 +12,7 @@ class LoginPageTop extends StatelessWidget {
           margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.018),
           child: const Text(
             "도시농부",
-            style: LoginRegisterPageTheme.title,
+            style: LoginRegisterScreenTheme.title,
           ),
         ),
         Container(

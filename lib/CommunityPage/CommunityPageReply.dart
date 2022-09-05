@@ -9,6 +9,7 @@ import '../CommunityPageCustomLib/CommunityFetch.dart';
 import '../LoginPage/LoginPageLogin.dart';
 import 'package:http/http.dart' as http;
 
+import '../provider/Controller.dart';
 import 'CommunityPageReadPost.dart';
 
 class CommunityPageReply extends StatefulWidget {
@@ -38,7 +39,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply>{
 
   void handleScrolling() {
     //새로고참
-    if (_scrollController.offset == _scrollController.position.minScrollExtent) {
+ /*   if (_scrollController.offset == _scrollController.position.minScrollExtent) {
       if(sort){
         readComment(widget.keywords['id'], widget.keywords['category'], false);
       }else{
@@ -52,7 +53,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply>{
       }else{
         readReverseComment(widget.keywords['id'], widget.keywords['category'], true);
       }
-    }
+    }*/
   }
 
   @override
@@ -132,7 +133,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply>{
                   },
                 )),
               ),
-              title: const Text("도시농부", style: MainPageTheme.title),
+              title: const Text("도시농부", style: MainScreenTheme.title),
             ),
             body: SingleChildScrollView(
               controller: _scrollController,
@@ -163,7 +164,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply>{
                                     setState(() {
                                       if (!sort) {
                                         sort = !sort;
-                                        readComment(widget.keywords['id'], widget.keywords['category'], false);
+                                        //readComment(widget.keywords['id'], widget.keywords['category'], false);
                                       }
                                     });
                                   },
@@ -172,14 +173,14 @@ class _CommunityPageReplyState extends State<CommunityPageReply>{
                                           EdgeInsets.zero)),
                                   child: Text("최신순",
                                       style: sort
-                                          ? CommunityPageTheme.replyButtonFont
-                                          : CommunityPageTheme.replyButtonFalseFont)),
+                                          ? CommunityScreenTheme.replyButtonFont
+                                          : CommunityScreenTheme.replyButtonFalseFont)),
                               TextButton(
                                   onPressed: () {
                                     setState(() {
                                       if (sort) {
                                         sort = !sort;
-                                        readReverseComment(widget.keywords['id'], widget.keywords['category'], false);
+                                       // readReverseComment(widget.keywords['id'], widget.keywords['category'], false);
                                       }
                                     });
                                   },
@@ -188,8 +189,8 @@ class _CommunityPageReplyState extends State<CommunityPageReply>{
                                           EdgeInsets.zero)),
                                   child: Text("등록순",
                                       style: sort
-                                          ? CommunityPageTheme.replyButtonFalseFont
-                                          : CommunityPageTheme.replyButtonFont)),
+                                          ? CommunityScreenTheme.replyButtonFalseFont
+                                          : CommunityScreenTheme.replyButtonFont)),
                             ],
                           ),
                         ),
@@ -217,12 +218,12 @@ class _CommunityPageReplyState extends State<CommunityPageReply>{
                         child: TextField(
                           controller: _textEditingController,
                           textInputAction: TextInputAction.next,
-                          style: LoginRegisterPageTheme.text,
+                          style: LoginRegisterScreenTheme.text,
                           decoration: const InputDecoration(
                               enabledBorder: InputBorder.none,
                               focusedBorder: InputBorder.none,
                               hintText: "댓글을 남겨보세요",
-                              hintStyle: LoginRegisterPageTheme.hint),
+                              hintStyle: LoginRegisterScreenTheme.hint),
                         ),
                       ),
                       Row(
@@ -242,7 +243,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply>{
                                       MaterialStateProperty.all(MainColor.one)),
                               child: const Text(
                                 "등록",
-                                style: CommunityPageTheme.bottomAppBarList,
+                                style: CommunityScreenTheme.bottomAppBarList,
                               ),
                               onPressed: () async {
                                 if(checkTimerController.time.value){
@@ -284,7 +285,7 @@ class _CommunityPageReplyState extends State<CommunityPageReply>{
                                     );
                                     }
                                   if(widget.before=="MyActivity"){
-                                    readComment(widget.keywords['id'], "",false);
+                                   // readComment(widget.keywords['id'], "",false);
                                   }else{
                                     readPostContent(widget.keywords['id'], widget.keywords['category']); 
                                   }

@@ -9,6 +9,7 @@ import '../CommunityPageCustomLib/CommunityFetch.dart';
 import '../CommunityPageCustomLib/CustomRadioButton.dart';
 import 'package:http/http.dart' as http;
 import '../LoginPage/LoginPageLogin.dart';
+import '../widget/RadioButton.dart';
 import 'CommunityPageForm.dart';
 
 class CommunityPageCreatePost extends StatefulWidget {
@@ -87,7 +88,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
     super.initState();
     Future.delayed(const Duration(milliseconds: 600),()=> {
         if(widget.type !="ReadPost"){
-          _controller.setText(readPostController.content.value)
+         // _controller.setText(readPostController.content.value)
       }
     });
   }
@@ -272,7 +273,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                 },
                 child: const Text(
                   "등록",
-                  style: CommunityPageTheme.postFont,
+                  style: CommunityScreenTheme.postFont,
                 )),
           )
         ],
@@ -343,7 +344,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                       children: [
                                         Text(
                                           groupValue,
-                                          style: CommunityPageTheme.boardDrawer,
+                                          style: CommunityScreenTheme.boardDrawer,
                                         ),
                                         const Icon(
                                           Icons.arrow_drop_down,
@@ -357,7 +358,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                       isScrollControlled: true,
                                       context: context,
                                       builder: (_) {
-                                        return Container(
+                                        return Container();/*Container(
                                           color: MainColor.six,
                                           height: MediaQuery.of(context)
                                                   .size
@@ -389,11 +390,10 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                                       contentPadding,
                                                   description: categoryValue[0],
                                                   value: categoryValue[0],
-                                                  groupValue: groupValue,
+                                                  boardValue: groupValue,
                                                   onChanged: (value) =>
                                                       setState(() {
-                                                    groupValue =
-                                                        value as String;
+                                                    groupValue = value as String;
                                                     Get.back();
                                                   }),
                                                   activeColor: MainColor.three,
@@ -405,7 +405,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                                       contentPadding,
                                                   description: categoryValue[1],
                                                   value: categoryValue[1],
-                                                  groupValue: groupValue,
+                                                  boardValue: groupValue,
                                                   onChanged: (value) =>
                                                       setState(() {
                                                     groupValue =
@@ -421,7 +421,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                                       contentPadding,
                                                   description: categoryValue[2],
                                                   value: categoryValue[2],
-                                                  groupValue: groupValue,
+                                                  boardValue: groupValue,
                                                   onChanged: (value) =>
                                                       setState(() {
                                                     groupValue =
@@ -437,7 +437,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                                       contentPadding,
                                                   description: categoryValue[3],
                                                   value: categoryValue[3],
-                                                  groupValue: groupValue,
+                                                  boardValue: groupValue,
                                                   onChanged: (value) =>
                                                       setState(() {
                                                     groupValue =
@@ -453,7 +453,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                                       contentPadding,
                                                   description: categoryValue[4],
                                                   value: categoryValue[4],
-                                                  groupValue: groupValue,
+                                                  boardValue: groupValue,
                                                   onChanged: (value) =>
                                                       setState(() {
                                                     groupValue =
@@ -469,7 +469,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                                       contentPadding,
                                                   description: "===",
                                                   value: "===0",
-                                                  groupValue: groupValue,
+                                                  boardValue: groupValue,
                                                   onChanged: (value) =>
                                                       setState(() {
                                                         Get.back();
@@ -487,7 +487,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                                       setState(() {
                                                         Get.back();
                                                       }),
-                                                  groupValue: groupValue,
+                                                  boardValue: groupValue,
                                                   activeColor: MainColor.three,
                                                   textStyle: CommunityPageTheme
                                                       .checkBoxDisable,
@@ -501,7 +501,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                                       setState(() {
                                                         Get.back();
                                                       }),
-                                                  groupValue: groupValue,
+                                                  boardValue: groupValue,
                                                   activeColor: MainColor.three,
                                                   textStyle: CommunityPageTheme
                                                       .checkBoxDisable,
@@ -515,7 +515,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                                       setState(() {
                                                         Get.back();
                                                       }),
-                                                  groupValue: groupValue,
+                                                  boardValue: groupValue,
                                                   activeColor: MainColor.three,
                                                   textStyle: CommunityPageTheme
                                                       .checkBoxDisable,
@@ -529,7 +529,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                                       setState(() {
                                                         Get.back();
                                                       }),
-                                                  groupValue: groupValue,
+                                                  boardValue: groupValue,
                                                   activeColor: MainColor.three,
                                                   textStyle: CommunityPageTheme
                                                       .checkBoxDisable,
@@ -543,7 +543,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                                       setState(() {
                                                         Get.back();
                                                       }),
-                                                  groupValue: groupValue,
+                                                  boardValue: groupValue,
                                                   activeColor: MainColor.three,
                                                   textStyle: CommunityPageTheme
                                                       .checkBoxDisable,
@@ -551,7 +551,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                               ],
                                             ),
                                           ),
-                                        );
+                                        );*/
                                       },
                                     );
                                   },
@@ -580,7 +580,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                   children: [
                                     Text(
                                       classificationValue,
-                                      style: CommunityPageTheme.boardDrawer,
+                                      style: CommunityScreenTheme.boardDrawer,
                                     ),
                                     const Icon(
                                       Icons.arrow_drop_down,
@@ -594,7 +594,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                   isScrollControlled: true,
                                   context: context,
                                   builder: (_) {
-                                    return Container(
+                                    return Container();/*Container(
                                       color: MainColor.six,
                                       height: MediaQuery.of(context)
                                           .size
@@ -626,7 +626,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                               contentPadding,
                                               description: classValue[0],
                                               value: classValue[0],
-                                              groupValue:  classificationValue,
+                                              boardValue:  classificationValue,
                                               onChanged: (value) =>
                                                   setState(() {
                                                     classificationValue =
@@ -642,7 +642,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                               contentPadding,
                                               description: classValue[1],
                                               value: classValue[1],
-                                              groupValue:   classificationValue,
+                                              boardValue:   classificationValue,
                                               onChanged: (value) =>
                                                   setState(() {
                                                     classificationValue =
@@ -658,7 +658,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                               contentPadding,
                                               description: classValue[2],
                                               value: classValue[2],
-                                              groupValue:   classificationValue,
+                                              boardValue:   classificationValue,
                                               onChanged: (value) =>
                                                   setState(() {
                                                     classificationValue =
@@ -674,7 +674,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                               contentPadding,
                                               description: classValue[3],
                                               value: classValue[3],
-                                              groupValue:   classificationValue,
+                                              boardValue:   classificationValue,
                                               onChanged: (value) =>
                                                   setState(() {
                                                     classificationValue =
@@ -690,7 +690,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                               contentPadding,
                                               description: classValue[4],
                                               value: classValue[4],
-                                              groupValue:   classificationValue,
+                                              boardValue:   classificationValue,
                                               onChanged: (value) =>
                                                   setState(() {
                                                     classificationValue =
@@ -706,7 +706,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                               contentPadding,
                                               description: "===",
                                               value: "===0",
-                                              groupValue:   classificationValue,
+                                              boardValue:   classificationValue,
                                               activeColor: MainColor.three,
                                               textStyle: CommunityPageTheme
                                                   .checkBoxDisable,
@@ -716,7 +716,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                               contentPadding,
                                               description: "===",
                                               value: "===1",
-                                              groupValue:   classificationValue,
+                                              boardValue:   classificationValue,
                                               activeColor: MainColor.three,
                                               textStyle: CommunityPageTheme
                                                   .checkBoxDisable,
@@ -726,7 +726,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                               contentPadding,
                                               description: "===",
                                               value: "===2",
-                                              groupValue:   classificationValue,
+                                              boardValue:   classificationValue,
                                               activeColor: MainColor.three,
                                               textStyle: CommunityPageTheme
                                                   .checkBoxDisable,
@@ -736,7 +736,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                               contentPadding,
                                               description: "===",
                                               value: "===3",
-                                              groupValue:  classificationValue,
+                                              boardValue:  classificationValue,
                                               activeColor: MainColor.three,
                                               textStyle: CommunityPageTheme
                                                   .checkBoxDisable,
@@ -746,7 +746,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                               contentPadding,
                                               description: "===",
                                               value: "===4",
-                                              groupValue:   classificationValue,
+                                              boardValue:   classificationValue,
                                               activeColor: MainColor.three,
                                               textStyle: CommunityPageTheme
                                                   .checkBoxDisable,
@@ -756,7 +756,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                               contentPadding,
                                               description: "===",
                                               value: "===5",
-                                              groupValue:   classificationValue,
+                                              boardValue:   classificationValue,
                                               activeColor: MainColor.three,
                                               textStyle: CommunityPageTheme
                                                   .checkBoxDisable,
@@ -764,7 +764,7 @@ class _CommunityPageCreatePostState extends State<CommunityPageCreatePost>
                                           ],
                                         ),
                                       ),
-                                    );
+                                    );*/
                                   },
                                 );
                               },

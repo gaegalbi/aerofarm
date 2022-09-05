@@ -35,29 +35,34 @@ class _MainPageBottomState extends State<MainPageBottom> {
             children: [
               Expanded(
                 child: Container(
+                  decoration: BoxDecoration(
+                      color: MainColor.three,
+                      borderRadius: BorderRadius.circular(30)
+                  ),
                   //여기에 이미지로 채울꺼임
                   //width: MediaQuery.of(context).size.width * 0.45,
                   height: MediaQuery.of(context).size.height,//MediaQuery.of(context).size.height * 0.22,
                   margin: const EdgeInsets.only(left: 15,right: 5,top: 20,bottom: 20),
-                  color: MainColor.three,
                   child: TextButton(
                     onPressed: () {
                       Get.to(()=>const MachinePageList(),);
                     },
                     child: const Text(
                       "기기목록",
-                      style: MainPageTheme.button,
+                      style: MainScreenTheme.button,
                     ),
                   ),
                 ),
               ),
               Expanded(
                 child: Container(
-                  //여기에 이미지로 채울꺼임
-                  //width: MediaQuery.of(context).size.width * 0.45,
+                  decoration: BoxDecoration(
+                      color: MainColor.three,
+                      borderRadius: BorderRadius.circular(30)
+                  ),
                   height: MediaQuery.of(context).size.height,//MediaQuery.of(context).size.height * 0.22,
                   margin: const EdgeInsets.only(left: 5,right: 15,top: 20,bottom: 20),
-                  color: MainColor.three,
+
                   child: TextButton(
                     onPressed: () {
                      // fetch("all",false);
@@ -65,7 +70,7 @@ class _MainPageBottomState extends State<MainPageBottom> {
                     },
                     child: const Text(
                       "커뮤니티",
-                      style: MainPageTheme.button,
+                      style: MainScreenTheme.button,
                     ),
                   ),
                 ),

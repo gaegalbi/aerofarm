@@ -5,15 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../MainPage/MainPageDrawer.dart';
+import '../main.dart';
+import '../provider/Controller.dart';
+import '../service/getRoute.dart';
 import '../themeData.dart';
-
-class KeyController extends GetxController{
-  late GlobalKey<ScaffoldState> scaffoldKey;
-
-  void setKey(GlobalKey<ScaffoldState> key){
-    scaffoldKey = key;
-  }
-}
 
 class CommunityPageMyActivity extends StatelessWidget {
   const CommunityPageMyActivity({Key? key}) : super(key: key);
@@ -26,7 +21,7 @@ class CommunityPageMyActivity extends StatelessWidget {
     final boardListController = Get.put(BoardListController());
     final commentListController = Get.put(CommentListController());
     final nicknameController = Get.put(NicknameController());
-    final tabController = Get.put(NewTabController());
+    final tabController = Get.put(CustomTabController());
     final _scrollController = ScrollController();
     _scrollController.addListener(() {
      if(_scrollController.offset == _scrollController.position.maxScrollExtent){
@@ -54,7 +49,7 @@ class CommunityPageMyActivity extends StatelessWidget {
           slivers: [
             SliverAppBar(
               backgroundColor: MainColor.six,
-              title: const Text("내 활동", style: MainPageTheme.title),
+              title: const Text("내 활동", style: MainScreenTheme.title),
               pinned: true,
               leadingWidth: MediaQuery.of(context).size.width * 0.2106,
               leading: Container(
@@ -85,7 +80,7 @@ class CommunityPageMyActivity extends StatelessWidget {
                     Row(
                       mainAxisAlignment:MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(nicknameController.nickname.value,style: CommunityPageTheme.activityNickname,),
+                        Text(nicknameController.nickname.value,style: CommunityScreenTheme.activityNickname,),
                         CircleAvatar(
                           radius: MediaQuery.of(context).size.width * 0.12,
                           backgroundImage:profile!.image,
@@ -102,16 +97,16 @@ class CommunityPageMyActivity extends StatelessWidget {
                           margin: const EdgeInsets.only(right: 15),
                             padding: const EdgeInsets.only(left: 15,right: 15),
                             child: TextButton(onPressed: () async {
-                              checkTimerController.time.value ?
-                              checkTimerController.stop(context) : await getProfile("MainPage");
-                            }, child: const Text("프로필 설정",style: CommunityPageTheme.activityButton,))),
+                          /*    checkTimerController.time.value ?
+                              checkTimerController.stop(context) : await getRoute("MainPage");*/
+                            }, child: const Text("프로필 설정",style: CommunityScreenTheme.activityButton,))),
                         Container(
                             decoration:BoxDecoration(
                               borderRadius: BorderRadius.circular(20.0),
                               color:MainColor.one,
                             ),
                             padding: const EdgeInsets.only(left: 15,right: 15),
-                            child: TextButton(onPressed: (){}, child: const Text("구매내역",style: CommunityPageTheme.activityButton))),
+                            child: TextButton(onPressed: (){}, child: const Text("구매내역",style: CommunityScreenTheme.activityButton))),
                       ],
                     ),
                   ],
@@ -163,50 +158,13 @@ class CommunityPageMyActivity extends StatelessWidget {
   }
 }
 
-class NewTabController extends GetxController with GetSingleTickerProviderStateMixin {
-  late TabController controller;
-  final index = 0.obs;
-  final keyController = Get.put(KeyController());
-  //final prevention = false.obs;
-
-  @override
-  void onInit() {
-    controller = TabController(length: 3, vsync: this);
-    controller.addListener(() {
-     if(controller.index==0 && index.value != controller.index){
-       checkTimerController.time.value ?
-       checkTimerController.stop(keyController.scaffoldKey.currentContext!) :
-        activityPostStartFetch();
-     }
-     if(controller.index==1 && index.value != controller.index){
-       checkTimerController.time.value ?
-       checkTimerController.stop(keyController.scaffoldKey.currentContext!) :
-       activityCommentStartFetch();
-     }
-     if(controller.index==2 && index.value != controller.index){
-       checkTimerController.time.value ?
-       checkTimerController.stop(keyController.scaffoldKey.currentContext!) :
-       activityLikedStartFetch();
-     }
-     index.value = controller.index;
-    });
-    super.onInit();
-  }
-
-  @override
-  void dispose(){
-    controller.dispose();
-    super.dispose();
-  }
-}
-
 
 class TabBarDelegate extends SliverPersistentHeaderDelegate {
   const TabBarDelegate();
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    final tabController = Get.put(NewTabController());
+    final tabController = Get.put(CustomTabController());
 
     return Container(
       color: MainColor.six,
@@ -215,17 +173,17 @@ class TabBarDelegate extends SliverPersistentHeaderDelegate {
         tabs: const [
           Tab(
             child: Text(
-              "작성글",style: CommunityPageTheme.tabBarText,
+              "작성글",style: CommunityScreenTheme.tabBarText,
             ),
           ),
           Tab(
             child: Text(
-              "작성댓글",style: CommunityPageTheme.tabBarText,
+              "작성댓글",style: CommunityScreenTheme.tabBarText,
             ),
           ),
           Tab(
             child: Text(
-              "좋아요한 글",style: CommunityPageTheme.tabBarText,
+              "좋아요한 글",style: CommunityScreenTheme.tabBarText,
             ),
           ),
         ],

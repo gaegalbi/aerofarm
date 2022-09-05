@@ -45,7 +45,7 @@ class _MachinePageListState extends State<MachinePageList> {
         ),
         title: const Text(
           "도시농부",
-          style: MainPageTheme.title,
+          style: MainScreenTheme.title,
         ),
         actions: [
           Container(
@@ -102,11 +102,11 @@ class _MachinePageListState extends State<MachinePageList> {
                                     MediaQuery.of(context).size.height * 0.022),
                             child: const Text(
                               "기기1",
-                              style: MachinePageTheme.mName,
+                              style: DeviceScreenTheme.mName,
                             )),
                         const Text(
                           "재배작물 : 해바라기",
-                          style: MachinePageTheme.mType,
+                          style: DeviceScreenTheme.mType,
                         ),
                       ],
                     ),

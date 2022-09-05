@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import '../CommunityPage/CommunityPageReplyDetail.dart';
 import '../LoginPage/LoginPageLogin.dart';
 import '../main.dart';
+import '../provider/Controller.dart';
 import '../themeData.dart';
 import 'CommunityAddComment.dart';
 import 'CommunityFetch.dart';
@@ -20,8 +21,7 @@ class CommunityCommentMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final selectController = Get.put(SelectReplyController());
-    final modifyController = Get.put(ModifyController());
-
+    final modifyController = Get.put(ModifySelectController());
     return Column(
       children: [
         Container(
@@ -37,7 +37,7 @@ class CommunityCommentMenu extends StatelessWidget {
             selectController.setId(keywords['id']);
             Get.back();
             Get.to(()=>CommunityPageReplyDetail(index: index, keywords: keywords, before: before,));
-          }, child: const Text("댓글 답글쓰기",style: CommunityPageTheme.commentMenuButton,)),
+          }, child: const Text("댓글 답글쓰기",style: CommunityScreenTheme.commentMenuButton,)),
         ),
         Container(
           width: MediaQuery.of(context).size.width * 0.9,
@@ -49,7 +49,7 @@ class CommunityCommentMenu extends StatelessWidget {
             modifyController.setUpTrue();
             Get.back();
             Get.to(()=>CommunityPageReplyDetail(index: index, keywords: keywords, before: before,));
-          }, child: const Text("수정",style: CommunityPageTheme.commentMenuButton,)),
+          }, child: const Text("수정",style: CommunityScreenTheme.commentMenuButton,)),
         ),
         Container(
           width: MediaQuery.of(context).size.width * 0.9,
@@ -76,11 +76,11 @@ class CommunityCommentMenu extends StatelessWidget {
                     },
                     body: body
                 );
-                readComment(keywords['postId'], keywords['category'],false);
+               // readComment(keywords['postId'], keywords['category'],false);
                 Get.back();
               }
             }
-          }, child: const Text("삭제",style: CommunityPageTheme.commentMenuDeleteButton,)),
+          }, child: const Text("삭제",style: CommunityScreenTheme.commentMenuDeleteButton,)),
         ),
         Container(
           width: MediaQuery.of(context).size.width * 0.9,
@@ -92,7 +92,7 @@ class CommunityCommentMenu extends StatelessWidget {
           ),
           child: TextButton(onPressed: (){
               Get.back();
-          }, child: const Text("취소",style: CommunityPageTheme.commentMenuButton,)) ,
+          }, child: const Text("취소",style: CommunityScreenTheme.commentMenuButton,)) ,
         )
       ],
     );
