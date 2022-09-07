@@ -13,7 +13,7 @@ import '../main.dart';
 import '../model/Board.dart';
 import '../model/Comment.dart';
 import '../model/Device.dart';
-import '../model/Filter.dart';
+import '../model/FilterType.dart';
 import '../model/PostType.dart';
 import '../model/Screen.dart';
 import '../model/User.dart';
@@ -91,6 +91,9 @@ class SearchController extends GetxController{
   final List<String> searchList = ["title","writer"];
   final searchTitle = true.obs;
   final searchWriter = false.obs;
+  final searchKeyword = "".obs;
+
+
   void setSearch(int index){
     if(index==0){
       searchTitle.value = true;
@@ -111,10 +114,12 @@ class SearchController extends GetxController{
 }
 
 class SetCategoryController extends GetxController {
-  final setCategory = "".obs;
+  final filterType = FilterType.undefined.obs;
+  final boardType = BoardType.undefined.obs;
+
   final List<bool> category = [true, false, false, false, false, false,].obs;
 
-  void categoryClick(int index,String filter) {
+  void filterClick(int index,FilterType filter) {
     for (int i = 0; i < category.length; i++) {
       if (i != index) {
         category[i]= false;
@@ -122,7 +127,38 @@ class SetCategoryController extends GetxController {
         category[i] = true;
       }
     }
-    setCategory.value = filter;
+    filterType.value = filter;
+  }
+  void categoryClick(int index,BoardType board) {
+    for (int i = 0; i < category.length; i++) {
+      if (i != index) {
+        category[i]= false;
+      } else {
+        category[i] = true;
+      }
+    }
+    boardType.value = board;
+  }
+
+  bool check(){
+    if(filterType.value != FilterType.all || boardType.value != BoardType.all){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  void setUp(){
+    filterType.value = FilterType.all;
+    boardType.value = BoardType.all;
+
+    for (int i = 0; i < category.length; i++) {
+      if(i==0){
+        category[i]=true;
+      }else{
+        category[i]=false;
+      }
+    }
   }
 }
 
@@ -192,9 +228,11 @@ class BoardListController extends GetxController{
     boardList.add(BoardAnnouncementWidget(boardType: boardType,));
   }
   void none(){
+    final routeController = Get.put(RouteController());
+
     boardList.add(Container(
         margin: EdgeInsets.only(
-            top: Get.height * 0.345),
+            top: routeController.current.value == Screen.search ?Get.height * 0.245 : Get.height * 0.345),
         alignment: Alignment.center,
         child: const Text(
           "게시글이 없습니다.",
@@ -314,6 +352,7 @@ class RouteController extends GetxController{
   final beforeBoardType = BoardType.undefined.obs;
   final board = Board().obs;
   final commentCount = 0.obs; //readPostScreen 자체를 stateful로 만들기보다 routeController 에 commentCount 생성해서 넘겨주기로 함
+  final isSearch = false.obs;
 
   /*void setBefore(Screen input){
     before.value = input;
@@ -337,8 +376,8 @@ class RouteController extends GetxController{
 }
 
 class PostController extends GetxController{
-  final boardValue = BoardValue.undefined.obs; //게시판
-  final filterValue = FilterValue.undefined.obs; //필터
+  final boardValue = BoardType.all.obs; //게시판
+  final filterValue = FilterType.all.obs; //필터
   final controller = HtmlEditorController().obs;
   final focusNode = FocusNode().obs;
   final titleController = TextEditingController().obs;
@@ -348,27 +387,27 @@ class PostController extends GetxController{
   }
 
   void setUp(){
-    boardValue.value= BoardValue.undefined;
-    filterValue.value = FilterValue.undefined;
+    boardValue.value= BoardType.undefined;
+    filterValue.value = FilterType.undefined;
   }
   void setUpSearch(){
-    boardValue.value= BoardValue.all;
+    boardValue.value= BoardType.all;
   }
 
-  void setBoardValue(BoardValue input){
+  void setBoardValue(BoardType input){
     boardValue.value = input;
   }
 
-  void setFilterValue(FilterValue input){
+  void setFilterValue(FilterType input){
     filterValue.value = input;
   }
 
   void setBoardValueBoardType(BoardType input){
-    boardValue.value = BoardValue.getByCode(input.code);
+    boardValue.value = input;
   }
 
   void setFilterValueFilterType(FilterType input){
-    filterValue.value = FilterValue.getByCode(input.code);
+    filterValue.value = input;
   }
 }
 

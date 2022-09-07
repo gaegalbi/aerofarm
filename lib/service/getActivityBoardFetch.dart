@@ -8,7 +8,7 @@ import '../main.dart';
 import '../model/Board.dart';
 import '../model/Screen.dart';
 import '../provider/Controller.dart';
-import '../service/fetch.dart' as fetch;
+import '../service/normalFetch.dart' as fetch;
 
 Future getActivityBoardFetch(String postId) async {
   final loadingController = Get.put(LoadingController());

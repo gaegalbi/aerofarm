@@ -12,7 +12,7 @@ import '../model/Screen.dart';
 import '../screen/CommunityReplyDetailScreen.dart';
 import '../service/modifyComment.dart';
 import '../themeData.dart';
-import '../service/fetch.dart' as fetch;
+import '../service/normalFetch.dart' as fetch;
 
 class CommentWidget extends StatelessWidget {
   final Comment comment;

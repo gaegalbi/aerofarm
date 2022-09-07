@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:kakao_flutter_sdk_common/kakao_flutter_sdk_common.dart';
 
 //const String serverIP = "172.25.10.226:8080";
-const String serverIP = "172.25.8.45:8080";
+const String serverIP = "172.25.9.9:8080";
 //const String serverIP = "172.30.1.54:8080";
 final checkTimerController  = Get.put(CheckTimer());
 

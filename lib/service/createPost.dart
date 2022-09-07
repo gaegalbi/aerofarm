@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../main.dart';
+import '../model/BoardType.dart';
+import '../model/FilterType.dart';
 import '../model/Screen.dart';
 import '../screen/CommunityScreen.dart';
 
@@ -15,7 +17,7 @@ createPost(BuildContext context,Screen current,TextEditingController titleContro
   final routeController = Get.put(RouteController());
   final userController = Get.put(UserController());
 
-  if (postController.boardValue.value == BoardValue.undefined ||postController.filterValue.value == FilterValue.undefined ||
+  if (postController.boardValue.value == BoardType.undefined ||postController.filterValue.value == FilterType.undefined ||
       titleController.text.isEmpty ||
       controller.getText().toString().length == 1) {
     /*_controller.document.toPlainText().length==1){*/

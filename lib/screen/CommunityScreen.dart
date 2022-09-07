@@ -8,7 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../model/Screen.dart';
 import '../provider/Controller.dart';
-import '../service/fetch.dart' as fetch;
+import '../service/announceFetch.dart';
+import '../service/normalFetch.dart';
+import '../service/hotFetch.dart';
 import '../themeData.dart';
 import '../widget/BoardWidget.dart';
 
@@ -24,25 +26,27 @@ class CommunityScreen extends StatelessWidget {
     final boardListController = Get.put(BoardListController());
     final routeController = Get.put(RouteController());
     final scrollController = ScrollController();
+    final setCategoryController = Get.put(SetCategoryController());
+
     //final selectController = Get.put(SearchController())
 
     //onWillPop을 사용하려면 이렇게 해야함
     loadingController.context = context;
 
     routeController.setBoardType(boardType);
+    setCategoryController.setUp();
+
     if(boardType==BoardType.announcement){
-      fetch.startAnnouncementProcess().then((value) => loadingController.setFalse());
+      startAnnouncementProcess().then((value) => loadingController.setFalse());
     }else if(boardType == BoardType.hot) {
-      fetch.startHotProcess(boardType).then((value) => loadingController.setFalse());
+      startHotProcess(boardType,setCategoryController.check()).then((value) => loadingController.setFalse());
     }else{
-      fetch.startProcess(boardType).then((value) => loadingController.setFalse());
+      startProcess(boardType,false).then((value) => loadingController.setFalse());
     }
-    //fetch.startFetch(boardType).then((value) => loadingController.setFalse());
 
     scrollController.addListener(() {
       if(scrollController.offset == scrollController.position.maxScrollExtent){
-        fetch.loadProcess(boardType);
-        //fetch.loadFetch(boardType);
+        loadProcess(boardType,false);
       }
     });
 
@@ -70,16 +74,15 @@ class CommunityScreen extends StatelessWidget {
           color: Colors.white,
           onRefresh: () async {
             if(boardType==BoardType.announcement){
-              fetch.startAnnouncementProcess().then((value) => loadingController.setFalse());
+              startAnnouncementProcess().then((value) => loadingController.setFalse());
             }else if(boardType == BoardType.hot) {
-              fetch.startHotProcess(boardType).then((value) => loadingController.setFalse());
+              startHotProcess(boardType,setCategoryController.check()).then((value) => loadingController.setFalse());
             }else{
-              fetch.startProcess(boardType).then((value) => loadingController.setFalse());
+              startProcess(boardType,setCategoryController.check()).then((value) => loadingController.setFalse());
             }
-            //fetch.startProcess(boardType);
-            //fetch.startFetch(boardType);
           },
           child: SingleChildScrollView(
+            controller: scrollController,
             child: Container(
               padding: EdgeInsets.fromLTRB(
                 MainSize.width * 0.03,
@@ -113,14 +116,17 @@ class CommunityScreen extends StatelessWidget {
                         top: MainSize.height * 0.014,
                       ),
                       constraints: BoxConstraints(
-                        minHeight: MainSize.height*0.8
+                        minHeight: MainSize.height*0.785
                       ),
                       child: Column(children: boardListController.boardList))
                       :
-                  const Center(
-                      child: CircularProgressIndicator(
-                        color: MainColor.three,
-                      )),
+                  SizedBox(
+                    height: MainSize.height * 0.75,
+                    child: const Center(
+                        child: CircularProgressIndicator(
+                          color: MainColor.three,
+                        )),
+                  ),
                   ),
                 ],
               ),

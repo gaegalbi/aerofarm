@@ -1,5 +1,5 @@
 import 'package:capstone/model/BoardType.dart';
-import 'package:capstone/service/fetch.dart';
+import 'package:capstone/service/normalFetch.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../provider/Controller.dart';

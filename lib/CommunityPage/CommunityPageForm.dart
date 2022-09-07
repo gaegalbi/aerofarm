@@ -176,7 +176,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
                               TitleButton(
                                   title: "전체",
                                   onPressed: () {
-                                      setCategoryController.categoryClick(0,"ALL");
+                                   //   setCategoryController.filterClick(0,"ALL");
                                       categoryFetch(widget.category);
                                   },
                                   style: setCategoryController.category[0]
@@ -185,7 +185,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
                               TitleButton(
                                   title: widget.category == "HOT" ? "자유" : "일반",
                                   onPressed: () {
-                                      setCategoryController.categoryClick(1,widget.category == "HOT" ? "FREE" : "NORMAL");
+                                      //setCategoryController.filterClick(1,widget.category == "HOT" ? "FREE" : "NORMAL");
                                       categoryFetch(widget.category);
                                   },
                                   style: setCategoryController.category[1]
@@ -194,7 +194,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
                               TitleButton(
                                   title: widget.category == "HOT" ? "사진" : "취미",
                                   onPressed: () {
-                                      setCategoryController.categoryClick(2,widget.category == "HOT" ? "PICTURE" : "HOBBY");
+                                   //   setCategoryController.filterClick(2,widget.category == "HOT" ? "PICTURE" : "HOBBY");
                                       categoryFetch(widget.category);
                                   },
                                   style: setCategoryController.category[2]
@@ -203,7 +203,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
                               TitleButton(
                                   title: widget.category == "HOT" ? "정보" : "게임",
                                   onPressed: () {
-                                      setCategoryController.categoryClick(3,widget.category == "HOT" ? "INFORMATION" : "GAME");
+                                    //  setCategoryController.filterClick(3,widget.category == "HOT" ? "INFORMATION" : "GAME");
                                       categoryFetch(widget.category);
                                   },
                                   style: setCategoryController.category[3]
@@ -212,7 +212,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
                               TitleButton(
                                   title: widget.category == "HOT" ? "질문" : "일상",
                                   onPressed: () {
-                                      setCategoryController.categoryClick(4,widget.category == "HOT" ? "QUESTION" : "DAILY");
+                                    //  setCategoryController.filterClick(4,widget.category == "HOT" ? "QUESTION" : "DAILY");
                                       categoryFetch(widget.category);
                                   },
                                   style: setCategoryController.category[4]
@@ -221,7 +221,7 @@ class _CommunityPageFormState extends State<CommunityPageForm> {
                               TitleButton(
                                   title:widget.category == "HOT" ?  "거래" : "여행",
                                   onPressed: () {
-                                      setCategoryController.categoryClick(5,widget.category == "HOT" ? "TRADE" : "TRAVEL");
+                                 //     setCategoryController.filterClick(5,widget.category == "HOT" ? "TRADE" : "TRAVEL");
                                       categoryFetch(widget.category);
                                   },
                                   style: setCategoryController.category[5]

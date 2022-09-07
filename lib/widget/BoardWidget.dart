@@ -6,7 +6,7 @@ import 'dart:math' as math;
 import '../model/Board.dart';
 import '../model/Screen.dart';
 import '../screen/CommunityReadPostScreen.dart';
-import '../service/fetch.dart';
+import '../service/normalFetch.dart';
 import '../themeData.dart';
 
 class BoardWidget extends StatelessWidget {
@@ -55,12 +55,12 @@ class BoardWidget extends StatelessWidget {
                         bottom: MainSize.height * 0.008),
                     child: Row(
                       children: [
-                        board.parentId.isEmpty || routeController.beforeBoardType.value == BoardType.hot ?
-                        Text(routeController.beforeBoardType.value == BoardType.hot ?
+                        board.parentId.isEmpty || routeController.beforeBoardType.value == BoardType.hot?
+                        Text(routeController.beforeBoardType.value == BoardType.hot || routeController.current.value == Screen.search ?
                         "[${board.category.displayName.substring(0,board.category.displayName.length-3)}] "
                             : "[${board.filter.displayName}] ",style: CommunityScreenTheme.filter,)
                         : Container(
-                          padding: const EdgeInsets.only(left: 5,right: 5),
+                          padding: EdgeInsets.only(left: MainSize.width*0.01,right: MainSize.width*0.01),
                             child: Transform(child: const Icon(Icons.keyboard_return_outlined,color: MainColor.three,),alignment: Alignment.center, transform:Matrix4.rotationY(math.pi),)),
                         Text(
                           board.deleteTnF ? "삭제된 게시글 입니다.":board.title,
@@ -127,7 +127,7 @@ class BoardWidget extends StatelessWidget {
               ),
             ),
             Container(
-              width: MainSize.width * 0.1,
+              width: MainSize.width * 0.08,
               height: MainSize.height * 0.08,
               alignment: Alignment.center,
               child: Column(

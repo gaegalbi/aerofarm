@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import '../main.dart';
 import '../model/Board.dart';
 import '../model/Screen.dart';
-import 'fetch.dart';
+import 'normalFetch.dart';
 
 createComment(BuildContext context,TextEditingController textEditingController,Board board) async {
   final userController = Get.put(UserController());

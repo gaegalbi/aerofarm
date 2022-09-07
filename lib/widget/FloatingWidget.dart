@@ -10,8 +10,9 @@ import '../main.dart';
 import '../model/Screen.dart';
 import '../screen/CommunityActivityScreen.dart';
 import '../screen/ProfileEditScreen.dart';
-import '../service/fetch.dart';
+import '../service/normalFetch.dart';
 import '../service/getMyPost.dart';
+import '../service/searchFetch.dart';
 import '../themeData.dart';
 
 class FloatingWidget extends StatelessWidget {
@@ -171,15 +172,15 @@ class FloatingWidget extends StatelessWidget {
                                           color: MainColor.three,
                                           borderRadius: BorderRadius.circular(10)
                                       ),
-                                      child: TextButton(onPressed: (){
+                                      child: TextButton(onPressed: () async {
                                         if(textEditingController.text.isNotEmpty){
-                                          searchStartFetch(searchController.getSearch(), textEditingController.text,routeController.beforeBoardType.value).then((value) => answerFetch(routeController.beforeBoardType.value));
-                                          boardListController.boardList.removeAt(0);
-                                          boardListController.boardIdList.removeAt(0);
+                                          await searchStartFetch(searchController.getSearch(), textEditingController.text,routeController.beforeBoardType.value).then((value) => answerFetch(routeController.beforeBoardType.value));
                                           postController.setUpSearch();
-                                          Get.back();
-                                          Get.to(()=>CommunitySearchResultScreen(search: searchController.getSearch(), keyword: textEditingController.text,));
+                                          //searchController.searchKeyword.value = textEditingController.text;
                                           textEditingController.text = "";
+                                          Get.back();
+                                          routeController.setCurrent(Screen.search);
+                                          Get.to(()=>CommunitySearchResultScreen(search: searchController.getSearch(), keyword: textEditingController.text,));
                                         }
                                       }, child: const Text("검색",style:CommunityScreenTheme.searchButton,textAlign: TextAlign.center,)),
                                     )

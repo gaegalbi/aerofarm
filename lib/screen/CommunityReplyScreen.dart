@@ -4,11 +4,11 @@ import 'package:capstone/service/createComment.dart';
 import 'package:capstone/widget/CustomBottomNavigationBar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../service/fetch.dart' as fetch;
+import '../service/normalFetch.dart' as fetch;
 
 import '../model/Board.dart';
 import '../model/Screen.dart';
-import '../service/fetch.dart';
+import '../service/normalFetch.dart';
 import '../themeData.dart';
 
 class CommunityReplyScreen extends StatelessWidget {
@@ -36,7 +36,7 @@ class CommunityReplyScreen extends StatelessWidget {
       return false;
     }
 
-    var sort = true;
+    //var sort = true;
 
     return WillPopScope(
       onWillPop: _onWillPop,

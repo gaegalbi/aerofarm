@@ -1,7 +1,7 @@
 import 'package:capstone/model/BoardType.dart';
 import 'package:capstone/provider/Controller.dart';
 import '../utils/CheckTimer.dart';
-import 'Filter.dart';
+import 'FilterType.dart';
 
 class Board{
   String id="";

@@ -5,7 +5,7 @@ import 'package:capstone/screen/CommunityReplyScreen.dart';
 import 'package:capstone/widget/CustomBottomNavigationBar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../service/fetch.dart' as fetch;
+import '../service/normalFetch.dart' as fetch;
 import '../model/Board.dart';
 import '../model/Comment.dart';
 import '../model/Screen.dart';

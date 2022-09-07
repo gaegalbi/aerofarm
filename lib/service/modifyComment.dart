@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import '../main.dart';
 import '../model/Comment.dart';
-import 'fetch.dart';
+import 'normalFetch.dart';
 
 modifyComment(
     BuildContext context,

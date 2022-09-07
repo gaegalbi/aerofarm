@@ -4,7 +4,8 @@ enum FilterType {
   game('GAME','게임'),
   daily('DAILY','일상'),
   travel('TRAVEL','여행'),
-  undefined('undefined','미정');
+  undefined('undefined','미정'),
+  all('all','전체');
 
   const FilterType(this.code, this.displayName);
   final String code;

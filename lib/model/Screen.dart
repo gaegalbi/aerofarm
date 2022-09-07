@@ -16,6 +16,7 @@ enum Screen {
   replyDetail,
   activity,
   updatePost,
+  search,
   undefined,
 }
 

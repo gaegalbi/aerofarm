@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import '../main.dart';
 import '../model/Comment.dart';
-import 'fetch.dart';
+import 'normalFetch.dart';
 
 deleteComment(BuildContext context, ModifySelectController modifySelectController,Comment comment) async {
   final userController = Get.put(UserController());

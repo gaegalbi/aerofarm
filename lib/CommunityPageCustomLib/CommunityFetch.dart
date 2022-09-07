@@ -688,7 +688,7 @@ Future categoryFetch(String communityCategory) async {
         if (data['content'].length != 0) {
           for (int i = 0; i < data['content'].length; i++) {
 
-            if (setCategoryController.setCategory.value == "ALL") {
+            if (setCategoryController.filterType.value == "ALL") {
               boardListController.boardIdAdd(data['content'][i]['id']);
               boardListController.boardParentList.add(data['content'][i]['id']);
            /*   boardListController.addBoard(AddBoard(
@@ -699,7 +699,7 @@ Future categoryFetch(String communityCategory) async {
               count++;
             } else {
               if (communityCategory == "HOT") {
-                if (data['content'][i]['category'] == setCategoryController.setCategory.value) {
+                if (data['content'][i]['category'] == setCategoryController.filterType.value) {
                   boardListController.boardIdAdd(data['content'][i]['id']);
                   boardListController.boardParentList.add(
                       data['content'][i]['id']);
@@ -712,7 +712,7 @@ Future categoryFetch(String communityCategory) async {
                 }
               } else {
                 if (data['content'][i]['filter'] ==
-                    setCategoryController.setCategory.value) {
+                    setCategoryController.filterType.value) {
                   boardListController.boardIdAdd(data['content'][i]['id']);
                   boardListController.boardParentList.add(
                       data['content'][i]['id']);
@@ -754,7 +754,7 @@ Future categoryFetch(String communityCategory) async {
           if (data['content'].length != 0) {
             for (int i = 0; i < data['content'].length; i++) {
               if (data['content'][i]['category'] == communityCategory) {
-                if(setCategoryController.setCategory.value == "ALL"){
+                if(setCategoryController.filterType.value == "ALL"){
                   boardListController.boardIdAdd(data['content'][i]['id']);
                   boardListController.boardParentList.add(data['content'][i]['id']);
                   /*boardListController.addBoard(AddBoard(
@@ -764,7 +764,7 @@ Future categoryFetch(String communityCategory) async {
                   );*/
                   count++;
                 }else{
-                  if(setCategoryController.setCategory.value == data['content'][i]['filter']){
+                  if(setCategoryController.filterType.value == data['content'][i]['filter']){
                     boardListController.boardIdAdd(data['content'][i]['id']);
                     boardListController.boardParentList.add(data['content'][i]['id']);
                    /* boardListController.addBoard(AddBoard(

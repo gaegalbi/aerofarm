@@ -1,3 +1,4 @@
+/*
 enum BoardValue {
   announcement('ANNOUNCEMENT', '공지사항'),
   hot('HOT','인기게시판'),
@@ -33,4 +34,4 @@ enum FilterValue{
   factory FilterValue.getByCode(String code){
     return FilterValue.values.firstWhere((value) => value.code == code);
   }
-}
+}*/

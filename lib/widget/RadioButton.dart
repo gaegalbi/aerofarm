@@ -3,6 +3,7 @@ import 'package:capstone/provider/Controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../model/FilterType.dart';
 import '../model/PostType.dart';
 import '../themeData.dart';
 
@@ -34,9 +35,9 @@ class RadioButton<T> extends StatelessWidget {
       onTap: () {
        // if (onChanged != null) {
           if(board){
-            postController.setBoardValue(value as BoardValue);
+            postController.setBoardValue(value as BoardType);
           }else{
-            postController.setFilterValue(value as FilterValue);
+            postController.setFilterValue(value as FilterType);
           }
          // onChanged!(value);
           Navigator.pop(context);
@@ -108,8 +109,8 @@ class BoardRadioButtonList extends StatelessWidget {
             ),
             RadioButton(
               contentPadding: contentPadding,
-              description: BoardValue.free.displayName,
-              value: BoardValue.free,
+              description: BoardType.free.displayName,
+              value: BoardType.free,
               boardValue: postController.boardValue.value,
               activeColor: MainColor.three,
               textStyle: CommunityScreenTheme
@@ -119,8 +120,8 @@ class BoardRadioButtonList extends StatelessWidget {
             RadioButton(
               contentPadding:
               contentPadding,
-              description: BoardValue.question.displayName,
-              value: BoardValue.question,
+              description: BoardType.question.displayName,
+              value: BoardType.question,
               boardValue: postController.boardValue.value,
               activeColor: MainColor.three,
               textStyle: CommunityScreenTheme
@@ -129,8 +130,8 @@ class BoardRadioButtonList extends StatelessWidget {
             RadioButton(
               contentPadding:
               contentPadding,
-              description: BoardValue.information.displayName,
-              value: BoardValue.information,
+              description: BoardType.info.displayName,
+              value: BoardType.info,
               boardValue: postController.boardValue.value,
               activeColor: MainColor.three,
               textStyle: CommunityScreenTheme
@@ -139,8 +140,8 @@ class BoardRadioButtonList extends StatelessWidget {
             RadioButton(
               contentPadding:
               contentPadding,
-              description: BoardValue.picture.displayName,
-              value: BoardValue.picture,
+              description: BoardType.picture.displayName,
+              value: BoardType.picture,
               boardValue: postController.boardValue.value,
               activeColor: MainColor.three,
               textStyle: CommunityScreenTheme
@@ -149,8 +150,8 @@ class BoardRadioButtonList extends StatelessWidget {
             RadioButton(
               contentPadding:
               contentPadding,
-              description: BoardValue.trade.displayName,
-              value: BoardValue.trade,
+              description: BoardType.trade.displayName,
+              value: BoardType.trade,
               boardValue: postController.boardValue.value,
               activeColor: MainColor.three,
               textStyle: CommunityScreenTheme
@@ -159,8 +160,8 @@ class BoardRadioButtonList extends StatelessWidget {
             RadioButton(
               contentPadding:
               contentPadding,
-              description: BoardValue.announcement.displayName,
-              value: BoardValue.announcement,
+              description: BoardType.announcement.displayName,
+              value: BoardType.announcement,
               boardValue: postController.boardValue.value,
               activeColor: MainColor.three,
               textStyle: CommunityScreenTheme
@@ -257,8 +258,8 @@ class SearchRadioButtonList extends StatelessWidget {
             ),
             RadioButton(
               contentPadding: contentPadding,
-              description: BoardValue.all.displayName,
-              value: BoardValue.all,
+              description: BoardType.all.displayName,
+              value: BoardType.all,
               boardValue: postController.boardValue.value,
               activeColor: MainColor.three,
               textStyle: CommunityScreenTheme
@@ -267,8 +268,8 @@ class SearchRadioButtonList extends StatelessWidget {
             ),
             RadioButton(
               contentPadding: contentPadding,
-              description: BoardValue.free.displayName,
-              value: BoardValue.free,
+              description: BoardType.free.displayName,
+              value: BoardType.free,
               boardValue: postController.boardValue.value,
               activeColor: MainColor.three,
               textStyle: CommunityScreenTheme
@@ -278,8 +279,8 @@ class SearchRadioButtonList extends StatelessWidget {
             RadioButton(
               contentPadding:
               contentPadding,
-              description: BoardValue.question.displayName,
-              value: BoardValue.question,
+              description: BoardType.question.displayName,
+              value: BoardType.question,
               boardValue: postController.boardValue.value,
               activeColor: MainColor.three,
               textStyle: CommunityScreenTheme
@@ -288,8 +289,8 @@ class SearchRadioButtonList extends StatelessWidget {
             RadioButton(
               contentPadding:
               contentPadding,
-              description: BoardValue.information.displayName,
-              value: BoardValue.information,
+              description: BoardType.info.displayName,
+              value: BoardType.info,
               boardValue: postController.boardValue.value,
               activeColor: MainColor.three,
               textStyle: CommunityScreenTheme
@@ -298,8 +299,8 @@ class SearchRadioButtonList extends StatelessWidget {
             RadioButton(
               contentPadding:
               contentPadding,
-              description: BoardValue.picture.displayName,
-              value: BoardValue.picture,
+              description: BoardType.picture.displayName,
+              value: BoardType.picture,
               boardValue: postController.boardValue.value,
               activeColor: MainColor.three,
               textStyle: CommunityScreenTheme
@@ -308,8 +309,8 @@ class SearchRadioButtonList extends StatelessWidget {
             RadioButton(
               contentPadding:
               contentPadding,
-              description: BoardValue.trade.displayName,
-              value: BoardValue.trade,
+              description: BoardType.trade.displayName,
+              value: BoardType.trade,
               boardValue: postController.boardValue.value,
               activeColor: MainColor.three,
               textStyle: CommunityScreenTheme
@@ -318,8 +319,8 @@ class SearchRadioButtonList extends StatelessWidget {
             RadioButton(
               contentPadding:
               contentPadding,
-              description: BoardValue.announcement.displayName,
-              value: BoardValue.announcement,
+              description: BoardType.announcement.displayName,
+              value: BoardType.announcement,
               boardValue: postController.boardValue.value,
               activeColor: MainColor.three,
               textStyle: CommunityScreenTheme
@@ -417,8 +418,8 @@ class FilterRadioButtonList extends StatelessWidget {
             RadioButton(
               contentPadding:
               contentPadding,
-              description: FilterValue.normal.displayName,
-              value: FilterValue.normal,
+              description: FilterType.normal.displayName,
+              value: FilterType.normal,
               boardValue: postController.filterValue.value,
               activeColor: MainColor.three,
               textStyle: CommunityScreenTheme
@@ -427,8 +428,8 @@ class FilterRadioButtonList extends StatelessWidget {
             RadioButton(
               contentPadding:
               contentPadding,
-              description: FilterValue.hobby.displayName,
-              value: FilterValue.hobby,
+              description: FilterType.hobby.displayName,
+              value: FilterType.hobby,
               boardValue:  postController.filterValue.value,
               activeColor: MainColor.three,
               textStyle: CommunityScreenTheme
@@ -437,8 +438,8 @@ class FilterRadioButtonList extends StatelessWidget {
             RadioButton(
               contentPadding:
               contentPadding,
-              description: FilterValue.game.displayName,
-              value: FilterValue.game,
+              description: FilterType.game.displayName,
+              value: FilterType.game,
               boardValue: postController.filterValue.value,
               activeColor: MainColor.three,
               textStyle: CommunityScreenTheme
@@ -447,8 +448,8 @@ class FilterRadioButtonList extends StatelessWidget {
             RadioButton(
               contentPadding:
               contentPadding,
-              description: FilterValue.daily.displayName,
-              value: FilterValue.daily,
+              description: FilterType.daily.displayName,
+              value: FilterType.daily,
               boardValue:  postController.filterValue.value,
               activeColor: MainColor.three,
               textStyle: CommunityScreenTheme
@@ -457,8 +458,8 @@ class FilterRadioButtonList extends StatelessWidget {
             RadioButton(
               contentPadding:
               contentPadding,
-              description: FilterValue.travel.displayName,
-              value: FilterValue.travel,
+              description: FilterType.travel.displayName,
+              value: FilterType.travel,
               boardValue:  postController.filterValue.value,
               activeColor: MainColor.three,
               textStyle: CommunityScreenTheme

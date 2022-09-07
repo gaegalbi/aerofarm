@@ -2,11 +2,12 @@ import 'package:capstone/CommunityPageCustomLib/CommunityFetch.dart';
 import 'package:capstone/model/BoardType.dart';
 import 'package:capstone/screen/CommunityActivityScreen.dart';
 import 'package:capstone/screen/CommunityReplyScreen.dart';
+import 'package:capstone/screen/CommunitySearchResultScreen.dart';
 import 'package:capstone/service/checkLike.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
-import '../service/fetch.dart' as fetch;
+import '../service/normalFetch.dart' as fetch;
 import '../model/Board.dart';
 import '../model/Screen.dart';
 import '../provider/Controller.dart';
@@ -32,6 +33,7 @@ class CommunityReadPostScreen extends StatelessWidget {
     final routeController = Get.put(RouteController());
     final modifySelectController = Get.put(ModifySelectController());
     final tabController = Get.put(CustomTabController());
+    final searchController = Get.put(SearchController());
 
     //loadingController.setTrue();
 
@@ -42,12 +44,16 @@ class CommunityReadPostScreen extends StatelessWidget {
         routeController.setCurrent(Screen.activity);
         tabController.setTab();
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) =>const CommunityActivityScreen()));
-      }else {
+      }else if(routeController.isSearch.value){
+        routeController.setCurrent(Screen.search);
+        routeController.isSearch.value = false;
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) =>CommunitySearchResultScreen(search: searchController.getSearch(), keyword: '',)));
+      }
+      else {
         routeController.setCurrent(Screen.community);
         Get.offAll(() => CommunityScreen(boardType: routeController.beforeBoardType.value));
       }
         //Navigator.of(context).push(MaterialPageRoute(builder: (_) => CommunityReplyScreen(board: board)));
-
       //replyDetailController.replyDetailBefore.value == "ReadPost" ?
       return false;
     }
@@ -71,6 +77,9 @@ class CommunityReadPostScreen extends StatelessWidget {
                   routeController.setCurrent(Screen.activity);
                   tabController.setTab();
                   Get.back();
+                }else if(routeController.before.value == Screen.search){
+                  routeController.setCurrent(Screen.search);
+                  Get.offAll(() => CommunitySearchResultScreen(search: searchController.getSearch(), keyword: '',));
                 }else{
                   loadingController.setTrue();
                   routeController.setCurrent(Screen.community);
