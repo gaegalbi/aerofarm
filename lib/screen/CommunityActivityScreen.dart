@@ -27,12 +27,14 @@ class CommunityActivityScreen extends StatelessWidget {
     loadingController.context = context; //commentWidget에서 NavigatorRoute로 넘기기위해 필요
 
     Future<bool> _onWillPop() async {
-      //textField 비활성
+      if(routeController.isMain.value){
+        routeController.isMain.value = false;
+        routeController.setCurrent(Screen.main);
+        Get.offAll(()=>const MainScreen());
+      }else {
         routeController.setCurrent(Screen.profileCommunity);
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) =>const ProfileScreen()));
-      //Navigator.of(context).push(MaterialPageRoute(builder: (_) => CommunityReplyScreen(board: board)));
-
-      //replyDetailController.replyDetailBefore.value == "ReadPost" ?
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => const ProfileScreen()));
+      }
       return false;
     }
 
@@ -61,8 +63,14 @@ class CommunityActivityScreen extends StatelessWidget {
                         Icons.chevron_left,
                       ),
                       onPressed: () {
-                        routeController.setCurrent(Screen.profileCommunity);
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) =>const ProfileScreen()));
+                        if(routeController.isMain.value){
+                          routeController.isMain.value = false;
+                          routeController.setCurrent(Screen.main);
+                          Get.offAll(()=>const MainScreen());
+                        }else{
+                          routeController.setCurrent(Screen.profileCommunity);
+                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) =>const ProfileScreen()));
+                        }
                       },
                     )),
               ),

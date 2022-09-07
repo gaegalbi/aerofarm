@@ -52,13 +52,6 @@ editProfile(
     };
     var body = jsonEncode(data);
 
-  /*  final response = await http.post(Uri.http(serverIP, "/my-page/edit"),
-        headers: {
-          "Content-Type": "application/json",
-          "Cookie": "JSESSIONID=${userController.user.value.session}",
-        },
-        body: body);*/
-
     final response = await http.post(Uri.http(serverIP,
         '/my-page/edit'),
         headers: {
@@ -133,9 +126,6 @@ editProfile(
           print(status.keys.first);
           break;
       }
-    } else {
-      //nicknameController.setNickname(_nicknameController.text);
-      // getRoute("MainPageMyProfileEdit");
     }
     getProfile(userController.user.value.session, userController.user.value.session);
     Get.back();

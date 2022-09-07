@@ -51,7 +51,6 @@ createAnswerPost(BuildContext context,HtmlEditorController controller,TextEditin
         headers: {
           "Content-Type": "application/json",
           "Cookie":"remember-me=${userController.user.value.rememberMe};JSESSIONID=${userController.user.value.session}",
-          //"Cookie": "JSESSIONID=$session",
         },
         encoding: Encoding.getByName('utf-8'),
         body: body,
@@ -59,7 +58,6 @@ createAnswerPost(BuildContext context,HtmlEditorController controller,TextEditin
       controller.editorController?.clearFocus();
       controller.disable();
       Future.delayed(const Duration(microseconds: 1), () {
-        // Get.offAll(() => CommunityPageForm(category:widget.before));
         routeController.setCurrent(Screen.community);
         Get.offAll(() => CommunityScreen(boardType: routeController.beforeBoardType.value));
       });

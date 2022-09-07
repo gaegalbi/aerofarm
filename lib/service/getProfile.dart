@@ -17,7 +17,6 @@ void getProfile(String session, String rememberMe) async {
       '/api/my-page/info'),
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        //"Cookie":"remember-me=${userController.user.value.rememberMe};JSESSIONID=${userController.user.value.session}",
         "Cookie":"remember-me=$rememberMe;JSESSIONID=$session",
       }
   );
@@ -37,7 +36,7 @@ void getProfile(String session, String rememberMe) async {
   }else{
     user.phoneNumber = "미등록";
   }
-  //print(_user['addressInfo']);
+
   if(_user['addressInfo']!=null){
     if(_user['addressInfo']['zipcode']!=""){
       user.zipcode = _user['addressInfo']['zipcode'];
@@ -51,10 +50,6 @@ void getProfile(String session, String rememberMe) async {
     if(_user['addressInfo']['extraAddress']!=""){
       user.extraAddress = _user['addressInfo']['extraAddress'];
     }
-
- /*   user.address1 = _user['addressInfo']['address1'];
-    user.address2 = _user['addressInfo']['address2'];
-    user.extraAddress = _user['addressInfo']['extraAddress'].toString().substring(1);*/
   }
   userController.setUser(user);
 }

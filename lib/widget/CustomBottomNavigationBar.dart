@@ -2,9 +2,6 @@ import 'package:capstone/provider/Controller.dart';
 import 'package:capstone/service/createComment.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../model/Board.dart';
-import '../model/Comment.dart';
 import '../model/Screen.dart';
 import '../service/createAnswerComment.dart';
 import '../themeData.dart';

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:capstone/model/PostType.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
 import 'package:http/http.dart' as http;
 import 'package:capstone/provider/Controller.dart';
@@ -20,7 +19,6 @@ createPost(BuildContext context,Screen current,TextEditingController titleContro
   if (postController.boardValue.value == BoardType.undefined ||postController.filterValue.value == FilterType.undefined ||
       titleController.text.isEmpty ||
       controller.getText().toString().length == 1) {
-    /*_controller.document.toPlainText().length==1){*/
     showDialog(
         context: context,
         builder: (context) {
@@ -59,7 +57,6 @@ createPost(BuildContext context,Screen current,TextEditingController titleContro
           headers: {
             "Content-Type": "application/json",
             "Cookie":"remember-me=${userController.user.value.rememberMe};JSESSIONID=${userController.user.value.session}",
-            //"Cookie": "JSESSIONID=$session",
           },
           encoding: Encoding.getByName('utf-8'),
           body: body,
@@ -81,7 +78,6 @@ createPost(BuildContext context,Screen current,TextEditingController titleContro
           headers: {
             "Content-Type": "application/json",
             "Cookie":"remember-me=${userController.user.value.rememberMe};JSESSIONID=${userController.user.value.session}",
-            //"Cookie": "JSESSIONID=${userController.user.value.session}",
           },
           encoding: Encoding.getByName('utf-8'),
           body: body,
@@ -89,11 +85,8 @@ createPost(BuildContext context,Screen current,TextEditingController titleContro
       }
       controller.editorController?.clearFocus();
       controller.disable();
-      //Get.offAll(() => CommunityPageForm(category: widget.keywords['communityCategory']));
       Future.delayed(const Duration(microseconds: 1), () {
-        //Get.offAll(() => CommunityPageForm(category:widget.before));
         routeController.setCurrent(Screen.community);
-        print(routeController.beforeBoardType.value);
         Get.offAll(() => CommunityScreen(boardType: routeController.beforeBoardType.value));
       });
     }

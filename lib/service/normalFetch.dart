@@ -2,8 +2,6 @@ import 'dart:convert';
 import 'package:capstone/model/BoardType.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-
-import '../CommunityPageCustomLib/CommunityFetch.dart';
 import '../main.dart';
 import '../model/Board.dart';
 import '../model/Comment.dart';

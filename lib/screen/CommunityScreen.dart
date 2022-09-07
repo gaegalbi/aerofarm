@@ -1,5 +1,4 @@
 import 'package:capstone/model/BoardType.dart';
-import 'package:capstone/widget/BoardAnnouncementWidget.dart';
 import 'package:capstone/widget/CustomAppBar.dart';
 import 'package:capstone/widget/CustomDrawer.dart';
 import 'package:capstone/widget/FloatingWidget.dart';
@@ -12,7 +11,6 @@ import '../service/announceFetch.dart';
 import '../service/normalFetch.dart';
 import '../service/hotFetch.dart';
 import '../themeData.dart';
-import '../widget/BoardWidget.dart';
 
 class CommunityScreen extends StatelessWidget {
   final BoardType boardType;
@@ -27,8 +25,6 @@ class CommunityScreen extends StatelessWidget {
     final routeController = Get.put(RouteController());
     final scrollController = ScrollController();
     final setCategoryController = Get.put(SetCategoryController());
-
-    //final selectController = Get.put(SearchController())
 
     //onWillPop을 사용하려면 이렇게 해야함
     loadingController.context = context;

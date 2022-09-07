@@ -3,13 +3,11 @@ import 'dart:convert';
 import 'package:capstone/provider/Controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../main.dart';
 import '../model/Board.dart';
 import '../model/Screen.dart';
 import '../screen/CommunityReplyScreen.dart';
 import '../screen/CommunityScreen.dart';
-import '../service/checkLike.dart';
 import 'package:http/http.dart' as http;
 import '../themeData.dart';
 
@@ -124,7 +122,6 @@ class _CustomBottomAppBarState extends State<CustomBottomAppBar> {
                 ),
                 text: Obx(()=>Text(
                   widget.routeController.commentCount.value.toString(),
-                  //widget.keywords['commentCount'].toString(),
                   style: CommunityScreenTheme.bottomAppBarReply,
                 ),),
                 onPressed: () {
@@ -132,7 +129,6 @@ class _CustomBottomAppBarState extends State<CustomBottomAppBar> {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (_) =>
                           CommunityReplyScreen(board: widget.board)));
-                  //Get.to(() => CommunityPageReply(index: widget.index,keywords: widget.keywords, before: widget.before ,));
                 },
               )
             ],

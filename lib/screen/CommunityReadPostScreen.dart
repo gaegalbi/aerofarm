@@ -1,9 +1,6 @@
-import 'package:capstone/CommunityPageCustomLib/CommunityFetch.dart';
-import 'package:capstone/model/BoardType.dart';
 import 'package:capstone/screen/CommunityActivityScreen.dart';
 import 'package:capstone/screen/CommunityReplyScreen.dart';
 import 'package:capstone/screen/CommunitySearchResultScreen.dart';
-import 'package:capstone/service/checkLike.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
@@ -11,7 +8,6 @@ import '../service/normalFetch.dart' as fetch;
 import '../model/Board.dart';
 import '../model/Screen.dart';
 import '../provider/Controller.dart';
-import '../service/getMyPost.dart';
 import '../themeData.dart';
 import '../widget/ReadPostBottomAppBarButton.dart';
 import '../widget/CustomAppBar.dart';
@@ -35,12 +31,10 @@ class CommunityReadPostScreen extends StatelessWidget {
     final tabController = Get.put(CustomTabController());
     final searchController = Get.put(SearchController());
 
-    //loadingController.setTrue();
-
     Future<bool> _onWillPop() async {
       //textField 비활성
       modifySelectController.setUpFalse();
-      if(routeController.before.value == Screen.activity){
+      if(routeController.before.value == Screen.activity || routeController.isMain.value){
         routeController.setCurrent(Screen.activity);
         tabController.setTab();
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) =>const CommunityActivityScreen()));
@@ -73,10 +67,10 @@ class CommunityReadPostScreen extends StatelessWidget {
             appBar: CustomAppBar(
               title: "도시농부",
               onPressed: () async {
-                if(routeController.before.value == Screen.activity){
+                if(routeController.before.value == Screen.activity || routeController.isMain.value){
                   routeController.setCurrent(Screen.activity);
                   tabController.setTab();
-                  Get.back();
+                  Get.off(()=>const CommunityActivityScreen());
                 }else if(routeController.before.value == Screen.search){
                   routeController.setCurrent(Screen.search);
                   Get.offAll(() => CommunitySearchResultScreen(search: searchController.getSearch(), keyword: '',));

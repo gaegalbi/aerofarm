@@ -10,7 +10,6 @@ import '../themeData.dart';
 import '../widget/CustomAppBar.dart';
 import '../widget/RadioButton.dart';
 import 'CommunityScreen.dart';
-import '../service/normalFetch.dart' as fetch;
 
 class CommunitySearchResultScreen extends StatelessWidget {
   final String search;
@@ -33,11 +32,8 @@ class CommunitySearchResultScreen extends StatelessWidget {
     routeController.isSearch.value = true;
 
     Future<bool> _onWillPop() async {
-      //textField 비활성
-        routeController.setCurrent(Screen.community);
-        Get.offAll(() => CommunityScreen(boardType: routeController.beforeBoardType.value));
-      //Navigator.of(context).push(MaterialPageRoute(builder: (_) => CommunityReplyScreen(board: board)));
-      //replyDetailController.replyDetailBefore.value == "ReadPost" ?
+      routeController.setCurrent(Screen.community);
+      Get.offAll(() => CommunityScreen(boardType: routeController.beforeBoardType.value));
       return false;
     }
 

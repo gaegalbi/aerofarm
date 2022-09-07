@@ -7,14 +7,11 @@ import 'package:capstone/widget/CommentWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:html_editor_enhanced/html_editor.dart';
-
-import '../CommunityPageCustomLib/CommunityNotice.dart';
 import '../main.dart';
 import '../model/Board.dart';
 import '../model/Comment.dart';
 import '../model/Device.dart';
 import '../model/FilterType.dart';
-import '../model/PostType.dart';
 import '../model/Screen.dart';
 import '../model/User.dart';
 import '../themeData.dart';
@@ -353,6 +350,7 @@ class RouteController extends GetxController{
   final board = Board().obs;
   final commentCount = 0.obs; //readPostScreen 자체를 stateful로 만들기보다 routeController 에 commentCount 생성해서 넘겨주기로 함
   final isSearch = false.obs;
+  final isMain = false.obs;
 
   /*void setBefore(Screen input){
     before.value = input;
@@ -471,4 +469,37 @@ class CustomTabController extends GetxController with GetSingleTickerProviderSta
     controller.dispose();
     super.dispose();
   }
+}
+
+List<String> replyDetailList = [];
+
+class ReplyDetailListController extends GetxController{
+  final replyDetail = {0:<Widget>[]}.obs;
+  final replyDetailBefore = "".obs;
+  final index = 0.obs;
+  final keywords = Rx<Map<String, dynamic>>({});
+  final before = "".obs;
+
+  void replyDetailSetUp(){
+    replyDetail.clear();
+    replyDetailList.clear();
+  }
+
+  void replyDetailSetUpBefore(String inputBefore){
+    replyDetailBefore.value = inputBefore;
+  }
+
+  void replyDetailSetUpBackRoute(int inputIndex, Map<String, dynamic> inputKeywords, String inputBefore){
+    index.value = inputIndex;
+    keywords.value = inputKeywords;
+    before.value = inputBefore;
+  }
+}
+
+class ReadPostController extends GetxController{
+  final writer = "".obs;
+
+ void setWriter(String input){
+   writer.value = input;
+ }
 }

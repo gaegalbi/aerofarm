@@ -4,8 +4,6 @@ import 'package:capstone/screen/CommunitySearchResultScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
-
-import '../LoginPage/LoginPageLogin.dart';
 import '../main.dart';
 import '../model/Screen.dart';
 import '../screen/CommunityActivityScreen.dart';

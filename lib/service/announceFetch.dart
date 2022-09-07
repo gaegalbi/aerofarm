@@ -1,16 +1,12 @@
 import 'dart:convert';
-
 import 'package:get/get.dart';
-
 import '../main.dart';
 import '../model/Board.dart';
 import '../model/BoardType.dart';
 import '../provider/Controller.dart';
 import 'package:http/http.dart' as http;
 
-
 Future announcement() async {
-  //final pageIndexController = Get.put(PageIndexController());
   final boardListController = Get.put(BoardListController());
   final announceController = Get.put(AnnounceController());
 
@@ -24,15 +20,11 @@ Future announcement() async {
       .get(Uri.http(serverIP, '/api/community/posts', _queryParameters),
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        //"Cookie": "JSESSIONID=$session",
-        //"Cookie":"remember-me=$rememberMe;JSESSIONID=$session",
       }
   );
   if (response.statusCode == 200) {
     Map<String, dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
     if(data['content'].length!=0) {
-      //boardListController.boardIdAdd(data['content'][0]['id']);
-      //boardListController.boardParentList.add(data['content'][0]['id']);
       board = Board.fetch(data['content'][0]);
       announceController.setBoard(board);
       boardListController.boardIdAdd(int.parse(board.id));
@@ -84,18 +76,9 @@ Future startAnnouncementFetch() async{
 }
 
 Future answerAnnouncementFetch() async{
-  final pageIndexController = Get.put(PageIndexController());
   final boardListController = Get.put(BoardListController());
   //전체 게시판, 인기 게시판이 아닐때만 setUp (분류 게시판은 pageIndex가 무한루프를 돌아서 높음)
-/*  if(boardType == BoardType.all || boardType.displayName ==BoardType.hot.displayName){
-    pageIndexController.setUp();
-  }*/
   Map<int,dynamic> answer = {};
-/*
-  int pageIndex = (pageIndexController.pageIndex.value-1) * 10;
-  if(pageIndex>0){
-    pageIndex--;
-  }*/
 
   final answerResponse = await http
       .get(Uri.http(serverIP, '/api/community/answerposts'),

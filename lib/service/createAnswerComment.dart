@@ -52,7 +52,6 @@ createAnswerComment(BuildContext context,TextEditingController textEditingContro
         encoding: Encoding.getByName('utf-8'),
         body: body,
       );
-      //readPostContent(widget.keywords['postId'], widget.keywords['category']);
       readPostContent(board);
       readComment(comment.postId, false);
 
@@ -60,9 +59,6 @@ createAnswerComment(BuildContext context,TextEditingController textEditingContro
       routeController.current.value == Screen.readPost ?
           Get.off(()=>CommunityReplyScreen(board: board,))
           : Get.back();
-    /*  replyDetailController.replyDetailBefore =="ReadPost" ?
-      Get.off(()=>CommunityPageReply(index: widget.index, keywords: widget.keywords, before: widget.before))
-          : Get.back();*/
     }
   }
 }

@@ -151,39 +151,3 @@ class _CustomProfileEditAppBarState extends State<CustomProfileEditAppBar> {
     );
   }
 }
-/*
-
-AppBar(
-title: const Text(
-"내 정보 수정",
-style: MainPageTheme.subTitle,
-),
-toolbarHeight: MainSize.toolbarHeight / 2,
-elevation: 0,
-backgroundColor: MainColor.six,
-leading: IconButton(
-padding: EdgeInsets.zero,
-onPressed: () {
-FocusScope.of(context).unfocus();
-Future.delayed(const Duration(milliseconds: 150), () {
-Get.back();
-});
-},
-icon: const Icon(Icons.close),
-),
-actions: [
-Container(
-margin: EdgeInsets.only(right: 15),
-decoration: BoxDecoration(
-color: MainColor.three,
-borderRadius: BorderRadius.circular(10.0),
-),
-child: TextButton(
-onPressed: () async {},
-child: const Text(
-"등록",
-style: CommunityPageTheme.postFont,
-)),
-)
-],
-)*/

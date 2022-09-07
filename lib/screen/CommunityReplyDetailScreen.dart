@@ -1,4 +1,3 @@
-import 'package:capstone/CommunityPageCustomLib/CommunityFetch.dart';
 import 'package:capstone/provider/Controller.dart';
 import 'package:capstone/screen/CommunityReadPostScreen.dart';
 import 'package:capstone/screen/CommunityReplyScreen.dart';
@@ -9,7 +8,6 @@ import '../service/normalFetch.dart' as fetch;
 import '../model/Board.dart';
 import '../model/Comment.dart';
 import '../model/Screen.dart';
-import '../service/createAnswerComment.dart';
 import '../themeData.dart';
 
 class CommunityReplyDetailScreen extends StatelessWidget {
@@ -31,12 +29,11 @@ class CommunityReplyDetailScreen extends StatelessWidget {
       if(routeController.before.value == Screen.readPost){
         routeController.setCurrent(Screen.readPost);
         loadingController.setTrue();
-        fetch.readPostContent(board).then((value) => fetch.readComment(board.id, false)).then((value) =>Navigator.of(context).push(MaterialPageRoute(builder: (_) => CommunityReadPostScreen(board: board))));
+        fetch.readPostContent(board).then((value) => fetch.readComment(board.id, false)).then((value) =>  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => CommunityReadPostScreen(board: board))));
       }else{
         routeController.setCurrent(Screen.reply);
-        Navigator.of(context).push(MaterialPageRoute(builder: (_) => CommunityReplyScreen(board: board)));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => CommunityReplyScreen(board: board)));
       }
-      //replyDetailController.replyDetailBefore.value == "ReadPost" ?
       return false;
     }
 

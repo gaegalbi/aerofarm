@@ -94,5 +94,4 @@ register(
           });
     }
   }
-  //Get.off(()=>LoginPage(reLogin: widget.reLogin,));
 }

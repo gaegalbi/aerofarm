@@ -1,7 +1,7 @@
-import 'package:capstone/MainPage/MainPageMyProfileEdit.dart';
 import 'package:flutter/material.dart';
 
 import '../themeData.dart';
+import '../utils/PhoneNumberFormatter.dart';
 
 class ProfileEditColumn extends StatelessWidget {
   final TextEditingController controller;

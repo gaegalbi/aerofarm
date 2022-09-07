@@ -34,10 +34,6 @@ Future getMyCommentStart() async {
         Comment comment = Comment.mine(data['content'][i]);
         commentListController.commentAdd(comment);
         commentListController.commentGroupIdList.add(comment.groupId);
-        /* commentListController.commentAdd(AddComment(
-          index: pageIndexController.pageIndex.value,
-          keywords: data['content'][i],
-          before: "MyActivity", selectReply: '',));*/
       }
     }
   }

@@ -34,7 +34,7 @@ class BoardWidget extends StatelessWidget {
         onTap: () async {
           loadingController.setTrue();
           routeController.setCurrent(Screen.readPost);
-          //readPostContent(board).then((value) => readComment(board.id, false)).then((value) => Get.to(() => CommunityReadPostScreen(board: board,)));
+
           floatingController.setUp();
           modifySelectController.setBoard(board);
           readPostContent(board).then((value) => readComment(board.id, false)).then((value) => Navigator.of(loadingController.context).push(MaterialPageRoute(builder: (_) => CommunityReadPostScreen(board: board))));

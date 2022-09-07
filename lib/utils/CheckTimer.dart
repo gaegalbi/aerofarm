@@ -1,8 +1,8 @@
 import 'dart:async';
+import 'package:capstone/provider/Controller.dart';
 import 'package:capstone/screen/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../LoginPage/LoginPageLogin.dart';
 import 'package:intl/intl.dart';
 
 final dateFormat = DateFormat('yyyy.MM.dd');
@@ -24,8 +24,9 @@ class CheckTimer extends GetxController{
   }
 
   void stop(BuildContext context){
-      timer.cancel();
-      nickname = "null";
+    final userController = Get.put(UserController());
+    userController.user.value.nickname = "";
+    timer.cancel();
       showDialog(
           context: context,
           barrierDismissible:false,

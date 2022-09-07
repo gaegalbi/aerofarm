@@ -1,6 +1,5 @@
 import 'package:capstone/provider/Controller.dart';
 import 'package:capstone/screen/CommunityReadPostScreen.dart';
-import 'package:capstone/service/createComment.dart';
 import 'package:capstone/widget/CustomBottomNavigationBar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,29 +17,18 @@ class CommunityReplyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final commentListController = Get.put(CommentListController());
-    //final modifySelectController = Get.put(ModifySelectController());
     final routeController = Get.put(RouteController());
     final _textEditingController = TextEditingController();
-   // late double keyboardOffset;
 
     commentListController.setUpSort();
 
     Future<bool> _onWillPop() async {
-     /* if(widget.before == "MyActivity"){
-        activityCommentStartFetch();
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) =>const CommunityPageMyActivity()));
-      }else{*/
-       // Get.off(()=>CommunityReadPostScreen(board: board,));
-     // }
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => CommunityReadPostScreen(board: board)));
       return false;
     }
 
-    //var sort = true;
-
     return WillPopScope(
       onWillPop: _onWillPop,
-      //shouldAddCallback: true,
       child: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
@@ -69,11 +57,8 @@ class CommunityReplyScreen extends StatelessWidget {
                         Icons.chevron_left,
                       ),
                       onPressed: () {
-                     /*   if(widget.before=="MyActivity"){
-                          activityCommentStartFetch().then((value)=>  Get.off(()=>const CommunityPageMyActivity()));
-                        } else{*/
                          routeController.setCurrent(Screen.readPost);
-                          Get.back();
+                         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => CommunityReadPostScreen(board: board)));
                         //}
                       },
                     )),

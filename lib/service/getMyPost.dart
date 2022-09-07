@@ -67,11 +67,9 @@ Future getMyLikePostStart() async {
       .get(Uri.http(serverIP, '/api/my/likeposts', _queryParameters),
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        //"Cookie": "JSESSIONID=$session",
         "Cookie":"remember-me=${userController.user.value.rememberMe};JSESSIONID=${userController.user.value.session}",
       }
   );
-
 
   if (postResponse.statusCode == 200) {
     Map<String, dynamic> data = jsonDecode(utf8.decode(postResponse.bodyBytes));
@@ -80,10 +78,6 @@ Future getMyLikePostStart() async {
         Board board = Board.fetch(data['content'][i]);
         boardListController.addBoard(board);
         boardListController.boardIdAdd(int.parse(board.id));
-        /*      boardListController.addBoard(AddBoard(
-            index: pageIndexController.pageIndex.value,
-            keywords: data['content'][i],
-            before: "MyActivity"));*/
       }
     }else{
       boardListController.activityNone();

@@ -6,10 +6,6 @@ import 'package:capstone/widget/CustomAppBar.dart';
 import 'package:capstone/widget/FloatingWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../CommunityPage/CommunityPageFloating.dart';
-import '../CommunityPage/CommunityPageForm.dart';
-import '../LoginPage/LoginPageLogin.dart';
 import '../model/BoardType.dart';
 import '../themeData.dart';
 

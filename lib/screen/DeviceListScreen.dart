@@ -3,8 +3,6 @@ import 'package:capstone/service/getDevices.dart';
 import 'package:capstone/widget/CustomAppBar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../MachinePage/MachinePageInfo.dart';
 import '../themeData.dart';
 
 class DeviceListScreen extends StatelessWidget {

@@ -1,12 +1,7 @@
-import 'dart:convert';
-
 import 'package:capstone/provider/Controller.dart';
 import 'package:capstone/service/editProfile.dart';
-import 'package:capstone/service/getProfile.dart';
-import 'package:capstone/widget/CustomAppBar.dart';
 import 'package:capstone/widget/ProfileEditColumn.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:kpostal/kpostal.dart';
 import '../themeData.dart';

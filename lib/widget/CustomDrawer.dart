@@ -1,21 +1,17 @@
 import 'package:capstone/model/BoardType.dart';
 import 'package:capstone/model/Screen.dart';
 import 'package:capstone/provider/Controller.dart';
+import 'package:capstone/screen/CommunityActivityScreen.dart';
 import 'package:capstone/screen/CommunityScreen.dart';
 import 'package:capstone/screen/DeviceListScreen.dart';
 import 'package:capstone/screen/ProfileScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_naver_login/flutter_naver_login.dart';
 import 'package:get/get.dart';
-
-import '../CommunityPage/CommunityPageMyActivity.dart';
-import '../CommunityPageCustomLib/CommunityFetch.dart';
-import '../LoginPage/LoginPageLogin.dart';
-import '../MachinePage/MachinePageList.dart';
 import '../main.dart';
 import '../screen/LoginScreen.dart';
 import '../screen/MainScreen.dart';
-import '../service/getRoute.dart';
+import '../service/getMyComment.dart';
+import '../service/getMyPost.dart';
 import '../themeData.dart';
 
 class CustomMainDrawer extends StatelessWidget {
@@ -77,10 +73,13 @@ class CustomMainDrawer extends StatelessWidget {
             child: TextButton(
               child: const Text("작성 글 조회", style: MainScreenTheme.drawerButton),
               onPressed: () {
+                routeController.isMain.value = true;
+                routeController.setCurrent(Screen.activity);
+
                 tabController.controller.index = 0;
                 checkTimerController.time.value ?
-                checkTimerController.stop(context) :   activityPostStartFetch().then((value)=>
-                    Navigator.of(context).push(MaterialPageRoute(builder: (_) =>const CommunityPageMyActivity())));
+                checkTimerController.stop(context) :    getMyPostStart().then((value)=>
+                    Navigator.of(context).push(MaterialPageRoute(builder: (_) =>const CommunityActivityScreen())));
               },
             ),
           ),
@@ -89,10 +88,13 @@ class CustomMainDrawer extends StatelessWidget {
             child: TextButton(
               child: const Text("작성 댓글 조회", style: MainScreenTheme.drawerButton),
               onPressed: () {
+                routeController.isMain.value = true;
+                routeController.setCurrent(Screen.activity);
+
                 tabController.controller.index = 1;
                 checkTimerController.time.value ?
-                checkTimerController.stop(context) :   activityCommentStartFetch().then((value)=>
-                    Navigator.of(context).push(MaterialPageRoute(builder: (_) =>const CommunityPageMyActivity())));
+                checkTimerController.stop(context) :    getMyCommentStart().then((value)=>
+                    Navigator.of(context).push(MaterialPageRoute(builder: (_) =>const CommunityActivityScreen())));
               },
             ),
           ),
@@ -101,10 +103,13 @@ class CustomMainDrawer extends StatelessWidget {
             child: TextButton(
               child: const Text("좋아요한 글 조회", style: MainScreenTheme.drawerButton),
               onPressed: () {
+                routeController.isMain.value = true;
+                routeController.setCurrent(Screen.activity);
+
                 tabController.controller.index = 2;
                 checkTimerController.time.value ?
-                checkTimerController.stop(context) :   activityCommentStartFetch().then((value)=>
-                    Navigator.of(context).push(MaterialPageRoute(builder: (_) =>const CommunityPageMyActivity())));
+                checkTimerController.stop(context) :    getMyLikePostStart().then((value)=>
+                    Navigator.of(context).push(MaterialPageRoute(builder: (_) =>const CommunityActivityScreen())));
               },
             ),
           ),
@@ -127,9 +132,6 @@ class CustomMainDrawer extends StatelessWidget {
             child: TextButton(
               child: const Text("로그아웃", style: MainScreenTheme.drawerButton),
               onPressed: () {
-                if(isLogin) {
-                  FlutterNaverLogin.logOutAndDeleteToken();
-                }
                 Get.offAll(()=>const LoginScreen(reLogin: false,));
               },
             ),

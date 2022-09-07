@@ -31,15 +31,10 @@ Future getActivityBoardFetch(String postId) async {
   if(response.statusCode==200){
     Map<String, dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
       Board board = Board.fetch(data);
-
       loadingController.setTrue();
       routeController.setCurrent(Screen.readPost);
-      //readPostContent(board).then((value) => readComment(board.id, false)).then((value) => Get.to(() => CommunityReadPostScreen(board: board,)));
       floatingController.setUp();
-      //modifySelectController.setBoard(board);
       fetch.readPostContent(board).then((value) => fetch.readComment(board.id, false)).then((value) =>  Navigator.of(loadingController.context).push(MaterialPageRoute(builder: (_) => CommunityReadPostScreen(board: board))));
-
-      //.then((value) =>Navigator.of(loadingController.context).push(MaterialPageRoute(builder: (_) => CommunityReadPostScreen(board: board))));
   }else{
     throw Exception("activityBoardFetch Error");
   }

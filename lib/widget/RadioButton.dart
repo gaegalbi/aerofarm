@@ -2,16 +2,13 @@ import 'package:capstone/model/BoardType.dart';
 import 'package:capstone/provider/Controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../model/FilterType.dart';
-import '../model/PostType.dart';
 import '../themeData.dart';
 
 class RadioButton<T> extends StatelessWidget {
   final String description;
   final T value;
   final T boardValue;
-  //final void Function(T?)? onChanged;
   final Color? activeColor;
   final TextStyle? textStyle;
   final double contentPadding;
@@ -97,7 +94,7 @@ class BoardRadioButtonList extends StatelessWidget {
             Container(
               alignment:
               Alignment.centerLeft,
-              margin: EdgeInsets.only(
+              margin: const EdgeInsets.only(
                   bottom: 15, left: 30),
               child: const Text(
                 "게시판 선택",
@@ -246,7 +243,7 @@ class SearchRadioButtonList extends StatelessWidget {
             Container(
               alignment:
               Alignment.centerLeft,
-              margin: EdgeInsets.only(
+              margin: const EdgeInsets.only(
                   bottom: 15, left: 30),
               child: const Text(
                 "게시판 선택",

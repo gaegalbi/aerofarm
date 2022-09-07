@@ -6,12 +6,10 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import '../main.dart';
 import '../model/Board.dart';
-import '../model/Screen.dart';
 import 'normalFetch.dart';
 
 createComment(BuildContext context,TextEditingController textEditingController,Board board) async {
   final userController = Get.put(UserController());
-  //final routeController = Get.put(RouteController());
 
   if (checkTimerController.time.value) {
     checkTimerController.stop(context);
@@ -43,7 +41,6 @@ createComment(BuildContext context,TextEditingController textEditingController,B
         Uri.http(serverIP, '/createComment'),
         headers: {
           "Content-Type": "application/json",
-          //"Cookie": "JSESSIONID=$session",
           "Cookie":"remember-me=${userController.user.value.rememberMe};JSESSIONID=${userController.user.value.session}",
         },
         encoding: Encoding.getByName('utf-8'),
@@ -51,20 +48,8 @@ createComment(BuildContext context,TextEditingController textEditingController,B
       );
     }
 
-   /* if (widget.before == "MyActivity") {
-      readComment(widget.keywords['id'], "", false);
-    } else {
-      readPostContent(widget.keywords['id'], widget.keywords['category']);
-    }*/
     readPostContent(board);
     readComment(board.id, false);
-
-/*
-    if(routeController.current.value == Screen.activity){
-      readComment(board.id, false);
-    }else{
-      readPostContent(board);
-    }*/
     textEditingController.text = "";
   }
 }

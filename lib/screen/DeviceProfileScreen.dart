@@ -1,5 +1,3 @@
-import 'package:capstone/screen/DeviceInfoScreen.dart';
-import 'package:capstone/screen/MainScreen.dart';
 import 'package:capstone/widget/CustomAppBar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,7 +10,6 @@ class DeviceProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Colors.transparent,
       appBar: CustomAppBar(iconData: Icons.chevron_left,onPressed: (){Get.back();},home: true, title: '',),
       body: Container(
         color: MainColor.six,
@@ -20,7 +17,6 @@ class DeviceProfileScreen extends StatelessWidget {
           margin:
           EdgeInsets.only(top: MainSize.height * 0.1),
           child: Column(
-            //mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(
                 children: [

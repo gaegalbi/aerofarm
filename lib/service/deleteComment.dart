@@ -29,33 +29,9 @@ deleteComment(BuildContext context, ModifySelectController modifySelectControlle
             "Cookie": "JSESSIONID=${userController.user.value.session}",
           },
           body: body);
-      //readPostContent(board);
       readComment(comment.postId,false);
-      //startFetch(board.category);
       routeController.setCurrent(routeController.before.value);
       Get.back();
     }
   }
 }
-
-
-/*
-if(checkTimerController.time.value){
-checkTimerController.stop(context);
-}else {
-if (modifyController.modify.value &&
-modifyController.id.value == keywords['id']) {
-modifyController.modify.value = false;
-} else {
-var body = json.encode({"id": keywords['id']});
-await http.post(Uri.http(serverIP, '/deleteComment'),
-headers: {
-"Content-Type": "application/json",
-"Cookie": "JSESSIONID=$session",
-},
-body: body
-);
-// readComment(keywords['postId'], keywords['category'],false);
-Get.back();
-}
-}*/

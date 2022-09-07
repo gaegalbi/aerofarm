@@ -1,4 +1,3 @@
-import 'package:capstone/CommunityPageCustomLib/CommunityFetch.dart';
 import 'package:capstone/model/BoardType.dart';
 import 'package:capstone/model/FilterType.dart';
 import 'package:flutter/material.dart';
@@ -94,8 +93,6 @@ class TitleListViewButton extends StatelessWidget {
               }else{
                 startProcess(boardType,setCategoryController.check()).then((value) => loadingController.setFalse());
               }
-
-              //categoryFetch(widget.category);
             },
             style: setCategoryController.category[3]
                 ? CommunityScreenTheme.titleButtonTrue
@@ -133,7 +130,6 @@ class TitleListViewButton extends StatelessWidget {
               }else{
                 startProcess(boardType,setCategoryController.check()).then((value) => loadingController.setFalse());
               }
-              //categoryFetch(widget.category);
             },
             style: setCategoryController.category[5]
                 ? CommunityScreenTheme.titleButtonTrue

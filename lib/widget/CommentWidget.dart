@@ -1,18 +1,14 @@
-import 'package:capstone/CommunityPageCustomLib/CommunityCommentMenu.dart';
-import 'package:capstone/CommunityPageCustomLib/CommunityFetch.dart';
 import 'package:capstone/provider/Controller.dart';
 import 'package:capstone/service/getActivityBoardFetch.dart';
 import 'package:capstone/service/deleteComment.dart';
 import 'package:capstone/widget/CommunityMenuWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../model/Board.dart';
 import '../model/Comment.dart';
 import '../model/Screen.dart';
 import '../screen/CommunityReplyDetailScreen.dart';
 import '../service/modifyComment.dart';
 import '../themeData.dart';
-import '../service/normalFetch.dart' as fetch;
 
 class CommentWidget extends StatelessWidget {
   final Comment comment;
@@ -39,7 +35,6 @@ class CommentWidget extends StatelessWidget {
                 top: MainSize.height * 0.02,
                 bottom: MainSize.height * 0.02,
                 left:  comment.parentId == "null" ? MainSize.width * 0.08: MainSize.width * 0.18,
-                //right:  MediaQuery.of(context).size.width * 0.06,
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -176,13 +171,11 @@ class CommentWidget extends StatelessWidget {
               ),
             ),
           ),
-          //!keywords['deleteTnF']&&before !="ReadPost" && keywords['writer'] == nicknameController.nickname.value ? TextButton(onPressed: (){
           routeController.current.value != Screen.replyDetail && !comment.deleteTnF  && comment.writer == userController.user.value.nickname ? TextButton(onPressed: (){
             showModalBottomSheet(
                 context: context,
                 backgroundColor: Colors.transparent,
                 builder: (BuildContext context) {
-                 // return CommunityCommentMenu(index: index,keywords: keywords,before: before,);
                   return CommunityMenuWidget(comment: comment);
                 });
           },
@@ -192,10 +185,6 @@ class CommentWidget extends StatelessWidget {
       ),
     ) :  InkWell(
       onTap: (){
-      /* //  readComment(keywords['postId'], "",false).then((value)=>{
-        Navigator.of(keyController.scaffoldKey.currentContext!).push(MaterialPageRoute(
-            builder: (_) => CommunityPageReply(index: 0, before: "MyActivity", keywords: {"id":keywords['postId']},)));
-        //});*/
         getActivityBoardFetch(comment.postId);
       },
       child: Container(
