@@ -3,7 +3,7 @@ import 'package:capstone/provider/Controller.dart';
 import 'package:capstone/screen/CommunityScreen.dart';
 import 'package:capstone/screen/MainScreen.dart';
 import 'package:capstone/widget/CustomAppBar.dart';
-import 'package:capstone/widget/FloatingWidget.dart';
+import 'package:capstone/widget/FloatingButtonWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../model/BoardType.dart';
@@ -47,7 +47,7 @@ class ProfileScreen extends StatelessWidget {
         child: Scaffold(
           floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
           floatingActionButton: Obx(()=>floatingController.floating.value ?
-            FloatingWidget(type: routeController.current.value) : const SizedBox()),
+            FloatingButtonWidget(type: routeController.current.value) : const SizedBox()),
           backgroundColor: MainColor.six,
           appBar: CustomAppBar(iconData: Icons.chevron_left,title: "도시농부",
             onPressed: () {

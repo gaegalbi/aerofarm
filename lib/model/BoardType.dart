@@ -7,7 +7,7 @@ enum BoardType {
   info('INFORMATION','정보게시판'),
   picture('PICTURE','사진게시판'),
   trade('TRADE','거래게시판'),
-  undefined('undefined','미정');
+  undefined('undefined','게시판 선택');
 
   const BoardType(this.code, this.displayName);
   final String code;

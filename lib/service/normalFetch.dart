@@ -100,11 +100,6 @@ Future startFetch(BoardType boardType,bool filter) async {
                   Board board = Board.fetch(data['content'][i]);
                   boardListController.addBoard(board);
                 }
-              /*  boardListController.addBoard(AddBoard(
-                    index: pageIndexController.pageIndex.value,
-                    keywords: data['content'][i],
-                    before: communityCategory)
-                );*/
                 count++;
                 //for문
                 if(count==10){
@@ -152,8 +147,6 @@ Future loadFetch(BoardType boardType) async{
       .get(Uri.http(serverIP, '/api/community/posts',_queryParameters),
       headers:{
         "Content-Type": "application/x-www-form-urlencoded",
-        //"Cookie":"JSESSIONID=$session",
-        //"Cookie":"remember-me=$rememberMe;JSESSIONID=$session",
       }
   );
 
@@ -166,11 +159,6 @@ Future loadFetch(BoardType boardType) async{
           boardListController.boardParentList.add(data['content'][i]['id']);
           Board board = Board.fetch(data['content'][i]);
           boardListController.addBoard(board);
-          /*      boardListController.addBoard(AddBoard(
-              index: pageIndexController.pageIndex.value,
-              keywords: data['content'][i],
-              before: communityCategory)
-          );*/
         }
       } else {
         pageIndexController.decrement();
@@ -188,8 +176,6 @@ Future loadFetch(BoardType boardType) async{
             .get(Uri.http(serverIP, '/api/community/posts', _queryParameters),
             headers: {
               "Content-Type": "application/x-www-form-urlencoded",
-              //"Cookie": "JSESSIONID=$session",
-             // "Cookie":"remember-me=$rememberMe;JSESSIONID=$session",
             }
         );
         if (response.statusCode == 200) {
@@ -202,11 +188,6 @@ Future loadFetch(BoardType boardType) async{
                 boardListController.boardParentList.add(data['content'][i]['id']);
                 Board board = Board.fetch(data['content'][i]);
                 boardListController.addBoard(board);
-                /*      boardListController.addBoard(AddBoard(
-                    index: pageIndexController.pageIndex.value,
-                    keywords: data['content'][i],
-                    before: communityCategory)
-                );*/
                 count++;
               }
             }
@@ -228,23 +209,12 @@ Future loadFetch(BoardType boardType) async{
 //답글 불러오기
 Future answerFetch(BoardType boardType) async {
   final boardListController = Get.put(BoardListController());
-  //전체 게시판, 인기 게시판이 아닐때만 setUp (분류 게시판은 pageIndex가 무한루프를 돌아서 높음)
-/*  if(boardType == BoardType.all || boardType.displayName ==BoardType.hot.displayName){
-    pageIndexController.setUp();
-  }*/
-  Map<int,dynamic> answer = {};
-/*
-  int pageIndex = (pageIndexController.pageIndex.value-1) * 10;
-  if(pageIndex>0){
-    pageIndex--;
-  }*/
 
+  Map<int,dynamic> answer = {};
   final answerResponse = await http
       .get(Uri.http(serverIP, '/api/community/answerposts'),
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        //"Cookie": "JSESSIONID=$session",
-        //"Cookie":"remember-me=$rememberMe;JSESSIONID=$session",
       }
   );
 
@@ -284,7 +254,6 @@ Future answerFetch(BoardType boardType) async {
               if(answer.keys.elementAt(i) == answerCheck[answerCheck.length-1] && answer.isNotEmpty && boardListController.boardParentList.last == answer[answer.keys.elementAt(i)][k]['parentId']){
                 boardListController.addBoard(board);
                 boardListController.boardIdAdd(int.parse(board.id));
-                // boardListController.addBoard(AddBoard(index: pageIndexController.pageIndex.value, keywords: answer[answer.keys.elementAt(i)][k], before: communityCategory));
               }else{
                 boardListController.boardInsert(boardListController.boardIdList.indexOf(answer.keys.elementAt(i))+1 + k, board);
                 boardListController.boardIdInsert(boardListController.boardIdList.indexOf(answer.keys.elementAt(i))+1 + k, answer[answer.keys.elementAt(i)][k]['id']);
@@ -334,15 +303,11 @@ Future readPostContent(Board board) async{
       .get(Uri.http(serverIP, '/api/community/oneposts',_queryParameters),
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        //"Cookie": "JSESSIONID=$session",
-        //"Cookie":"remember-me=$rememberMe;JSESSIONID=$session",
       }
   );
-  //print(Uri.http(serverIP, '/api/community/oneposts',_queryParameters));
 
   if(boardResponse.statusCode==200){
     Map<String, dynamic> data = jsonDecode(utf8.decode(boardResponse.bodyBytes));
-    //board = Board.fetch(data);
     board.commentCount = data['commentCount'];
     board.deleteTnF = data['deleteTnF'];
     board.likeCount = data['likeCount'];
@@ -357,11 +322,10 @@ Future readPostContent(Board board) async{
   );
 
   if(contentResponse.statusCode ==200) {
-      //dom.Document document = parser.parse(contentResponse.body);
-      //board.content = document.querySelector('.post-content')!.outerHtml;
       //여기서 댓글 수를 불러와야 좀더 깔끔할듯?
       var data =jsonDecode(utf8.decode(contentResponse.bodyBytes));
       board.content = data['contents'];
+      routeController.board.value = board;
   }else{
     throw Exception("likeResponse error");
   }
@@ -423,9 +387,7 @@ Future readComment(String postId,bool load) async{
       if(answerCommentResponse.statusCode == 200){
         List<dynamic> data = jsonDecode(utf8.decode(answerCommentResponse.bodyBytes));
 
-        //if(data.isNotEmpty) {
         for (int i = 0; i < data.length; i++) {
-          //data[i].addAll({"category":communityCategory});
           answerCommentMap.addAll({data[i]['id']:0});
           for(int j=0;j<commentListController.commentIdList.length;j++) {
             if (data[i]['parentId'] == commentListController.commentIdList[j] && !commentListController.commentIdList.contains(data[i]['id'])) {
@@ -437,14 +399,12 @@ Future readComment(String postId,bool load) async{
               } else {
                 commentListController.commentIdList.insert(j + 1 + answerCommentMap[data[i]['parentId']]!, data[i]['id']);
                 commentListController.commentInsert(j + 1+ answerCommentMap[data[i]['parentId']]!, comment);
-                //commentListController.commentList.insert(j + 1+ answerCommentMap[data[i]['parentId']]!, AddComment(index: index, keywords: data[i], before: communityCategory, selectReply: ''));
                 answerCommentMap[data[i]['parentId']] = answerCommentMap[data[i]['parentId']]!+1;
               }
               replyDetailController.replyDetail[data[i]['groupId']]?.add(CommentWidget(comment: comment,));
             }
           }
         }
-        // }
       }
     }
     loadingController.setFalse();
@@ -493,7 +453,6 @@ Future readReverseComment(String postId,bool load) async{
     if(data['content'].length!=0) {
       //부모 댓글을 그룹에 추가
       for (int i = 0; i < data['content'].length; i++) {
-        //data['content'][i].addAll({"category":communityCategory});
         commentListController.commentParentIdList.add(data['content'][i]['id']);
         commentListController.commentIdList.add(data['content'][i]['id']);
         answerCommentMap.addAll({data['content'][i]['id']:0});
@@ -509,9 +468,7 @@ Future readReverseComment(String postId,bool load) async{
       if(answerCommentResponse.statusCode == 200){
         List<dynamic> data = jsonDecode(utf8.decode(answerCommentResponse.bodyBytes));
 
-        //if(data.isNotEmpty) {
         for (int i = 0; i < data.length; i++) {
-          //data[i].addAll({"category":communityCategory});
           answerCommentMap.addAll({data[i]['id']:0});
           for(int j=0;j<commentListController.commentIdList.length;j++) {
             if (data[i]['parentId'] == commentListController.commentIdList[j] && !commentListController.commentIdList.contains(data[i]['id'])) {
@@ -523,14 +480,12 @@ Future readReverseComment(String postId,bool load) async{
               } else {
                 commentListController.commentIdList.insert(j + 1 + answerCommentMap[data[i]['parentId']]!, data[i]['id']);
                 commentListController.commentInsert(j + 1+ answerCommentMap[data[i]['parentId']]!, comment);
-                //commentListController.commentList.insert(j + 1+ answerCommentMap[data[i]['parentId']]!, AddComment(index: index, keywords: data[i], before: communityCategory, selectReply: ''));
                 answerCommentMap[data[i]['parentId']] = answerCommentMap[data[i]['parentId']]!+1;
               }
               replyDetailController.replyDetail[data[i]['groupId']]?.add(CommentWidget(comment: comment,));
             }
           }
         }
-        // }
       }
     }
     loadingController.setFalse();

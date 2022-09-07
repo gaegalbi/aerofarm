@@ -1,7 +1,7 @@
 import 'package:capstone/model/BoardType.dart';
 import 'package:capstone/widget/CustomAppBar.dart';
 import 'package:capstone/widget/CustomDrawer.dart';
-import 'package:capstone/widget/FloatingWidget.dart';
+import 'package:capstone/widget/FloatingButtonWidget.dart';
 import 'package:capstone/widget/TitleListViewButton.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -55,7 +55,7 @@ class CommunityScreen extends StatelessWidget {
         backgroundColor: MainColor.six,
         key: _key,
         floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-        floatingActionButton: Obx(()=>floatingController.floating.value ? const FloatingWidget(type: Screen.community): const SizedBox()),
+        floatingActionButton: Obx(()=>floatingController.floating.value ? const FloatingButtonWidget(type: Screen.community): const SizedBox()),
         appBar: CustomAppBar( title: "도시농부",onPressed: (){_key.currentState!.openDrawer();},iconData: Icons.menu,home: true,),
         drawer: SizedBox(
           width: MainSize.width * 0.75,

@@ -11,7 +11,7 @@ import '../provider/Controller.dart';
 import '../themeData.dart';
 import '../widget/ReadPostBottomAppBarButton.dart';
 import '../widget/CustomAppBar.dart';
-import '../widget/FloatingWidget.dart';
+import '../widget/FloatingButtonWidget.dart';
 import 'CommunityScreen.dart';
 
 class CommunityReadPostScreen extends StatelessWidget {
@@ -61,7 +61,7 @@ class CommunityReadPostScreen extends StatelessWidget {
         child: Scaffold(
             floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
             floatingActionButton: Obx(() => floatingController.floating.value
-                ? const FloatingWidget(type: Screen.community)
+                ? FloatingButtonWidget(type: routeController.current.value)
                 : const SizedBox()),
             backgroundColor: MainColor.six,
             appBar: CustomAppBar(

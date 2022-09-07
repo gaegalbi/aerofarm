@@ -1,5 +1,7 @@
+import 'dart:convert';
+
 import 'package:capstone/provider/Controller.dart';
-import 'package:capstone/screen/CommunityCreatePostScreen.dart';
+import 'package:capstone/screen/CommunityCreatePostWidget.dart';
 import 'package:capstone/screen/CommunitySearchResultScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -7,21 +9,84 @@ import 'package:get/get.dart';
 import '../main.dart';
 import '../model/Screen.dart';
 import '../screen/CommunityActivityScreen.dart';
+import '../screen/CommunityScreen.dart';
 import '../screen/ProfileEditScreen.dart';
 import '../service/normalFetch.dart';
 import '../service/getMyPost.dart';
 import '../service/searchFetch.dart';
 import '../themeData.dart';
+import 'package:http/http.dart' as http;
 
-class FloatingWidget extends StatelessWidget {
+class FloatingButtonWidget extends StatelessWidget {
   final Screen type;
-  const FloatingWidget({Key? key, required this.type}) : super(key: key);
+  const FloatingButtonWidget({Key? key, required this.type}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final postController = Get.put(PostController());
+    final routeController = Get.put(RouteController());
+    final userController = Get.put(UserController());
+    final loadingController = Get.put(LoadingController());
 
     switch(type){
+      case Screen.readPost:
+        return routeController.board.value.deleteTnF ? Container():SpeedDial(
+            spaceBetweenChildren: 5,
+            icon: Icons.menu,
+            backgroundColor: MainColor.three,
+            foregroundColor: Colors.white,
+            children: [
+              routeController.board.value.writer == userController.user.value.nickname ? SpeedDialChild(
+                child: const Text(
+                  "삭제", style: CommunityScreenTheme.floatingButton,),
+                backgroundColor: Colors.red,
+                foregroundColor: Colors.white,
+                onTap: () async {
+                  var body = json.encode({"id": routeController.board.value.id});
+                  await http.post(
+                    Uri.http(serverIP, '/deletePost'),
+                    headers: {
+                      "Content-Type": "application/json",
+                      "Cookie":"remember-me=${userController.user.value.rememberMe};JSESSIONID=${userController.user.value.session}",
+                    },
+                    encoding: Encoding.getByName('utf-8'),
+                    body: body,
+                  );
+                  Get.offAll(() => CommunityScreen(boardType: routeController.beforeBoardType.value,));
+                },
+              ) : SpeedDialChild(),
+              routeController.board.value.writer  ==  userController.user.value.nickname ? SpeedDialChild(
+                child: const Text(
+                  "수정", style: CommunityScreenTheme.floatingButton,),
+                backgroundColor: MainColor.three,
+                foregroundColor: Colors.white,
+                onTap: () async {
+                  postController.setBoardValueBoardType(routeController.board.value.category);
+                  postController.setFilterValueFilterType(routeController.board.value.filter);
+                  loadingController.setTrue();
+                  postController.isOnce.value = true;
+
+                  checkTimerController.time.value ?
+                  checkTimerController.stop(context) :
+                  Get.to(() => const CommunityCreatePostScreen(current: Screen.updatePost,));
+                },
+              ) : SpeedDialChild(),
+              SpeedDialChild(
+                child: const Text(
+                  "답글", style: CommunityScreenTheme.floatingButton,),
+                backgroundColor: MainColor.three,
+                foregroundColor: Colors.white,
+                onTap: () {
+                  loadingController.setTrue();
+                  postController.isOnce.value = true;
+
+                  checkTimerController.time.value ?
+                  checkTimerController.stop(context) :
+                  Get.to(() => const CommunityCreatePostScreen(current: Screen.readPost,));
+                },
+              ),
+            ]
+        );
       case Screen.profileMain:
         return Material(
             shape: const CircleBorder(),

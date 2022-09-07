@@ -83,6 +83,7 @@ createPost(BuildContext context,Screen current,TextEditingController titleContro
           body: body,
         );
       }
+      titleController.text = "";
       controller.editorController?.clearFocus();
       controller.disable();
       Future.delayed(const Duration(microseconds: 1), () {

@@ -13,7 +13,8 @@ createAnswerPost(BuildContext context,HtmlEditorController controller,TextEditin
   final routeController = Get.put(RouteController());
   final userController = Get.put(UserController());
 
-  if (controller.getText().toString().length == 1) {
+  //28인 이유 =>  Instance of 'Future<String>'
+  if (controller.getText().toString()== 'Instance of ${'Future<String>'}') {
     showDialog(
         context: context,
         builder: (context) {
@@ -25,7 +26,7 @@ createAnswerPost(BuildContext context,HtmlEditorController controller,TextEditin
             backgroundColor: Colors.transparent,
             contentPadding: EdgeInsets.all(5),
             content: Text(
-              "게시판 종류,제목,내용이\n있어야합니다.",
+              "글 내용이\n있어야합니다.",
               style: TextStyle(fontSize: 28),
               textAlign: TextAlign.center,
             ),
@@ -39,13 +40,15 @@ createAnswerPost(BuildContext context,HtmlEditorController controller,TextEditin
       final txt = await controller.getText();
       var data = {
         "id":'',
-        "category": routeController.board.value.category.code,
-        "filter": routeController.board.value.filter.code,
+        "category": routeController.board.value.category.code.toLowerCase(),
+        "filter": routeController.board.value.filter.code.toLowerCase(),
         "title": titleController.text,
         "contents": txt,
         "postId": routeController.board.value.id,
       };
+
       var body = json.encode(data);
+
       await http.post(Uri.http(
           serverIP, '/createAnswerPost'),
         headers: {
@@ -55,6 +58,7 @@ createAnswerPost(BuildContext context,HtmlEditorController controller,TextEditin
         encoding: Encoding.getByName('utf-8'),
         body: body,
       );
+      titleController.text = "";
       controller.editorController?.clearFocus();
       controller.disable();
       Future.delayed(const Duration(microseconds: 1), () {

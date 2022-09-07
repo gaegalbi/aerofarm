@@ -376,9 +376,11 @@ class RouteController extends GetxController{
 class PostController extends GetxController{
   final boardValue = BoardType.all.obs; //게시판
   final filterValue = FilterType.all.obs; //필터
+  final board = Board().obs;
   final controller = HtmlEditorController().obs;
   final focusNode = FocusNode().obs;
   final titleController = TextEditingController().obs;
+  final isOnce = true.obs;
 
   void unFocus(){
     focusNode.value.unfocus();

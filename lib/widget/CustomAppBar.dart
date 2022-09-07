@@ -25,6 +25,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
   @override
   Widget build(BuildContext context) {
     final routeController = Get.put(RouteController());
+    final loadingController = Get.put(LoadingController());
 
     return AppBar(
       centerTitle: true,
@@ -69,6 +70,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                      Icons.home,
                    ),
                    onPressed: () {
+                     loadingController.setFalse();
                      routeController.setCurrent(Screen.main);
                      Get.off(() => const MainScreen());
                    },
