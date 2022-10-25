@@ -79,7 +79,7 @@ public class DeviceController {
                 })
                 .block();
 
-        deviceService.updateDeviceSetting(userDetails.getMember().getId() ,request);
+        deviceService.updateDeviceSetting(userDetails.getMember().getId(), request);
         log.info("Device status updated. by {}, device number: {}", userDetails.getUsername(), request.getNumber());
         return ResponseEntity.ok()
                 .body(Message.createMessage("설정 값이 적용됬습니다."));
