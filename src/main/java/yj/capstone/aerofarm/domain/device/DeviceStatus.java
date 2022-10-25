@@ -18,7 +18,7 @@ public class DeviceStatus {
     private static final int MIN_HUMI = 0;
 //    private static final int MAX_BRIGHT = 100;
 //    private static final int MIN_BRIGHT = 0;
-    private static final int MAX_FERT = 10; // TODO 분당 분사량 추후 변경 필
+    private static final int MAX_FERT = 60; // TODO 분당 분사량 추후 변경 필
     private static final int MIN_FERT = 0; // TODO 분당 분사량 추후 변경 필
 
     @Id
@@ -46,12 +46,21 @@ public class DeviceStatus {
      */
     private boolean ledOn;
 
+    /**
+     * 5V 0.14A 팬 사용
+     */
+    private boolean fanOn;
+
+    private boolean pumpOn;
+
     public DeviceStatus(Device device) {
         this.device = device;
         this.temperature = 20;
         this.humidity = 50;
         this.fertilizer = 1;
         this.ledOn = false;
+        this.fanOn = false;
+        this.pumpOn = false;
     }
 
     public void setTemperature(int temperature) {
@@ -79,10 +88,20 @@ public class DeviceStatus {
         this.ledOn = bool;
     }
 
+    public void setFan(boolean fanOn) {
+        this.fanOn = fanOn;
+    }
+
+    public void setPump(boolean pumpOn) {
+        this.pumpOn = pumpOn;
+    }
+
     public void update(DeviceSettingDto request) {
         this.setFertilizer(request.getFertilizer());
         this.setHumidity(request.getHumidity());
-        this.setLed(request.isLedOn());
         this.setTemperature(request.getTemperature());
+        this.setLed(request.isLedOn());
+        this.setFan(request.isFanOn());
+        this.setPump(request.isPumpOn());
     }
 }

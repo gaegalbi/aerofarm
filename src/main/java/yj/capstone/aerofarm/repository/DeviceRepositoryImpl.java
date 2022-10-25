@@ -115,7 +115,9 @@ public class DeviceRepositoryImpl extends Querydsl5RepositorySupport implements 
                 device.deviceStatus.temperature,
                 device.deviceStatus.humidity,
                 device.deviceStatus.fertilizer,
-                device.deviceStatus.ledOn))
+                device.deviceStatus.ledOn,
+                device.deviceStatus.fanOn,
+                device.deviceStatus.pumpOn))
                 .from(device)
                 .innerJoin(device.deviceStatus, deviceStatus)
                 .where(

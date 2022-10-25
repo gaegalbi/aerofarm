@@ -16,6 +16,8 @@ let deviceDetail = {
             humidity: $('#humiRange').val(),
             fertilizer: $('#fertRange').val(),
             ledOn: $('#ledSwitch').prop('checked'),
+            fanOn: $('#fanSwitch').prop('checked'),
+            pumpOn: $('#pumpSwitch').prop('checked')
         };
 
         $.ajax({
@@ -81,6 +83,12 @@ let deviceDetail = {
                 $('#fertRange').val(data['fertilizer']);
                 if (data['ledOn']) {
                     $('#ledSwitch').attr('checked', true);
+                }
+                if (data['fanOn']) {
+                    $('#fanSwitch').attr('checked', true);
+                }
+                if (data['pumpOn']) {
+                    $('#pumpSwitch').attr('checked', true);
                 }
                 resolve();
             }).fail(function (xhr, status, error) {
